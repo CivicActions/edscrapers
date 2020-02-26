@@ -108,3 +108,8 @@ dmypy.json
 .pyre/
 
 # End of https://www.gitignore.io/api/python
+
+## Custom Dept Ed items
+
+# Log files
+*.log

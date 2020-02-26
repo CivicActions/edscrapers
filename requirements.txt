@@ -1,0 +1,28 @@
+-i https://pypi.org/simple
+attrs==19.3.0
+automat==20.2.0
+cffi==1.14.0
+constantly==15.1.0
+cryptography==2.8
+cssselect==1.1.0
+hyperlink==19.0.0
+idna==2.9
+incremental==17.5.0
+lxml==4.5.0 ; python_version != '3.4'
+parsel==1.5.2
+protego==0.1.16
+pyasn1-modules==0.2.8
+pyasn1==0.4.8
+pycparser==2.19
+pydispatcher==2.0.5
+pyhamcrest==2.0.0
+pyopenssl==19.1.0
+python-dotenv==0.11.0
+queuelib==1.5.0
+scrapy==1.8.0
+service-identity==18.1.0
+six==1.14.0
+twisted==19.10.0 ; python_version >= '3.5'
+w3lib==1.21.0
+wheel==0.34.2
+zope.interface==4.7.1
