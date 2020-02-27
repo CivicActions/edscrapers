@@ -2,8 +2,8 @@
 import sys
 import logging
 import importlib
-from . import config
-from . import helpers
+from edscrapers.scrapers.base import config
+from edscrapers.scrapers.base import helpers
 logger = logging.getLogger(__name__)
 
 

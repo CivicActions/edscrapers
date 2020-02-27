@@ -1,1 +1,1 @@
-from .scraper import scrape
+from edscrapers.scrapers.edgov.scraper import scrape

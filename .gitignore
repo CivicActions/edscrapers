@@ -113,3 +113,6 @@ dmypy.json
 
 # Log files
 *.log
+
+# Scraping output
+/output
