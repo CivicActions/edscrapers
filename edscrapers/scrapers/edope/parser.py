@@ -44,7 +44,7 @@ def parse(res):
     if len(dataset.resources) > 0:
 
         # We've got resources, so the documents might be relevant to them
-        #_get_all_resources(dataset, document_extensions)
+        _get_all_resources(dataset, document_extensions)
 
         dataset.source_url = res.url
         dataset.title = res.xpath('//meta[@name="DC.title"]/@content').get('text')
