@@ -7,6 +7,7 @@ class Crawler(CrawlSpider):
 
     name = 'edoela'
     allowed_regex = r'oela|ncela'
+    allowed_domains = ['ed.gov']
 
     def __init__(self, conf=None):
 
@@ -20,8 +21,8 @@ class Crawler(CrawlSpider):
         self.rules = [
             Rule(LinkExtractor(
                 allow=self.allowed_regex,
-                #deny='.*(xls|xlsx|csv|zip|pdf|doc|docx)',
-                restrict_xpaths='//*[@id="maincontent"]'
+                deny='.*(xls|xlsx|csv|zip|pdf|doc|docx)',
+                #restrict_xpaths='//div[@id="maincontent"]'
             ), callback=parse, follow=True),
         ]
 
