@@ -18,13 +18,15 @@ class Crawler(CrawlSpider):
         self.start_urls = [
             'https://www2.ed.gov/about/offices/list/ope/index.html',
             'https://www2.ed.gov/about/offices/list/ope/idues/eligibility.html',
+
+            'https://www2.ed.gov/programs/iegpsnrc/awards.html'
         ]
 
         # Make rules
         self.rules = [
             Rule(LinkExtractor(
                 allow=self.allowed_regex,
-                deny=f'.*({"|".join(h.get_data_extensions())})',
+                #deny=f'.*({"|".join(h.get_data_extensions())})',
                 restrict_xpaths='//*[@id="maincontent"]'
             ), callback=parse, follow=True),
         ]
