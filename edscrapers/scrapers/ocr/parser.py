@@ -23,26 +23,19 @@ def parse(res):
     if soup_parser.body.find(name='a', href=base_parser.resource_checker,
                              recursive=True) is None:
         # no resource on this page, so return None
-        print("INSIDE MAIN PARSER")
         return None
 
     # if code gets here, at least one resource was found
     
     # check if the parser is working on OCR State & National Estimations (variant 1)
     if soup_parser.body.find(class_='accordiontitle', recursive=True) is not None:
-        print("ESTIMATES 1 FOUND")
         # parse the page with the parser and return result
-        print("URL", res.url)
         return parsers.parser1.parse(res)
     # check if the parser is working on OCR State & National Estimations (variant 2)
     if soup_parser.body.select_one('#container #maincontent') is not None:
-        print("ESTIMATES 2 FOUND")
         # parse the page with the parser and return result
-        print("URL", res.url)
         return parsers.parser2.parse(res)
     else:
-        print("NO PARSER FOUND FOR PAGE")
-        print("URL", res.url)
         return None
 
 
