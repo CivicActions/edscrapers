@@ -50,7 +50,7 @@ def get_all_resources(res, dataset, extensions, deny_list=[]):
                     url = link.url,
                     name = link.text,
                 )
-                dataset.resources.append(resource)
+                dataset['resources'].append(resource)
 
 def get_variables(object, filter=None):
     """Extract variables from object to dict using name filter.

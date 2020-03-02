@@ -1,27 +1,27 @@
 import os
 import json
 import hashlib
+
 from pathlib import Path
-import edscrapers.scrapers.base.helpers as h
+from scrapy import Item, Field
 
-class Dataset():
 
-    def __init__(self, title=None, name=None, notes=None, source_url=None):
-        setattr(self, 'title', title)
-        setattr(self, 'name', name)
-        setattr(self, 'notes', notes)
-        setattr(self, 'source_url', source_url)
-        setattr(self, 'resources', [])
+class Dataset(Item):
+
+    title = Field()
+    name = Field()
+    notes = Field()
+    source_url = Field()
+    resources = Field()
 
     def toJSON(self):
-        return json.dumps(self, default=lambda o: o.__dict__,
+        return json.dumps(self, default=lambda o: o.__dict__['_values'],
                           sort_keys=False, indent=2)
 
 
-class Resource():
+class Resource(Item):
 
-    def __init__(self, name=None, url=None, source_url=None, description=None):
-        setattr(self, 'name', name)
-        setattr(self, 'url', url)
-        setattr(self, 'source_url', source_url)
-        setattr(self, 'description', description)
+    name = Field()
+    url = Field()
+    source_url = Field()
+    description = Field()
