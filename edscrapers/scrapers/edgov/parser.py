@@ -6,18 +6,6 @@ from edscrapers.scrapers import base
 from edscrapers.scrapers.edgov.model import Dataset
 import edscrapers.scrapers.base.helpers as h
 
-data_extensions = {
-    '.xlsx': 'Excel spreadsheet',
-    '.xls': 'Excel spreadsheet',
-    '.zip': 'ZIP archive',
-    '.csv': 'CSV file',
-}
-
-document_extensions = {
-    '.docx': 'Word document',
-    '.doc': 'Word document',
-    '.pdf': 'PDF file',
- }
 
 deny_list = [
     '.*site-list.xls'
@@ -40,12 +28,12 @@ def parse(res):
 
     dataset = Dataset()
 
-    _get_all_resources(dataset, data_extensions)
+    _get_all_resources(dataset, h.get_data_extensions())
 
     if len(dataset.resources) > 0:
 
         # We've got resources, so the documents might be relevant to them
-        _get_all_resources(dataset, document_extensions)
+        _get_all_resources(dataset, h.get_document_extensions())
 
         dataset.source_url = res.url
         dataset.title = res.xpath('//meta[@name="DC.title"]/@content').get('text')

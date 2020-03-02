@@ -5,7 +5,37 @@ import datetime
 logger = logging.getLogger(__name__)
 
 
-# Module API
+def get_data_extensions():
+    return {
+        '.xls': 'Excel data file',
+        '.csv': 'Comma delimited text file',
+        '.sas': 'SAS syntax file',
+        '.dat': 'Generic data file',
+        '.spss': 'SPSS syntax',  # This may be an incorrect extension, but we will continue to search for it
+        '.db.': 'Generic data base',
+        '.sql': 'Structured query language file',
+        '.xml': 'Extensible Markup language',
+        '.zip': 'File containing compressed files',
+
+        '.xlsx': 'Excel data file',
+        '.sps': 'SPSS syntax',
+        '.sav': 'SPSS data',
+        '.dat': 'Stata data',
+        '.do': 'Stata syntax',
+        '.r': 'R script',
+        '.rdata': 'R data',
+        '.rda': 'R data',
+        '.sd2': 'SAS data',
+        '.sd7': 'SAS data',
+        '.sas7bdat': 'SAS data',
+    }
+
+def get_document_extensions():
+    return {
+        '.docx': 'Word document',
+        '.doc': 'Word document',
+        '.pdf': 'PDF file',
+    }
 
 
 def get_variables(object, filter=None):

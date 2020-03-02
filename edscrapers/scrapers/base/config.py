@@ -11,6 +11,7 @@ load_dotenv('.env')
 SCRAPY_SETTINGS = {
     'SPIDER_MODULES': [
         'edscrapers.scrapers.edgov.crawler',
+        'edscrapers.scrapers.ocr.crawler',
     ],
     'DOWNLOAD_DELAY': float(os.getenv('DOWNLOAD_DELAY', 1)),
     'DOWNLOADER_MIDDLEWARES': {

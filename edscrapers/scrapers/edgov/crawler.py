@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-from urllib.parse import urlencode
+import re
+
 from scrapy.spiders import Rule
 from scrapy.spiders import CrawlSpider
 from scrapy.linkextractors import LinkExtractor
+
 from edscrapers.scrapers.edgov.parser import parse
-import re
+from edscrapers.scrapers.base import helpers as h
 
 
 class Crawler(CrawlSpider):
@@ -17,9 +19,7 @@ class Crawler(CrawlSpider):
     allowed_regex = r'ed.gov'
     # depth = 10
 
-    def __init__(self, conf=None):
-
-        self.conf = conf
+    def __init__(self):
 
         self.start_urls = [
             # 'https://www2.ed.gov/finaid/prof/resources/data/teach-institution.html',
@@ -31,7 +31,7 @@ class Crawler(CrawlSpider):
         self.rules = [
             Rule(LinkExtractor(
                 allow='^http.*://.*\.ed\.gov/.*$',
-                deny='.*(xls|xlsx|csv|zip|pdf|doc|docx)',
+                deny=f'.*({"|".join(h.get_data_extensions())})',
                 restrict_xpaths='//*[@id="maincontent"]'
                 # process_value=lambda value: value.replace('http', 'https', 1),
             ), callback=parse, follow=True),
