@@ -1,0 +1,1 @@
+from edscrapers.scrapers.edope.scraper import scrape
