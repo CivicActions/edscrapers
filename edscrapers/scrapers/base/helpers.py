@@ -19,6 +19,7 @@ def get_data_extensions():
         '.sql': 'Structured query language file',
         '.xml': 'Extensible Markup language',
         '.zip': 'File containing compressed files',
+        '.txt': 'Text files',
 
         '.xlsx': 'Excel data file',
         '.sps': 'SPSS syntax',
