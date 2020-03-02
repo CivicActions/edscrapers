@@ -1,0 +1,1 @@
+from edscrapers.scrapers.edoela.scraper import scrape
