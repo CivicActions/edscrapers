@@ -3,12 +3,13 @@ import json
 import hashlib
 from pathlib import Path
 import edscrapers.scrapers.base.helpers as h
+import datetime
 
 class Dataset():
 
     crawler_name = 'default'
 
-    def __init__(self, title=None, name=None, notes=None, source_url=None):
+    def __init__(self, title=None, name=None, notes=None, source_url=None, **kwargs):
         setattr(self, 'title', title)
         setattr(self, 'name', name)
         setattr(self, 'notes', notes)
@@ -37,7 +38,9 @@ class Dataset():
 
         slug = h.make_slug(self.source_url)[:100] # restrict slug to 100 characters
         hashed = hashlib.md5(self.source_url.encode('utf-8')).hexdigest()
-        file_name = "{}-{}.json".format(slug, hashed)
+        # add timestamp to file name to allow a page which
+        # creates multiple datasets to dump unique files
+        file_name = "{}-{}-{}.json".format(slug, hashed, datetime.datetime.utcnow().timestamp())
         file_path = './output/{}/{}'.format(crawler_name, file_name)
         print('Dumping to {}'.format(file_path))
         with open(file_path, 'w') as output:
@@ -50,7 +53,7 @@ class Dataset():
 
 class Resource():
 
-    def __init__(self, name=None, url=None, source_url=None, description=None):
+    def __init__(self, name=None, url=None, source_url=None, description=None, **kwargs):
         setattr(self, 'name', name)
         setattr(self, 'url', url)
         setattr(self, 'source_url', source_url)
