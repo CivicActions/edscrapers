@@ -1,1 +1,1 @@
-from edscrapers.scrapers.edoela.scraper import scrape
+from .crawler import Crawler

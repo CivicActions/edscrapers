@@ -1,33 +1,21 @@
 import json
 import edscrapers.scrapers.base.helpers as h
 
-from .model import Dataset
+from edscrapers.scrapers.base.models import Dataset
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
-
-extensions = {
-    '.xls': 'Excel',
-    '.xlsx' : 'Excel',
-    '.zip': 'ZIP',
-    '.csv': 'CSV',
-}
 
 def parse(res):
 
     print(res)
 
     dataset = Dataset()
+    dataset.crawler_name = globals()['__package__'].split('.')[-1]
 
-    for link in LxmlLinkExtractor(deny_extensions=[]).extract_links(res):
-        for extension in extensions.keys():
-            if link.url.endswith(extension):
-                resource = {
-                    'source_url': res.url,
-                    'url': link.url,
-                    'name': link.text,
-                }
-                dataset.add_resource(resource)
+    h.get_all_resources(res, dataset, h.get_data_extensions())
 
     if len(dataset.resources) > 0:
+        h.get_all_resources(res, dataset, h.get_document_extensions())
+
         dataset.source_url = res.url
         dataset.title = res.xpath('//meta[@name="DC.title"]/@content').get('text')
         if not dataset.title or dataset.title == 'text':

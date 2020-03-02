@@ -3,13 +3,11 @@ import re
 import json
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 from edscrapers.scrapers import base
-from edscrapers.scrapers.base.models import Dataset, Resource
+from edscrapers.scrapers.base.models import Dataset
 import edscrapers.scrapers.base.helpers as h
 
 
-deny_list = [
-    '.*site-list.xls'
-]
+deny_list = []
 
 def parse(res):
 

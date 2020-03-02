@@ -1,14 +1,17 @@
+# -*- coding: utf-8 -*-
 import re
+
 from scrapy.spiders import Rule
 from scrapy.spiders import CrawlSpider
 from scrapy.linkextractors import LinkExtractor
+
 from edscrapers.scrapers.edoctae.parser import parse
+from edscrapers.scrapers.base import helpers as h
 
 class Crawler(CrawlSpider):
 
     name = 'edoctae'
     allowed_regex = r'ovae/|octae/'
-    #|sites.ed.gov/octae/'
 
     def __init__(self, conf=None):
 

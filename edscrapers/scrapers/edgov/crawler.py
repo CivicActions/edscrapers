@@ -22,8 +22,8 @@ class Crawler(CrawlSpider):
     def __init__(self):
 
         self.start_urls = [
-            # 'https://www2.ed.gov/finaid/prof/resources/data/teach-institution.html',
-            # 'https://www2.ed.gov/',
+            'https://www2.ed.gov/finaid/prof/resources/data/teach-institution.html',
+            'https://www2.ed.gov/',
             'https://www2.ed.gov/about/offices/list/index.html'
         ]
 

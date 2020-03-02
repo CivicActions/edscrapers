@@ -2,6 +2,9 @@
 import re
 import logging
 import datetime
+from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
+from edscrapers.scrapers.base.models import Resource
+
 logger = logging.getLogger(__name__)
 
 
@@ -37,6 +40,16 @@ def get_document_extensions():
         '.pdf': 'PDF file',
     }
 
+def get_all_resources(res, dataset, extensions, deny_list=[]):
+    for link in LxmlLinkExtractor(deny_extensions=[], deny=deny_list).extract_links(res):
+        for extension in extensions.keys():
+            if link.url.endswith(extension):
+                resource = Resource(
+                    source_url = res.url,
+                    url = link.url,
+                    name = link.text,
+                )
+                dataset.resources.append(resource)
 
 def get_variables(object, filter=None):
     """Extract variables from object to dict using name filter.

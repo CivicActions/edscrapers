@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
 from scrapy.spiders import Rule
 from scrapy.spiders import CrawlSpider
 from scrapy.linkextractors import LinkExtractor
+
 from edscrapers.scrapers.edope.parser import parse
+from edscrapers.scrapers.base import helpers as h
 
 class Crawler(CrawlSpider):
 
@@ -21,13 +24,10 @@ class Crawler(CrawlSpider):
         self.rules = [
             Rule(LinkExtractor(
                 allow=self.allowed_regex,
-                deny='.*(xls|xlsx|csv|zip|pdf|doc|docx)',
+                deny=f'.*({"|".join(h.get_data_extensions())})',
                 restrict_xpaths='//*[@id="maincontent"]'
             ), callback=parse, follow=True),
         ]
 
         # Inherit parent
         super(Crawler, self).__init__()
-
-
-    
