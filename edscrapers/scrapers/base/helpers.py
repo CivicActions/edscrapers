@@ -63,5 +63,3 @@ def get_variables(object, filter=None):
         variables[name] = value
     return variables
 
-def make_slug(url):
-    return '-'.join(url.split('/')[3:]).replace('.html', '').replace('.', '-')
