@@ -11,7 +11,7 @@ from edscrapers.scrapers.base import helpers as h
 class Crawler(CrawlSpider):
 
     name = 'edoctae'
-    allowed_regex = r'https://www2.ed.gov/about/reports/annual/nclbrpts.html'
+    allowed_regex = r'ovae|OVAE|octae|OCTAE'
 
     allowed_domains = ['www2.ed.gov','lincs.ed.gov']
 
