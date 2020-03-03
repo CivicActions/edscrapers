@@ -3,23 +3,22 @@ from scrapy.spiders import Rule
 from scrapy.spiders import CrawlSpider
 from scrapy.linkextractors import LinkExtractor
 
-from edscrapers.scrapers.edope.parser import parse
+from edscrapers.scrapers.edosers.parser import parse
 from edscrapers.scrapers.base import helpers as h
 
 class Crawler(CrawlSpider):
 
-    name = 'edope'
-    allowed_regex = r'ope/'
+    name = 'edosers'
+    allowed_regex = r'osers|osep|idea'
+    allowed_domains = ['www2.ed.gov','osep.grads360.org']
 
     def __init__(self, conf=None):
 
         self.conf = conf
 
         self.start_urls = [
-            'https://www2.ed.gov/about/offices/list/ope/index.html',
-            'https://www2.ed.gov/about/offices/list/ope/idues/eligibility.html',
-
-            'https://www2.ed.gov/programs/iegpsnrc/awards.html'
+            'https://www2.ed.gov/about/offices/list/osers/index.html',
+            'https://www2.ed.gov/about/offices/list/osers/products/employmentguide/index.html'
         ]
 
         # Make rules
@@ -27,7 +26,7 @@ class Crawler(CrawlSpider):
             Rule(LinkExtractor(
                 allow=self.allowed_regex,
                 #deny=f'.*({"|".join(h.get_data_extensions())})',
-                restrict_xpaths='//*[@id="maincontent"]'
+                #restrict_xpaths='//*[@id="maincontent"]'
             ), callback=parse, follow=True),
         ]
 

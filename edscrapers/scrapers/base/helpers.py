@@ -19,6 +19,7 @@ def get_data_extensions():
         '.sql': 'Structured query language file',
         '.xml': 'Extensible Markup language',
         '.zip': 'File containing compressed files',
+        '.txt': 'Text files',
 
         '.xlsx': 'Excel data file',
         '.sps': 'SPSS syntax',
@@ -49,7 +50,7 @@ def get_all_resources(res, dataset, extensions, deny_list=[]):
                     url = link.url,
                     name = link.text,
                 )
-                dataset.resources.append(resource)
+                dataset['resources'].append(resource)
 
 def get_variables(object, filter=None):
     """Extract variables from object to dict using name filter.
@@ -62,5 +63,3 @@ def get_variables(object, filter=None):
         variables[name] = value
     return variables
 
-def make_slug(url):
-    return '-'.join(url.split('/')[3:]).replace('.html', '').replace('.', '-')

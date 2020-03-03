@@ -2,8 +2,10 @@ import json
 from slugify import slugify
 
 import edscrapers.scrapers.base.helpers as h
+from edscrapers.scrapers import base
 from edscrapers.scrapers.base.models import Dataset
-from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
+
+deny_list = []
 
 def parse(res):
 
@@ -12,10 +14,12 @@ def parse(res):
     dataset = Dataset()
     dataset['resources'] = []
 
-    h.get_all_resources(res, dataset, h.get_data_extensions())
+    h.get_all_resources(res, dataset, h.get_data_extensions(), deny_list=deny_list)
 
     if len(dataset['resources']) > 0:
-        h.get_all_resources(res, dataset, h.get_document_extensions())
+
+        # We've got resources, so the documents might be relevant to them
+        h.get_all_resources(res, dataset, h.get_document_extensions(), deny_list=deny_list)
 
         dataset['source_url'] = res.url
         dataset['title'] = res.xpath('//meta[@name="DC.title"]/@content').get('text')
