@@ -12,6 +12,7 @@ setuptools = "*"
 wheel = "*"
 pandas = "*"
 python-slugify = "*"
+terminaltables = "*"
 
 [requires]
 python_version = "3.7"
