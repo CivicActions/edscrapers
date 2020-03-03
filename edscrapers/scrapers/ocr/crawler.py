@@ -23,6 +23,7 @@ class Crawler(CrawlSpider):
             'https://ocrdata.ed.gov/Home',
             'https://ocrdata.ed.gov/DistrictSchoolSearch',
             'https://ocrdata.ed.gov/StateNationalEstimations/Estimations_2011_12#',
+            # 'https://www2.ed.gov/ocr/docs/crdc-2015-16.html',
             'https://ocrdata.ed.gov/StateNationalEstimations/Estimations_2011_12#',
             'https://ocrdata.ed.gov/DownloadDataFile',
             'https://ocrdata.ed.gov/StateNationalEstimations',
@@ -30,12 +31,22 @@ class Crawler(CrawlSpider):
             'https://ocrdata.ed.gov/DataAnalysisTools',
         ]
 
+        """ self.start_urls = [
+            # The main menu
+            'https://ocrdata.ed.gov/StateNationalEstimations/Estimations_2013_14',
+    'https://ocrdata.ed.gov/StateNationalEstimations/Estimations_2011_12',
+    'https://ocrdata.ed.gov/StateNationalEstimations/Projections_2009_10',
+    'https://ocrdata.ed.gov/StateNationalEstimations/Projections_2006',
+    'https://ocrdata.ed.gov/StateNationalEstimations/Projections_2004',
+    'https://ocrdata.ed.gov/StateNationalEstimations/Projections_2000'
+    ] """
+
         # Make rules
         self.rules = [
             Rule(LinkExtractor(
                 allow=r'http.*://.*ocrdata\.ed\.gov.*$',
                 # deny=f'.*({"|".join(h.get_data_extensions())})',
-                # restrict_xpaths='//*[@id="maincontent"]'
+                #restrict_xpaths='//*[@id="maincontent"]'
             ), callback=parse, follow=True),
         ]
 

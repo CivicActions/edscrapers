@@ -22,8 +22,9 @@ class JsonWriterPipeline(object):
     def process_item(self, dataset, spider):
 
         slug = slugify('-'.join(dataset['source_url'].split('/')[3:]))[:100] # restrict slug to 100 characters
-        hashed = hashlib.md5(dataset['source_url'].encode('utf-8')).hexdigest()
-        file_name = f"{slug}-{hashed}.json"
+        hashed_url = hashlib.md5(dataset['source_url'].encode('utf-8')).hexdigest()
+        hashed_name = hashlib.md5(dataset['name'].encode('utf-8')).hexdigest()
+        file_name = f"{slug}-{hashed_url}-{hashed_name}.json"
         file_path = f"./output/{spider.name}/{file_name}"
         self._print(dataset)
         print(f"Dumping to {file_path}")

@@ -10,8 +10,10 @@ scrapy = "*"
 python-dotenv = "*"
 setuptools = "*"
 wheel = "*"
-pandas = "*"
-python-slugify = "*"
+beautifulsoup4 = "==4.8.2"
+html5lib = "==1.0.1"
+pyopenssl = "==19.1.0"
+pyyaml = "==5.3"
 
 [requires]
 python_version = "3.7"
