@@ -11,7 +11,15 @@ from edscrapers.scrapers.base import helpers as h
 class Crawler(CrawlSpider):
 
     name = 'edoctae'
-    allowed_regex = r'ovae/|octae/'
+    allowed_regex = [
+        r'ovae|OVAE|octae|OCTAE',
+        #r'https://www2.ed.gov/about/reports/annual/index.html',
+        #r'https://www2.ed.gov/about/reports/annual/otherplanrpts.html',
+        #r'https://www2.ed.gov/policy/sectech/leg/cte/fsrhome.html',
+        #r'https://lincs.ed.gov/lincs/resourcecollections/background.html',
+    ]
+
+    allowed_domains = ['www2.ed.gov','lincs.ed.gov']
 
     def __init__(self, conf=None):
 
@@ -20,13 +28,19 @@ class Crawler(CrawlSpider):
         self.start_urls = [
             'https://www2.ed.gov/about/offices/list/ovae/index.html',
             'https://www2.ed.gov/about/offices/list/ovae/pi/memoperkinsiv.html',
+            'https://www2.ed.gov/about/offices/list/ovae/pi/AdultEd/index.html',
+            
+            'https://www2.ed.gov/about/reports/annual/index.html',
+            'https://www2.ed.gov/about/reports/annual/otherplanrpts.html',
+            'https://www2.ed.gov/policy/sectech/leg/cte/fsrhome.html',
+            'https://lincs.ed.gov/lincs/resourcecollections/background.html',
         ]
 
         # Make rules
         self.rules = [
             Rule(LinkExtractor(
                 allow=self.allowed_regex,
-                deny='.*(xls|xlsx|csv|zip|pdf|doc|docx)',
+                #deny=f'.*({"|".join(h.get_data_extensions())})',
                 #restrict_xpaths='//*[@id="maincontent"]',
                 process_value=self.process_value
             ), callback=parse, follow=True),
