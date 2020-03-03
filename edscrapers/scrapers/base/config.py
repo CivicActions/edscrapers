@@ -16,8 +16,12 @@ SCRAPY_SETTINGS = {
     'DOWNLOAD_DELAY': float(os.getenv('DOWNLOAD_DELAY', 1)),
     'DOWNLOADER_MIDDLEWARES': {
         'scrapy.downloadermiddlewares.httpcache.HttpCacheMiddleware': 1,
-        'edscrapers.scrapers.middleware.offsite.RegexOffsiteMiddleware': 2,
+        'edscrapers.scrapers.base.middlewares.RegexOffsiteMiddleware': 2,
         'scrapy.spidermiddlewares.offsite.OffsiteMiddleware': 3,
+    },
+    'ITEM_PIPELINES': {
+        'edscrapers.scrapers.base.pipelines.JsonWriterPipeline': 1,
+        # 'edscrapers.scrapers.base.pipelines.DuplicatesPipeline': 2,
     },
     'SCHEDULER_PRIORITY_QUEUE': 'scrapy.pqueues.DownloaderAwarePriorityQueue',
     # 'REDIRECT_ENABLED': False,

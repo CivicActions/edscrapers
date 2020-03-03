@@ -4,10 +4,7 @@ import json
 
 import bs4
 
-from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 from edscrapers.scrapers import base
-from edscrapers.scrapers.base.models import Dataset
-import edscrapers.scrapers.base.helpers as h
 import edscrapers.scrapers.base.parser as base_parser
 from edscrapers.scrapers.ocr import parsers
 
