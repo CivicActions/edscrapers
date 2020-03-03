@@ -1,55 +1,53 @@
+from os import system, name
 import sys
-import pathlib
-import json
 import pandas as pd
+from terminaltables import GithubFlavoredMarkdownTable as ght
+
+from .summary import Summary
 
 
 def cli(argv):
     try:
-        name = argv[1]
-    except IndexError:
-        name = ''
-
-    try:
-        air_csv = argv[2]
+        air_csv = argv[1]
     except IndexError:
         air_csv = './tools/data/AIR.csv'
 
+    summary = Summary()
+
     try:
-        air_df = pd.read_csv(air_csv)
-        out_df = _generate_output_df(name)
+        print("Generating AIR data frame... ", end = '', flush=True)
+        summary.air_df = pd.read_csv(air_csv)
+        print('done.')
+        print("Generating Datopian data frame... ", end = '', flush=True)
+        try:
+            summary.out_df = summary.generate_output_df(use_dump=True)
+        except:
+            summary.out_df = summary.generate_output_df(use_dump=False)
+        print('done.')
     except Exception as e:
         print(e)
 
-    c1 = _compare_df(air_df, out_df, 'source_url')
-    c2 = _compare_df(air_df, out_df, 'url')
+    summary.calculate_totals()
 
-    # print(f"source_url: {c1.count()['url']}")
-    print(f"url: {c2.count()['url']}")
+    if name == 'nt':
+        _ = system('cls')
+    else:
+        _ = system('clear')
+    print(
+        f"Total number of raw datasets: {summary.total['datasets']}\n"
+        f"\n---\n\n"
+        f"Total number of raw datasets per scraper: \n\n{summary.get_datasets_table()}\n"
+        f"\n---\n\n"
+        f"Total number of resources:\n"
+        f"     AIR: {summary.total['air_resources']}\n"
+        f"Datopian: {summary.total['resources']}\n"
+        f"Datopian (w/docs): {summary.total['resources_and_docs']}\n"
+        f"\n---\n\n"
+        f"Total number of resources by office: \n{summary.get_resources_table()}\n"
+        f"\n---\n\n"
+        f"{summary.total}"
+    )
 
-def _generate_output_df(name):
-    results = pathlib.Path(f'./output/{name}').glob('**/*.json')
-    files = [f for f in results]
-
-    dfs = []
-    for fp in files:
-        with open(fp, 'r') as json_file:
-            j = json.load(json_file)
-            j = [{'url': r['url'], 'source_url': r['source_url']} for r in j['resources']]
-            dfs.append(pd.read_json(json.dumps(j)))
-
-    return pd.concat(dfs, ignore_index=True)
-
-
-def _compare_df(static_df, output_df, key):
-    result = static_df.merge(output_df,
-                             indicator=True,
-                             on=key,
-                             how='inner')
-    result.drop_duplicates(subset=key,
-                           keep=False,
-                           inplace=True)
-    return result
 
 
 if __name__ == '__main__':
