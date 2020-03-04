@@ -1,4 +1,4 @@
-""" parser for edoctae pages """
+""" parser2 for edoctae pages """
 
 import re
 
@@ -16,8 +16,7 @@ def parse(res) -> dict:
     # create parser object
     soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
 
-    dataset_containers = soup_parser.body.find_all(name='div',
-                                                   id='maincontent',
+    dataset_containers = soup_parser.body.find_all(class_='contentText',
                                                    recursive=True)
     for container in dataset_containers:
         # create dataset model dict
@@ -40,7 +39,8 @@ def parse(res) -> dict:
                                 find(name='meta', attrs={'name': 'ED.office'})['content']
         
         if soup_parser.head.find(name='meta', attrs={'name': 'DC.description'}) is None:
-            dataset['notes'] = ''
+            dataset['notes'] = str(soup_parser.body.find(class_='headersLevel1',
+                                                     recursive=True).string).strip()
         else:
             dataset['notes'] = soup_parser.head.\
                                 find(name='meta', attrs={'name': 'DC.description'})['content']
@@ -70,44 +70,17 @@ def parse(res) -> dict:
         for resource_link in page_resource_links:
             resource = Resource(source_url=res.url,
                                 url=resource_link['href'])
-            # get the resource name iteratively
-            for child in resource_link.parent.children:
-                resource['name'] = str(child).strip()
-                if re.sub(r'(<.+>)', '',
-                re.sub(r'(</.+>)', '', resource['name'])) != "":
-                    break
+            resource['name'] = str(resource_link.find_parent(name='ul').\
+                                find_previous_sibling(name=True))
+            resource['name'] +=  " " + str(resource_link.parent.contents[0]).strip()
             resource['name'] = re.sub(r'(</.+>)', '', resource['name'])
             resource['name'] = re.sub(r'(<.+>)', '', resource['name'])
 
-            if resource_link.find_parent(class_='contentText').\
-                find_previous_sibling(class_='headersLevel2'):
+            resource['description'] = str(resource_link.\
+                find_parent(class_='contentText').contents[0].string).strip()
 
-                # concatenate the text content of parents with 
-                # class 'headersLevel1' & 'headersLevel2'
-                resource['description'] = str(resource_link.\
-                                        find_parent(class_='contentText').\
-                                            find_previous_sibling(class_='headersLevel1').\
-                                                contents[0]).strip() +\
-                                            " - " + str(resource_link.\
-                                        find_parent(class_='contentText').\
-                                            find_previous_sibling(class_='headersLevel2').\
-                                                contents[1]).strip()
-                resource['description'] = re.sub(r'(</.+>)', '', resource['description'])
-                resource['description'] = re.sub(r'(<.+>)', '', resource['description'])
-            else:
-                # concatenate the text content of parents with
-                # class 'headersLevel1' & 'contentText'
-                resource['description'] = str(resource_link.\
-                                        find_parent(class_='contentText').\
-                                            find_previous_sibling(class_='headersLevel1').\
-                                                contents[0]).strip() +\
-                                            " - " + str(resource_link.\
-                                        find_parent(class_='contentText').\
-                                                contents[0].string or resource_link.\
-                                        find_parent(class_='contentText').\
-                                                contents[0]).strip()
-                resource['description'] = re.sub(r'(</.+>)', '', resource['description'])
-                resource['description'] = re.sub(r'(<.+>)', '', resource['description'])
+            resource['description'] = re.sub(r'(</.+>)', '', resource['description'])
+            resource['description'] = re.sub(r'(<.+>)', '', resource['description'])
 
             # get the format of the resource from the file extension of the link
             resource_format = resource_link['href']\

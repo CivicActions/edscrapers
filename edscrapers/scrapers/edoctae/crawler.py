@@ -11,7 +11,7 @@ from edscrapers.scrapers.base import helpers as h
 class Crawler(CrawlSpider):
 
     name = 'edoctae'
-    allowed_regex = r'ovae|OVAE|octae|OCTAE'
+    allowed_regex = r'ovae|OVAE|octae|OCTAE|reports|annual'
 
     allowed_domains = ['www2.ed.gov','lincs.ed.gov']
 
@@ -20,15 +20,15 @@ class Crawler(CrawlSpider):
         self.conf = conf
 
         self.start_urls = [
-            #'https://www2.ed.gov/about/offices/list/ovae/index.html',
-            #'https://www2.ed.gov/about/offices/list/ovae/pi/memoperkinsiv.html',
-            #'https://www2.ed.gov/about/offices/list/ovae/pi/AdultEd/index.html',
+            'https://www2.ed.gov/about/offices/list/ovae/index.html',
+            'https://www2.ed.gov/about/offices/list/ovae/pi/memoperkinsiv.html',
+            'https://www2.ed.gov/about/offices/list/ovae/pi/AdultEd/index.html',
             
-            #'https://www2.ed.gov/about/reports/annual/index.html',
-            #'https://www2.ed.gov/about/reports/annual/otherplanrpts.html',
-            #'https://www2.ed.gov/policy/sectech/leg/cte/fsrhome.html',
-            #'https://lincs.ed.gov/lincs/resourcecollections/background.html',
-            'https://www2.ed.gov/about/reports/annual/nclbrpts.html'
+            'https://www2.ed.gov/about/reports/annual/index.html',
+            'https://www2.ed.gov/about/reports/annual/otherplanrpts.html',
+            'https://www2.ed.gov/policy/sectech/leg/cte/fsrhome.html',
+            'https://lincs.ed.gov/lincs/resourcecollections/background.html',
+            
         ]
 
         # Make rules

@@ -24,7 +24,6 @@ def parse(res):
     if soup_parser.body.find(name='a', href=base_parser.resource_checker,
                              recursive=True) is None:
         # no resource on this page, so return None
-        print('URL', 'NONE', res.url)
         return None
 
     # if code gets here, at least one resource was found
@@ -32,15 +31,12 @@ def parse(res):
     # check if the parser is working on OCTAE web page
     if soup_parser.body.find(name='div', id='maincontent', recursive=True) is not None:
         # parse the page with the parser and return result
-        print('URL', 'PARSER1', res.url)
         return parsers.parser1.parse(res)
     # check if the parser is working on OCR State & National Estimations (variant 2)
-    if soup_parser.body.select_one('#container2 #maincontent') is not None:
+    if soup_parser.body.select_one('.headersLevel1') is not None:
         # parse the page with the parser and return result
-        print('URL', 'PARSER2', res.url)
         return parsers.parser2.parse(res)
     else:
-        print('URL', 'NONE2', res.url)
         return None
 
 
