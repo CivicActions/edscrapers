@@ -1,8 +1,10 @@
 from pathlib import Path
 
 import edscrapers.transformer.helpers as h
+from edscrapers.transformer import logger
 from edscrapers.transformer.traverse import traverse, read_file
 from edscrapers.transformer.models import Catalog, Dataset, Resource, Organization
+
 
 def to_data_json(target_dept):
 
@@ -11,12 +13,25 @@ def to_data_json(target_dept):
     catalog.catalog_id = "datopian_data_json_" + target_dept
 
     file_list = traverse(target_dept)
+    logger.debug('{} files to transform.'.format(len(file_list)))
+
+    datasets_number = 0
+    resources_number = 0
+
     for file_path in file_list:
 
         data = read_file(file_path)
-        dataset = transform_scraped_dataset(data, target_dept)
+        if not data:
+            continue
 
+        dataset = transform_scraped_dataset(data, target_dept)
         catalog.datasets.append(dataset)
+
+        datasets_number += 1
+        resources_number += len(dataset.distribution)
+
+    logger.debug('{} datasets transformed.'.format(datasets_number))
+    logger.debug('{} resources transformed.'.format(resources_number))
     
     Path(f"./data_json/").mkdir(parents=True, exist_ok=True)
     file_path = './data_json/' + target_dept + '.json'
