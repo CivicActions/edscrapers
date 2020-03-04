@@ -1,5 +1,27 @@
-import datetime
 import json
+import datetime
+
+class Organization():
+
+    organization_type = str()
+    name = str()
+    sub_organization_of = None
+
+    def __init__(self):
+
+        self.organization_type = "org:Organization"
+
+    def to_dict(self):
+
+        org_dict = {
+            "@type": self.organization_type,
+            "name": self.name
+        }
+
+        if self.sub_organization_of is not None:
+            org_dict["subOrganizationOf"] = self.sub_organization_of.to_dict()
+
+        return org_dict
 
 class Catalog():
 
@@ -12,7 +34,6 @@ class Catalog():
 
     def __init__(self):
         
-        self.catalog_id = "datopian_data_json"
         self.catalog_type = "dcat:Catalog"
         self.context = "https://project-open-data.cio.gov/v1.1/schema/catalog.jsonld"
         self.conformsTo = "https://project-open-data.cio.gov/v1.1/schema"
@@ -48,9 +69,9 @@ class Dataset():
     title = str()
     description = str()
     keyword = list()
-    modified = str()
+    modified = None
     landingPage = str()
-    #publisher =
+    publisher = Organization()
     contactPoint = dict()
     identifier = str()
     accessLevel = str()
@@ -68,6 +89,7 @@ class Dataset():
         self.accessLevel = "public"
         self.dataset_license = "https://creativecommons.org/publicdomain/zero/1.0/"
         self.spatial = "United States"
+        self.modified = datetime.datetime.now()
 
     def to_dict(self):
 
@@ -76,7 +98,8 @@ class Dataset():
             "title": self.title,
             "description": self.description,
             "keyword": self.keyword,
-            "modified": self.modified,
+            "modified": self.modified.strftime("%m/%d/%Y"),
+            "publisher": self.publisher.to_dict(),
             "landingPage": self.landingPage,
             "contactPoint": self.contactPoint,
             "identifier": self.identifier,
