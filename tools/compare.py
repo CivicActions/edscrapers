@@ -29,21 +29,23 @@ def cli(argv):
 
     summary.calculate_totals()
 
-    if name == 'nt':
-        _ = system('cls')
-    else:
-        _ = system('clear')
+    # if name == 'nt':
+    #     _ = system('cls')
+    # else:
+    #     _ = system('clear')
+
     print(
-        f"Total number of raw datasets: {summary.total['datasets']}\n"
+        f"Total number of raw datasets: {summary.total['out_datasets']}\n"
         f"\n---\n\n"
         f"Total number of raw datasets per scraper: \n\n{summary.get_datasets_table()}\n"
         f"\n---\n\n"
         f"Total number of resources:\n"
         f"     AIR: {summary.total['air_resources']}\n"
-        f"Datopian: {summary.total['resources']}\n"
-        f"Datopian (w/docs): {summary.total['resources_and_docs']}\n"
+        f"Datopian: {summary.total['out_resources']}\n"
         f"\n---\n\n"
-        f"Total number of resources by office: \n{summary.get_resources_table()}\n"
+        f"Total number of resources by office: \n{summary.get_resources_table(column='url')}\n"
+        f"\n---\n\n"
+        f"Total number of pages by office: \n{summary.get_resources_table(column='source_url')}\n"
         f"\n---\n\n"
         f"{summary.total}"
     )
