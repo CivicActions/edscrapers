@@ -13,6 +13,9 @@ class Organization():
 
     def to_dict(self):
 
+        if not self.name:
+            return None
+
         org_dict = {
             "@type": self.organization_type,
             "name": self.name
@@ -41,14 +44,27 @@ class Catalog():
 
     def to_dict(self):
 
-        return {
-            "@context": self.context,
-            "@id": self.catalog_id,
-            "@type": self.catalog_type,
-            "conformsTo": self.conformsTo,
-            "describedBy": self.describedBy,
-            "dataset": self.dump_datasets()
-        }
+        catalog_dict = {}
+
+        if self.context:
+            catalog_dict["@context"] = self.context
+
+        if self.catalog_id:
+            catalog_dict["@id"] = self.catalog_id
+
+        if self.catalog_type:
+            catalog_dict["@type"] = self.catalog_type
+
+        if self.conformsTo:
+            catalog_dict["conformsTo"] = self.conformsTo
+
+        if self.describedBy:
+            catalog_dict["describedBy"] = self.describedBy
+
+        if len(self.datasets) > 0:
+            catalog_dict["dataset"] = self.dump_datasets()
+
+        return catalog_dict
 
     def dump_datasets(self):
 
@@ -93,25 +109,60 @@ class Dataset():
 
     def to_dict(self):
 
-        return {
-            "@type": self.dataset_type,
-            "title": self.title,
-            "description": self.description,
-            "keyword": self.keyword,
-            "modified": self.modified.strftime("%m/%d/%Y"),
-            "publisher": self.publisher.to_dict(),
-            "landingPage": self.landingPage,
-            "contactPoint": self.contactPoint,
-            "identifier": self.identifier,
-            "accessLevel": self.accessLevel,
-            "bureauCode": self.bureauCode,
-            "programCode": self.programCode,
-            "license": self.dataset_license,
-            "spatial": self.spatial,
-            "temporal": self.temporal,
-            "theme": self.theme,
-            "distribution": self.dump_resources()
-        }
+        dataset_dict = {}
+
+        if self.dataset_type:
+            dataset_dict["@type"] = self.dataset_type
+        
+        if self.title:
+            dataset_dict["title"] = self.title
+        
+        if self.description:
+            dataset_dict["description"] = self.description
+
+        if len(self.keyword) > 0:
+            dataset_dict["keyword"] = self.keyword
+
+        if self.modified:
+            dataset_dict["modified"] = self.modified.strftime("%Y-%m-%d")
+
+        if self.publisher.to_dict():
+            dataset_dict["publisher"] = self.publisher.to_dict()
+
+        if self.landingPage:
+            dataset_dict["landingPage"] = self.landingPage
+
+        if self.contactPoint:
+            dataset_dict["contactPoint"] = self.contactPoint
+
+        if self.identifier:
+            dataset_dict["identifier"] = self.identifier
+
+        if self.accessLevel:
+            dataset_dict["accessLevel"] = self.accessLevel
+
+        if len(self.bureauCode) > 0:
+            dataset_dict["bureauCode"] = self.bureauCode
+
+        if len(self.programCode) > 0:
+            dataset_dict["programCode"] = self.programCode
+
+        if self.dataset_license:
+            dataset_dict["license"] = self.dataset_license
+
+        if self.spatial:
+            dataset_dict["spatial"] = self.spatial
+
+        if self.temporal:
+            dataset_dict["temporal"] = self.temporal
+
+        if len(self.theme) > 0:
+            dataset_dict["theme"] = self.theme
+
+        if len(self.distribution) > 0:
+            dataset_dict["distribution"] = self.dump_resources()
+
+        return dataset_dict
 
     def dump_resources(self):
 
@@ -137,12 +188,27 @@ class Resource():
 
     def to_dict(self):
 
-        return {
-            "@type": self.resource_type,
-            "title": self.title,
-            "description": self.description,
-            "downloadURL": self.downloadURL,
-            "accessURL": self.accessURL,
-            "format": self.resource_format,
-            "mediaType": self.mediaType
-        }
+        resource_dict = {}
+
+        if self.resource_type:
+            resource_dict["@type"] = self.resource_type
+
+        if self.title:
+            resource_dict["title"] = self.title
+        
+        if self.description:
+            resource_dict["description"] = self.description
+
+        if self.downloadURL:
+            resource_dict["downloadURL"] = self.downloadURL
+
+        if self.accessURL:
+            resource_dict["accessURL"] = self.accessURL
+
+        if self.resource_format:
+            resource_dict["format"] = self.resource_format
+
+        if self.mediaType:
+            resource_dict["mediaType"] = self.mediaType
+
+        return resource_dict

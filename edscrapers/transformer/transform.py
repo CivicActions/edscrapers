@@ -5,7 +5,6 @@ from edscrapers.transformer import logger
 from edscrapers.transformer.traverse import traverse, read_file
 from edscrapers.transformer.models import Catalog, Dataset, Resource, Organization
 
-
 def to_data_json(target_dept):
 
     catalog = Catalog()
@@ -45,6 +44,7 @@ def transform_scraped_dataset(data, target_dept):
     dataset.landingPage = data['source_url']
     dataset.title = data['title']
     dataset.description = data['notes']
+    dataset.identifier = data['name']
 
     publisher = Organization()
     publisher.name = h.get_office_name(target_dept)
@@ -58,29 +58,60 @@ def transform_scraped_dataset(data, target_dept):
         }
 
         dataset.contactPoint = contactPoint
+
+
+    ### testing and inserting dummy values for required fields
+    if not dataset.contactPoint:
+        dataset.contactPoint = {
+            "@type": "vcard:Contact",
+            "hasEmail": "mailto:info@viderum.com",
+            "fn": h.get_office_name(target_dept)
+        }
+
+    if not len(dataset.bureauCode) > 0:
+        dataset.bureauCode = ["018:40"]
     
+    if not len(dataset.programCode) > 0:
+        dataset.programCode = ["018:000"]
+
+    if not len(dataset.keyword) > 0:    
+        dataset.keyword = [target_dept]
+
     '''
-    data['name']
     data['publisher']
     data['tags']
     data['date']
     '''
 
+    distributions = []
     resources = data['resources']
     for resource in resources:
-        distribution = transform_scraped_resource(resource)
-        dataset.distribution.append(distribution)
+        distribution = transform_scraped_resource(target_dept, resource)
+        distributions.append(distribution)
+
+    dataset.distribution = distributions
 
     return dataset
 
-def transform_scraped_resource(resource):
+def transform_scraped_resource(target_dept, resource):
 
     distribution = Resource()
 
-    distribution.downloadURL = resource['url']
-    distribution.accessURL = resource['source_url']
+    downloadURL = str()
+    if h.url_is_absolute(resource['url']):
+        downloadURL = resource['url']
+    else:
+        downloadURL = h.transform_download_url(target_dept, 
+                resource['url'], resource['source_url'])
+
+    #remove spaces from links
+    downloadURL = downloadURL.replace(' ','%20')
+    distribution.downloadURL = downloadURL
+
     distribution.title = resource['name']
     distribution.resource_format = resource['format']
+    distribution.description = resource['name']
+    distribution.mediaType = h.get_media_type(resource['format'])
     
     return distribution
     

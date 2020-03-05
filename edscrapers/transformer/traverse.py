@@ -11,6 +11,10 @@ def traverse(target):
             file_path = rootDir + fname
             file_list.append(file_path)
 
+    #file_path = './output/ocr/statenationalestimations-estimations-2011-12-ec1f37db9facab42f97f909f12439a28-1fcf6afb6294aa0088db0bef6a2d95a3.json'
+    #file_list = list()
+    #file_list.append(file_path)
+
     return file_list
 
 def read_file(file_path):
