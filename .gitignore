@@ -116,3 +116,7 @@ dmypy.json
 
 # Scraping output
 /output
+
+# Yaml output
+yaml-output
+parser-run-utilities.py
