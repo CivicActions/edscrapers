@@ -21,8 +21,6 @@ def parse(res):
 
     if len(dataset['resources']) > 0:
 
-        # We've got resources, so the documents might be relevant to them
-        h.get_all_resources(res, dataset, h.get_document_extensions(), deny_list=deny_list)
 
         dataset['source_url'] = res.url
         dataset['title'] = res.xpath('//meta[@name="DC.title"]/@content').get('text')
