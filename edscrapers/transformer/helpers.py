@@ -1,8 +1,9 @@
 from urllib.parse import urlparse
 
 map_office_name = {
-    'ocr' : "Office for Civil Rights",
-    'edoctae' : "Office of Career, Technical and Adult Education"
+    'ocr' : 'Office for Civil Rights',
+    'edoctae' : 'Office of Career, Technical and Adult Education',
+    'edope' : 'Office of Postsecondary Education'
 }
 
 map_media_type = {
@@ -39,10 +40,15 @@ def transform_download_url(target_dept, download_url, source_url):
 
     if target_dept == list(map_office_name.keys())[0]: #ocr
         download_url = download_url[2:]
-        return source_url + download_url
+        return 'https://ocrdata.ed.gov' + download_url
 
-    elif target_dept == list(map_office_name.keys())[1]: #edoctae
-        return "https://www2.ed.gov" + download_url
+    else: #edoctae/edope
+        if download_url[0] == "/":
+            return "https://www2.ed.gov" + download_url
+        else:
+            html_file_name = source_url.split('/')[-1]
+            source_domain = source_url.replace(html_file_name, '')
+            return source_domain + download_url
 
 def url_is_absolute(url):
     return bool(urlparse(url).netloc)
