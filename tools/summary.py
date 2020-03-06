@@ -121,17 +121,25 @@ class Summary():
 
 
 
-    def get_values_only_in(self, df_name='air', column='source_url'):
+    def get_values_only_in(self, df_name='air', column='source_url', with_nces=True):
 
         if df_name == 'air':
             merged = self.air_df.merge(self.out_df, on=column, how='left', indicator=True)
         if df_name == 'out':
             merged = self.out_df.merge(self.air_df, on=column, how='left', indicator=True)
 
-        result = merged[merged['_merge'] == 'left_only']
+        try:
+            result = merged[merged['_merge'] == 'left_only']
+        except:
+            import ipdb; ipdb.set_trace()
 
-        import ipdb; ipdb.set_trace()
-        return result.count()['_merge']
+        try:
+            if with_nces:
+                return result.count()['_merge']
+            else:
+                return result[~result['source_url'].str.contains('nces.ed.gov')].count()['_merge']
+        except:
+            import ipdb; ipdb.set_trace()
 
     def dump(self, path):
         out_csv = pathlib.Path(f'./output/datopian.csv')
