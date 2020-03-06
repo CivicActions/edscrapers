@@ -47,7 +47,12 @@ def cli(argv):
         f"\n---\n\n"
         f"Total number of pages by office: \n{summary.get_resources_table(column='source_url')}\n"
         f"\n---\n\n"
-        f"{summary.total}"
+        f"Pages scraped by AIR only: {summary.get_values_only_in('air', 'source_url')}\n"
+        f"Pages scraped by Datopian only: {summary.get_values_only_in('out', 'source_url')}\n"
+        f"Resources collected by AIR only: {summary.get_values_only_in('air', 'url')}\n"
+        f"Resources collected by Datopian only: {summary.get_values_only_in('out', 'url')}\n"
+        f"\n---\n\n"
+        f"CSV file with all the resources was dumped in {summary.dump('./output/datopian.csv')}"
     )
 
 

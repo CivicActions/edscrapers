@@ -48,7 +48,6 @@ class Summary():
         else:
             data = [['', 'AIR', 'Datopian', ]]
             for s in self.scrapers.keys():
-                # import ipdb; ipdb.set_trace()
                 data.append([
                     s.upper(),# self.out_df.drop_duplicates(subset='url')[self.out_df.scraper.eq(s)].count()['url']
                     df_contains(self.air_df, self.scrapers[s], column),
@@ -64,8 +63,23 @@ class Summary():
         return table.table
 
 
+    def sanitize_df(self, df):
+        rows_to_drop = []
+
+        for idx, row in self.out_df.iterrows():
+            if '../' in row['url']:
+                row['url'] = f"{row['source_url']}/{row['url']}"
+            # if 'print' in row['source_url']:
+            #     rows_to_drop.append(idx)
+
+        df.drop(rows_to_drop, inplace=True)
+
 
     def calculate_totals(self):
+
+        print("Sanitizing Datopian data frame... ", end = '', flush=True)
+        self.sanitize_df(self.out_df)
+        print('done.')
 
         self.total['out_datasets'] = self._get_total_datasets()
 
@@ -106,12 +120,20 @@ class Summary():
         return df
 
 
-    def _compare_df(static_df, output_df, key):
-        result = static_df.merge(output_df,
-                                indicator=True,
-                                on=key,
-                                how='inner')
-        result.drop_duplicates(subset=key,
-                            keep=False,
-                            inplace=True)
-        return result
+
+    def get_values_only_in(self, df_name='air', column='source_url'):
+
+        if df_name == 'air':
+            merged = self.air_df.merge(self.out_df, on=column, how='left', indicator=True)
+        if df_name == 'out':
+            merged = self.out_df.merge(self.air_df, on=column, how='left', indicator=True)
+
+        result = merged[merged['_merge'] == 'left_only']
+
+        import ipdb; ipdb.set_trace()
+        return result.count()['_merge']
+
+    def dump(self, path):
+        out_csv = pathlib.Path(f'./output/datopian.csv')
+        self.out_df.to_csv(out_csv, index=False)
+        return out_csv
