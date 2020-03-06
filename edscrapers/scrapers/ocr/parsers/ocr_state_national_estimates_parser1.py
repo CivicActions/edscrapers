@@ -54,18 +54,4 @@ def parse(res) -> dict:
         # if this dataset alread has data resource files look for
         # document resource files
         if len(dataset['resources']) > 0:
-            # add  documents from the 'container' to the dataset
-            page_document_links = container.find_all(name='a',
-                                                    href=base_parser.document_checker,
-                                                    recursive=True)
-            for resource_link in page_document_links:
-                resource = Resource(source_url = res.url,
-                                    url = resource_link['href'],
-                                    name = str(resource_link.string).strip())
-                # get the format of the resource from the file extension of the link
-                resource_format = resource_link['href']\
-                                [resource_link['href'].rfind('.') + 1:]
-                resource['format'] = resource_format
-                # add the resource to collection of resources
-                dataset['resources'].append(resource)
             yield dataset
