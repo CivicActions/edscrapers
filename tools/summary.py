@@ -65,10 +65,16 @@ class Summary():
 
     def sanitize_df(self, df):
         rows_to_drop = []
+        all_urls = []
 
         for idx, row in self.out_df.iterrows():
             if '../' in row['url']:
                 row['url'] = f"{row['source_url']}/{row['url']}"
+            normalized_url = row['source_url'].replace('/www.', '/').replace('/www2.', '/')
+            if normalized_url not in all_urls:
+                all_urls.append(normalized_url)
+            else:
+                rows_to_drop.append(idx)
             # if 'print' in row['source_url']:
             #     rows_to_drop.append(idx)
 
