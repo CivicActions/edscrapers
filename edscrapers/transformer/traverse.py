@@ -8,6 +8,10 @@ def traverse(target):
     rootDir = './output/' + target + '/'
     for dirName, subdirList, fileList in os.walk(rootDir):
         for fname in fileList:
+            
+            if "print" in fname.split("-"):
+                continue
+
             file_path = rootDir + fname
             file_list.append(file_path)
 
