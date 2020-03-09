@@ -1,4 +1,4 @@
-.PHONY: all install list scrape
+.PHONY: all install list scrape compare
 
 all: list
 
@@ -10,6 +10,9 @@ list:
 
 scrape:
 	python -m edscrapers.scrapers.base.cli $(filter-out $@,$(MAKECMDGOALS))
+
+compare:
+	python -m tools.compare $(filter-out $@,$(MAKECMDGOALS))
 
 transform:
 	python -m edscrapers.transformer.cli $(filter-out $@,$(MAKECMDGOALS))
