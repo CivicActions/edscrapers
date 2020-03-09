@@ -23,7 +23,7 @@ class Crawler(CrawlSpider):
         self.rules = [
             Rule(LinkExtractor(
                 allow=self.allowed_regex,
-                deny=f'.csv',
+                deny=["\\" + regex for regex in h.get_data_extensions().keys()],
                 #deny=f'.*({"|".join(h.get_data_extensions().keys())})',
                 restrict_xpaths='//*[@id="maincontent"]'
             ), callback=parse, follow=True),
