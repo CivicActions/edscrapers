@@ -8,16 +8,13 @@ from edscrapers.scrapers.base.models import Dataset, Resource
 import edscrapers.scrapers.base.helpers as h
 
 
-deny_list = []
 
 def parse(res):
-
-    print(res)
 
     dataset = Dataset()
     dataset['resources'] = []
 
-    h.get_all_resources(res, dataset, h.get_data_extensions(), deny_list=deny_list)
+    h.get_all_resources(res, dataset, h.get_data_extensions(), deny_list=[])
 
     if len(dataset['resources']) > 0:
 

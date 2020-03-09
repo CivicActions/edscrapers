@@ -35,8 +35,3 @@ def parse(res):
         return parsers.parser1.parse(res)
     else:
         return None
-
-
-    
-
-
