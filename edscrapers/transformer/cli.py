@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
+
 from edscrapers.transformer.transform import to_data_json
 from edscrapers.transformer import logger
 

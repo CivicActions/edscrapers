@@ -101,8 +101,8 @@ def transform_scraped_resource(target_dept, resource):
     if h.url_is_absolute(resource['url']):
         downloadURL = resource['url']
     else:
-        downloadURL = h.transform_download_url(target_dept, 
-                resource['url'], resource['source_url'])
+        downloadURL = h.transform_download_url(resource['url'], 
+            resource['source_url'])
 
     #remove spaces from links
     downloadURL = downloadURL.replace(' ','%20')

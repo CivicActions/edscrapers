@@ -1,4 +1,5 @@
 from urllib.parse import urlparse
+from urllib.parse import urljoin
 
 map_office_name = {
     'ocr' : 'Office for Civil Rights',
@@ -36,19 +37,8 @@ def get_office_name(target_dept):
 def get_media_type(format):
     return map_media_type.get(format)
 
-def transform_download_url(target_dept, download_url, source_url):
-
-    if target_dept == list(map_office_name.keys())[0]: #ocr
-        download_url = download_url[2:]
-        return 'https://ocrdata.ed.gov' + download_url
-
-    else: #edoctae/edope
-        if download_url[0] == "/":
-            return "https://www2.ed.gov" + download_url
-        else:
-            html_file_name = source_url.split('/')[-1]
-            source_domain = source_url.replace(html_file_name, '')
-            return source_domain + download_url
-
+def transform_download_url(download_url, source_url):
+    return urljoin(source_url,download_url)
+    
 def url_is_absolute(url):
     return bool(urlparse(url).netloc)
