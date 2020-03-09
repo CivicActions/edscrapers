@@ -31,14 +31,14 @@ def get_data_extensions():
         '.rda': 'R data',
         '.sd2': 'SAS data',
         '.sd7': 'SAS data',
-        '.sas7bdat': 'SAS data',
+        '.sas7bdat': 'SAS data'
     }
 
 def get_document_extensions():
     return {
         '.docx': 'Word document',
         '.doc': 'Word document',
-        '.pdf': 'PDF file',
+        '.pdf': 'PDF file'
     }
 
 def get_all_resources(res, dataset, extensions, deny_list=[]):

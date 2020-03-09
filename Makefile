@@ -14,5 +14,8 @@ scrape:
 compare:
 	python -m tools.compare $(filter-out $@,$(MAKECMDGOALS))
 
+transform:
+	python -m edscrapers.transformer.cli $(filter-out $@,$(MAKECMDGOALS))
+
 %:
 	@:

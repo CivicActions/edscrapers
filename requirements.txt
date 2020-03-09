@@ -25,3 +25,8 @@ twisted==19.10.0
 w3lib==1.21.0
 wheel==0.34.2
 zope.interface==4.7.1
+beautifulsoup4==4.8.2
+html5lib==1.0.1
+pyOpenSSL==19.1.0
+pyyaml==5.3
+python-slugify==4.0.0

@@ -12,6 +12,13 @@ SCRAPY_SETTINGS = {
     'SPIDER_MODULES': [
         'edscrapers.scrapers.edgov.crawler',
         'edscrapers.scrapers.ocr.crawler',
+        'edscrapers.scrapers.edoctae.crawler',
+        'edscrapers.scrapers.edoela.crawler',
+        'edscrapers.scrapers.edope.crawler',
+        'edscrapers.scrapers.edopepd.crawler',
+        'edscrapers.scrapers.edosers.crawler',
+        'edscrapers.scrapers.nces.crawler',
+        'edscrapers.scrapers.oese.crawler',
     ],
     'DOWNLOAD_DELAY': float(os.getenv('DOWNLOAD_DELAY', 1)),
     'DOWNLOADER_MIDDLEWARES': {
