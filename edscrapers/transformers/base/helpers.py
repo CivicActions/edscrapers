@@ -1,3 +1,7 @@
+import os
+import json
+import pathlib
+
 from urllib.parse import urlparse
 from urllib.parse import urljoin
 
@@ -39,6 +43,21 @@ def get_media_type(format):
 
 def transform_download_url(download_url, source_url):
     return urljoin(source_url,download_url)
-    
+
 def url_is_absolute(url):
     return bool(urlparse(url).netloc)
+
+def traverse_output(target=None):
+    if target is None:
+        results = pathlib.Path(f'./output').rglob('*.json')
+    else:
+        results = pathlib.Path(f'./output/{target}').glob('**/*.json')
+
+    files_list = [f for f in results
+                  if 'print' not in str(f).split('/')[-1].split('-') and 'data.json' not in str(f)]
+    return files_list
+
+def read_file(file_path):
+    with open(file_path, 'r') as fl:
+        data = json.load(fl)
+        return data
