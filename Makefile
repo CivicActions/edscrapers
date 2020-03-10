@@ -15,7 +15,7 @@ compare:
 	python -m tools.compare $(filter-out $@,$(MAKECMDGOALS))
 
 transform:
-	python -m edscrapers.transformer.cli $(filter-out $@,$(MAKECMDGOALS))
+	python -m edscrapers.transformers.base.cli $(filter-out $@,$(MAKECMDGOALS))
 
 %:
 	@:

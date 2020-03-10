@@ -14,7 +14,8 @@ class JsonWriterPipeline(object):
 
     def open_spider(self, spider):
         Path(f"./output/{spider.name}").mkdir(parents=True, exist_ok=True)
-        self.log_file = Path(f"./{spider.name}-{datetime.now().isoformat()}.log")
+        Path(f"./log").mkdir(exist_ok=True)
+        self.log_file = Path(f"./log/{spider.name}-{datetime.now().isoformat()}.log")
 
     def close_spider(self, spider):
         pass
