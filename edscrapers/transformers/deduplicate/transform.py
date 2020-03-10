@@ -2,9 +2,6 @@ import json
 from edscrapers.transformers.base.helpers import traverse_output
 
 
-
-
-
 def transform(target_dept=None):
     transformer = Transformer(target_dept)
 
@@ -16,7 +13,6 @@ def transform(target_dept=None):
 
 
 class Transformer():
-
 
     def __init__(self, target_dept=None):
 
@@ -34,6 +30,8 @@ class Transformer():
         for f in self.file_list:
             with open(f, 'r') as fp:
                 j = json.loads(fp.read())
+                if '/print/' in j.get(key):
+                    continue
                 # In order to deduplicate with dicts, we need to normalize all keys
                 self.urls_dict[self._normalize_url(j.get(key))] = str(f)
 
@@ -44,7 +42,7 @@ class Transformer():
         # Remove www or www2
         url = url.replace('www2.', '').replace('www.', '')
         # Remove /print/ segment from printable pages
-        url = url.replace('/print/', '')
+        # url = url.replace('/print/', '')
         # Lowercase all
         url = url.lower()
 
