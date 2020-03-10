@@ -1,5 +1,8 @@
 # U.S. Department of Education scraping kit
 
+> NOTE: More specific documentation is available "on the spot", in the module 
+> directories (e.g. `edscrapers/scrapers` or `edscrapers/transformers`).
+
 ## Terminology
 
 - **Scraping Source**: a website (or section of website) where you scrape 
@@ -33,7 +36,14 @@ pages. The proposed structure is:
 
 # Transformers
 
-TBD
+Transformers are independent scripts that take a input and return it filtered 
+and/or restructured. They are meant to complement the work done by scrapers by 
+taking their output and making it usable for various applications (e.g. the CKAN 
+harvester).
+
+We currently have two transformers in place: one that deduplicates scraping 
+output and one that makes it into data.json files for being ingested by 
+`ckanext-harvest`.
 
 
 # License
