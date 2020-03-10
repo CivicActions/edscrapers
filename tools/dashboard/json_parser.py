@@ -28,4 +28,9 @@ def get_total_resources_by_office(source):
 
     data = read_json_file()
     return data['total'][source]['resources_by_office']
+
+def get_total_pages_by_office(source):
+
+    data = read_json_file()
+    return data['total'][source]['pages']
     

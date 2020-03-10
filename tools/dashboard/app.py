@@ -5,7 +5,8 @@ import dash_html_components as html
 
 from venn_diagram import venn_figure
 from json_parser import (get_total_resources_data, 
-                        get_total_resources_by_office)
+                        get_total_resources_by_office,
+                        get_total_pages_by_office)
 
 def get_resources_bars_data():
 
@@ -28,6 +29,17 @@ def get_resources_by_office_pie_data(source):
         'type': 'pie',
     }]
 
+def get_pages_by_office_pie_data(source):
+
+    res_dict = get_total_pages_by_office(source)
+
+    return [{
+        'labels': list(res_dict.keys()),
+        'values': list(res_dict.values()),
+        'type': 'pie',
+    }]
+
+
 def get_resources_by_office_bar_data():
 
     data_list = list()
@@ -46,6 +58,26 @@ def get_resources_by_office_bar_data():
         'type': 'bar', 'name': 'Air'})
 
     return data_list
+
+def get_pages_by_office_bar_data():
+
+    data_list = list()
+
+    res_datopian_dict = get_total_pages_by_office('datopian')
+    res_air_dict = get_total_pages_by_office('air')
+
+    data_list.append({
+        'x': list(res_datopian_dict.keys()), 
+        'y': list(res_datopian_dict.values()), 
+        'type': 'bar', 'name': 'Datopian'})
+
+    data_list.append({
+        'x': list(res_air_dict.keys()), 
+        'y': list(res_air_dict.values()), 
+        'type': 'bar', 'name': 'Air'})
+
+    return data_list
+
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -94,6 +126,36 @@ app.layout = html.Div(children=[
             'data': get_resources_by_office_pie_data('air'),
             'layout': {
                 'title': 'Total number of Resources by Office - Air'
+            }
+        }
+    ),
+
+    dcc.Graph(
+        id='bar-graph-pages',
+        figure={
+            'data': get_pages_by_office_bar_data(),
+            'layout': {
+                'title': 'Total number of Pages by Office'
+            }
+        }
+    ),
+
+    dcc.Graph(
+        id='pie-graph-pages-datopian',
+        figure={
+            'data': get_pages_by_office_pie_data('datopian'),
+            'layout': {
+                'title': 'Total number of Pages by Office - Datopian'
+            }
+        }
+    ),
+
+    dcc.Graph(
+        id='pie-graph-pages-air',
+        figure={
+            'data': get_pages_by_office_pie_data('air'),
+            'layout': {
+                'title': 'Total number of Pages by Office - Air'
             }
         }
     ),

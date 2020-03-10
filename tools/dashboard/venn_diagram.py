@@ -8,7 +8,7 @@ def venn_figure(label_a, label_b, intersection):
     fig.add_trace(go.Scatter(
         x=[1, 1.75, 2.5],
         y=[1, 1, 1],
-        text=["Datopian: 185", "8326", "Air: 31682"],
+        text=[label_a, intersection, label_b],
         mode="text",
         textfont=dict(
             color="black",
