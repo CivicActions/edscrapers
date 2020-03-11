@@ -36,6 +36,15 @@ def get_resources_bars_data():
         })
     return data_list
 
+def get_datasets_by_office_pie_data():
+
+    res_dict = get_total_datasets_data()
+
+    return [{
+        'labels': list(res_dict.keys()),
+        'values': list(res_dict.values()),
+        'type': 'pie',
+    }]
 def get_resources_by_office_pie_data(source):
 
     res_dict = get_total_resources_by_office(source)
@@ -49,8 +58,8 @@ def get_resources_by_office_pie_data(source):
 def get_pages_by_office_pie_data(source):
 
     res_dict = get_total_pages_by_office(source)
-    del res_dict['others']
-    del res_dict['NCES']
+    # del res_dict['others']
+    # del res_dict['NCES']
 
     return [{
         'labels': list(res_dict.keys()),
@@ -65,10 +74,10 @@ def get_resources_by_office_bar_data():
     res_datopian_dict = get_total_resources_by_office('datopian')
     res_air_dict = get_total_resources_by_office('air')
 
-    del res_datopian_dict['others']
-    del res_datopian_dict['NCES']
-    del res_air_dict['others']
-    del res_air_dict['NCES']
+    # del res_datopian_dict['others']
+    # del res_datopian_dict['NCES']
+    # del res_air_dict['others']
+    # del res_air_dict['NCES']
 
     data_list.append({
         'x': list(res_datopian_dict.keys()), 
@@ -89,10 +98,10 @@ def get_pages_by_office_bar_data():
     res_datopian_dict = get_total_pages_by_office('datopian')
     res_air_dict = get_total_pages_by_office('air')
 
-    del res_datopian_dict['others']
-    del res_datopian_dict['NCES']
-    del res_air_dict['others']
-    del res_air_dict['NCES']
+    # del res_datopian_dict['others']
+    # del res_datopian_dict['NCES']
+    # del res_air_dict['others']
+    # del res_air_dict['NCES']
 
     data_list.append({
         'x': list(res_datopian_dict.keys()), 
@@ -209,6 +218,7 @@ def generate_split_layout():
         html.H1(children=get_total_datasets_number(), style={'text-align': 'center', 'font-weight': 'bold'}),
         html.H4(children='TOTAL DATASETS', style={'text-align': 'center'}),
     ], style={'width': '49%', 'display': 'inline-block', 'vertical-align': 'middle'}),
+
 
     html.Hr(),
 
