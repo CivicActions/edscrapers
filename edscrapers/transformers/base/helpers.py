@@ -14,6 +14,7 @@ map_office_name = {
     'edosers' : 'Office of Special Education and Rehabilitative Services',
     'edopepd' : 'Office of Planning, Evaluation and Policy Development',
     'edoese' : 'Office of Elementary and Secondary Education',
+    'oese' : 'Office of Elementary and Secondary Education',
     'nces' : 'National Center for Education Statistics'
 }
 
