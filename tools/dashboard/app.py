@@ -311,4 +311,4 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app.layout = generate_split_layout
 
 if __name__ == '__main__':
-    app.run_server(debug=False, dev_tools_hot_reload=True)
+    app.run_server(debug=False, dev_tools_hot_reload=True, host='0.0.0.0')
