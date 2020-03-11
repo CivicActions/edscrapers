@@ -1,6 +1,6 @@
 import plotly.graph_objects as go
 
-def venn_figure(label_a, label_b, intersection):
+def venn_figure(label_a, label_b, intersection, title='Intersection'):
 
     fig = go.Figure()
 
@@ -65,7 +65,7 @@ def venn_figure(label_a, label_b, intersection):
         height=600,
         width=800,
         plot_bgcolor="white",
-        title="Intersection"
+        title=title
     )
 
     return fig
