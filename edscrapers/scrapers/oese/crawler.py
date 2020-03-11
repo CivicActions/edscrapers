@@ -13,8 +13,11 @@ class Crawler(CrawlSpider):
     name = 'oese'
 
     allowed_regex = r'oese.ed.gov'
+    allowed_domains = ['oese.ed.gov']
 
-    def __init__(self):
+    def __init__(self, conf=None):
+
+        self.conf = conf
 
         self.start_urls = [
             'https://oese.ed.gov/'
@@ -26,10 +29,17 @@ class Crawler(CrawlSpider):
                 allow=self.allowed_regex,
                 # deny=f'.*({"|".join(h.get_data_extensions())})',
                 # restrict_xpaths='//*[@id="maincontent"]'
-                # process_value=lambda value: value.replace('http', 'https', 1),
+                # process_value=self.process_value
             ), callback=parse, follow=True),
         ]
 
 
         # Inherit parent
         super(Crawler, self).__init__()
+
+    def process_value(self, value):
+        m = re.search("javascript:goToPage\('(.*?)'", value)
+        if m:
+            return m.group(1)
+        else:
+            return value
