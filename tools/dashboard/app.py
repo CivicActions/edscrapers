@@ -282,7 +282,7 @@ def generate_split_layout():
             figure=venn_figure(
                 'Datopian only: ' + str(get_intersection_data()['datopian_only']['resources']),
                 'AIR only: ' + str(get_intersection_data()['air_only']['resources']),
-                get_total_resources_data()['datopian'] - get_intersection_data()['datopian_only']['resources'],
+                get_total_resources_data()['air'] - get_intersection_data()['air_only']['resources'],
                 title='Resources overlap'
             ),
         ),

@@ -13,6 +13,7 @@ class Summary():
 
     air_df = None
     out_df = None
+    dedup_file = './output/deduplicated_all.lst'
 
     scrapers = {
         'edgov': r'www2.ed.gov',
@@ -123,11 +124,18 @@ class Summary():
 
 
     def _get_total_datasets(self, name=''):
-        results = pathlib.Path(f'./output/{name}').glob('**/*.json')
-        files = [f.name for f in results]
+        files = list()
+        try:
+            with open(self.dedup_file, 'r') as fp:
+                if name:
+                    files = [line.rstrip() for line in fp if line.rstrip().split('/')[1] == name]
+                else:
+                    files = [line.rstrip() for line in fp]
+        except:
+            print('Warning! Cannot read deduplication results!')
+            results = pathlib.Path(f'./output/{name}').glob('**/*.json')
+            files = [f.name for f in results]
 
-        # remove duplicates
-        # files_count = list(dict.fromkeys(files))
         return len(files)
 
 
@@ -138,7 +146,7 @@ class Summary():
             return [f for f in results]
 
         def abs_url(url, source_url):
-            if '../' in url and '://' not in url:
+            if url.startswith(('../', './', '/')) or not urllib.parse.urlparse(url).scheme:
                 full_url = urllib.parse.urljoin(source_url, url)
                 return full_url
             else:
@@ -182,13 +190,25 @@ class Summary():
 
     def get_values_only_in(self, df_name='air', column='source_url'):
 
-        if df_name == 'air':
-            merged = self.air_df.merge(self.out_df, on=column, how='left', indicator=True)
-        if df_name == 'out':
-            merged = self.out_df.merge(self.air_df, on=column, how='left', indicator=True)
+        # import ipdb; ipdb.set_trace()
 
-        result = merged[merged['_merge'] == 'left_only']
-        return result.count()['_merge']
+        # if df_name == 'air':
+        #     merged = self.air_df.merge(self.out_df, on=column, how='left', indicator=True)
+        #     result = merged[merged['_merge'] == 'left_only']
+        # if df_name == 'out':
+        #     merged = self.air_df.merge(self.out_df, on=column, how='right', indicator=True)
+        #     result = merged[merged['_merge'] == 'right_only']
+        merged = pd.merge(self.air_df, self.out_df, how='inner', left_on=column, right_on=column).count()[column]
+        if column == 'source_url':
+            if df_name == 'air':
+                return self.total['air_urls'] - merged
+            if df_name == 'out':
+                return self.total['out_urls'] - merged
+        if column == 'url':
+            if df_name == 'air':
+                return self.total['air_resources'] - merged
+            if df_name == 'out':
+                return self.total['out_resources'] - merged
 
 
     def dump(self, path):
