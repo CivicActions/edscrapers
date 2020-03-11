@@ -1,6 +1,7 @@
 import sys
 import pathlib
 import json
+import time
 import pandas as pd
 from terminaltables import GithubFlavoredMarkdownTable as ght
 
@@ -37,6 +38,12 @@ class Summary():
         return table.table
 
 
+    def get_datasets_dict(self):
+        data = dict()
+        for s in self.scrapers:
+            data[s.upper()] = int(self._get_total_datasets(s))
+        return data
+
     def get_resources_table(self, name='', column='url'):
         def df_contains(df, regex, key):
             return df[df[key].str.contains(f".*{regex}.*", regex=True)].drop_duplicates(subset=key).count()[key]
@@ -56,11 +63,29 @@ class Summary():
 
             data.append([
                 'OTHERS',
-                df_contains(self.air_df, '|'.join(self.scrapers.values()), column),
-                df_contains(self.out_df, '|'.join(self.scrapers.values()), column),
+                self.air_df.count()['url'] - df_contains(self.air_df, '|'.join(self.scrapers.values()), column),
+                self.out_df.count()['url'] - df_contains(self.out_df, '|'.join(self.scrapers.values()), column),
             ])
             table = ght(data)
+
         return table.table
+
+
+    def get_resources_dict(self, name, column='url'):
+        def df_contains(df, regex, key):
+            return df[df[key].str.contains(f".*{regex}.*", regex=True)].drop_duplicates(subset=key).count()[key]
+
+        if name == 'air':
+            df = self.air_df
+        elif name == 'out':
+            df = self.out_df
+
+        data = dict()
+        for s in self.scrapers.keys():
+            data[s.upper()] = int(df_contains(df, self.scrapers[s], column))
+        data['others'] = int(df.count()['url'] - df_contains(df, '|'.join(self.scrapers.values()), column))
+        return data
+
 
 
     def sanitize_df(self, df):
@@ -105,11 +130,23 @@ class Summary():
         return len(files)
 
 
-    def generate_output_df(self, use_dump=False):
-        results = pathlib.Path(f'./output/').glob('**/*.json')
-        df_dump = str(pathlib.Path(f'./output/out_df.csv'))
-        files = [f for f in results]
+    def generate_output_df(self, use_dump=False, output_list_file=None):
 
+        def get_files_list():
+            results = pathlib.Path(f'./output/').glob('**/*.json')
+            return [f for f in results]
+
+        if output_list_file is None:
+            files = get_files_list()
+        else:
+            try:
+                with open(output_list_file, 'r') as fp:
+                    files = [pathlib.Path(line.rstrip()) for line in fp]
+            except:
+                files = get_files_list()
+
+
+        df_dump = str(pathlib.Path(f'./output/out_df.csv'))
         if use_dump:
             df = pd.read_csv(df_dump)
         else:
@@ -126,26 +163,15 @@ class Summary():
         return df
 
 
-
-    def get_values_only_in(self, df_name='air', column='source_url', with_nces=True):
+    def get_values_only_in(self, df_name='air', column='source_url'):
 
         if df_name == 'air':
             merged = self.air_df.merge(self.out_df, on=column, how='left', indicator=True)
         if df_name == 'out':
             merged = self.out_df.merge(self.air_df, on=column, how='left', indicator=True)
 
-        try:
-            result = merged[merged['_merge'] == 'left_only']
-        except:
-            import ipdb; ipdb.set_trace()
-
-        try:
-            if with_nces:
-                return result.count()['_merge']
-            else:
-                return result[~result['source_url'].str.contains('nces.ed.gov')].count()['_merge']
-        except:
-            import ipdb; ipdb.set_trace()
+        result = merged[merged['_merge'] == 'left_only']
+        return result.count()['_merge']
 
 
     def dump(self, path):
