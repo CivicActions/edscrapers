@@ -6,9 +6,15 @@ from urllib.parse import urlparse
 from urllib.parse import urljoin
 
 map_office_name = {
+    'edgov' : 'Department of Education',
     'ocr' : 'Office for Civil Rights',
     'edoctae' : 'Office of Career, Technical and Adult Education',
-    'edope' : 'Office of Postsecondary Education'
+    'edope' : 'Office of Postsecondary Education',
+    'edoela' : 'Office of English Language Acquisition',
+    'edosers' : 'Office of Special Education and Rehabilitative Services',
+    'edopepd' : 'Office of Planning, Evaluation and Policy Development',
+    'edoese' : 'Office of Elementary and Secondary Education',
+    'nces' : 'National Center for Education Statistics'
 }
 
 map_media_type = {
@@ -61,3 +67,15 @@ def read_file(file_path):
     with open(file_path, 'r') as fl:
         data = json.load(fl)
         return data
+
+def transform_keywords(tags_string):
+
+    keywords = list()
+    for tag in tags_string.split(';'):
+        tag = tag.strip()
+        tag = tag.lower()
+        tag = tag.replace(' ','-')
+        if tag:
+            keywords.append(tag)
+
+    return keywords

@@ -16,6 +16,7 @@ def transform(target_dept, output_list_file=None):
         except:
             logger.warn(f'Cannot read from list of output files at {output_list_file}, falling back to all collected data!')
             file_list = traverse_output(target_dept)
+
     logger.debug(f'{len(file_list)} files to transform.')
 
     catalog = Catalog()
@@ -38,6 +39,7 @@ def transform(target_dept, output_list_file=None):
 
     logger.debug('{} datasets transformed.'.format(datasets_number))
     logger.debug('{} resources transformed.'.format(resources_number))
+
     Path(f"./output/").mkdir(parents=True, exist_ok=True)
     file_path = f"./output/{target_dept}.data.json"
     with open(file_path, 'w') as output:
@@ -51,14 +53,22 @@ def _transform_scraped_dataset(data, target_dept):
 
     dataset.landingPage = data['source_url']
     dataset.title = data['title']
-    dataset.description = data['notes']
     dataset.identifier = data['name']
+
+    if data['tags']:
+        dataset.keyword = h.transform_keywords(data['tags'])
+    
+    if data['notes']:
+        dataset.description = data['notes']
+
+    if data['date']:
+        dataset.modified = data['date']
 
     publisher = Organization()
     publisher.name = h.get_office_name(target_dept)
     dataset.publisher = publisher
 
-    if data['contact_person_name'] and data['contact_person_email']:
+    if data.get('contact_person_name') and data.get('contact_person_email'):
         contactPoint = {
             "@type": "vcard:Contact",
             "fn": data['contact_person_name'],
@@ -66,7 +76,6 @@ def _transform_scraped_dataset(data, target_dept):
         }
 
         dataset.contactPoint = contactPoint
-
 
     ### testing and inserting dummy values for required fields
     if not dataset.contactPoint:
@@ -106,7 +115,7 @@ def _transform_scraped_resource(target_dept, resource):
         downloadURL = h.transform_download_url(resource['url'],
             resource['source_url'])
 
-    #remove spaces from links
+    #remove spaces in links
     downloadURL = downloadURL.replace(' ','%20')
     distribution.downloadURL = downloadURL
 
