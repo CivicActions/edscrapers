@@ -192,23 +192,13 @@ class Summary():
 
         # import ipdb; ipdb.set_trace()
 
-        # if df_name == 'air':
-        #     merged = self.air_df.merge(self.out_df, on=column, how='left', indicator=True)
-        #     result = merged[merged['_merge'] == 'left_only']
-        # if df_name == 'out':
-        #     merged = self.air_df.merge(self.out_df, on=column, how='right', indicator=True)
-        #     result = merged[merged['_merge'] == 'right_only']
-        merged = pd.merge(self.air_df, self.out_df, how='inner', left_on=column, right_on=column).count()[column]
-        if column == 'source_url':
-            if df_name == 'air':
-                return self.total['air_urls'] - merged
-            if df_name == 'out':
-                return self.total['out_urls'] - merged
-        if column == 'url':
-            if df_name == 'air':
-                return self.total['air_resources'] - merged
-            if df_name == 'out':
-                return self.total['out_resources'] - merged
+        if df_name == 'air':
+            merged = self.air_df.merge(self.out_df, on=column, how='left', indicator=True)
+            result = merged[merged['_merge'] == 'left_only']
+        if df_name == 'out':
+            merged = self.air_df.merge(self.out_df, on=column, how='right', indicator=True)
+            result = merged[merged['_merge'] == 'right_only']
+        return result.count()['_merge']
 
 
     def dump(self, path):
