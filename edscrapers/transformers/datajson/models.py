@@ -1,5 +1,5 @@
 import json
-import datetime
+from datetime import datetime
 
 class Organization():
 
@@ -105,7 +105,8 @@ class Dataset():
         self.accessLevel = "public"
         self.dataset_license = "https://creativecommons.org/publicdomain/zero/1.0/"
         self.spatial = "United States"
-        self.modified = datetime.datetime.now()
+        self.description = "n/a"
+        self.modified = datetime.now().strftime("%Y-%m-%d")
 
     def to_dict(self):
 
@@ -124,7 +125,7 @@ class Dataset():
             dataset_dict["keyword"] = self.keyword
 
         if self.modified:
-            dataset_dict["modified"] = self.modified.strftime("%Y-%m-%d")
+            dataset_dict["modified"] = self.modified
 
         if self.publisher.to_dict():
             dataset_dict["publisher"] = self.publisher.to_dict()
