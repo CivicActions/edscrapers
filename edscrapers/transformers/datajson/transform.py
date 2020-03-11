@@ -51,18 +51,18 @@ def _transform_scraped_dataset(data, target_dept):
 
     dataset = Dataset()
 
-    dataset.landingPage = data['source_url']
-    dataset.title = data['title']
-    dataset.identifier = data['name']
+    dataset.landingPage = data.get('source_url')
+    dataset.title = data.get('title')
+    dataset.identifier = data.get('name')
 
-    if data['tags']:
-        dataset.keyword = h.transform_keywords(data['tags'])
+    if data.get('tags'):
+        dataset.keyword = h.transform_keywords(data.get('tags'))
     
-    if data['notes']:
-        dataset.description = data['notes']
+    if data.get('notes'):
+        dataset.description = data.get('notes')
 
-    if data['date']:
-        dataset.modified = data['date']
+    if data.get('date'):
+        dataset.modified = data.get('date')
 
     publisher = Organization()
     publisher.name = h.get_office_name(target_dept)
@@ -71,8 +71,8 @@ def _transform_scraped_dataset(data, target_dept):
     if data.get('contact_person_name') and data.get('contact_person_email'):
         contactPoint = {
             "@type": "vcard:Contact",
-            "fn": data['contact_person_name'],
-            "hasEmail": "mailto:" + data['contact_person_email']
+            "fn": data.get('contact_person_name'),
+            "hasEmail": "mailto:" + data.get('contact_person_email')
         }
 
         dataset.contactPoint = contactPoint
@@ -95,7 +95,7 @@ def _transform_scraped_dataset(data, target_dept):
         dataset.keyword = [target_dept]
 
     distributions = []
-    resources = data['resources']
+    resources = data.get('resources')
     for resource in resources:
         distribution = _transform_scraped_resource(target_dept, resource)
         distributions.append(distribution)
@@ -109,19 +109,19 @@ def _transform_scraped_resource(target_dept, resource):
     distribution = Resource()
 
     downloadURL = str()
-    if h.url_is_absolute(resource['url']):
-        downloadURL = resource['url']
+    if h.url_is_absolute(resource.get('url')):
+        downloadURL = resource.get('url')
     else:
-        downloadURL = h.transform_download_url(resource['url'],
-            resource['source_url'])
+        downloadURL = h.transform_download_url(resource.get('url'),
+            resource.get('source_url'))
 
     #remove spaces in links
     downloadURL = downloadURL.replace(' ','%20')
     distribution.downloadURL = downloadURL
 
-    distribution.title = resource['name']
-    distribution.resource_format = resource['format']
-    distribution.description = resource['name']
-    distribution.mediaType = h.get_media_type(resource['format'])
+    distribution.title = resource.get('name')
+    distribution.resource_format = resource.get('format')
+    distribution.description = resource.get('name')
+    distribution.mediaType = h.get_media_type(resource.get('format'))
 
     return distribution
