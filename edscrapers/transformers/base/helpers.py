@@ -82,3 +82,11 @@ def transform_keywords(tags_string):
             keywords.append(tag)
 
     return keywords
+
+def extract_format_from_url(url):
+    path = urlparse(url).path
+    extension = path.split('.')[-1]
+    if len(extension) < 5:
+        return extension
+    else:
+        return None

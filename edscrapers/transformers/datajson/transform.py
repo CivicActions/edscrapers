@@ -120,8 +120,15 @@ def _transform_scraped_resource(target_dept, resource):
     distribution.downloadURL = downloadURL
 
     distribution.title = resource.get('name')
-    distribution.resource_format = resource.get('format')
     distribution.description = resource.get('name')
-    distribution.mediaType = h.get_media_type(resource.get('format'))
+
+    if resource.get('format'):
+        distribution.resource_format = resource.get('format')
+        distribution.mediaType = h.get_media_type(resource.get('format'))
+    else:
+        extension = h.extract_format_from_url(distribution.downloadURL)
+        if extension:
+            distribution.resource_format = extension
+            distribution.mediaType = h.get_media_type(extension)
 
     return distribution

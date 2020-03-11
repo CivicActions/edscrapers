@@ -1,6 +1,8 @@
 import json
 from datetime import datetime
 
+from edscrapers.transformers.base import helpers as h 
+
 class Organization():
 
     organization_type = str()
@@ -103,7 +105,8 @@ class Dataset():
         
         self.dataset_type = "dcat:Dataset"
         self.accessLevel = "public"
-        self.dataset_license = "https://creativecommons.org/publicdomain/zero/1.0/"
+        #self.dataset_license = "https://creativecommons.org/publicdomain/zero/1.0/"
+        #self.dataset_license = "notspecified"
         self.spatial = "United States"
         self.description = "n/a"
         self.modified = datetime.now().strftime("%Y-%m-%d")
@@ -186,6 +189,8 @@ class Resource():
 
     def __init__(self):    
         self.resource_type = "dcat:Distribution"
+        self.resource_format = "txt"
+        self.mediaType = h.get_media_type(self.resource_format)
 
     def to_dict(self):
 
