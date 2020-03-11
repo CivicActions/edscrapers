@@ -152,9 +152,14 @@ class Summary():
         else:
             dfs = []
             for fp in files:
+                # TODO refactor these rules or the files structure
+                if 'data.json' in str(fp):
+                    continue
+                if 'statistics.json' in str(fp):
+                    continue
+
                 with open(fp, 'r') as json_file:
                     j = json.load(json_file)
-                    # import ipdb; ipdb.set_trace()
                     j = [{'url': r['url'], 'source_url': r['source_url'], 'scraper': fp.parent.name} for r in j['resources'] if r['source_url'].find('/print/') == -1]
                     dfs.append(pd.read_json(json.dumps(j)))
             df = pd.concat(dfs, ignore_index=True)

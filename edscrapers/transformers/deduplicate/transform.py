@@ -22,11 +22,11 @@ class Transformer():
             self.file_list = traverse_output(target_dept)
 
         # Deduplicate using a Python dict's keys uniqueness
+        self.urls_dict = dict()
         self._make_list('source_url')
 
 
     def _make_list(self, key):
-        self.urls_dict = dict()
         for f in self.file_list:
             with open(f, 'r') as fp:
                 j = json.loads(fp.read())
