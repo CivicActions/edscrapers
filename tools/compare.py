@@ -15,10 +15,9 @@ def cli(argv):
 
     summary = Summary()
 
-    try:
-        if path.exists('./output/deduplicated_all.lst'):
-            output_list_file = './output/deduplicated_all.lst'
-    except:
+    if path.exists('./output/deduplicated_all.lst'):
+        output_list_file = './output/deduplicated_all.lst'
+    else:
         output_list_file = None
 
     try:
