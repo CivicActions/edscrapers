@@ -60,7 +60,9 @@ def traverse_output(target=None):
         results = pathlib.Path(f'./output/{target}').glob('**/*.json')
 
     files_list = [f for f in results
-                  if 'print' not in str(f).split('/')[-1].split('-') and 'data.json' not in str(f)]
+                  if 'print' not in str(f).split('/')[-1].split('-')
+                  and 'data.json' not in str(f)
+                  and 'statistics.json' not in str(f)]
     return files_list
 
 def read_file(file_path):
