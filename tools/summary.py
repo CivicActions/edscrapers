@@ -2,6 +2,7 @@ import sys
 import pathlib
 import json
 import time
+import urllib
 import pandas as pd
 from terminaltables import GithubFlavoredMarkdownTable as ght
 
@@ -108,9 +109,9 @@ class Summary():
 
     def calculate_totals(self):
 
-        print("Sanitizing Datopian data frame... ", end = '', flush=True)
-        self.sanitize_df(self.out_df)
-        print('done.')
+        # print("Sanitizing Datopian data frame... ", end = '', flush=True)
+        # self.sanitize_df(self.out_df)
+        # print('done.')
 
         self.total['out_datasets'] = self._get_total_datasets()
 
@@ -136,6 +137,13 @@ class Summary():
             results = pathlib.Path(f'./output/').glob('**/*.json')
             return [f for f in results]
 
+        def abs_url(url, source_url):
+            if '../' in url and '://' not in url:
+                full_url = urllib.parse.urljoin(source_url, url)
+                return full_url
+            else:
+                return url
+
         if output_list_file is None:
             files = get_files_list()
         else:
@@ -144,7 +152,6 @@ class Summary():
                     files = [pathlib.Path(line.rstrip()) for line in fp]
             except:
                 files = get_files_list()
-
 
         df_dump = str(pathlib.Path(f'./output/out_df.csv'))
         if use_dump:
@@ -160,11 +167,16 @@ class Summary():
 
                 with open(fp, 'r') as json_file:
                     j = json.load(json_file)
-                    j = [{'url': r['url'], 'source_url': r['source_url'], 'scraper': fp.parent.name} for r in j['resources'] if r['source_url'].find('/print/') == -1]
+                    j = [{
+                        'url': abs_url(r['url'], r['source_url']),
+                        'source_url': r['source_url'],
+                        'scraper': fp.parent.name
+                    } for r in j['resources'] if r['source_url'].find('/print/') == -1]
                     dfs.append(pd.read_json(json.dumps(j)))
             df = pd.concat(dfs, ignore_index=True)
             df.to_csv(df_dump, index=False)
 
+        # import ipdb; ipdb.set_trace()
         return df
 
 
