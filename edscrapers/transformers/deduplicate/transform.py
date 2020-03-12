@@ -33,7 +33,7 @@ class Transformer():
                 if '/print/' in j.get(key):
                     continue
                 # In order to deduplicate with dicts, we need to normalize all keys
-                self.urls_dict[self._normalize_url(j.get(key))] = str(f)
+                self.urls_dict[self._normalize_url(j.get(key)) + '_' + j.get('name')] = str(f)
 
 
     def _normalize_url(self, url):
