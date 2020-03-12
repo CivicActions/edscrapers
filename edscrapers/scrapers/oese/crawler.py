@@ -36,10 +36,4 @@ class Crawler(CrawlSpider):
 
         # Inherit parent
         super(Crawler, self).__init__()
-
-    def process_value(self, value):
-        m = re.search("javascript:goToPage\('(.*?)'", value)
-        if m:
-            return m.group(1)
-        else:
-            return value
+        

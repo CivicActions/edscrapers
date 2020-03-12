@@ -34,7 +34,7 @@ SCRAPY_SETTINGS = {
     # 'REDIRECT_ENABLED': False,
     'RETRY_ENABLED': False,
     'COOKIES_ENABLED': False,
-    'HTTPCACHE_ENABLED': False,
+    'HTTPCACHE_ENABLED': True,
     'AUTOTHROTTLE_ENABLED': True,
     'LOG_LEVEL': 'INFO',
 }
