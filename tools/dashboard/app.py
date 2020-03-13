@@ -4,8 +4,8 @@ import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
 
-from venn_diagram import venn_figure
-from json_parser import (get_stats,
+from .venn_diagram import venn_figure
+from .json_parser import (get_stats,
                          get_total_resources_data,
                          get_total_pages_data,
                          get_total_datasets_number,
