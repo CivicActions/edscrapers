@@ -207,9 +207,12 @@ def generate_layout():
 
 def generate_split_layout():
     return html.Div(children=[
-    html.Img(src='https://www.datopian.com/img/datopian-logo.png', style={'width': 200, 'float': 'right'}),
+        html.Img(src='https://www.datopian.com/img/datopian-logo.svg', style={'width': 200, 'float': 'right', 'margin': 20}),
+        html.Img(src='https://i.stack.imgur.com/wSpIb.png', style={'width': 200, 'float': 'right', 'margin': 20}),
     html.H1(children='Scraping Dashboard'),
 
+    html.Hr(),
+    
     html.Div([
         dcc.Graph(figure={'data': get_datasets_bars_data(),
                 'layout': {'title': 'Datasets by scraper'}}),
@@ -276,31 +279,6 @@ def generate_split_layout():
 
     html.Hr(),
 
-
-    html.Div([
-        dcc.Graph(
-            figure=venn_figure(
-                'Datopian only: ' + str(get_intersection_data()['datopian_only']['resources']),
-                'AIR only: ' + str(get_intersection_data()['air_only']['resources']),
-                get_total_resources_data()['air'] - get_intersection_data()['air_only']['resources'],
-                title='Resources overlap'
-            ),
-        ),
-        ],
-        style={'width': '49%', 'display': 'inline-block', 'vertical-align': 'middle'}
-    ),
-    html.Div([
-        dcc.Graph(
-            figure=venn_figure(
-                'Datopian only: ' + str(get_intersection_data()['datopian_only']['pages']),
-                'AIR only: ' + str(get_intersection_data()['air_only']['pages']),
-                get_total_pages_data('datopian') - get_intersection_data()['datopian_only']['pages'],
-                title='Pages overlap'
-            ),
-        ),
-        ],
-        style={'width': '49%', 'display': 'inline-block', 'vertical-align': 'middle'}
-    ),
 ])
 
 
