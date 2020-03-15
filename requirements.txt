@@ -11,6 +11,7 @@ idna==2.9
 incremental==17.5.0
 lxml==4.5.0
 numpy==1.18.1
+openpyxl==3.0.3
 pandas==1.0.1
 parsel==1.5.2
 protego==0.1.16
