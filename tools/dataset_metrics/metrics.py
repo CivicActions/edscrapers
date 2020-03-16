@@ -11,8 +11,8 @@ from tools.dataset_metrics import datopian_out_df, air_out_df, METRICS_OUTPUT_PA
 
 def list_domain(scraper='datopian', ordered=True):
     """function is used to list the domains scraped by
-    'scraper' and optionally order these domains
-    by number of pages parsed"""
+    'scraper'. Optionally order these domains
+    by number of pages parsed if 'ordered' is True """
 
     # check which scraper domain listing is for
     if scraper.upper() == "DATOPIAN":
@@ -94,3 +94,10 @@ def list_domain(scraper='datopian', ordered=True):
         return air_df_subset
     else:
         raise ValueError('invalid "scraper" provided')
+
+
+def list_exclusive_domain(scraper='datopian',
+                          compare_scraper='air'):
+    """ function is used to determine what domains were
+    EXCLUSIVELY visited by 'scraper' and NOT by 'compare_scraper' """
+    pass
