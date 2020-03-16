@@ -5,6 +5,8 @@ from edscrapers.transformers.base import logger
 from edscrapers.transformers.base.helpers import traverse_output, read_file
 from edscrapers.transformers.datajson.models import Catalog, Dataset, Resource, Organization
 
+map_identifier = dict()
+map_name = dict()
 
 def transform(target_dept, output_list_file=None):
     if output_list_file is None:
@@ -32,7 +34,14 @@ def transform(target_dept, output_list_file=None):
             continue
 
         dataset = _transform_scraped_dataset(data, target_dept)
+        
+        ### avoid duplicates by identifier
+        if dataset.identifier in list(map_identifier.keys()):
+            continue
+
         catalog.datasets.append(dataset)
+
+        map_identifier.update({dataset.identifier : dataset})
 
         datasets_number += 1
         resources_number += len(dataset.distribution)
@@ -51,8 +60,18 @@ def _transform_scraped_dataset(data, target_dept):
 
     dataset = Dataset()
 
-    dataset.landingPage = data.get('source_url')
-    dataset.title = data.get('title')
+    source_url = data.get('source_url')
+    if '|' in source_url:
+        source_url = source_url.split('|')[0]
+
+    dataset.landingPage = source_url
+    
+    ### removing leading and trailing withespaces from title
+    title = data.get('title').strip()
+    if title:
+        dataset.title = title
+    else:
+        dataset.title = data.get('name')
     dataset.identifier = data.get('name')
 
     if data.get('tags'):
@@ -119,8 +138,13 @@ def _transform_scraped_resource(target_dept, resource):
     downloadURL = downloadURL.replace(' ','%20')
     distribution.downloadURL = downloadURL
 
-    distribution.title = resource.get('name')
-    distribution.description = resource.get('name')
+    if resource.get('name'):
+        distribution.title = resource.get('name')
+    else:
+        distribution.title = h.extract_name_from_url(distribution.downloadURL)
+
+    if resource.get('description'):
+        distribution.description = resource.get('description')
 
     if resource.get('format'):
         distribution.resource_format = resource.get('format')
