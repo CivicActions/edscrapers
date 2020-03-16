@@ -7,11 +7,13 @@ During the scraping process for Dept Ed, it's important we have verifiable, meas
 
 ## Metric Questions
   
-1. List of all domains scraped/parsed ordered by number of parsed pages (for both DATOPIAN & AIR).
+1. List of all domains scraped/parsed ordered by number of parsed pages (for both DATOPIAN & AIR)
+
+2. What domains (subdomains) Datopian touched and AIR didn't and How many items (resources) were extracted from them?
+
+3. What domains (subdomains) AIR touched and Datopian didn't? How many items were extracted from them? 
 
   
-  
-
 ## How to run metrics script
 
 - Clone this repo `git clone https://github.com/CivicActions/ckanext-edscrapers.git`
