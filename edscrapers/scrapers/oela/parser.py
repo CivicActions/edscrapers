@@ -1,4 +1,4 @@
-""" main parser for edoela.
+""" main parser for OELA
 parser handles branching and delication to
 other parsers in the 'parsers' subpackage"""
 
@@ -10,7 +10,7 @@ import bs4
 
 from edscrapers.scrapers import base
 import edscrapers.scrapers.base.parser as base_parser
-from edscrapers.scrapers.edoela import parsers
+from edscrapers.scrapers.oela import parsers
 
 # contains list of data resources to exclude from dataset
 deny_list = []

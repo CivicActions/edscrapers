@@ -3,12 +3,12 @@ from scrapy.spiders import Rule
 from scrapy.spiders import CrawlSpider
 from scrapy.linkextractors import LinkExtractor
 
-from edscrapers.scrapers.edope.parser import parse
+from edscrapers.scrapers.ope.parser import parse
 from edscrapers.scrapers.base import helpers as h
 
 class Crawler(CrawlSpider):
 
-    name = 'edope'
+    name = 'ope'
     allowed_regex = r'ope/|iegpsnrc'
 
     allowed_domains = ['www2.ed.gov']

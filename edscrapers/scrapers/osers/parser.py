@@ -3,12 +3,9 @@ import bs4
 import logging
 from datetime import datetime
 
-log_file_name = 'edosers-{}.log'.format(datetime.now().isoformat())
-logging.basicConfig(filename=log_file_name,level=logging.ERROR)
-logger = logging.getLogger(__name__)
-
+from edscrapers.cli import logger
 import edscrapers.scrapers.base.parser as base_parser
-from edscrapers.scrapers.edosers import parsers
+from edscrapers.scrapers.osers import parsers
 
 deny_list = []
 

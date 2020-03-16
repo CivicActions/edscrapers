@@ -5,12 +5,12 @@ from scrapy.spiders import Rule
 from scrapy.spiders import CrawlSpider
 from scrapy.linkextractors import LinkExtractor
 
-from edscrapers.scrapers.edoctae.parser import parse
+from edscrapers.scrapers.octae.parser import parse
 from edscrapers.scrapers.base import helpers as h
 
 class Crawler(CrawlSpider):
 
-    name = 'edoctae'
+    name = 'octae'
     allowed_regex = r'ovae|OVAE|octae|OCTAE'
 
     allowed_domains = ['www2.ed.gov','lincs.ed.gov']

@@ -3,13 +3,13 @@ from scrapy.spiders import Rule
 from scrapy.spiders import CrawlSpider
 from scrapy.linkextractors import LinkExtractor
 
-from edscrapers.scrapers.edoela.parser import parse
+from edscrapers.scrapers.oela.parser import parse
 from edscrapers.scrapers.base import helpers as h
 
 
 class Crawler(CrawlSpider):
 
-    name = 'edoela'
+    name = 'oela'
     allowed_regex = r'oela|ncela'
     allowed_domains = ['ed.gov']
 

@@ -3,12 +3,12 @@ from scrapy.spiders import Rule
 from scrapy.spiders import CrawlSpider
 from scrapy.linkextractors import LinkExtractor
 
-from edscrapers.scrapers.edopepd.parser import parse
+from edscrapers.scrapers.opepd.parser import parse
 from edscrapers.scrapers.base import helpers as h
 
 class Crawler(CrawlSpider):
 
-    name = 'edopepd'
+    name = 'opepd'
     allowed_regex = r'opepd'
 
     def __init__(self, conf=None):

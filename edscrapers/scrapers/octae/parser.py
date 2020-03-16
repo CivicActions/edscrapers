@@ -1,4 +1,4 @@
-""" main parser for edoctae. parser
+""" main parser for octae. parser
 handlers branching and delication to
 other parsers in the 'parsers' subpackage"""
 
@@ -10,7 +10,7 @@ import bs4
 
 from edscrapers.scrapers import base
 import edscrapers.scrapers.base.parser as base_parser
-from edscrapers.scrapers.edoctae import parsers
+from edscrapers.scrapers.octae import parsers
 
 # contains list of data resources to exclude from dataset
 deny_list = []

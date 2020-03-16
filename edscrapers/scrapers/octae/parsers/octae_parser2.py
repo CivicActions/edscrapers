@@ -1,4 +1,4 @@
-""" parser2 for edoctae pages """
+""" parser2 for octae pages """
 
 import re
 

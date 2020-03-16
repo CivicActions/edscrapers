@@ -1,4 +1,4 @@
-""" main parser for edope. parser
+""" main parser for OPE. parser
 handles branching and delication to
 other parsers in the 'parsers' subpackage"""
 
@@ -10,7 +10,7 @@ import bs4
 
 from edscrapers.scrapers import base
 import edscrapers.scrapers.base.parser as base_parser
-from edscrapers.scrapers.edope import parsers
+from edscrapers.scrapers.ope import parsers
 
 # contains list of data resources to exclude from dataset
 deny_list = []

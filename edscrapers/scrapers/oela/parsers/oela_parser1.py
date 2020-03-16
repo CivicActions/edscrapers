@@ -1,4 +1,4 @@
-""" parser for edope pages """
+""" parser for OELA pages """
 
 import re
 

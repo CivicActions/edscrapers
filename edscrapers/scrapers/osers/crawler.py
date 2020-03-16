@@ -3,12 +3,12 @@ from scrapy.spiders import Rule
 from scrapy.spiders import CrawlSpider
 from scrapy.linkextractors import LinkExtractor
 
-from edscrapers.scrapers.edosers.parser import parse
+from edscrapers.scrapers.osers.parser import parse
 from edscrapers.scrapers.base import helpers as h
 
 class Crawler(CrawlSpider):
 
-    name = 'edosers'
+    name = 'osers'
     allowed_regex = r'osers|osep|idea'
     allowed_domains = ['www2.ed.gov','osep.grads360.org']
 

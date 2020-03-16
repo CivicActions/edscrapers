@@ -1,4 +1,4 @@
-""" parser2 for edope pages """
+""" parser2 for OPE pages """
 
 import re
 

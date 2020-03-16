@@ -1,4 +1,4 @@
-""" parser for edopepd pages """
+""" parser for opepd pages """
 
 import re
 
