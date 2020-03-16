@@ -56,9 +56,9 @@ def url_is_absolute(url):
 
 def traverse_output(target=None):
     if target is None:
-        results = pathlib.Path(f'./output').rglob('*.json')
+        results = Path(os.path.join(OUTPUT_DIR, 'scrapers')).rglob('*.json')
     else:
-        results = pathlib.Path(f'./output/{target}').glob('**/*.json')
+        results = Path(os.path.join(OUTPUT_DIR, 'scrapers', target)).glob('**/*.json')
 
     files_list = [f for f in results
                   if 'print' not in str(f).split('/')[-1].split('-')

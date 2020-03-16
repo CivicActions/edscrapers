@@ -43,12 +43,11 @@ def transform(name, input_file=None):
     logger.debug('{} datasets transformed.'.format(datasets_number))
     logger.debug('{} resources transformed.'.format(resources_number))
 
-    Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
+    Path(os.path.join(OUTPUT_DIR, 'transformers', 'datajson')).mkdir(parents=True, exist_ok=True)
     file_path = os.path.join(OUTPUT_DIR, f'{name}.data.json')
     with open(file_path, 'w') as output:
         output.write(catalog.dump())
         logger.debug(f'Output file: {file_path}')
-        print(f'Output file: {file_path}')
 
 def _transform_scraped_dataset(data, target_dept):
 

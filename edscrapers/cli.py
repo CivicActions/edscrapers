@@ -93,8 +93,14 @@ def scrape(cache, resume, name, **kwargs):
             logger.error('ED_OUTPUT_PATH env var not set!')
             return False
         else:
-            conf['SCRAPY_SETTINGS']['JOBDIR'] = os.path.join(os.getenv('ED_OUTPUT_PATH'), '.jobs')
-            Path(os.path.join(os.getenv('ED_OUTPUT_PATH'), '.jobs')).mkdir(exist_ok=True)
+            job_dir = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'scrapy', 'jobs')
+            cache_dir = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'scrapy', 'httpcache')
+
+            Path(job_dir).mkdir(parents=True, exist_ok=True)
+            Path(cache_dir).mkdir(parents=True, exist_ok=True)
+
+            conf['SCRAPY_SETTINGS']['JOBDIR'] = job_dir
+            conf['SCRAPY_SETTINGS']['HTTPCACHE_DIR'] = cache_dir
 
     setup_logger(kwargs['quiet'], kwargs['verbosity'], name)
 

@@ -1,12 +1,19 @@
+import os
 import json
+from pathlib import Path
+
+from edscrapers.cli import logger
 from edscrapers.transformers.base.helpers import traverse_output
 
+
+OUTPUT_DIR = os.getenv('ED_OUTPUT_PATH')
+Path(os.path.join(OUTPUT_DIR, 'transformers', 'deduplicate')).mkdir(parents=True, exist_ok=True)
 
 def transform(name=None, input_file=None):
     transformer = Transformer(name)
 
     if not input_file:
-        out_file = f'./output/deduplicated_{name or "all"}.lst'
+        out_file = os.path.join(OUTPUT_DIR, 'transformers', 'deduplicate', f'deduplicated_{name or "all"}.lst')
     else:
         out_file = input_file
 
