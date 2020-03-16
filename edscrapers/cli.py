@@ -111,7 +111,9 @@ def stats(name, **kwargs):
 @add_options(global_options)
 def dash(detached, port, host, debug, **kwargs):
     ''' Run the dash server for displaying HTML statistics. '''
-    click.echo(f'Making dash: {detached}')
+    if detached:
+        logger.warn('Dash app detached mode not yet implemented!')
+        logger.info('Falling back to non-detached mode.')
     dash_app.run_server(debug=debug, dev_tools_hot_reload=debug, host=host)
 
 
