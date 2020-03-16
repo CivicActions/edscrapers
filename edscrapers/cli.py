@@ -1,9 +1,11 @@
+import os
 import sys
 import click
 import importlib
 
 from scrapy.crawler import CrawlerProcess
 from loguru import logger
+from pathlib import Path
 
 from edscrapers.scrapers.base import config as scrape_config
 from edscrapers.scrapers.base import helpers as scrape_base
@@ -48,6 +50,20 @@ def scrape(cache, resume, name, **kwargs):
 
     # Get the crawler & start the scrape
     crawler = importlib.import_module(f'edscrapers.scrapers.{name}').Crawler
+
+    if not cache:
+        conf['SCRAPY_SETTINGS']['HTTPCACHE_ENABLED'] = False
+    else:
+        conf['SCRAPY_SETTINGS']['HTTPCACHE_ENABLED'] = True
+
+    if resume:
+        if not os.getenv('ED_OUTPUT_PATH'):
+            logger.error('ED_OUTPUT_PATH env var not set!')
+            return False
+        else:
+            conf['SCRAPY_SETTINGS']['JOBDIR'] = os.path.join(os.getenv('ED_OUTPUT_PATH'), '.jobs')
+            Path(os.path.join(os.getenv('ED_OUTPUT_PATH'), '.jobs')).mkdir(exist_ok=True)
+
     process = CrawlerProcess(conf['SCRAPY_SETTINGS'])
     process.crawl(crawler)
     process.start()

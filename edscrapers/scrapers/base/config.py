@@ -2,12 +2,8 @@
 import os
 import logging
 import logging.config
-from dotenv import load_dotenv
-load_dotenv('.env')
-
 
 # Scrapy
-
 SCRAPY_SETTINGS = {
     'SPIDER_MODULES': [
         'edscrapers.scrapers.edgov.crawler',
@@ -34,7 +30,10 @@ SCRAPY_SETTINGS = {
     # 'REDIRECT_ENABLED': False,
     'RETRY_ENABLED': False,
     'COOKIES_ENABLED': False,
-    'HTTPCACHE_ENABLED': True,
+
+    # This is set by the CLI
+    # 'HTTPCACHE_ENABLED': True,
+
     'AUTOTHROTTLE_ENABLED': True,
     'LOG_LEVEL': 'INFO',
 }
