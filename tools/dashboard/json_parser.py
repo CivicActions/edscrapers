@@ -1,14 +1,23 @@
-import json
 import os
+import sys
+import json
 
-file_path =  '../../output/statistics.json'
-dirname = os.path.dirname(__file__)
-file_path = os.path.join(dirname, file_path)
+from edscrapers.cli import logger
+
+OUTPUT_PATH = os.getenv('ED_OUTPUT_PATH')
+try:
+    file_path = os.path.join(OUTPUT_PATH, 'statistics.json')
+except TypeError:
+    logger.error('ED_OUTPUT_PATH env var not set!')
+    sys.exit(1)
 
 def read_json_file():
 
-    with open(file_path) as json_file:
-        data = json.load(json_file)
+    try:
+        with open(file_path) as json_file:
+            data = json.load(json_file)
+    except:
+        logger.error('Cannot read statistics.json file!')
 
     return data
 
