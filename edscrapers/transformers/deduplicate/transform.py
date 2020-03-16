@@ -21,7 +21,7 @@ def transform(name=None, input_file=None):
         for fname in transformer.urls_dict.values():
             fp.write(fname + '\n')
 
-    print('Deduplicated list is ready.')
+    logger.success('Deduplicated list is ready.')
 
 
 class Transformer():

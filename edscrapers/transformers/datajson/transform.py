@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 import edscrapers.transformers.base.helpers as h
-from edscrapers.transformers.base import logger
+from edscrapers.cli import logger
 from edscrapers.transformers.base.helpers import traverse_output, read_file
 from edscrapers.transformers.datajson.models import Catalog, Dataset, Resource, Organization
 
