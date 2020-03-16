@@ -7,6 +7,8 @@ from pathlib import Path
 from slugify import slugify
 from scrapy.exceptions import DropItem
 
+from edscrapers.cli import logger
+
 
 class JsonWriterPipeline(object):
 
@@ -27,8 +29,8 @@ class JsonWriterPipeline(object):
         hashed_name = hashlib.md5(dataset['name'].encode('utf-8')).hexdigest()
         file_name = f"{slug}-{hashed_url}-{hashed_name}.json"
         file_path = f"./output/{spider.name}/{file_name}"
-        self._print(dataset)
-        print(f"Dumping to {file_path}")
+        self._log(dataset)
+        logger.debug(f"Dumping to {file_path}")
         with open(file_path, 'w') as output:
             output.write(dataset.toJSON())
 
@@ -36,12 +38,15 @@ class JsonWriterPipeline(object):
             for r in dataset["resources"]:
                 log_file.write(f"{r['url']}\n")
 
-    def _print(self, d):
-        print("==================================================================================================")
-        print(f"{d['source_url']}\nTitle: {d['title']}\nDescription: {d['notes']}\nName:{d['name']}")
-        print(f"Resources ({len(d['resources'])}):")
+    def _log(self, d):
+        logger.info("==================================================================================================")
+        logger.success(f"{d['source_url']}")
+        logger.info(f"Title: {d['title']}")
+        logger.debug(f"Description: {d['notes']}")
+        logger.debug(f"Name:{d['name']}")
+        logger.info(f"Resources: {len(d['resources'])}")
         for r in d['resources']:
-            print(f"\t{r['url']} > {r['name']}")
+            logger.debug(f"\t{r['url']} > {r['name']}")
 
 
 

@@ -19,12 +19,12 @@ def transform(name=None, input_file=None):
 
 class Transformer():
 
-    def __init__(self, target_dept=None):
+    def __init__(self, name=None):
 
-        if target_dept is None:
+        if name is None:
             self.file_list = traverse_output()
         else:
-            self.file_list = traverse_output(target_dept)
+            self.file_list = traverse_output(name)
 
         # Deduplicate using a Python dict's keys uniqueness
         self.urls_dict = dict()

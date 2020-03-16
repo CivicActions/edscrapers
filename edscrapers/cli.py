@@ -15,10 +15,9 @@ from tools.compare import compare as compare_cli
 from tools.dashboard.app import app as dash_app
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
-logger.add(sys.stderr, format="{time} {level} {message}", filter="edscrapers", level="INFO", enqueue=True)
 
 global_options=[
-    click.option('-v', '--verbose', is_flag=True, default=False, help='Show INFO and DEBUG messages.'),
+    click.option('-v', '--verbose', 'verbosity', count=True, help='Show INFO and DEBUG messages.'),
     click.option('-q', '--quiet', is_flag=True, default=False, help='Do not show anything.'),
     click.option('-o', '--output', 'file_path', type=click.Path(), default=None,
                  help='If specified, pipe the output to both STDOUT and the file specified.')
@@ -30,6 +29,39 @@ def add_options(options):
             func = option(func)
         return func
     return _add_options
+
+def setup_logger(quiet, verbosity, name):
+    log_levels = {'0': 'WARNING', '1': 'INFO', '2': 'DEBUG'}
+    logger.remove()
+
+    if not os.getenv('ED_OUTPUT_PATH'):
+        print('Environment variable ED_OUTPUT_PATH not set! Aborting.')
+        sys.exit(1)
+    else:
+        log_dir = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'logs')
+
+    if not quiet:
+        # Not quiet, so we can log to STDOUT
+        logger.add(sys.stdout,
+                   colorize=True,
+                   level=log_levels[str(verbosity)],
+                   # filter="edscrapers",
+                   format="<level>{message}</level>",
+                   backtrace=True,
+                   diagnose=True)
+
+
+    logger.add(os.path.join(log_dir, 'log_{time}.log'),
+               format="{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}",
+               filter="edscrapers",
+               level=log_levels[str(verbosity)],
+               # filter="edscrapers",
+               enqueue=True,
+               rotation="1 GB",
+               backtrace=True,
+               diagnose=True)
+
+    return True
 
 
 @click.group()
@@ -63,6 +95,8 @@ def scrape(cache, resume, name, **kwargs):
         else:
             conf['SCRAPY_SETTINGS']['JOBDIR'] = os.path.join(os.getenv('ED_OUTPUT_PATH'), '.jobs')
             Path(os.path.join(os.getenv('ED_OUTPUT_PATH'), '.jobs')).mkdir(exist_ok=True)
+
+    setup_logger(kwargs['quiet'], kwargs['verbosity'], name)
 
     process = CrawlerProcess(conf['SCRAPY_SETTINGS'])
     process.crawl(crawler)
