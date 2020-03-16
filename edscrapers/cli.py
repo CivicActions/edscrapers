@@ -78,11 +78,10 @@ def scrape(cache, resume, name, **kwargs):
               help='''If specified, the transformer will only act on the mentioned output (i.e. a scraper's name)''')
 @click.argument('transformer')
 @add_options(global_options)
-def transform(file_path, name, **kwargs):
+def transform(file_path, name, transformer, **kwargs):
     '''Run a transformer on a scraper output to generate data in a format useful for other applications'''
-    click.echo('Transforming')
     transformer = importlib.import_module(f"edscrapers.transformers.{transformer}.transform")
-    transformer.transform()
+    transformer.transform(name)
 
 
 @cli.command(context_settings=CONTEXT_SETTINGS)

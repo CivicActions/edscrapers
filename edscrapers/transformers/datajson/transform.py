@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 import edscrapers.transformers.base.helpers as h
@@ -5,22 +6,24 @@ from edscrapers.transformers.base import logger
 from edscrapers.transformers.base.helpers import traverse_output, read_file
 from edscrapers.transformers.datajson.models import Catalog, Dataset, Resource, Organization
 
+OUTPUT_DIR = os.getenv('ED_OUTPUT_PATH')
 
-def transform(target_dept, output_list_file=None):
-    if output_list_file is None:
-        file_list = traverse_output(target_dept)
+
+def transform(name, input_file=None):
+    if input_file is None:
+        file_list = traverse_output(name)
     else:
         try:
-            with open(output_list_file, 'r') as fp:
+            with open(input_file, 'r') as fp:
                 file_list = [line.rstrip() for line in fp]
         except:
-            logger.warn(f'Cannot read from list of output files at {output_list_file}, falling back to all collected data!')
-            file_list = traverse_output(target_dept)
+            logger.warn(f'Cannot read from list of output files at {input_file}, falling back to all collected data!')
+            file_list = traverse_output(name)
 
     logger.debug(f'{len(file_list)} files to transform.')
 
     catalog = Catalog()
-    catalog.catalog_id = "datopian_data_json_" + target_dept
+    catalog.catalog_id = "datopian_data_json_" + name
 
     datasets_number = 0
     resources_number = 0
@@ -31,7 +34,7 @@ def transform(target_dept, output_list_file=None):
         if not data:
             continue
 
-        dataset = _transform_scraped_dataset(data, target_dept)
+        dataset = _transform_scraped_dataset(data, name)
         catalog.datasets.append(dataset)
 
         datasets_number += 1
@@ -40,8 +43,8 @@ def transform(target_dept, output_list_file=None):
     logger.debug('{} datasets transformed.'.format(datasets_number))
     logger.debug('{} resources transformed.'.format(resources_number))
 
-    Path(f"./output/").mkdir(parents=True, exist_ok=True)
-    file_path = f"./output/{target_dept}.data.json"
+    Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
+    file_path = os.path.join(OUTPUT_DIR, f'{name}.data.json')
     with open(file_path, 'w') as output:
         output.write(catalog.dump())
         logger.debug(f'Output file: {file_path}')

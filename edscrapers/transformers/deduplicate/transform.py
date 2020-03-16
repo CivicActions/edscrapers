@@ -2,10 +2,15 @@ import json
 from edscrapers.transformers.base.helpers import traverse_output
 
 
-def transform(target_dept=None):
-    transformer = Transformer(target_dept)
+def transform(name=None, input_file=None):
+    transformer = Transformer(name)
 
-    with open(f'./output/deduplicated_{target_dept or "all"}.lst', 'w') as fp:
+    if not input_file:
+        out_file = f'./output/deduplicated_{name or "all"}.lst'
+    else:
+        out_file = input_file
+
+    with open(out_file, 'w') as fp:
         for fname in transformer.urls_dict.values():
             fp.write(fname + '\n')
 
