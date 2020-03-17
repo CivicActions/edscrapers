@@ -3,8 +3,8 @@
 ## Usage
 
 ```
-$ ed --help
-Usage: ed [OPTIONS] COMMAND [ARGS]...
+$ eds --help
+Usage: eds [OPTIONS] COMMAND [ARGS]...
 
 Options:
   --help  Show this message and exit.
@@ -23,8 +23,8 @@ Commands:
 ### Scrape
 
 ```
-$ ed scrape --help
-Usage: ed scrape [OPTIONS] NAME
+$ eds scrape --help
+Usage: eds scrape [OPTIONS] NAME
 
   Run a Scrapy pipeline for crawling / parsing / dumping output
 
@@ -40,8 +40,8 @@ Options:
 ### Transform
 
 ```
-$ ed transform --help
-Usage: ed transform [OPTIONS] TRANSFORMER
+$ eds transform --help
+Usage: eds transform [OPTIONS] TRANSFORMER
 
   Run a transformer on a scraper output to generate data in a format useful
   for other applications
@@ -64,8 +64,8 @@ Options:
 ### Compare
 
 ```
-$ ed compare --help  
-Usage: ed compare [OPTIONS]
+$ eds compare --help  
+Usage: eds compare [OPTIONS]
 
   Run a comparison algorhitm against AIR's resources.
 
@@ -80,8 +80,8 @@ Options:
 ### Stats
 
 ```
-$ ed stats --help  
-Usage: ed stats [OPTIONS]
+$ eds stats --help  
+Usage: eds stats [OPTIONS]
 
   Run a statistics algorhitm on the data extracted to provide more insights
   about the output. This does not compare against AIR.
@@ -99,8 +99,8 @@ Options:
 ### Dash
 
 ```
-$ ed dash --help 
-Usage: ed dash [OPTIONS]
+$ eds dash --help 
+Usage: eds dash [OPTIONS]
 
   Run the dash server for displaying HTML statistics.
 

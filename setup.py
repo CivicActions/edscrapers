@@ -5,9 +5,9 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="edscrapers",
-    version="0.1.0",
+    version="1.0.0",
     author="Datopian",
-    author_email="victor.nitu@datopian.com",
+    author_email="contact@datopian.com",
     description="Scrapers and transformers for U.S. Dept. of Ed. data",
     long_description=long_description,
     long_description_content_type="text/markdown",

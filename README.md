@@ -3,6 +3,17 @@
 > NOTE: More specific documentation is available "on the spot", in the module 
 > directories (e.g. `edscrapers/scrapers` or `edscrapers/transformers`).
 
+## Running the tool
+
+You need the `ED_OUTPUT_PATH` environment variable to be set before running. Not
+having the variable set in your environment will result in a fatal error.
+
+If GNU Make is available in your environment, you can run the command
+`make install`. Alternatively, run `python setup.py install`.
+
+After installing, run the `eds` command in a command line prompt to get more 
+info on the usage, or read the [docs](./edscrapers/README.md).
+
 ## Terminology
 
 - **Scraping Source**: a website (or section of website) where you scrape 
@@ -45,9 +56,6 @@ We currently have two transformers in place: one that deduplicates scraping
 output and one that makes it into data.json files for being ingested by 
 `ckanext-harvest`.
 
-Transformers need the `ED_OUTPUT_PATH` environment variable to be set before
-running. Not having the variable set in your environment will result in a fatal
-error.
 
 
 # License
