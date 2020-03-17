@@ -7,6 +7,13 @@ from edscrapers.transformers.base.helpers import traverse_output, read_file
 from edscrapers.transformers.datajson.models import Catalog, Dataset, Resource, Organization
 
 OUTPUT_DIR = os.getenv('ED_OUTPUT_PATH')
+resources_common_names = ['excel', 'doc', 'download excel', 'download se excel',
+                        'dowload doc', 'download this table as an excel file.',
+                        'download this table as a microsoft excel spreadsheet',
+                        'excel download', 'download standard error excel']
+
+dataset_title_list = []
+dataset_identifier_list = []
 
 
 def transform(name, input_file=None):
@@ -53,9 +60,25 @@ def _transform_scraped_dataset(data, target_dept):
 
     dataset = Dataset()
 
-    dataset.landingPage = data.get('source_url')
-    dataset.title = data.get('title')
-    dataset.identifier = data.get('name')
+    source_url = data.get('source_url')
+    if '|' in source_url:
+        source_url = source_url.split('|')[0]
+
+    dataset.landingPage = source_url
+    
+    ### removing leading and trailing withespaces from title
+    title = data.get('title').strip()
+    if title and title not in dataset_title_list:
+        dataset.title = title
+        dataset_title_list.append(title)
+    else:
+        dataset.title = h.transform_dataset_title(title, source_url)
+
+    identifier = data.get('name')
+    if identifier in dataset_identifier_list:
+        identifier = h.transform_dataset_identifier(title, source_url)
+    dataset.identifier = identifier
+    dataset_identifier_list.append(identifier)
 
     if data.get('tags'):
         dataset.keyword = h.transform_keywords(data.get('tags'))
@@ -121,14 +144,20 @@ def _transform_scraped_resource(target_dept, resource):
     downloadURL = downloadURL.replace(' ','%20')
     distribution.downloadURL = downloadURL
 
-    distribution.title = resource.get('name')
-    distribution.description = resource.get('name')
+    resource_name = str(resource.get('name'))
+    if resource_name and resource_name.lower() not in resources_common_names:
+        distribution.title = resource.get('name')
+    else:
+        distribution.title = h.extract_resource_name_from_url(distribution.downloadURL)
+
+    if resource.get('description'):
+        distribution.description = resource.get('description')
 
     if resource.get('format'):
         distribution.resource_format = resource.get('format')
         distribution.mediaType = h.get_media_type(resource.get('format'))
     else:
-        extension = h.extract_format_from_url(distribution.downloadURL)
+        extension = h.extract_resource_format_from_url(distribution.downloadURL)
         if extension:
             distribution.resource_format = extension
             distribution.mediaType = h.get_media_type(extension)

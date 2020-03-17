@@ -1,0 +1,3893 @@
+{
+  "@context": "https://project-open-data.cio.gov/v1.1/schema/catalog.jsonld",
+  "@id": "datopian_data_json_oese",
+  "@type": "dcat:Catalog",
+  "conformsTo": "https://project-open-data.cio.gov/v1.1/schema",
+  "describedBy": "https://project-open-data.cio.gov/v1.1/schema/catalog.json",
+  "dataset": [
+    {
+      "@type": "dcat:Dataset",
+      "title": "School Improvement Grants - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-formula-grants/school-support-and-accountability/school-improvement-grants/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-formula-grants-school-support-and-accountability-school-improvement-grants",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "SY 2011-12 SIG School Metrics Data Set ",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/sif/edfactssiglidatasy1112.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Frequently Requested Material - Office of Elementary and Secondary Education",
+      "description": "n/a",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-formula-grants/school-support-and-accountability/school-improvement-grants/frequently-requested-material/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "frequently-requested-material-office-of-elementary-and-secondary-education",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "School Years 2010-11 through 2013-14 Data",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/sif/data/sy1011-1314.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Resources - Office of Elementary and Secondary Education",
+      "description": "n/a",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-formula-grants/school-support-and-accountability/title-i-part-a-program/resources/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "resources-office-of-elementary-and-secondary-education",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2020/02/moe_spreadsheet_essa_Template-1.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Performance - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-migrant-education/high-school-equivalency-program/performance-migrant-high-school-equivalency-program/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-migrant-education-high-school-equivalency-program-performance-migrant-high-school-equivalency-program",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS EXCEL",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2020/02/Correction-508hepprofile2018.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS EXCEL",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2020/02/Correction-508hepprofile2017.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS EXCEL",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/hep/508hepprofile2016.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS EXCEL",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/hep/508hepprofile2015.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS EXCEL",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/hep/fy14-hep-prolfiles-data-table.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/charter-school-programs/state-charter-school-facilities-incentive-grants/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-charter-school-programs-state-charter-school-facilities-incentive-grants-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/programs/statecharter/statefinal.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/effective-educator-development-programs/teacher-and-school-leader-incentive-program/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-effective-educator-development-programs-teacher-and-school-leader-incentive-program-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2020/02/TSL-TIF-Website-Table.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Development Application Competition (Pre-Application) Application Forms",
+      "description": "Development Application Competition (Pre-Application) Application Forms",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://www2.ed.gov/programs/innovation/devcom12.html",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-www2-ed-gov-programs-innovation-devcom12-html",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "Notice of Intent Organization List",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovation/noticeofintento.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/school-choice-improvement-programs/district-of-columbia-opportunity-scholarship-program/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-school-choice-improvement-programs-district-of-columbia-opportunity-scholarship-program-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/programs/dcchoice/ospfinal.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Eligibility - Office of Elementary and Secondary Education",
+      "description": "n/a",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/well-rounded-education-programs/innovative-approaches-to-literacy/eligibility/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "eligibility-office-of-elementary-and-secondary-education",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Alabama",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/alcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Alabama",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/akcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Alabama",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/azcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Alabama",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/arcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Alabama",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/cacensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Alabama",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/cocensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Alabama",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/ctcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Alabama",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/decensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Alabama",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/dccensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Alabama",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/flcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Alabama",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/gacensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Alabama",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/hicensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Alabama",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/idcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Alabama",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/ilcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Alabama",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/incensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Alabama",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/iacensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Alabama",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/kscensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Alabama",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/kycensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "Louisiana",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/lacensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "Louisiana",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/mecensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "Louisiana",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/mdcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "Louisiana",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/macensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "Louisiana",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/micensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "Louisiana",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/mncensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "Louisiana",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/mscensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "Louisiana",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/mocensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "Louisiana",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/mtcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "Louisiana",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/necensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "Louisiana",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/nvcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "Louisiana",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/nhcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "Louisiana",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/njcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "Louisiana",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/nmcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "Louisiana",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/nycensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "Louisiana",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/nccensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "Louisiana",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/ndcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "Ohio",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/ohcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "Ohio",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/okcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "Ohio",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/orcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "Ohio",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/pacensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "Ohio",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/prcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "Ohio",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/ricensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "Ohio",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/sccensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "Ohio",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/sdcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "Ohio",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/tncensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "Ohio",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/txcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "Ohio",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/utcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "Ohio",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/vtcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "Ohio",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/vacensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "Ohio",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/wacensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "Ohio",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/wvcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "Ohio",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/wicensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "Ohio",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/wycensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Applicant Information - Office of Elementary and Secondary Education",
+      "description": "n/a",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/effective-educator-development-programs/teacher-quality-partnership/applicant-info-and-eligibility/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "applicant-information-office-of-elementary-and-secondary-education",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "TQP Budget Narrative Template",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/04/2019-TQP-Budget-Narrative-Template-Final-.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "TQP Match Documentation Letters and Charts (Appendix I)",
+          "description": "n/a",
+          "downloadURL": "https://oii-test.navigationnorth.com/files/2018/05/TQP-Matching-Resources-Worksheet.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "School Improvement Grants - Office of Elementary and Secondary Education",
+      "description": "n/a",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-formula-grants/school-support-and-accountability/school-improvement-grants/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "school-improvement-grants-office-of-elementary-and-secondary-education",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "SY 2011-12 SIG School Metrics Data Set ",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/sif/edfactssiglidatasy1112.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "text",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://www2.ed.gov/programs/edseed/2016archivepage.html",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-www2-ed-gov-programs-edseed-2016archivepage-html",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "here",
+          "description": "n/a",
+          "downloadURL": "https://educateevents.webex.com/ec3000/eventcenter/recording/recordAction.do?theAction=poprecord&siteurl=educateevents&entappname=url3000&internalRecordTicket=4832534b00000004eb50483007b2c191d37404450212c6419474d18a095140a9e01c484fa3753509&renewticket=0&isurlact=true&format=short&rnd=4372799274&RCID=430f5353d92cbe1937cfc3c9b962e89c&rID=98370517&needFilter=false&recordID=98370517&apiname=lsr.php&AT=pb&actappname=ec3000&&SP=EC&entactname=%2FnbrRecordingURL.do&actname=%2Feventcenter%2Fframe%2Fg.do",
+          "format": "do",
+          "mediaType": "application/stata-syntax"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-formula-grants/rural-insular-native-achievement-programs/rural-education-achievement-program/rural-and-low-income-school-program/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-formula-grants-rural-insular-native-achievement-programs-rural-education-achievement-program-rural-and-low-income-school-program-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "2019 ELIGIBILITY SPREADSHEET",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/11/fy19reapmastereligibilitysheet.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "(2018 ELIGIBILITY SPREADSHEET",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/11/fy18reapallocationspreadsheet.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "2017 ELIGIBILITY SPREADSHEET",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/11/fy17reapmastereligibilityspreadsheet.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "n/a",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/effective-educator-development-programs/teacher-quality-partnership/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "awards-office-of-elementary-and-secondary-education",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "Complete List of Teacher Quality Partnership Grants",
+          "description": "Complete List of Teacher Quality Partnership Grants",
+          "downloadURL": "https://oese.ed.gov/files/2018/10/TQP-Grantee-for-Website.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "TQP Evaluations",
+          "description": "TQP Evaluations",
+          "downloadURL": "https://oese.ed.gov/programs/tqpartnership/tqpeval.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "2011 Applicant Information",
+      "description": "Archived Information: This page lists application kits, required forms, notices inviting applicants, schedules, and other information of interest to prospective applicants under the Investing in Innovation Funds (i3) of the American Recovery and Reinvestment Act.",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://www2.ed.gov/programs/innovation/2011/applicant.html",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-www2-ed-gov-programs-innovation-2011-applicant-html",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "  MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovation/2011/intents-by-organization.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Funding Status - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-migrant-education/high-school-equivalency-program/funding-status-high-school-equivalency-program/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-migrant-education-high-school-equivalency-program-funding-status-high-school-equivalency-program",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel [623KB]",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/about/overview/budget/budget20/20pbapt.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel [2.05MB]",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/about/overview/budget/budget19/19action.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/innovation-early-learning/preschool-development-grants/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-innovation-early-learning-preschool-development-grants-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "State Data Workbook",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/09/stateworkbook.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Eligibility - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-formula-grants/rural-insular-native-achievement-programs/rural-education-achievement-program/rural-and-low-income-school-program/eligibility/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-formula-grants-rural-insular-native-achievement-programs-rural-education-achievement-program-rural-and-low-income-school-program-eligibility",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "Fiscal Year 2020 REAP Master Eligibility Spreadsheet",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2020/02/FY2020_Master_Eligibility_Spreadsheet.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Fiscal Year 2019",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/11/fy19reapmastereligibilitysheet.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Fiscal Year 2018",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/11/fy18reapallocationspreadsheet.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Fiscal Year 2017",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/reapsrsa/fy17reapmastereligibilityspreadsheets.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Applicant Information - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/disaster-recovery-unit/assistance-for-homeless-children-and-youth/applicant-information/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-disaster-recovery-unit-assistance-for-homeless-children-and-youth-applicant-information",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": " fsd.gov",
+          "description": "n/a",
+          "downloadURL": "https://www.fsd.gov/fsd-gov/home.do",
+          "format": "do",
+          "mediaType": "application/stata-syntax"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Performance - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-migrant-education/college-assistance-migrant-program/performance-college-assistance-migrant-program/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-migrant-education-college-assistance-migrant-program-performance-college-assistance-migrant-program",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS EXCEL",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/camp/508campprofile2018.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS EXCEL",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/camp/508campprofile2017.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS EXCEL",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/camp/508campprofile2016.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS EXCEL",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/hep/508campprofile2015.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/camp/fy14-camp-profiles-data-table.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Performance - Office of Elementary and Secondary Education",
+      "description": "n/a",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-migrant-education/college-assistance-migrant-program/performance-college-assistance-migrant-program/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "performance-office-of-elementary-and-secondary-education",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "2018 APR Profiles",
+          "description": "2018 APR Profiles",
+          "downloadURL": "https://www2.ed.gov/programs/camp/508campprofile2018.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "2017 APR Profiles",
+          "description": "2017 APR Profiles",
+          "downloadURL": "https://www2.ed.gov/programs/camp/508campprofile2017.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "2016 APR Profiles",
+          "description": "2016 APR Profiles",
+          "downloadURL": "https://www2.ed.gov/programs/camp/508campprofile2016.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "2015 APR Profiles",
+          "description": "2015 APR Profiles",
+          "downloadURL": "https://www2.ed.gov/programs/hep/508campprofile2015.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "2014 APR Profiles",
+          "description": "2014 APR Profiles",
+          "downloadURL": "https://www2.ed.gov/programs/camp/fy14-camp-profiles-data-table.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "2017 Competition Archive - Office of Elementary and Secondary Education",
+      "description": "n/a",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/archived/2017-competition-archive/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "2017-competition-archive-office-of-elementary-and-secondary-education",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "Click to view a recording of the",
+          "description": "n/a",
+          "downloadURL": "https://educateevents.webex.com/ec3100/eventcenter/recording/recordAction.do?theAction=poprecord&siteurl=educateevents&entappname=url3100&internalRecordTicket=4832534b00000004fa04cb4257edb02e9c3b5a6f98a56acf9c20e752eb3f7fce105c05fe010bd929&renewticket=0&isurlact=true&format=short&rnd=4210919329&RCID=f1a6018494258a42b12527c2cfa8f325&rID=103317082&needFilter=false&recordID=103317082&apiname=lsr.php&AT=pb&actappname=ec3100&&SP=EC&entactname=%2FnbrRecordingURL.do&actname=%2Feventcenter%2Fframe%2Fg.do",
+          "format": "do",
+          "mediaType": "application/stata-syntax"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/effective-educator-development-programs/teacher-quality-partnership/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-effective-educator-development-programs-teacher-quality-partnership-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2018/10/TQP-Grantee-for-Website.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/programs/tqpartnership/tqpeval.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/school-choice-improvement-programs/full-service-community-schools-program-fscs/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-school-choice-improvement-programs-full-service-community-schools-program-fscs-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2018/10/Copy-of-fscs18.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/charter-school-programs/charter-schools-program-non-state-educational-agencies-non-sea-planning-program-design-and-initial-implementation-grant/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-charter-school-programs-charter-schools-program-non-state-educational-agencies-non-sea-planning-program-design-and-initial-implementation-grant-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2016/09/non-sea.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2018/10/List-of-Developer-Grants-for-Website-.Updated-10.4.18.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "text",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://www2.ed.gov/programs/racetothetop-district/applicant-2013.html",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-www2-ed-gov-programs-racetothetop-district-applicant-2013-html",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "Electronic Budget Spreadsheets",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/racetothetop-district/2013-budget.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Charts of Applicant Final Scores",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/racetothetop-district/2013-final-scores.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Index-Small, Rural School Achievement Program - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-formula-grants/rural-insular-native-achievement-programs/rural-education-achievement-program/small-rural-school-achievement-program/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-formula-grants-rural-insular-native-achievement-programs-rural-education-achievement-program-small-rural-school-achievement-program",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "Fiscal Year 2020 REAP Master Eligibility Spreadsheet",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2020/02/FY2020_Master_Eligibility_Spreadsheet_2-19.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Archived Applicant Information -- Charter School Program State Educational Agencies (SEA) Grant",
+      "description": "This page lists application kits, required forms, notices inviting applicants, schedules, and other information of interest to prospective applicants under the Charter School Program State Educational Agencies (SEA) Grant programs.",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://www2.ed.gov/programs/charter/2015archive.html",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-www2-ed-gov-programs-charter-2015archive-html",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/charter/seaapplicationsweb.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Applicant Information - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/innovation-early-learning/preschool-development-grants/applicant-information/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-innovation-early-learning-preschool-development-grants-applicant-information",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "2014 Excel Spreadsheets",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/09/2014-419aspreadsheet.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "2014 Excel Spreadsheets",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/09/2014-419bspreadsheet.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Magnet Schools Assistance Program (MSAP) - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/school-choice-improvement-programs/magnet-school-assistance-program-msap/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-school-choice-improvement-programs-magnet-school-assistance-program-msap",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MSAP Regulations in 34 CFR 280",
+          "description": "n/a",
+          "downloadURL": "https://www.gpo.gov/fdsys/pkg/CFR-2016-title34-vol1/xml/CFR-2016-title34-vol1-part280.xml",
+          "format": "xml",
+          "mediaType": "application/xml"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Technical Assistance - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-formula-grants/school-support-and-accountability/technical-assistance/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-formula-grants-school-support-and-accountability-technical-assistance",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "Financial Transparency and Reporting Readiness Assessment Tool,\u00a0",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/oese/oss/technicalassistance/tool2018.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "District Example\u00a0",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/oese/oss/technicalassistance/example.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Applicant Information - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/effective-educator-development-programs/teacher-quality-partnership/applicant-info-and-eligibility/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-effective-educator-development-programs-teacher-quality-partnership-applicant-info-and-eligibility",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "TQP Budget Narrative Template",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/04/2019-TQP-Budget-Narrative-Template-Final-.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Excel",
+          "description": "n/a",
+          "downloadURL": "https://oii-test.navigationnorth.com/files/2018/05/TQP-Matching-Resources-Worksheet.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Letters to Chief State School Officers Regarding an Update on Several No Child Left Behind Cornerstones - Office of Elementary and Secondary Education",
+      "description": "n/a",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-formula-grants/letters-to-chief-state-school-officers-regarding-an-update-on-several-no-child-left-behind-cornerstones/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "letters-to-chief-state-school-officers-regarding-an-update-on-several-no-child-left-behind-cornerstones-office-of-elementary-and-secondary-education",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "State Status Chart <!-- img src=\"/images/ed_gl_download.gif\"",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/policy/elsec/guid/stateletters/ssc.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/school-choice-improvement-programs/promise-neighborhoods-pn/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-school-choice-improvement-programs-promise-neighborhoods-pn-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2018/01/pnfy17update.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/charter-school-programs/national-leadership-activities-grant/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-charter-school-programs-national-leadership-activities-grant-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/programs/charter-nationalleadership/nationalleadership.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/charter-school-programs/state-entities/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-charter-school-programs-state-entities-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/09/SE-Funding-Detail-2019-awards.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/11/SE-Funding-Detail-2018-awards.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/11/SE-Funding-Detail-20171-awards.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Archived Information - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/archived-information-3/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-archived-information-3",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "here",
+          "description": "n/a",
+          "downloadURL": "https://educateevents.webex.com/ec3000/eventcenter/recording/recordAction.do?theAction=poprecord&siteurl=educateevents&entappname=url3000&internalRecordTicket=4832534b00000002065414daa9e33be242ad9314b5ed3c08df7720511ab543e089aa5baf5dc5995a&renewticket=0&isurlact=true&format=short&rnd=0278004150&RCID=4da84e1900cc239f20b9b610475a46ec&rID=98254252&needFilter=false&recordID=98254252&apiname=lsr.php&AT=pb&actappname=ec3000&&SP=EC&entactname=%2FnbrRecordingURL.do&actname=%2Feventcenter%2Fframe%2Fg.do",
+          "format": "do",
+          "mediaType": "application/stata-syntax"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Student-Centered Funding Pilot - Office of Elementary and Secondary Education",
+      "description": "n/a",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-formula-grants/school-support-and-accountability/student-centered-funding-pilot/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "student-centered-funding-pilot-office-of-elementary-and-secondary-education",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "Recording of February 21, 2018, webinar ",
+          "description": "n/a",
+          "downloadURL": "https://educateevents1.webex.com/ec3100/eventcenter/recording/recordAction.do?theAction=poprecord&siteurl=educateevents1&entappname=url3100&internalRecordTicket=4832534b00000004421f0de9e8fd094501b96da6d5d6c4bc63ca3a33344a652c0d11f9208a298e7a&renewticket=0&isurlact=true&format=short&rnd=2495817334&RCID=4fccc3ecd08f0ad9d737ba29fa9618a9&rID=113006502&needFilter=false&recordID=113006502&apiname=lsr.php&AT=pb&actappname=ec3100&&SP=EC&entactname=%2FnbrRecordingURL.do&actname=%2Feventcenter%2Fframe%2Fg.do",
+          "format": "do",
+          "mediaType": "application/stata-syntax"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Recording of February 22, 2018, webinar ",
+          "description": "n/a",
+          "downloadURL": "https://educateevents1.webex.com/ec3100/eventcenter/recording/recordAction.do?theAction=poprecord&siteurl=educateevents1&entappname=url3100&internalRecordTicket=4832534b00000004d30b58d9d629cf330a965da760efd50687cdb171168d7b7feea33417cbf6ee2a&renewticket=0&isurlact=true&format=short&rnd=0133285232&RCID=e0db452ba0d16a5cef3de45bfc2397ed&rID=113051832&needFilter=false&recordID=113051832&apiname=lsr.php&AT=pb&actappname=ec3100&&SP=EC&entactname=%2FnbrRecordingURL.do&actname=%2Feventcenter%2Fframe%2Fg.do",
+          "format": "do",
+          "mediaType": "application/stata-syntax"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/effective-educator-development-programs/supporting-effective-educator-development-grant-program/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-effective-educator-development-programs-supporting-effective-educator-development-grant-program-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2015/06/seed92817-1.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/programs/edseed/seedevalperiodawards.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "2017 Competition Archive - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/archived/2017-competition-archive/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-archived-2017-competition-archive",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "2017 SEED Pre-Application Webinar",
+          "description": "n/a",
+          "downloadURL": "https://educateevents.webex.com/ec3100/eventcenter/recording/recordAction.do?theAction=poprecord&siteurl=educateevents&entappname=url3100&internalRecordTicket=4832534b00000004fa04cb4257edb02e9c3b5a6f98a56acf9c20e752eb3f7fce105c05fe010bd929&renewticket=0&isurlact=true&format=short&rnd=4210919329&RCID=f1a6018494258a42b12527c2cfa8f325&rID=103317082&needFilter=false&recordID=103317082&apiname=lsr.php&AT=pb&actappname=ec3100&&SP=EC&entactname=%2FnbrRecordingURL.do&actname=%2Feventcenter%2Fframe%2Fg.do",
+          "format": "do",
+          "mediaType": "application/stata-syntax"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Funding Status - Office of Elementary and Secondary Education",
+      "description": "n/a",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-migrant-education/high-school-equivalency-program/funding-status-high-school-equivalency-program/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "funding-status-office-of-elementary-and-secondary-education",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "FY 2020 President\u2019s Budget Request",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/about/overview/budget/budget20/20pbapt.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "FY 2019 Congressional Action",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/about/overview/budget/budget19/19action.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/innovation-early-learning/investing-in-innovation-i3/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-innovation-early-learning-investing-in-innovation-i3-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2015/05/i3grants_Updated-07.24.17_Web.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2018/10/i3evaluations-181015.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/innovation-early-learning/ready-to-learn-television-rtl/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-innovation-early-learning-ready-to-learn-television-rtl-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/programs/rtltv/rtl150713.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Eligibility - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/well-rounded-education-programs/innovative-approaches-to-literacy/eligibility/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-well-rounded-education-programs-innovative-approaches-to-literacy-eligibility",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/alcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alaska",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/akcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Arizona",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/azcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Arkansas",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/arcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "California",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/cacensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Colorado",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/cocensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Connecticut",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/ctcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Delaware",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/decensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "District of Columbia",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/dccensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Florida",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/flcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Georgia",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/gacensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Hawaii",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/hicensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Idaho",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/idcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Illinois",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/ilcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Indiana",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/incensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Iowa",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/iacensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Kansas",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/kscensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Kentucky",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/kycensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/lacensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Maine",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/mecensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Maryland",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/mdcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Massachusetts",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/macensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Michigan",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/micensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Minnesota",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/mncensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Mississippi",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/mscensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Missouri",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/mocensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Montana",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/mtcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Nebraska",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/necensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Nevada",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/nvcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "New Hampshire",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/nhcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "New Jersey",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/njcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "New Mexico",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/nmcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "New York",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/nycensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "North Carolina",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/nccensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "North Dakota",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/ndcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/ohcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Oklahoma",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/okcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Oregon",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/orcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Pennsylvania",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/pacensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Puerto Rico",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/prcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Rhode Island",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/ricensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "South Carolina",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/sccensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "South Dakota",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/sdcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Tennessee",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/tncensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Texas",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/txcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Utah",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/utcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Vermont",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/vtcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Virginia",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/vacensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Washington",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/wacensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "West Virginia",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/wvcensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Wisconsin",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/wicensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Wyoming",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovapproaches-literacy/census2016/wycensus2016.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "2017 Archived Competition - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/charter-school-programs/charter-school-program-state-educational-agencies-sea/applicant-info-and-eligibility/2017-archived-competition/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-charter-school-programs-charter-school-program-state-educational-agencies-sea-applicant-info-and-eligibility-2017-archived-competition",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "here",
+          "description": "n/a",
+          "downloadURL": "https://educateevents.webex.com/ec3000/eventcenter/recording/recordAction.do?theAction=poprecord&siteurl=educateevents&entappname=url3000&internalRecordTicket=4832534b00000002065414daa9e33be242ad9314b5ed3c08df7720511ab543e089aa5baf5dc5995a&renewticket=0&isurlact=true&format=short&rnd=0278004150&RCID=4da84e1900cc239f20b9b610475a46ec&rID=98254252&needFilter=false&recordID=98254252&apiname=lsr.php&AT=pb&actappname=ec3000&&SP=EC&entactname=%2FnbrRecordingURL.do&actname=%2Feventcenter%2Fframe%2Fg.do",
+          "format": "do",
+          "mediaType": "application/stata-syntax"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Education for Homeless Children and Youths - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-formula-grants/school-support-and-accountability/education-for-homeless-children-and-youths-grants-for-state-and-local-activities/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-formula-grants-school-support-and-accountability-education-for-homeless-children-and-youths-grants-for-state-and-local-activities",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "Here",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2020/01/SY1718_C118_SEA_FINAL.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Resources - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-formula-grants/school-support-and-accountability/title-i-part-a-program/resources/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-formula-grants-school-support-and-accountability-title-i-part-a-program-resources",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2020/02/moe_spreadsheet_essa_Template-1.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "FY2010 Applicant Information - Investing in Innovation Funds (i3)",
+      "description": "Archived Information: This page lists application kits, required forms, notices inviting applicants, schedules, and other information of interest to prospective applicants under the Investing in Innovation Funds (i3) of the American Recovery and Reinvestment Act.",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://www2.ed.gov/programs/innovation/2010/applicant.html",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-www2-ed-gov-programs-innovation-2010-applicant-html",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovation/intents-org-list.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovation/2010/reviewers-scores-above-80.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/well-rounded-education-programs/arts-in-education-professional-development-for-arts-educators/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-well-rounded-education-programs-arts-in-education-professional-development-for-arts-educators-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2015/06/pdae17-09.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/charter-school-programs/charter-schools-program-grants-for-replications-and-expansion-of-high-quality-charter-schools/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-charter-school-programs-charter-schools-program-grants-for-replications-and-expansion-of-high-quality-charter-schools-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/11/cmo92917.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/11/84.282M-CMO-FY-2017-Slate-091817.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/11/FY18-Funding-CMO-Competition-Slate.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Frequently Requested Material - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-formula-grants/school-support-and-accountability/school-improvement-grants/frequently-requested-material/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-formula-grants-school-support-and-accountability-school-improvement-grants-frequently-requested-material",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "School Years 2010-11 through 2013-14 Data",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/sif/data/sy1011-1314.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/charter-school-programs/charter-school-program-state-educational-agencies-sea/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-charter-school-programs-charter-school-program-state-educational-agencies-sea-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2016/09/SEA-excel-list.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2016/10/seafull20162.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Education for Homeless Children and Youths - Office of Elementary and Secondary Education",
+      "description": "n/a",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-formula-grants/school-support-and-accountability/education-for-homeless-children-and-youths-grants-for-state-and-local-activities/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "education-for-homeless-children-and-youths-office-of-elementary-and-secondary-education",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "\u201c",
+          "description": "\u201c",
+          "downloadURL": "https://oese.ed.gov/files/2020/01/SY1718_C118_SEA_FINAL.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-formula-grants/school-support-and-accountability/instruction-state-grants-title-ii-part-a/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-formula-grants-school-support-and-accountability-instruction-state-grants-title-ii-part-a-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2020/02/IIA-Awards-FY-19.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2020/02/Copy-of-IIA-Awards-FY-18.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2020/02/IIA-Awards-FY-17.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Funding Status - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-migrant-education/college-assistance-migrant-program/funding-status-college-assistance-migrant-program/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-migrant-education-college-assistance-migrant-program-funding-status-college-assistance-migrant-program",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel [623KB]",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/about/overview/budget/budget20/20pbapt.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel [2.05MB]",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/about/overview/budget/budget19/19action.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "FY 2011 Applicant Information",
+      "description": "This page has been archived. 2011 applicat information",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://www2.ed.gov/programs/promiseneighborhoods/2011/2011applicant.html",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-www2-ed-gov-programs-promiseneighborhoods-2011-2011applicant-html",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/promiseneighborhoods/2011/pnintenttoapplyspreadsheet.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "FY2010 Applicant Information - - Promise Neighborhoods",
+      "description": "Archived Information: This page lists application kits, required forms, notices inviting applicants, schedules, and other information of interest to prospective applicants under the Promise Neighborhoods programs.",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://www2.ed.gov/programs/promiseneighborhoods/2010/applicant.html",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-www2-ed-gov-programs-promiseneighborhoods-2010-applicant-html",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/promiseneighborhoods/2010/reviewers-scores-above-80.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/promiseneighborhoods/2010/received-applications.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/promiseneighborhoods/2010/intents-org-list.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Technical Assistance - Office of Elementary and Secondary Education",
+      "description": "n/a",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-formula-grants/school-support-and-accountability/technical-assistance/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "technical-assistance-office-of-elementary-and-secondary-education",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "Financial Transparency and Reporting Readiness Assessment Tool,\u00a0",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/oese/oss/technicalassistance/tool2018.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Financial Transparency and Reporting Readiness Assessment Tool,\u00a0",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/oese/oss/technicalassistance/example.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Charter School Programs - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/charter-school-programs/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-charter-school-programs",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "July 2019 - CSP Awards Dataset",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/11/CSP-Awards-Database-July-2019.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "December 2015 - CSP Awards Dataset \u00a0",
+          "description": "n/a",
+          "downloadURL": "http://www2.ed.gov/programs/charter/cspawardsdatabase.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/charter-school-programs/dc-school-choice-scholarships-for-opportunity-and-results-act/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-charter-school-programs-dc-school-choice-scholarships-for-opportunity-and-results-act-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/programs/dcchoice/ospfinal.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/well-rounded-education-programs/arts-in-education-national-program/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-well-rounded-education-programs-arts-in-education-national-program-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2018/10/completegrantlist.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "2014 Application Information",
+      "description": "Archived page for Investing in Innovation Fund (i3) for 2014",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://www2.ed.gov/programs/innovation/fy14archive.html",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-www2-ed-gov-programs-innovation-fy14archive-html",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovation/fy14preapphra.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovation/scaleupvalidationnotice.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/innovation/noticeofintentpreapp.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/well-rounded-education-programs/arts-in-education-model-development-and-dissemination-grants-program/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-well-rounded-education-programs-arts-in-education-model-development-and-dissemination-grants-program-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oii-test.navigationnorth.com/files/2018/10/Awards-Page-Info.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/school-choice-improvement-programs/magnet-school-assistance-program-msap/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-school-choice-improvement-programs-magnet-school-assistance-program-msap-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2018/10/MSAP-Awards-Spreadsheet.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/programs/magnet/2015msapsupplements.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Letters to Chief State School Officers Regarding an Update on Several No Child Left Behind Cornerstones - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-formula-grants/letters-to-chief-state-school-officers-regarding-an-update-on-several-no-child-left-behind-cornerstones/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-formula-grants-letters-to-chief-state-school-officers-regarding-an-update-on-several-no-child-left-behind-cornerstones",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/policy/elsec/guid/stateletters/ssc.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-formula-grants/school-support-and-accountability/race-to-the-top-district/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-formula-grants-school-support-and-accountability-race-to-the-top-district-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/programs/racetothetop-district/rttdawardfinal.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/innovation-early-learning/skills-for-success/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-innovation-early-learning-skills-for-success-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/programs/skillssuccess/sfsgrants.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": " MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/programs/skillssuccess/skillsforsuccessawardchart.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "EIR Matching Resources - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/innovation-early-learning/education-innovation-and-research-eir/applicant-info-and-eligibility/eir-matching-resources/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-innovation-early-learning-education-innovation-and-research-eir-applicant-info-and-eligibility-eir-matching-resources",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/02/Worksheet-in-C-Users-Dramon.Turner-AppData-Local-Microsoft-Windows-Temporary-Internet-Files-Content.Outlook-X9U1J36X-EIR-Matching-Resources-Page-1-30-2019.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Awards - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-discretionary-grants-support-services/effective-educator-development-programs/national-activities-grant/awards/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-discretionary-grants-support-services-effective-educator-development-programs-national-activities-grant-awards",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "MS Excel",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2018/09/History-of-National-Activities-AwardsSept2018.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Eligibility - Office of Elementary and Secondary Education",
+      "description": "text",
+      "keyword": [
+        "oese"
+      ],
+      "modified": "2020-03-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Elementary and Secondary Education"
+      },
+      "landingPage": "https://oese.ed.gov/offices/office-of-formula-grants/rural-insular-native-achievement-programs/rural-education-achievement-program/small-rural-school-achievement-program/eligibility/",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Elementary and Secondary Education"
+      },
+      "identifier": "https-oese-ed-gov-offices-office-of-formula-grants-rural-insular-native-achievement-programs-rural-education-achievement-program-small-rural-school-achievement-program-eligibility",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "Fiscal Year 2020 REAP Master Eligibility Spreadsheet",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2020/02/FY2020_Master_Eligibility_Spreadsheet_2-19.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Fiscal Year 2019",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/11/fy19reapmastereligibilitysheet.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Fiscal Year 2018",
+          "description": "n/a",
+          "downloadURL": "https://www2.ed.gov/programs/reapsrsa/fy18reapallocationspreadsheet.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Fiscal Year 2017",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/11/fy17reapmastereligibilityspreadsheet.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Fiscal Year 2018",
+          "description": "n/a",
+          "downloadURL": "https://oese.ed.gov/files/2019/11/fy18reapallocationspreadsheet.xlsx",
+          "format": "xlsx",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ]
+    }
+  ]
+}

@@ -124,3 +124,4 @@ dmypy.json
 # Yaml output
 yaml-output
 parser-run-utilities.py
+tools/dataset_metrics/run.py

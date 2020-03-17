@@ -2,6 +2,7 @@ import os
 import json
 from pathlib import Path
 
+from slugify import slugify
 from urllib.parse import urlparse
 from urllib.parse import urljoin
 
@@ -25,14 +26,14 @@ map_media_type = {
     'txt' : "text/plain",
     'pdf' : "application/pdf",
     'xls' : "application/vnd.ms-excel",
-    'xlsx' : "application/vnd.ms-excel",
+    'xlsx' : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     'csv' : "text/csv",
     'sas': 'application/sas-syntax-file',
     'dat': 'text/generic-data-file',
     'spss': 'application/spss-syntax',  # This may be an incorrect extension, but we will continue to search for it
     'db.': 'application/generic-data-base',
     'sql': 'text/structured-query-language-file',
-    'xml': 'text/extensible-markup-language',
+    'xml': 'application/xml',
     'sps': 'application/spss-syntax',
     'sav': 'application/spss-data',
     'do': 'application/stata-syntax',
@@ -85,10 +86,71 @@ def transform_keywords(tags_string):
 
     return keywords
 
-def extract_format_from_url(url):
-    path = urlparse(url).path
-    extension = path.split('.')[-1]
-    if len(extension) < 5:
+def transform_dataset_title(title, url):
+
+    parsed_url = urlparse(url)
+    domain = parsed_url.netloc
+    path = parsed_url.path
+
+    slug = slugify(domain + path)
+    new_title = slug
+
+    if title:
+        new_title = title + ' (' + slug + ')'
+    
+    return new_title
+        
+
+def transform_dataset_identifier(title, url):
+
+    parsed_url = urlparse(url)
+    domain = parsed_url.netloc
+    path = parsed_url.path
+
+    if title:
+        return slugify(title + '-' + domain + path)
+    else:
+        return slugify(domain + path)
+
+def extract_resource_format_from_url(url):
+    
+    parsed_url = urlparse(url)
+    base = os.path.basename(parsed_url.geturl())
+
+    ### rsplit on base name to support multiple periods
+    base_name_lst = base.rsplit('.', 1)
+
+    if len(base_name_lst) == 0:
+        ### return a default format
+        return 'txt'
+    
+    extension = base_name_lst[-1]
+
+    ### accepting only 5 char extensions
+    if len(extension) < 6:
         return extension
     else:
-        return None
+        ### return a default format
+        return 'txt'
+
+def extract_resource_name_from_url(url):
+    
+    parsed_url = urlparse(url)
+    base = os.path.basename(parsed_url.geturl())
+
+    ### rsplit on base name to support multiple periods
+    base_name_lst = base.rsplit('.', 1)
+    
+    if len(base_name_lst) == 0:
+        ### return a default name
+        ### slugify the url and return as a name
+        return slugify(parsed_url.geturl())
+
+    name = base_name_lst[0]
+
+    if name:
+        return name
+    else:
+        ### return a default name
+        ### slugify the url and return as a name
+        return slugify(parsed_url.geturl())

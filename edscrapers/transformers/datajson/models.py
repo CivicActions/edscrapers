@@ -189,6 +189,7 @@ class Resource():
 
     def __init__(self):    
         self.resource_type = "dcat:Distribution"
+        self.description = "n/a"
         self.resource_format = "txt"
         self.mediaType = h.get_media_type(self.resource_format)
 
