@@ -1,31 +1,47 @@
+""" main parser for nces. parser
+handles branching and delication to
+other parsers in the 'parsers' subpackage"""
+
 # -*- coding: utf-8 -*-
 import re
 import json
-from slugify import slugify
+
+import bs4
 
 from edscrapers.scrapers import base
-from edscrapers.scrapers.base.models import Dataset, Resource
-import edscrapers.scrapers.base.helpers as h
+import edscrapers.scrapers.base.parser as base_parser
+from edscrapers.scrapers.nces import parsers
 
-
+# contains list of data resources to exclude from dataset
+deny_list = []
 
 def parse(res):
+    """ function parses content to create a dataset model
+    or return None if no resource in content"""
 
-    dataset = Dataset()
-    dataset['resources'] = []
+    soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    # check if the content contains any of the extensions
+    if soup_parser.body.find(name='a', href=base_parser.resource_checker,
+                             recursive=True) is None:
+        # no resource on this page, so return None
+        return None
 
-    h.get_all_resources(res, dataset, h.get_data_extensions(), deny_list=[])
+    # if code gets here, at least one resource was found
+    
+    # check if the parser is working on NCES web page
+    if soup_parser.body.find(name='div', class_='MainContent', recursive=True) is not None:
+        # parse the page with the parser and return result
+        link = soup_parser.body.find(name='a', href=base_parser.resource_checker,
+                             recursive=True)
+        print("URL", "PARSER1", res.url, link['href'])
+        return parsers.parser1.parse(res)
+    else:
+        link = soup_parser.body.find(name='a', href=base_parser.resource_checker,
+                             recursive=True)
+        print("URL", "NOPARSE", res.url, link['href'])
+        return None
 
-    if len(dataset['resources']) > 0:
 
-        dataset['source_url'] = res.url
-        dataset['title'] = res.xpath('//meta[@name="DC.title"]/@content').get('text')
-        if not dataset['title'] or dataset['title'] == 'text':
-            dataset['title'] = res.xpath('/html/head/title/text()').get('text')
-        dataset['name'] = slugify(res.url)
-        dataset['notes'] = res.xpath('//meta[@name="DC.description"]/@content').get('text')
-        return dataset
-
-    return None
+    
 
 
