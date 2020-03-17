@@ -24,6 +24,6 @@ setuptools.setup(
     ],
     entry_points='''
         [console_scripts]
-        ed=edscrapers.cli:cli
+        eds=edscrapers.cli:cli
     '''
 )
