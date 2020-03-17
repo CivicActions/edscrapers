@@ -65,7 +65,7 @@ def _transform_scraped_dataset(data, target_dept):
     if '|' in source_url:
         source_url = source_url.split('|')[0]
 
-    dataset.landingPage = source_url
+    dataset.source_url = source_url
     
     ### removing leading and trailing withespaces from title
     title = data.get('title').strip()
