@@ -1,0 +1,920 @@
+{
+  "@context": "https://project-open-data.cio.gov/v1.1/schema/catalog.jsonld",
+  "@id": "datopian_data_json_edopepd",
+  "@type": "dcat:Catalog",
+  "conformsTo": "https://project-open-data.cio.gov/v1.1/schema",
+  "describedBy": "https://project-open-data.cio.gov/v1.1/schema/catalog.json",
+  "dataset": [
+    {
+      "@type": "dcat:Dataset",
+      "title": "Civil Rights Data Collection State Files",
+      "description": "This page contains information on the Civil Rights Data Collection (CRDC), specifically geared for use of the CRDC in the development of State and local report cards.",
+      "keyword": [
+        "policy-analysis",
+        "evaluation",
+        "trend-analysis",
+        "performance"
+      ],
+      "modified": "2018-08-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Planning, Evaluation and Policy Development"
+      },
+      "landingPage": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc-state-files.html",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Planning, Evaluation and Policy Development"
+      },
+      "identifier": "civil-rights-data-collection-state-files",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "Code Book",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-codebook.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Usage Agreement",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/usage-agreement.txt",
+          "format": "txt",
+          "mediaType": "text/plain"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-al-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alabama",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-al-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alaska",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-ak-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Alaska",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-ak-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Arizona",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-az-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Arizona",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-az-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Arkansas",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-ar-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Arkansas",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-ar-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "California",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-ca-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "California",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-ca-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Colorado",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-co-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Colorado",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-co-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Connecticut",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-ct-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Connecticut",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-ct-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Delaware",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-de-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Delaware",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-de-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "District of Columbia",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-dc-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "District of Columbia",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-dc-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Florida",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-fl-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Florida",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-fl-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Georgia",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-ga-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Georgia",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-ga-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Hawaii",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-hi-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Hawaii",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-hi-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Idaho",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-id-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Idaho",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-id-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Illinois",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-il-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Illinois",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-il-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Indiana",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-in-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Indiana",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-in-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Iowa",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-ia-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Iowa",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-ia-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Kansas",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-ks-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Kansas",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-ks-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Kentucky",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-ky-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Kentucky",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-ky-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-la-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Louisiana",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-la-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Maine",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-me-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Maine",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-me-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Maryland",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-md-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Maryland",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-md-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Massachusetts",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-ma-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Massachusetts",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-ma-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Michigan",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-mi-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Michigan",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-mi-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Minnesota",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-mn-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Minnesota",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-mn-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Mississippi",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-ms-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Mississippi",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-ms-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Missouri",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-mo-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Missouri",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-mo-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Montana",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-mt-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Montana",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-mt-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Nebraska",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-ne-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Nebraska",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-ne-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Nevada",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-nv-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Nevada",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-nv-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "New Hampshire",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-nh-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "New Hampshire",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-nh-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "New Jersey",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-nj-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "New Jersey",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-nj-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "New Mexico",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-nm-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "New Mexico",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-nm-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "New York",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-ny-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "New York",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-ny-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "North Carolina",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-nc-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "North Carolina",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-nc-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "North Dakota",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-nd-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "North Dakota",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-nd-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-oh-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Ohio",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-oh-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Oklahoma",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-ok-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Oklahoma",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-ok-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Oregon",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-or-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Oregon",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-or-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Pennsylvania",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-pa-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Pennsylvania",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-pa-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Rhode Island",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-ri-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Rhode Island",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-ri-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "South Carolina",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-sc-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "South Carolina",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-sc-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "South Dakota",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-sd-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "South Dakota",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-sd-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Tennessee",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-tn-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Tennessee",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-tn-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Texas",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-tx-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Texas",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-tx-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Utah",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-ut-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Utah",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-ut-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Vermont",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-vt-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Vermont",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-vt-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Virginia",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-va-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Virginia",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-va-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Washington",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-wa-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Washington",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-wa-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "West Virginia",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-wv-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "West Virginia",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-wv-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Wisconsin",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-wi-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Wisconsin",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-wi-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Wyoming",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc-2015-16-wy-aug-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Wyoming",
+          "description": "Civil Rights Data Collection State Files - Introduction",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/opepd/ppss/crdc/crdc2015-16-wy-oct-2018.csv",
+          "format": "csv",
+          "mediaType": "text/csv"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Policy and Program Studies Service -- P-12",
+      "description": "Listing of recent Early Childhood, Elementary, and Secondary Education reports produced by PPSS",
+      "keyword": [
+        "evaluation"
+      ],
+      "modified": "2017-07-13",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Planning, Evaluation and Policy Development"
+      },
+      "landingPage": "https://www2.ed.gov/about/offices/list/opepd/ppss/reports.html",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Planning, Evaluation and Policy Development"
+      },
+      "identifier": "policy-and-program-studies-service-p-12",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "Dataset on Highly Qualified Teachers Enrolled in Alternative Route Programs:",
+          "description": "Policy and Program Studies Service\u2014P-12 - Teachers and Leaders",
+          "downloadURL": "https://www2.ed.gov/rschstat/eval/teaching/hqt-teacher-certification/data-documentation.zip",
+          "format": "zip",
+          "mediaType": "application/zip"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Dataset on School-level Expenditures:",
+          "description": "Policy and Program Studies Service\u2014P-12 - School Finance",
+          "downloadURL": "https://www2.ed.gov/rschstat/eval/title-i/school-level-expenditures/dataset-school-level-expenditures.zip",
+          "format": "zip",
+          "mediaType": "application/zip"
+        }
+      ]
+    }
+  ]
+}
