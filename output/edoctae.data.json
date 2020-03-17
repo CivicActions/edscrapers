@@ -1,0 +1,137 @@
+{
+  "@context": "https://project-open-data.cio.gov/v1.1/schema/catalog.jsonld",
+  "@id": "datopian_data_json_edoctae",
+  "@type": "dcat:Catalog",
+  "conformsTo": "https://project-open-data.cio.gov/v1.1/schema",
+  "describedBy": "https://project-open-data.cio.gov/v1.1/schema/catalog.json",
+  "dataset": [
+    {
+      "@type": "dcat:Dataset",
+      "title": "Distribution of Funds to Secondary School Programs in FY 2000 under Perkins III",
+      "description": "Career and Technical Education Program Memo FY 2000-2.",
+      "keyword": [
+        "career-education",
+        "technical-education",
+        "vocational-education"
+      ],
+      "modified": "1999-10-15",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Career, Technical and Adult Education"
+      },
+      "landingPage": "https://www2.ed.gov/about/offices/list/ovae/pi/cte/vocmemo2002.html",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Career, Technical and Adult Education"
+      },
+      "identifier": "distribution-of-funds-to-secondary-school-programs-in-fy-2000-under-perkins-iii",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "The NCES enrollment data is from 1997, and thus, is the most recent data available. Among the advantages of the ages 5-17 database is that it was updated by the Census Bureau in 1995 and relates to LEA (NCES type 1 and 2 districts) boundaries for the 1995-96 school year. By law, the Census Bureau will update these data every two years.  Data based on school district boundaries for 1999/2000 is due to be available as early as November 1999.  In addition, the 15-19 database will be updated using 1997/1998 data. It will be available for both parts of the formula in April 2001, and we will expect States to use it at that time as described in the law. This school district data can be found at the Census web site at:",
+          "description": "Distribution of Funds to Secondary School Programs in FY 2000 under Perkins III - Program Memorandum - OVAE/DVTE FY 2000-2",
+          "downloadURL": "http://www.census.gov/housing/saipe/sd95/USSD95.dat",
+          "format": "dat",
+          "mediaType": "text/generic-data-file"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "Perkins IV Program & Policy Guidance Memorandums",
+      "description": "Carl D. Perkins Career and Technical Act of 2006 Policy Guidance and Program Memos, sorted by date, memorandum number and subject.",
+      "keyword": [
+        "guidance",
+        "policy"
+      ],
+      "modified": "2006-11-14",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Career, Technical and Adult Education"
+      },
+      "landingPage": "https://www2.ed.gov/about/offices/list/ovae/pi/memoperkinsiv.html",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Career, Technical and Adult Education"
+      },
+      "identifier": "perkins-iv-program-policy-guidance-memorandums",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "Accountabily Forms",
+          "description": "Carl D. Perkins Career and Technical Act of 2006 (Perkins IV) - Perkins III Program and Policy Guidance Memorandum",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/ovae/pi/cte/car-accntblt-frms-omb-apprvd-080525.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "title": "Financial Status Report",
+          "description": "Carl D. Perkins Career and Technical Act of 2006 (Perkins IV) - Perkins III Program and Policy Guidance Memorandum",
+          "downloadURL": "https://www2.ed.gov/about/offices/list/ovae/pi/cte/car-fsr-frms-omb-apprvd-081222.xls",
+          "format": "xls",
+          "mediaType": "application/vnd.ms-excel"
+        }
+      ]
+    },
+    {
+      "@type": "dcat:Dataset",
+      "title": "High School Facts at a Glance",
+      "description": "Archived Information: This page contains facts and figures related to high schools.",
+      "keyword": [
+        "high-schools",
+        "secondary-schools",
+        "publications",
+        "resource-centers"
+      ],
+      "modified": "2002-09-16",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Office of Career, Technical and Adult Education"
+      },
+      "landingPage": "https://www2.ed.gov/about/offices/list/ovae/pi/hs/hsfacts.html",
+      "contactPoint": {
+        "@type": "vcard:Contact",
+        "hasEmail": "mailto:info@viderum.com",
+        "fn": "Office of Career, Technical and Adult Education"
+      },
+      "identifier": "high-school-facts-at-a-glance",
+      "accessLevel": "public",
+      "bureauCode": [
+        "018:40"
+      ],
+      "programCode": [
+        "018:000"
+      ],
+      "spatial": "United States",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "title": "Over the past two decades, increasingly percentages of students have completed high school (from 69% in 1980 to 84% in 2000).  At the same time, among persons aged 25 or older, fewer Black and Hispanic students eventually complete. (Bureau of the Census,",
+          "description": "High School Facts at a Glance - Number of Institutions",
+          "downloadURL": "http://www.census.gov/population/socdemo/education/tableA-2.txt",
+          "format": "txt",
+          "mediaType": "text/plain"
+        }
+      ]
+    }
+  ]
+}
