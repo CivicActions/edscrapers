@@ -19,8 +19,8 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 global_options=[
     click.option('-v', '--verbose', 'verbosity', count=True, help='Show INFO and DEBUG messages.'),
     click.option('-q', '--quiet', is_flag=True, default=False, help='Do not show anything.'),
-    click.option('-o', '--output', 'file_path', type=click.Path(), default=None,
-                 help='If specified, pipe the output to both STDOUT and the file specified.')
+    # click.option('-o', '--output', 'out_file_path', type=click.Path(), default=None,
+    #              help='If specified, pipe the output to both STDOUT and the file specified.')
 ]
 
 def add_options(options):
@@ -110,7 +110,7 @@ def scrape(cache, resume, name, **kwargs):
 
 
 @cli.command(context_settings=CONTEXT_SETTINGS)
-@click.option('-i', '--input', 'file_path', type=click.Path(exists=True), default=None,
+@click.option('-i', '--input', 'in_file_path', type=click.Path(exists=True), default=None,
               help=''' Input file, if used by requested transformer (e.g. datajson transformer
               can use a dedup output) If a directory will be provided instead, it will be
               traversed recursivelly to obtain the list of files.''')
@@ -118,10 +118,10 @@ def scrape(cache, resume, name, **kwargs):
               help='''If specified, the transformer will only act on the mentioned output (i.e. a scraper's name)''')
 @click.argument('transformer')
 @add_options(global_options)
-def transform(file_path, name, transformer, **kwargs):
+def transform(in_file_path, name, transformer, **kwargs):
     '''Run a transformer on a scraper output to generate data in a format useful for other applications'''
     transformer = importlib.import_module(f"edscrapers.transformers.{transformer}.transform")
-    transformer.transform(name)
+    transformer.transform(name, in_file_path)
 
 
 @cli.command(context_settings=CONTEXT_SETTINGS)
