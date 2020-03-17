@@ -7,11 +7,8 @@ from terminaltables import GithubFlavoredMarkdownTable as ght
 from .summary import Summary
 
 
-def cli(argv):
-    try:
-        air_csv = argv[1]
-    except IndexError:
-        air_csv = './tools/data/AIR.csv'
+def compare():
+    air_csv = './tools/data/AIR.csv'
 
     summary = Summary()
 

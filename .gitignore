@@ -111,6 +111,9 @@ dmypy.json
 
 ## Custom Dept Ed items
 
+# Temp backup things
+*.bak
+
 # Log files
 *.log
 /log/

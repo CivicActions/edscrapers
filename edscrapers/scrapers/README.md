@@ -78,7 +78,7 @@ Assuming we're about to create a new scraper called `students`:
 
 The `crawler.py` needs to contain:
 
-```
+```python
 from scrapy.spiders import Rule
 from scrapy.spiders import CrawlSpider
 from scrapy.linkextractors import LinkExtractor
@@ -114,7 +114,7 @@ class Crawler(CrawlSpider):
 
 A `parser.py` example:
 
-```
+```python
 from slugify import slugify
 
 from edscrapers.scrapers import base

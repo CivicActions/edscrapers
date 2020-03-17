@@ -18,6 +18,8 @@ html5lib = "==1.0.1"
 pyopenssl = "==19.1.0"
 pyyaml = "==5.3"
 dash = "*"
+click = "*"
+loguru = "*"
 
 [requires]
 python_version = "3.7"

@@ -1,4 +1,4 @@
-.PHONY: all install list scrape compare
+.PHONY: all install list scrape compare transform
 
 all: list
 
@@ -9,13 +9,13 @@ list:
 	@grep '^\.PHONY' Makefile | cut -d' ' -f2- | tr ' ' '\n'
 
 scrape:
-	python -m edscrapers.scrapers.base.cli $(filter-out $@,$(MAKECMDGOALS))
+	ed scrape $(filter-out $@,$(MAKECMDGOALS))
 
 compare:
-	python -m tools.compare $(filter-out $@,$(MAKECMDGOALS))
+	ed compare $(filter-out $@,$(MAKECMDGOALS))
 
 transform:
-	python -m edscrapers.transformers.base.cli $(filter-out $@,$(MAKECMDGOALS))
+	ed transform $(filter-out $@,$(MAKECMDGOALS))
 
 %:
 	@:

@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="edscrapers",
-    version="0.0.1",
+    version="0.1.0",
     author="Datopian",
     author_email="victor.nitu@datopian.com",
     description="Scrapers and transformers for U.S. Dept. of Ed. data",
@@ -19,4 +19,11 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
+    install_requires=[
+        'Click'
+    ],
+    entry_points='''
+        [console_scripts]
+        ed=edscrapers.cli:cli
+    '''
 )

@@ -1,25 +1,37 @@
+import os
 import json
+from pathlib import Path
+
+from edscrapers.cli import logger
 from edscrapers.transformers.base.helpers import traverse_output
 
 
-def transform(target_dept=None):
-    transformer = Transformer(target_dept)
+OUTPUT_DIR = os.getenv('ED_OUTPUT_PATH')
+Path(os.path.join(OUTPUT_DIR, 'transformers', 'deduplicate')).mkdir(parents=True, exist_ok=True)
 
-    with open(f'./output/deduplicated_{target_dept or "all"}.lst', 'w') as fp:
+def transform(name=None, input_file=None):
+    transformer = Transformer(name)
+
+    if not input_file:
+        out_file = os.path.join(OUTPUT_DIR, 'transformers', 'deduplicate', f'deduplicated_{name or "all"}.lst')
+    else:
+        out_file = input_file
+
+    with open(out_file, 'w') as fp:
         for fname in transformer.urls_dict.values():
             fp.write(fname + '\n')
 
-    print('Deduplicated list is ready.')
+    logger.success('Deduplicated list is ready.')
 
 
 class Transformer():
 
-    def __init__(self, target_dept=None):
+    def __init__(self, name=None):
 
-        if target_dept is None:
+        if name is None:
             self.file_list = traverse_output()
         else:
-            self.file_list = traverse_output(target_dept)
+            self.file_list = traverse_output(name)
 
         # Deduplicate using a Python dict's keys uniqueness
         self.urls_dict = dict()

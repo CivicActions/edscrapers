@@ -1,21 +1,22 @@
 import os
 import json
-import pathlib
+from pathlib import Path
 
 from slugify import slugify
 from urllib.parse import urlparse
 from urllib.parse import urljoin
 
+OUTPUT_DIR = os.getenv('ED_OUTPUT_PATH')
 
 map_office_name = {
     'edgov' : 'Department of Education',
     'ocr' : 'Office for Civil Rights',
-    'edoctae' : 'Office of Career, Technical and Adult Education',
-    'edope' : 'Office of Postsecondary Education',
-    'edoela' : 'Office of English Language Acquisition',
-    'edosers' : 'Office of Special Education and Rehabilitative Services',
-    'edopepd' : 'Office of Planning, Evaluation and Policy Development',
-    'edoese' : 'Office of Elementary and Secondary Education',
+    'octae' : 'Office of Career, Technical and Adult Education',
+    'ope' : 'Office of Postsecondary Education',
+    'oela' : 'Office of English Language Acquisition',
+    'osers' : 'Office of Special Education and Rehabilitative Services',
+    'opepd' : 'Office of Planning, Evaluation and Policy Development',
+    'oese' : 'Office of Elementary and Secondary Education',
     'oese' : 'Office of Elementary and Secondary Education',
     'nces' : 'National Center for Education Statistics'
 }
@@ -58,9 +59,9 @@ def url_is_absolute(url):
 
 def traverse_output(target=None):
     if target is None:
-        results = pathlib.Path(f'./output').rglob('*.json')
+        results = Path(os.path.join(OUTPUT_DIR, 'scrapers')).rglob('*.json')
     else:
-        results = pathlib.Path(f'./output/{target}').glob('**/*.json')
+        results = Path(os.path.join(OUTPUT_DIR, 'scrapers', target)).glob('**/*.json')
 
     files_list = [f for f in results
                   if 'print' not in str(f).split('/')[-1].split('-')

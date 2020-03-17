@@ -17,11 +17,11 @@ class Summary():
 
     scrapers = {
         'edgov': r'www2.ed.gov',
-        'edoctae': r'ovae|OVAE|octae|OCTAE',
-        'edoela': r'oela|ncela',
-        'edope': r'/ope/',
-        'edopepd': r'\bopepd\b',
-        'edosers': r'osers|osep|idea',
+        'octae': r'ovae|OVAE|octae|OCTAE',
+        'oela': r'oela|ncela',
+        'ope': r'/ope/',
+        'opepd': r'\bopepd\b',
+        'osers': r'osers|osep|idea',
         'ocr': r'ocrdata.ed.gov',
         'oese': r'oese.ed.gov',
         'nces': r'\bnces\b',
