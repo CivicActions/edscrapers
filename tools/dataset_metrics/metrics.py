@@ -144,9 +144,13 @@ def list_exclusive_domain(scraper='datopian',
     # this value represents the number of resources visited
     air_df_subset['resource count'] = list(grouped.size().values)
 
-    # check which scraper domain listing is for
+    # check which scraper is requested
     if scraper.upper() == "DATOPIAN":
-        # get all domains visited by datopian but NOT AIR
+        # get all domains visited by datopian but NOT AIR.
+        # We use the trick of concatenating 'air_df_subset' twice.
+        # This is to ensure that when remove duplicates
+        # in later step all rows from 'air_df_subset' will
+        # ALWAYS be removed.
         datopian_df_subset = pd.concat([datopian_df_subset,
         air_df_subset, air_df_subset], axis='index', ignore_index=True)
         # remove duplicate rows
@@ -167,7 +171,7 @@ def list_exclusive_domain(scraper='datopian',
         with pd.ExcelWriter(METRICS_OUTPUT_PATH, engine="openpyxl",
                             mode=writer_mode) as writer:
             datopian_df_subset.to_excel(writer,
-                                        sheet_name='RESOURCE COUNT (DATOPIAN ONLY)',
+                                        sheet_name='RESOURCE COUNT PER DOMAIN (DATOPIAN ONLY)',
                                         index=False, engine='openpyxl')
         return datopian_df_subset
 
@@ -194,7 +198,109 @@ def list_exclusive_domain(scraper='datopian',
         with pd.ExcelWriter(METRICS_OUTPUT_PATH, engine="openpyxl",
                             mode=writer_mode) as writer:
             air_df_subset.to_excel(writer,
-                                        sheet_name='RESOURCE COUNT (AIR ONLY)',
+                                        sheet_name='RESOURCE COUNT PER DOMAIN (AIR ONLY)',
                                         index=False, engine='openpyxl')
                                         
         return air_df_subset
+    else:
+        raise ValueError('invalid "scraper" provided')
+
+
+def list_highest_resources_from_pages(scraper='datopian',
+                          ordered=True):
+    """ function is used to determine what pages from a particular
+    scraper produced/generated the highest number of resources.
+    
+    PARAMETERS
+    - scraper: the scraper that was run on the domains to generate the 
+    datasets e.g. DATOPIAN or AIR
+    
+    - ordered: whether the resulting DataFrame or 
+    Excel sheet result be sorted/ordered. If True, order by 'resource per page'
+     """
+
+    # check which scraper is requested
+    if scraper.upper() == "DATOPIAN":
+        # create a datopian dataframe with duplicate url and source_urls removed
+        datopian_out_deduplicated_df = datopian_out_df.\
+            drop_duplicates(subset=['url', 'source_url'], inplace=False)
+        # create subset of the datopian dataframe (subset will house domain info)
+        datopian_df_subset = pd.DataFrame(columns=['domain'])
+        # create the domain column from the source_url info available
+        datopian_df_subset['domain'] = datopian_out_deduplicated_df.\
+            apply(lambda row: urllib.parse.\
+                    urlparse(row['source_url']).hostname.\
+                        replace('www2.', 'www.').replace('www.', ''), axis=1)
+        # get the 'source_url' renamed as 'page'
+        datopian_df_subset['page'] = datopian_out_deduplicated_df['source_url']
+        # to get the number of resources retrieved from each page, perform groupby
+        grouped = datopian_df_subset.groupby(['domain', 'page'])
+        # create dataframe to store aggreated resource info
+        dataframe = pd.DataFrame(columns=['domain', 'page'])
+        dataframe['domain'] = [domain for domain, page in grouped.indices.keys()]
+        dataframe['page'] = [page for domain, page in grouped.indices.keys()]
+        # get the size of each group
+        # this value represents the number of resources gotten per page
+        dataframe['resource per page'] = list(grouped.size().values)
+
+        # if 'ordered' is True, sorted the df by 'resource count' in descending order
+        if ordered:
+            dataframe.sort_values(by='resource per page', axis='index',
+                                           ascending=False, inplace=True,
+                                           ignore_index=True)
+
+        # write the dataframe to an excel sheet
+        if os.path.exists(METRICS_OUTPUT_PATH): # check if excel sheet exist
+            writer_mode = 'a' # set write mode to append
+        else:
+            writer_mode = 'w' # set write mode to write
+        with pd.ExcelWriter(METRICS_OUTPUT_PATH, engine="openpyxl",
+                            mode=writer_mode) as writer:
+            dataframe.to_excel(writer,
+                                        sheet_name='RESOURCE COUNT PER PAGE (DATOPIAN)',
+                                        index=False, engine='openpyxl')
+        return dataframe
+        
+    elif scraper.upper() == "AIR":
+        # create a AIR dataframe with duplicate url and source_urls removed
+        air_out_deduplicated_df = air_out_df.\
+            drop_duplicates(subset=['url', 'source_url'], inplace=False)
+        # create subset of the air dataframe (subset will house domain info)
+        air_df_subset = pd.DataFrame(columns=['domain'])
+        # create the domain column from the source_url info available
+        air_df_subset['domain'] = air_out_deduplicated_df.\
+            apply(lambda row: urllib.parse.\
+                    urlparse(row['source_url']).hostname.\
+                        replace('www2.', 'www.').replace('www.', ''), axis=1)
+        # get the 'source_url' renamed as 'page'
+        air_df_subset['page'] = air_out_deduplicated_df['source_url']
+        # to get the number of resources retrieved from each page, perform groupby
+        grouped = air_df_subset.groupby(['domain', 'page'])
+        # create dataframe to store aggreated resource info
+        dataframe = pd.DataFrame(columns=['domain', 'page'])
+        dataframe['domain'] = [domain for domain, page in grouped.indices.keys()]
+        dataframe['page'] = [page for domain, page in grouped.indices.keys()]
+        # get the size of each group
+        # this value represents the number of resources gotten per page
+        dataframe['resource per page'] = list(grouped.size().values)
+
+        # if 'ordered' is True, sorted the df by 'resource count' in descending order
+        if ordered:
+            dataframe.sort_values(by='resource per page', axis='index',
+                                           ascending=False, inplace=True,
+                                           ignore_index=True)
+
+        # write the dataframe to an excel sheet
+        if os.path.exists(METRICS_OUTPUT_PATH): # check if excel sheet exist
+            writer_mode = 'a' # set write mode to append
+        else:
+            writer_mode = 'w' # set write mode to write
+        with pd.ExcelWriter(METRICS_OUTPUT_PATH, engine="openpyxl",
+                            mode=writer_mode) as writer:
+            dataframe.to_excel(writer,
+                                        sheet_name='RESOURCE COUNT PER PAGE (AIR)',
+                                        index=False, engine='openpyxl')
+        return dataframe
+        
+    else:
+        raise ValueError('invalid "scraper" provided')
