@@ -12,7 +12,7 @@ from edscrapers.scrapers.base import helpers as scrape_base
 from edscrapers.scrapers.base import helpers as scrape_helpers
 
 from tools.compare import compare as compare_cli
-from tools.dashboard.app import app as dash_app
+from tools.dashboard import app as dash_app
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -154,7 +154,7 @@ def dash(detached, port, host, debug, **kwargs):
     if detached:
         logger.warn('Dash app detached mode not yet implemented!')
         logger.info('Falling back to non-detached mode.')
-    dash_app.run_server(debug=debug, dev_tools_hot_reload=debug, host=host)
+    dash_app.app.run_server(debug=debug, dev_tools_hot_reload=debug, host=host)
 
 
 
