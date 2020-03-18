@@ -13,10 +13,18 @@ During the scraping process for Dept Ed, it's important we have verifiable, meas
 
 3. What domains (subdomains) AIR touched and Datopian didn't? How many items were extracted from them? 
 
+4. what pages collected the most resource for Datopian?
+
+5. What pages collected the most resources for AIR?
+
   
 ## How to run metrics script
 
+- Create a python virtual environment 
+
 - Clone this repo `git clone https://github.com/CivicActions/ckanext-edscrapers.git`
+
+- From the root dorectory of the repo run `pip install requirements.txt`
 
 - From the root dorectory of the repo run `python -m tools.dataset_metrics.run`
 
