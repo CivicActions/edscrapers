@@ -17,6 +17,8 @@ During the scraping process for Dept Ed, it's important we have verifiable, meas
 
 5. What pages collected the most resources for AIR?
 
+6. What resources are EXCLUSIVE to edgov/data.json when compared with Datopian
+
   
 ## How to run metrics script
 

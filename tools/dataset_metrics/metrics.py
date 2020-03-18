@@ -1,12 +1,17 @@
 """ module provides functions for obtaining
-various metrics above the Dept Ed scraping exercise"""
+various metrics about the Dept Ed scraping exercise"""
 
 import urllib.parse
 import os
+import json
+import functools
+import itertools
 
 import pandas as pd # pip install pandas
+import requests # pip install requests
 
 from tools.dataset_metrics import datopian_out_df, air_out_df, METRICS_OUTPUT_PATH
+import tools.dataset_metrics.helpers as h
 
 
 def list_domain(scraper='datopian', ordered=True):
@@ -304,3 +309,71 @@ def list_highest_resources_from_pages(scraper='datopian',
         
     else:
         raise ValueError('invalid "scraper" provided')
+
+
+def data_json_compare(scraper='datopian', 
+                      compare_with_path='https://www2.ed.gov/data.json'):
+    """ function compares/measures the differences between data resources
+    collected by 'datopian' scraper and resources listen in a data.json file.
+    
+    function uses the json schema provided by ed.gov/data.json to construct
+    a dataframe to be used for comparison"""
+    
+    # check that scraper provided is 'datopian'
+    if scraper.upper() != "DATOPIAN":
+        raise ValueError('invalid "scraper" provided')
+
+    # check if an appropriate path is provided
+    if urllib.parse.urlparse(compare_with_path).scheme == "" and\
+        os.path.isfile(compare_with_path) == False:
+        raise ValueError('invalid "compare_with_path" provided')
+
+    # load the data.json for comparison
+    if urllib.parse.urlparse(compare_with_path).scheme != "": # remote file
+        # use requests to load json
+        data_json = requests.get(compare_with_path, verify=False).json()
+    elif os.path.isfile(compare_with_path) == True: # local file
+        # json module to load json
+        data_json = json.load(open(compare_with_path, mode='r'))
+
+    # normalise the json for pd dataframe
+    # filter out non-useful datasets i.e. datasets that don't contain resources
+    data_json = filter(h.filter_data_json_datasets, data_json['dataset'])
+
+    # map the iteratable contained in data_json to
+    # a list of lists (2-dimensional) which can be used by pd dataframe
+    # the list of lists contain the url of every resource from each dataset
+    data_json = map(h.map_data_json_resources_to_lists, data_json)
+    data_json = functools.reduce(lambda index1, index2:\
+                    (index1.extend(index2) or index1), data_json, [])
+    data_json = functools.reduce(lambda index1, index2:\
+                    (index1.append([index2]) or index1), data_json, [])
+    # crate a dataframe from the dataset resources of data.json
+    data_json_df = pd.DataFrame(data_json, columns=['url'])
+    
+    # get the resources EXCLUSIVE to edgov/data.json
+    dataframe = pd.DataFrame(columns=['url'])
+    dataframe['url'] = datopian_out_df['url']
+
+    dataframe = pd.concat([data_json_df,
+        dataframe, dataframe], axis='index', ignore_index=True)
+    # remove duplicate rows
+    dataframe.drop_duplicates(subset=['url'], keep=False,
+                                        inplace=True)
+    
+    # write the dataframes to an excel sheet
+    if os.path.exists(METRICS_OUTPUT_PATH): # check if excel sheet exist
+        writer_mode = 'a' # set write mode to append
+    else:
+        writer_mode = 'w' # set write mode to write
+    with pd.ExcelWriter(METRICS_OUTPUT_PATH, engine="openpyxl",
+                        mode=writer_mode) as writer:
+        data_json_df.to_excel(writer,
+                                    sheet_name='ALL EDGOV RESOURCES',
+                                    index=False, engine='openpyxl')
+        dataframe.to_excel(writer,
+                                    sheet_name='EXCLUSIVE EDGOV RESOURCES',
+                                    index=False, engine='openpyxl')
+    
+    return dataframe # return dataframe with resources EXCLUSIVE to edgov/data.json
+
