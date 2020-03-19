@@ -7,8 +7,6 @@ from scrapy.crawler import CrawlerProcess
 from loguru import logger
 from pathlib import Path
 
-from edscrapers.config import S3_ACCESS_KEY, S3_SECRET_KEY, ED_OUTPUT_PATH
-
 from edscrapers.scrapers.base import config as scrape_config
 from edscrapers.scrapers.base import helpers as scrape_base
 from edscrapers.scrapers.base import helpers as scrape_helpers
@@ -32,43 +30,60 @@ def add_options(options):
         return func
     return _add_options
 
+def _check_environment():
+    errors = ['ED_OUTPUT_PATH']
+    warnings = ['S3_ACCESS_KEY', 'S3_SECRET_KEY']
+
+    for e in errors:
+        if not os.getenv(e):
+            logger.error(f'Environment variable {e} not set! Aborting.')
+            sys.exit(1)
+
+    for w in warnings:
+        if not os.getenv(w):
+            logger.warning(f'{w} not set.')
+
+
 def setup_logger(quiet, verbosity, namespace, name=''):
+    if not os.getenv('ED_OUTPUT_PATH'):
+        logger.error('Environment variable ED_OUTPUT_PATH not set! Aborting.')
+
     log_levels = {'0': 'WARNING', '1': 'INFO', '2': 'DEBUG'}
     logger.remove()
 
     log_dir = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'logs')
 
-    if not quiet:
-        # Not quiet, so we can log to STDOUT
-        logger.add(sys.stdout,
-                   colorize=True,
-                   level=log_levels[str(verbosity)],
-                   # filter="edscrapers",
-                   format="<level>{message}</level>",
-                   backtrace=True,
-                   diagnose=True)
+    try:
+
+        if not quiet:
+            # Not quiet, so we can log to STDOUT
+            logger.add(sys.stdout,
+                    colorize=True,
+                    level=log_levels[str(verbosity)],
+                    # filter="edscrapers",
+                    format="<level>{message}</level>",
+                    backtrace=True,
+                    diagnose=True)
 
 
-    logger.add(os.path.join(log_dir, f'{namespace}_{name}' + '_{time}.log'),
-               format="{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}",
-               filter="edscrapers",
-               level=log_levels[str(verbosity)],
-               # filter="edscrapers",
-               enqueue=True,
-               rotation="1 GB",
-               backtrace=True,
-               diagnose=True)
+        logger.add(os.path.join(log_dir, f'{namespace}_{name}'+'_{time}.log'),
+                format="{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}",
+                filter="edscrapers",
+                level=log_levels[str(verbosity)],
+                # filter="edscrapers",
+                enqueue=True,
+                rotation="1 GB",
+                backtrace=True,
+                diagnose=True)
+    except KeyError:
+        setup_logger(quiet, 2, namespace, name)
 
     return True
 
 
 @click.group()
 def cli():
-    if not ED_OUTPUT_PATH:
-        print('Environment variable ED_OUTPUT_PATH not set! Aborting.')
-        sys.exit(1)
-    if not ED_OUTPUT_PATH:
-        print('Environment variable ED_OUTPUT_PATH not set! Aborting.')
+    pass
 
 
 @cli.command(context_settings=CONTEXT_SETTINGS)
@@ -78,6 +93,9 @@ def cli():
 @click.argument('name')
 def scrape(cache, resume, name, **kwargs):
     '''Run a Scrapy pipeline for crawling / parsing / dumping output'''
+
+    setup_logger(kwargs['quiet'], kwargs['verbosity'], 'scrapers', name)
+    _check_environment()
 
     # Prepare conf dict
     conf = scrape_helpers.get_variables(scrape_config, str.isupper)
@@ -91,20 +109,15 @@ def scrape(cache, resume, name, **kwargs):
         conf['SCRAPY_SETTINGS']['HTTPCACHE_ENABLED'] = True
 
     if resume:
-        if not os.getenv('ED_OUTPUT_PATH'):
-            logger.error('ED_OUTPUT_PATH env var not set!')
-            return False
-        else:
-            job_dir = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'scrapy', 'jobs')
-            cache_dir = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'scrapy', 'httpcache')
+        job_dir = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'scrapy', 'jobs')
+        cache_dir = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'scrapy', 'httpcache')
 
-            Path(job_dir).mkdir(parents=True, exist_ok=True)
-            Path(cache_dir).mkdir(parents=True, exist_ok=True)
+        Path(job_dir).mkdir(parents=True, exist_ok=True)
+        Path(cache_dir).mkdir(parents=True, exist_ok=True)
 
-            conf['SCRAPY_SETTINGS']['JOBDIR'] = job_dir
-            conf['SCRAPY_SETTINGS']['HTTPCACHE_DIR'] = cache_dir
+        conf['SCRAPY_SETTINGS']['JOBDIR'] = job_dir
+        conf['SCRAPY_SETTINGS']['HTTPCACHE_DIR'] = cache_dir
 
-    setup_logger(kwargs['quiet'], kwargs['verbosity'], 'scrapers', name)
 
     process = CrawlerProcess(conf['SCRAPY_SETTINGS'])
     process.crawl(crawler)
@@ -123,6 +136,7 @@ def scrape(cache, resume, name, **kwargs):
 def transform(in_file_path, name, transformer, **kwargs):
     '''Run a transformer on a scraper output to generate data in a format useful for other applications'''
     setup_logger(kwargs['quiet'], kwargs['verbosity'], 'transformers', transformer)
+    _check_environment()
     transformer = importlib.import_module(f"edscrapers.transformers.{transformer}.transform")
     transformer.transform(name, in_file_path)
 
