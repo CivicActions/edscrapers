@@ -17,5 +17,8 @@ compare:
 transform:
 	ed transform $(filter-out $@,$(MAKECMDGOALS))
 
+dash:
+	python -m edscrapers.cli dash $(filter-out $@,$(MAKECMDGOALS))
+
 %:
 	@:

@@ -7,12 +7,14 @@ from scrapy.crawler import CrawlerProcess
 from loguru import logger
 from pathlib import Path
 
+from edscrapers.config import S3_ACCESS_KEY, S3_SECRET_KEY, ED_OUTPUT_PATH
+
 from edscrapers.scrapers.base import config as scrape_config
 from edscrapers.scrapers.base import helpers as scrape_base
 from edscrapers.scrapers.base import helpers as scrape_helpers
 
 from tools.compare import compare as compare_cli
-from tools.dashboard import app as dash_app
+from edscrapers.tools.dashboard import app as dash_app
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -30,15 +32,11 @@ def add_options(options):
         return func
     return _add_options
 
-def setup_logger(quiet, verbosity, name):
+def setup_logger(quiet, verbosity, namespace, name=''):
     log_levels = {'0': 'WARNING', '1': 'INFO', '2': 'DEBUG'}
     logger.remove()
 
-    if not os.getenv('ED_OUTPUT_PATH'):
-        print('Environment variable ED_OUTPUT_PATH not set! Aborting.')
-        sys.exit(1)
-    else:
-        log_dir = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'logs')
+    log_dir = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'logs')
 
     if not quiet:
         # Not quiet, so we can log to STDOUT
@@ -51,7 +49,7 @@ def setup_logger(quiet, verbosity, name):
                    diagnose=True)
 
 
-    logger.add(os.path.join(log_dir, 'log_{time}.log'),
+    logger.add(os.path.join(log_dir, f'{namespace}_{name}' + '_{time}.log'),
                format="{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}",
                filter="edscrapers",
                level=log_levels[str(verbosity)],
@@ -66,7 +64,11 @@ def setup_logger(quiet, verbosity, name):
 
 @click.group()
 def cli():
-    pass
+    if not ED_OUTPUT_PATH:
+        print('Environment variable ED_OUTPUT_PATH not set! Aborting.')
+        sys.exit(1)
+    if not ED_OUTPUT_PATH:
+        print('Environment variable ED_OUTPUT_PATH not set! Aborting.')
 
 
 @cli.command(context_settings=CONTEXT_SETTINGS)
@@ -102,7 +104,7 @@ def scrape(cache, resume, name, **kwargs):
             conf['SCRAPY_SETTINGS']['JOBDIR'] = job_dir
             conf['SCRAPY_SETTINGS']['HTTPCACHE_DIR'] = cache_dir
 
-    setup_logger(kwargs['quiet'], kwargs['verbosity'], name)
+    setup_logger(kwargs['quiet'], kwargs['verbosity'], 'scrapers', name)
 
     process = CrawlerProcess(conf['SCRAPY_SETTINGS'])
     process.crawl(crawler)
@@ -120,6 +122,7 @@ def scrape(cache, resume, name, **kwargs):
 @add_options(global_options)
 def transform(in_file_path, name, transformer, **kwargs):
     '''Run a transformer on a scraper output to generate data in a format useful for other applications'''
+    setup_logger(kwargs['quiet'], kwargs['verbosity'], 'transformers', transformer)
     transformer = importlib.import_module(f"edscrapers.transformers.{transformer}.transform")
     transformer.transform(name, in_file_path)
 
@@ -130,6 +133,7 @@ def transform(in_file_path, name, transformer, **kwargs):
 @add_options(global_options)
 def compare(format, **kwargs):
     ''' Run a comparison algorhitm against AIR's resources. '''
+    setup_logger(kwargs['quiet'], kwargs['verbosity'], 'compare')
     compare_cli()
 
 
@@ -151,6 +155,7 @@ def stats(name, **kwargs):
 @add_options(global_options)
 def dash(detached, port, host, debug, **kwargs):
     ''' Run the dash server for displaying HTML statistics. '''
+    setup_logger(kwargs['quiet'], kwargs['verbosity'], 'dash')
     if detached:
         logger.warn('Dash app detached mode not yet implemented!')
         logger.info('Falling back to non-detached mode.')

@@ -4,8 +4,8 @@ import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
 
-from .venn_diagram import venn_figure
-from .json_parser import (get_stats,
+from edscrapers.tools.dashboard.venn_diagram import venn_figure
+from edscrapers.tools.dashboard.json_parser import (get_stats,
                          get_total_resources_data,
                          get_total_pages_data,
                          get_total_datasets_number,
@@ -207,11 +207,11 @@ def generate_layout():
 
 def generate_split_layout():
     return html.Div(children=[
-        html.Img(src='https://www.datopian.com/img/datopian-logo.svg', style={'width': 200, 'float': 'right', 'margin': 20}),
-        html.Img(src='https://i.stack.imgur.com/wSpIb.png', style={'width': 200, 'float': 'right', 'margin': 20}),
-    html.H1(children='Scraping Dashboard'),
+    #     html.Img(src='https://www.datopian.com/img/datopian-logo.svg', style={'width': 200, 'float': 'right', 'margin': 20}),
+    #     html.Img(src='https://i.stack.imgur.com/wSpIb.png', style={'width': 200, 'float': 'right', 'margin': 20}),
+    # html.H1(children='Scraping Dashboard'),
 
-    html.Hr(),
+    # html.Hr(),
     
     html.Div([
         dcc.Graph(figure={'data': get_datasets_bars_data(),
