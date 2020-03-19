@@ -5,7 +5,6 @@ import urllib.parse
 import os
 import json
 import functools
-import itertools
 
 import pandas as pd # pip install pandas
 import requests # pip install requests
@@ -210,6 +209,83 @@ def list_exclusive_domain(scraper='datopian',
     else:
         raise ValueError('invalid "scraper" provided')
 
+
+def list_intersection_domain(scraper='datopian',
+                          compare_scraper='air', ordered=True):
+    """ function is used to determine what domains were
+    BOTH visited by 'scraper' AND 'compare_scraper' .
+    If 'ordered' is True, dataframe is sorted by 'resource count' """
+
+    if (scraper.upper() != "DATOPIAN" and compare_scraper.upper() != "AIR")\
+        and (scraper.upper() != "AIR" and compare_scraper.upper() != "DATOPIAN"):
+        raise ValueError('invalid "scraper" or "compare_scraper" provided')
+
+    # create a datopian dataframe with duplicate url and source_urls removed
+    datopian_out_deduplicated_df = datopian_out_df.\
+        drop_duplicates(subset=['url', 'source_url'], inplace=False)
+    # create subset of the datopian dataframe (subset will house domain info)
+    datopian_df_subset = pd.DataFrame(columns=['domain'])
+    # create the domain column from the source_url info available
+    datopian_df_subset['domain'] = datopian_out_deduplicated_df.\
+        apply(lambda row: urllib.parse.\
+                urlparse(row['source_url']).hostname.\
+                    replace('www2.', 'www.').replace('www.', ''), axis=1)
+    # to get the number of pages visited from each domain, perform groupby
+    grouped = datopian_df_subset.groupby(['domain'])
+    # recreate the datopian dataframe subset to store aggreated domain info
+    datopian_df_subset = pd.DataFrame(columns=['domain'])
+    # get the keys/names for grouped domains
+    datopian_df_subset['domain'] = list(grouped.indices.keys())
+    # get the size of each group
+    # i.e. the number of times each domain appeared in the non-grouped dataframe
+    # this value represents the number of resources visited
+    datopian_df_subset['resource count'] = list(grouped.size().values)
+
+    # create a air dataframe with duplicate url and source_urls removed
+    air_out_deduplicated_df = air_out_df.\
+        drop_duplicates(subset=['url', 'source_url'], inplace=False)
+    # create subset of the air dataframe (subset will house domain info)
+    air_df_subset = pd.DataFrame(columns=['domain'])
+    # create the domain column from the source_url info available
+    air_df_subset['domain'] = air_out_deduplicated_df.\
+        apply(lambda row: urllib.parse.\
+                urlparse(row['source_url']).hostname.\
+                    replace('www2.', 'www.').replace('www.', ''), axis=1)
+    # to get the number of pages visited from each domain, perform groupby
+    grouped = air_df_subset.groupby(['domain'])
+    # recreate the air dataframe subset to store aggreated domain info
+    air_df_subset = pd.DataFrame(columns=['domain'])
+    # get the keys/names for grouped domains
+    air_df_subset['domain'] = list(grouped.indices.keys())
+    # get the size of each group
+    # i.e. the number of times each domain appeared in the non-grouped dataframe
+    # this value represents the number of resources visited
+    air_df_subset['resource count'] = list(grouped.size().values)
+
+    # intersect the dataframes
+    merged_df = datopian_df_subset.merge(right=air_df_subset,
+                                         how='inner', on=['domain'],
+                                         suffixes=('_datopian', '_air'))
+    # if 'ordered' is True, sorted the df by 'resource count' in descending order
+    if ordered:
+        merged_df.sort_values(by=['resource count_datopian',
+                                 'resource count_air'],
+                              axis='index',
+                              ascending=False, inplace=True,
+                              ignore_index=True)
+    
+    # write the dataframe to an excel sheet
+    if os.path.exists(METRICS_OUTPUT_PATH): # check if excel sheet exist
+        writer_mode = 'a' # set write mode to append
+    else:
+        writer_mode = 'w' # set write mode to write
+    with pd.ExcelWriter(METRICS_OUTPUT_PATH, engine="openpyxl",
+                        mode=writer_mode) as writer:
+        merged_df.to_excel(writer,
+                                    sheet_name='RESOURCE COUNT PER DOMAIN (DATOPIAN-AIR INTERSECTION)',
+                                    index=False, engine='openpyxl')
+    return merged_df
+        
 
 def list_highest_resources_from_pages(scraper='datopian',
                           ordered=True):

@@ -19,6 +19,8 @@ During the scraping process for Dept Ed, it's important we have verifiable, meas
 
 6. What resources are EXCLUSIVE to edgov/data.json when compared with Datopian
 
+7. What domains (subdomains) were both touched by Datopian and AIR? How manay items were extracted from the 'shared' touched domains? 
+
   
 ## How to run metrics script
 
