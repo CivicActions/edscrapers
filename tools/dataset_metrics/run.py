@@ -13,6 +13,8 @@ if __name__ == "__main__":
     #print(metrics.list_highest_resources_from_pages())
     #print('')
     #print(metrics.list_highest_resources_from_pages(scraper='air'))
+    #print('')
+    #print(metrics.data_json_compare())
 
     metrics.list_domain()
     metrics.list_domain(scraper='air')
@@ -20,3 +22,4 @@ if __name__ == "__main__":
     metrics.list_exclusive_domain(scraper='air', compare_scraper='datopian')
     metrics.list_highest_resources_from_pages()
     metrics.list_highest_resources_from_pages(scraper='air')
+    metrics.data_json_compare()
