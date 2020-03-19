@@ -1,3 +1,4 @@
+import os
 import sys
 import pathlib
 import json
@@ -13,7 +14,8 @@ class Summary():
 
     air_df = None
     out_df = None
-    dedup_file = './output/deduplicated_all.lst'
+    output_path = os.getenv('ED_OUTPUT_PATH')
+    dedup_file = os.path.join(os.getenv('ED_OUTPUT_PATH', 'deduplicated_all.lst'))
 
     scrapers = {
         'edgov': r'www2.ed.gov',
@@ -133,7 +135,7 @@ class Summary():
                     files = [line.rstrip() for line in fp]
         except:
             print('Warning! Cannot read deduplication results!')
-            results = pathlib.Path(f'./output/{name}').glob('**/*.json')
+            results = pathlib.Path(os.path.join(self.output_path, 'scrapers', name)).glob('**/*.json')
             files = [f.name for f in results]
 
         return len(files)
@@ -142,7 +144,7 @@ class Summary():
     def generate_output_df(self, use_dump=False, output_list_file=None):
 
         def get_files_list():
-            results = pathlib.Path(f'./output/').glob('**/*.json')
+            results = pathlib.Path(os.path.join(self.output_path, 'scrapers')).glob('**/*.json')
             return [f for f in results]
 
         def abs_url(url, source_url):
@@ -161,7 +163,7 @@ class Summary():
             except:
                 files = get_files_list()
 
-        df_dump = str(pathlib.Path(f'./output/out_df.csv'))
+        df_dump = str(pathlib.Path(os.path.join(self.output_path, 'out_df.csv')))
         if use_dump:
             df = pd.read_csv(df_dump)
         else:
@@ -202,6 +204,6 @@ class Summary():
 
 
     def dump(self, path):
-        out_csv = pathlib.Path(f'./output/datopian.csv')
+        out_csv = pathlib.Path(os.path.join(self.output_path, 'datopian.csv'))
         self.out_df.to_csv(out_csv, index=False)
         return out_csv

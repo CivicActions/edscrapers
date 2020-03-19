@@ -20,6 +20,7 @@ pyyaml = "==5.3"
 dash = "*"
 click = "*"
 loguru = "*"
+dash-bootstrap-components = "*"
 
 [requires]
 python_version = "3.7"
