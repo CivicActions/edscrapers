@@ -84,11 +84,11 @@ def toggle_active_links(pathname):
 
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
-    if pathname in ["/", "/insights"]:
+    if pathname in ["/insights"]:
         return html.P("This is the content of page 1!")
     elif pathname == "/trends":
         return html.P("This is the content of page 2. Yay!")
-    elif pathname == "/air":
+    elif pathname in ["/", "/air"]:
         return air.generate_split_layout()
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
