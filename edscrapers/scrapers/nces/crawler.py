@@ -19,11 +19,11 @@ class Crawler(CrawlSpider):
     def __init__(self):
 
         self.start_urls = [
-            #'https://nces.ed.gov/datatools/',
-            #'https://ies.ed.gov/data.asp',
-            #'https://nces.ed.gov/pubsearch/index.asp?PubSectionID=1&HasSearched=1&pubspagenum=1&sort=3&order=0&L1=&L2=&searchstring=&searchtype=AND&searchcat2=&searchcat=title&pagesize=15&searchmonth=3&searchyear=2018&datetype=ge&pubtype=010&surveyname=&surveyid=&centername=NCES&center=NCES',
-            #'https://nces.ed.gov/Datalab/TablesLibrary',
-            'https://nces.ed.gov/pubs2009/expenditures/tables/table_08.asp?referrer=report'
+            'https://nces.ed.gov/datatools/',
+            'https://ies.ed.gov/data.asp',
+            'https://nces.ed.gov/pubsearch/index.asp?PubSectionID=1&HasSearched=1&pubspagenum=1&sort=3&order=0&L1=&L2=&searchstring=&searchtype=AND&searchcat2=&searchcat=title&pagesize=15&searchmonth=3&searchyear=2018&datetype=ge&pubtype=010&surveyname=&surveyid=&centername=NCES&center=NCES',
+            'https://nces.ed.gov/Datalab/TablesLibrary',
+            #'https://nces.ed.gov/pubs2009/expenditures/tables/table_08.asp?referrer=report'
             #'https://nces.ed.gov/surveys/els2002/tables/APexams_01.asp'
         ]
 
