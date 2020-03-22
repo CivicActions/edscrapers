@@ -33,8 +33,14 @@ def parse(res):
         # parse the page with the parser and return result
         link = soup_parser.body.find(name='a', href=base_parser.resource_checker,
                              recursive=True)
-        print("URL", "PARSER1", res.url, link['href'])
+        #print("URL", "PARSER1", res.url, link['href'])
         return parsers.parser1.parse(res)
+    if soup_parser.body.find(name='div', class_='nces', recursive=True) is not None:
+        # parse the page with the parser and return result
+        link = soup_parser.body.find(name='a', href=base_parser.resource_checker,
+                             recursive=True)
+        #print("URL", "PARSER2", res.url, link['href'])
+        return parsers.parser2.parse(res)
     else:
         link = soup_parser.body.find(name='a', href=base_parser.resource_checker,
                              recursive=True)
