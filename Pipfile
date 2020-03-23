@@ -21,6 +21,6 @@ dash = "*"
 click = "*"
 loguru = "*"
 dash-bootstrap-components = "*"
-
-[requires]
-python_version = "3.7"
+twisted = "*"
+boto3 = "*"
+botocore = "*"

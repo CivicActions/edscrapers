@@ -88,7 +88,7 @@ class Dataset():
     description = str()
     keyword = list()
     modified = None
-    source_url = str()
+    scraped_from = str()
     publisher = Organization()
     contactPoint = dict()
     identifier = str()
@@ -133,8 +133,8 @@ class Dataset():
         if self.publisher.to_dict():
             dataset_dict["publisher"] = self.publisher.to_dict()
 
-        if self.source_url:
-            dataset_dict["source_url"] = self.source_url
+        if self.scraped_from:
+            dataset_dict["scraped_from"] = self.scraped_from
 
         if self.contactPoint:
             dataset_dict["contactPoint"] = self.contactPoint

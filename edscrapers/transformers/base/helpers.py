@@ -51,12 +51,6 @@ def get_office_name(target_dept):
 def get_media_type(format):
     return map_media_type.get(format)
 
-def transform_download_url(download_url, source_url):
-    return urljoin(source_url,download_url)
-
-def url_is_absolute(url):
-    return bool(urlparse(url).netloc)
-
 def traverse_output(target=None):
     if target is None:
         results = Path(os.path.join(OUTPUT_DIR, 'scrapers')).rglob('*.json')

@@ -1,5 +1,7 @@
 import os
 from pathlib import Path
+from urllib.parse import urlparse
+from urllib.parse import urljoin
 
 import edscrapers.transformers.base.helpers as h
 from edscrapers.cli import logger
@@ -76,7 +78,9 @@ def transform(name, input_file=None):
                             config=Config(signature_version='s3v4'))
 
         bucket = s3.Bucket(S3_BUCKET_NAME)
-        bucket.upload_file(file_path, f'{name}.data.json')
+        # bucket.upload_file(file_path, f'{name}.data.json',  )
+        with open(file_path, 'rb') as file_obj:
+            bucket.put_object(Key=f'{name}.data.json', Body=file_obj)
         logger.info(f'File uploaded to https://storage.googleapis.com/us-ed-scraping/{name}.data.json')
 
 
@@ -84,11 +88,11 @@ def _transform_scraped_dataset(data, target_dept):
 
     dataset = Dataset()
 
-    source_url = data.get('source_url')
-    if '|' in source_url:
-        source_url = source_url.split('|')[0]
+    scraped_from = data.get('source_url')
+    if '|' in scraped_from:
+        scraped_from = scraped_from.split('|')[0]
 
-    dataset.source_url = source_url
+    dataset.scraped_from = scraped_from
     
     ### removing leading and trailing withespaces from title
     title = data.get('title').strip()
@@ -96,11 +100,11 @@ def _transform_scraped_dataset(data, target_dept):
         dataset.title = title
         dataset_title_list.append(title)
     else:
-        dataset.title = h.transform_dataset_title(title, source_url)
+        dataset.title = h.transform_dataset_title(title, scraped_from)
 
     identifier = data.get('name')
     if identifier in dataset_identifier_list:
-        identifier = h.transform_dataset_identifier(title, source_url)
+        identifier = h.transform_dataset_identifier(title, scraped_from)
     dataset.identifier = identifier
     dataset_identifier_list.append(identifier)
 
@@ -117,22 +121,21 @@ def _transform_scraped_dataset(data, target_dept):
     publisher.name = h.get_office_name(target_dept)
     dataset.publisher = publisher
 
-    if data.get('contact_person_name') and data.get('contact_person_email'):
-        contactPoint = {
-            "@type": "vcard:Contact",
-            "fn": data.get('contact_person_name'),
-            "hasEmail": "mailto:" + data.get('contact_person_email')
-        }
+    contactPoint = {
+        "@type": "vcard:Contact",
+    }
 
-        dataset.contactPoint = contactPoint
+    if data.get('contact_person_name'):
+        contactPoint['fn'] = data.get('contact_person_name')
+    else:
+        contactPoint['fn'] = h.get_office_name(target_dept)
 
-    ### testing and inserting dummy values for required fields
-    if not dataset.contactPoint:
-        dataset.contactPoint = {
-            "@type": "vcard:Contact",
-            "hasEmail": "mailto:info@viderum.com",
-            "fn": h.get_office_name(target_dept)
-        }
+    if data.get('contact_person_email'):
+        contactPoint['hasEmail'] = "mailto:" + data.get('contact_person_email')
+    else:
+        contactPoint['hasEmail'] = "mailto:odp@ed.gov"
+
+    dataset.contactPoint = contactPoint
 
     if not len(dataset.bureauCode) > 0:
         dataset.bureauCode = ["018:40"]
@@ -158,11 +161,10 @@ def _transform_scraped_resource(target_dept, resource):
     distribution = Resource()
 
     downloadURL = str()
-    if h.url_is_absolute(resource.get('url')):
+    if urlparse(resource.get('url')).scheme:
         downloadURL = resource.get('url')
     else:
-        downloadURL = h.transform_download_url(resource.get('url'),
-            resource.get('source_url'))
+        downloadURL = urljoin(resource.get('source_url'), resource.get('url'))
 
     #remove spaces in links
     downloadURL = downloadURL.replace(' ','%20')

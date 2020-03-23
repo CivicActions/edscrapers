@@ -1,7 +1,11 @@
+import sys
 import setuptools
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
+
+if sys.version_info < (3,6):
+    sys.exit('Sorry, Python < 3.6 is not supported')
 
 setuptools.setup(
     name="edscrapers",
