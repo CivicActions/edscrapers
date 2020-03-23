@@ -72,10 +72,12 @@ def parse(res) -> dict:
             resource = Resource(source_url=res.url,
                                 url=resource_link['href'])
             # get the resource name
-            resource['name'] = dataset['title']
+            resource['name'] = str(soup_parser.find(name='th', class_='title', recursive=True))
             # remove any html tags from the resource name
             resource['name'] = re.sub(r'(</.+>)', '', resource['name'])
+            resource['name'] = re.sub(r'(<[a-z]+/>)', '', resource['name'])
             resource['name'] = re.sub(r'(<.+>)', '', resource['name'])
+            resource['name'] = resource['name'].strip()
             # the page structure has NO description available for resources
             resource['description'] = ''
 
@@ -86,4 +88,8 @@ def parse(res) -> dict:
             # add the resource to collection of resources
             dataset['resources'].append(resource)
 
+        # check if created dataset has resources attached.
+        if len(dataset['resources']) == 0: # no resources so don't yield it
+            continue # skip this loop
+        
         yield dataset
