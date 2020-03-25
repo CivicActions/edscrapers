@@ -1,0 +1,10 @@
+build/
+CONTRIBUTING.md
+dist/
+Dockerfile
+.dockerignore
+edscrapers.egg-info/
+.git/
+.gitignore
+LICENSE.md
+.mypy_cache/

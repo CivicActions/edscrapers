@@ -29,16 +29,31 @@ def parse(res):
     # if code gets here, at least one resource was found
     
     # check if the parser is working on NCES web page
-    if soup_parser.body.find(name='div', class_='MainContent', recursive=True) is not None:
+    if (soup_parser.body.find(name='div', class_='MainContent', recursive=True) is not None)\
+       and  (len(soup_parser.body.find_all(name='table', recursive=True)) > 0):
         # parse the page with the parser and return result
         link = soup_parser.body.find(name='a', href=base_parser.resource_checker,
                              recursive=True)
         print("URL", "PARSER1", res.url, link['href'])
         return parsers.parser1.parse(res)
+    
+    if (soup_parser.body.find(name='div', class_='MainContent', recursive=True) is not None)\
+       and  (len(soup_parser.body.select('ul > li')) > 0):
+        # parse the page with the parser and return result
+        # link = soup_parser.body.find(name='a', href=base_parser.resource_checker,
+        #                      recursive=True)
+        # print("URL", "PARSER3", res.url, link['href'])
+        return parsers.parser3.parse(res)
+    if soup_parser.body.find(name='div', class_='nces', recursive=True) is not None:
+        # parse the page with the parser and return result
+        # link = soup_parser.body.find(name='a', href=base_parser.resource_checker,
+        #                      recursive=True)
+        # print("URL", "PARSER2", res.url, link['href'])
+        return parsers.parser2.parse(res)
     else:
-        link = soup_parser.body.find(name='a', href=base_parser.resource_checker,
-                             recursive=True)
-        print("URL", "NOPARSE", res.url, link['href'])
+        # link = soup_parser.body.find(name='a', href=base_parser.resource_checker,
+        #                      recursive=True)
+        # print("URL", "NOPARSE", res.url, link['href'])
         return None
 
 

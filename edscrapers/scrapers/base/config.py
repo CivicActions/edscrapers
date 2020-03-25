@@ -24,7 +24,7 @@ SCRAPY_SETTINGS = {
     },
     'ITEM_PIPELINES': {
         'edscrapers.scrapers.base.pipelines.JsonWriterPipeline': 1,
-        'edscrapers.scrapers.base.pipelines.DuplicatesPipeline': 2,
+        #'edscrapers.scrapers.base.pipelines.DuplicatesPipeline': 2,
     },
     'SCHEDULER_PRIORITY_QUEUE': 'scrapy.pqueues.DownloaderAwarePriorityQueue',
     # 'REDIRECT_ENABLED': False,
