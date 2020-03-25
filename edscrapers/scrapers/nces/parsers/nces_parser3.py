@@ -1,4 +1,4 @@
-""" parser for nces pages """
+""" parser3 for nces pages """
 
 import re
 
@@ -16,8 +16,7 @@ def parse(res) -> dict:
     # create parser object
     soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
 
-    dataset_containers = soup_parser.body.find_all(name='table',
-                                                   recursive=True)
+    dataset_containers = soup_parser.body.select('div.MainContent')
     for container in dataset_containers:
         # create dataset model dict
         dataset = Dataset()
@@ -72,10 +71,12 @@ def parse(res) -> dict:
         for resource_link in page_resource_links:
             resource = Resource(source_url=res.url,
                                 url=resource_link['href'])
-            # get the resource name
-            resource['name'] = str(soup_parser.body.\
-                                    find(name='div', class_='title').string).strip()
-            # remove any html tags from the resource name
+            # get the resource name iteratively
+            for child in resource_link.parent.children:
+                resource['name'] = str(child).strip()
+                if re.sub(r'(<.+>)', '',
+                re.sub(r'(</.+>)', '', resource['name'])) != "":
+                    break
             resource['name'] = re.sub(r'(</.+>)', '', resource['name'])
             resource['name'] = re.sub(r'(<.+>)', '', resource['name'])
             # the page structure has NO description available for resources
