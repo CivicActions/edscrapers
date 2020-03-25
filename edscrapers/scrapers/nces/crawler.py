@@ -26,6 +26,7 @@ class Crawler(CrawlSpider):
             #'https://nces.ed.gov/pubs2009/expenditures/tables/table_08.asp?referrer=report'
             #'https://nces.ed.gov/surveys/els2002/tables/APexams_01.asp'
             #'https://nces.ed.gov/ipeds/deltacostproject/'
+            #'https://nces.ed.gov/pubs2009/expenditures/tables.asp'
         ]
 
         # Make rules
