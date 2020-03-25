@@ -24,7 +24,7 @@ SCRAPY_SETTINGS = {
     },
     'ITEM_PIPELINES': {
         'edscrapers.scrapers.base.pipelines.JsonWriterPipeline': 1,
-        'edscrapers.scrapers.base.pipelines.DuplicatesPipeline': 2,
+        #'edscrapers.scrapers.base.pipelines.DuplicatesPipeline': 2,
     },
     'SCHEDULER_PRIORITY_QUEUE': 'scrapy.pqueues.DownloaderAwarePriorityQueue',
     # 'REDIRECT_ENABLED': False,
@@ -32,7 +32,7 @@ SCRAPY_SETTINGS = {
     'COOKIES_ENABLED': False,
 
     # We have custom logging
-    'LOG_ENABLED': False,
+    'LOG_ENABLED': True,
 
     # This is set by the CLI
     # 'HTTPCACHE_ENABLED': True,
