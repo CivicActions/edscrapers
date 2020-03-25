@@ -41,7 +41,6 @@ class JsonWriterPipeline(object):
             logger.debug(f"\t{r['url']} > {r['name']}")
 
 
-
 class DuplicatesPipeline(object):
 
     def __init__(self):

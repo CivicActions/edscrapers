@@ -108,6 +108,11 @@ def scrape(cache, resume, name, **kwargs):
     else:
         conf['SCRAPY_SETTINGS']['HTTPCACHE_ENABLED'] = True
 
+    if kwargs['verbosity']:
+        conf['SCRAPY_SETTINGS']['LOG_ENABLED'] = True
+    else:
+        conf['SCRAPY_SETTINGS']['LOG_ENABLED'] = False
+
     if resume:
         job_dir = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'scrapy', 'jobs')
         cache_dir = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'scrapy', 'httpcache')

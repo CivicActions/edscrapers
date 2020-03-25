@@ -32,7 +32,7 @@ SCRAPY_SETTINGS = {
     'COOKIES_ENABLED': False,
 
     # We have custom logging
-    'LOG_ENABLED': False,
+    # 'LOG_ENABLED': False,
 
     # This is set by the CLI
     # 'HTTPCACHE_ENABLED': True,

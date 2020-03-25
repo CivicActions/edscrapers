@@ -6,6 +6,8 @@ from slugify import slugify
 from urllib.parse import urlparse
 from urllib.parse import urljoin
 
+from edscrapers.cli import logger
+
 OUTPUT_DIR = os.getenv('ED_OUTPUT_PATH')
 
 map_office_name = {
@@ -148,3 +150,30 @@ def extract_resource_name_from_url(url):
         ### return a default name
         ### slugify the url and return as a name
         return slugify(parsed_url.geturl())
+
+def upload_to_s3_if_configured(file_path, file_name):
+    if os.getenv('S3_ACCESS_KEY') and os.getenv('S3_SECRET_KEY'):
+        S3_BUCKET_NAME = os.getenv('S3_BUCKET_NAME', 'us-ed-scraping')
+        S3_ACCESS_KEY = os.getenv('S3_ACCESS_KEY')
+        S3_SECRET_KEY = os.getenv('S3_SECRET_KEY')
+
+        from botocore.client import Config
+        from boto3.session import Session
+        from botocore.handlers import set_list_objects_encoding_type_url
+
+        session = Session(aws_access_key_id=S3_ACCESS_KEY,
+                        aws_secret_access_key=S3_SECRET_KEY,
+                        region_name="US-CENTRAL1")
+
+        session.events.unregister('before-parameter-build.s3.ListObjects', set_list_objects_encoding_type_url)
+
+        s3 = session.resource('s3', endpoint_url='https://storage.googleapis.com',
+                            config=Config(signature_version='s3v4'))
+
+        bucket = s3.Bucket(S3_BUCKET_NAME)
+        with open(file_path, 'rb') as file_obj:
+            response = bucket.put_object(Key=f'{file_name}', Body=file_obj)
+        logger.info(f'File uploaded to https://storage.googleapis.com/us-ed-scraping/{file_name}')
+        return response
+    else:
+        return False
