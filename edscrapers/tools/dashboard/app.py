@@ -80,7 +80,7 @@ app.layout = generate_layout
 def toggle_active_links(pathname):
     if pathname == "/":
         # Treat page 1 as the homepage / index
-        return True, False, False
+        return True, False, False, False
     return [pathname == f"/{i}" for i in ['insights', 'quality', 'trends', 'air']]
 
 
@@ -88,12 +88,12 @@ def toggle_active_links(pathname):
 def render_page_content(pathname):
     if pathname in ["/", "/insights"]:
         return insights.generate_split_layout()
-    elif pathname == "/trends":
-        return []
-    elif pathname in ["/", "/air"]:
-        return air.generate_split_layout()
     elif pathname in ["/rag", "/quality"]:
         return rag.generate_layout()
+    elif pathname == "/trends":
+        return [html.h1("Coming soon...")]
+    elif pathname in ["/air"]:
+        return air.generate_split_layout()
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
         [
