@@ -17,6 +17,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 
 from .pages import air, trends, rag
+from .pages import air, insights
 
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -85,8 +86,8 @@ def toggle_active_links(pathname):
 
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
-    if pathname in ["/insights"]:
-        return html.P("This is the content of page 1!")
+    if pathname in ["/", "/insights"]:
+        return insights.generate_split_layout()
     elif pathname == "/trends":
         return trends.generate_split_layout()
     elif pathname in ["/", "/air"]:
