@@ -4,7 +4,6 @@ import json
 import pandas as pd
 from terminaltables import GithubFlavoredMarkdownTable as ght
 
-from edscrapers.transformers.base.helpers import upload_to_s3_if_configured
 from .summary import Summary
 
 
@@ -90,8 +89,7 @@ def compare():
 
     with open('./output/statistics.json', 'w') as stats_file:
         json.dump(statistics, stats_file)
-    upload_to_s3_if_configured('./output/statistics.json', 'compare-statistics.json')
 
 
 if __name__ == '__main__':
-    compare(sys.argv)
+    cli(sys.argv)
