@@ -16,7 +16,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
-from .pages import air, trends, rag
+from .pages import air, rag
 from .pages import air, insights
 
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -89,7 +89,7 @@ def render_page_content(pathname):
     if pathname in ["/", "/insights"]:
         return insights.generate_split_layout()
     elif pathname == "/trends":
-        return trends.generate_split_layout()
+        return []
     elif pathname in ["/", "/air"]:
         return air.generate_split_layout()
     elif pathname in ["/rag", "/quality"]:

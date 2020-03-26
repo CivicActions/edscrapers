@@ -3,13 +3,21 @@
 # -*- coding: utf-8 -*-
 import dash
 import dash_table
+import dash_daq as daq
 import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
 import plotly.graph_objects as go
 
+from edscrapers.tools.dashboard.pages.air import get_datasets_bars_data, get_table_rows_by_office
+from edscrapers.tools.stats.stats import Statistics
+
 # path to Excel sheet used for creating stas dataframes
 PATH_TO_EXCEL_SHEET = 'tools/dataset_metrics/metrics.xlsx'
+
+stats = Statistics()
+compare_dict = stats.get_compare_dict()
+
 
 def _get_df_from_excel_sheet(sheet_name):
     """ private helper function used to read excel sheets and 
@@ -120,10 +128,8 @@ def resources_by_domain_table():
                                                 'padding': 0
                                                 })
 
-def resources_by_domain_pie():
-    """" function is used to created a pie chart showing
-    the number of resources gotten per domain """
 
+def resources_by_domain_df():
     # this function uses a concatenation of 2 different excel sheets and dataframes
     df = _get_df_from_excel_sheet('RESOURCE COUNT PER DOMAIN (DATOPIAN-AIR INTERSECTION)')
     working_df1 = pd.DataFrame(columns=['domain'])
@@ -136,86 +142,90 @@ def resources_by_domain_pie():
     working_df2['resource count'] = df['resource count']
 
     # concatenate the 2 dataframes
-    working_df1 = pd.concat([working_df1,
-                              working_df2], axis='index', ignore_index=True)
+    return pd.concat([working_df1, working_df2], axis='index', ignore_index=True)
+
+def resources_by_domain_pie():
+    """" function is used to created a pie chart showing
+    the number of resources gotten per domain """
+
+    df = resources_by_domain_df()
+
+    pie_figure = go.Figure(data=[go.Pie(labels=df['domain'],
+                                        values=df['resource count'],
+                                        title={'text': 'Resources By Domain', 'font': {'size': 16}, 'position': 'bottom right'})])
+    pie_figure.update_traces(textposition='inside', textinfo='value+label')
 
     # return the pie chart
     return dcc.Graph(
         id='resources_by_domain_pie',
-        figure=go.Figure(data=[go.Pie(labels=working_df1['domain'],
-                             values=working_df1['resource count'], 
-                             title={'text': 'Resources By Domain', 'font': {'size': 16}, 'position': 'bottom right'})])
+        figure=pie_figure
     )
+
+
 
 def generate_split_layout():
     """" function generates the latyout for this page """
 
     return html.Div(children=[
-                                html.Div([
-                                            html.H1('Domain Dataset Stats',
-                                            style={'text-align': 'center',
-                                                   'font-weight': 'bold'}),
-                                         ],
-                                         style={'width': '100%', 
-                                                'display': 'inline-block', 
-                                                'vertical-align': 'middle'}),
-                                html.Div([
-                                            dataset_by_domain_table()
-                                         ],
-                                         style={'width': '45%', 
-                                                'display': 'inline-block',
-                                                'vertical-align': 'middle', 
-                                                'overflow-x': 'visible'}
-                                        ),
 
-                                html.Div([],
-                                        style={'width': '5%', 
-                                               'display': 'inline-block', 
-                                               'vertical-align': 'middle'}
-                                        ),
-                                html.Div([
-                                            dataset_by_domain_bar()
-                                         ], 
-                                         style={'width': '50%', 
-                                                'display': 'inline-block', 
-                                                'vertical-align': 'middle'}),
+    html.Div([
+        daq.LEDDisplay(value=compare_dict['total']['datopian']['datasets'], color="#353", label="DATASETS"),
+    ], style={'width': '24%', 'display': 'inline-block', 'vertical-align': 'middle'}),
+    html.Div([
+        daq.LEDDisplay(value=compare_dict['total']['datopian']['resources'], color="#353", label="RESOURCES"),
+    ], style={'width': '24%', 'display': 'inline-block', 'vertical-align': 'middle'}),
+    html.Div([
+        daq.LEDDisplay(value=sum(s for s in compare_dict['total']['datopian']['pages'].values()),
+                       color="#353", label="PAGES"),
+    ], style={'width': '24%', 'display': 'inline-block', 'vertical-align': 'middle'}),
+    html.Div([
+        daq.LEDDisplay(value=resources_by_domain_df().count()['domain'], color="#353", label="DOMAINS"),
+    ], style={'width': '24%', 'display': 'inline-block', 'vertical-align': 'middle'}),
 
-                                html.Hr(),
+    html.Hr(),
 
-                                html.Div([
-                                            html.H1('Domain Resources Stats', 
-                                                    style={'text-align': 'center', 
-                                                           'font-weight': 'bold'}),
-                                         ],
-                                         style={'width': '100%',
-                                                'display': 'inline-block', 
-                                                'vertical-align': 'middle'}
-                                        ),
-                                html.Div([
-                                            resources_by_domain_table()
-                                         ],
-                                         style={'width': '45%', 
-                                                'display': 'inline-block', 
-                                                'vertical-align': 'middle', 
-                                                'overflow-x': 'visible'}
-                                        ),
+    html.Div([
+        resources_by_domain_pie(),
+    ], style={'width': '49%', 'display': 'inline-block', 'vertical-align': 'middle'}),
 
-                                html.Div([],
-                                         style={'width': '5%', 
-                                                'display': 'inline-block', 
-                                                'vertical-align': 'middle'}
-                                        ),
-                                html.Div([
-                                            resources_by_domain_pie()
-                                         ], 
-                                         style={'width': '50%', 
-                                                'display': 'inline-block', 
-                                                'vertical-align': 'middle'}
-                                        ),
+    html.Div([
+        resources_by_domain_table()
+    ], style={'width': '50%', 'display': 'inline-block', 'vertical-align': 'middle'}),
 
-                                html.Hr()
+    html.Div([
+        dcc.Graph(figure={'data': get_datasets_bars_data(),
+                'layout': {'title': 'Datasets by scraper'}}),
+    ], style={'width': '49%', 'display': 'inline-block', 'vertical-align': 'middle'}),
 
-    
+    html.Div([
+        dash_table.DataTable(
+            columns=[{'name': 'Scraper', 'id': 's'}, {'name': 'Count', 'id': 'datopian'}],
+            data=get_table_rows_by_office('resources_by_office'),
+            sort_action='native',
+            style_cell={'textAlign': 'left'},
+        ),
+    ], style={'width': '50%', 'display': 'inline-block', 'vertical-align': 'middle'}),
+
+    html.Hr(),
+
+    html.Div([
+        html.H1('Domain Dataset Stats',
+        style={'text-align': 'center', 'font-weight': 'bold'}),
+    ], style={'width': '100%', 'display': 'inline-block', 'vertical-align': 'middle'}),
+
+    html.Div([
+        dataset_by_domain_table()
+        ],
+        style={'width': '45%', 'display': 'inline-block',
+            'vertical-align': 'middle', 'overflow-x': 'visible'}),
+
+    html.Div([],
+        style={'width': '5%', 'display': 'inline-block', 'vertical-align': 'middle'}),
+
+    html.Div([dataset_by_domain_bar()],
+        style={'width': '50%', 'display': 'inline-block', 'vertical-align': 'middle'}),
+
+    html.Hr(),
 
 ])
 
