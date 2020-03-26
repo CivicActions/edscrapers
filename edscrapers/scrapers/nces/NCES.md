@@ -13,6 +13,11 @@ So far these are the type of page structures discovered:
  - Resources have no description, but their name is obtained from a `table` with `<th class="title"></th>`
 
   3. **Page Structure 3** -  See sample [https://nces.ed.gov/ipeds/deltacostproject/](https://nces.ed.gov/ipeds/deltacostproject/). 
- - In this structure, there is only 1 dataset/page. The page's main container is `<div clas="MainContent"></div>`.  
- - The dataset resources are housed in a table `<table></table>`. 
+ - In this structure, there is only 1 dataset/page. The page's main container is `<div class="MainContent"></div>`.  
+ - The dataset resources are housed in a ul `<ul></ul>`. 
+ - Resources have no description, but their name is obtained the content of the `a` tag which links to the resource
+
+ 4. **Page Structure 4** -  See sample [https://nces.ed.gov/pubs2009/expenditures/tables.asp](https://nces.ed.gov/pubs2009/expenditures/tables.asp). 
+ - In this structure, there is only 1 dataset/page. The page's main container is `<div class="MainContent"></div>` with a child `<div id='ContentRight'></div>`.  
+ - The dataset resources are housed in a ul `<ul></ul>`. 
  - Resources have no description, but their name is obtained the content of the `a` tag which links to the resource
