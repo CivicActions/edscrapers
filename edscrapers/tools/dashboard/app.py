@@ -16,7 +16,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
-from .pages import air
+from .pages import air, trends, rag
 
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -51,8 +51,9 @@ sidebar = html.Div(
         dbc.Nav(
             [
                 dbc.NavLink("Insights", href="/insights", id="page-1-link"),
-                dbc.NavLink("Trends", href="/trends", id="page-2-link"),
-                dbc.NavLink("AIR comparison", href="/air", id="page-3-link"),
+                dbc.NavLink("Data Quality", href="/quality", id="page-2-link"),
+                dbc.NavLink("Trends", href="/trends", id="page-3-link"),
+                dbc.NavLink("AIR comparison", href="/air", id="page-4-link"),
             ],
             vertical=True,
             pills=True,
@@ -72,14 +73,14 @@ app.layout = generate_layout
 # this callback uses the current pathname to set the active state of the
 # corresponding nav link to true, allowing users to tell see page they are on
 @app.callback(
-    [Output(f"page-{i}-link", "active") for i in range(1, 4)],
+    [Output(f"page-{i}-link", "active") for i in range(1, 5)],
     [Input("url", "pathname")],
 )
 def toggle_active_links(pathname):
     if pathname == "/":
         # Treat page 1 as the homepage / index
         return True, False, False
-    return [pathname == f"/{i}" for i in ['insights', 'trends', 'air']]
+    return [pathname == f"/{i}" for i in ['insights', 'quality', 'trends', 'air']]
 
 
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
@@ -87,9 +88,11 @@ def render_page_content(pathname):
     if pathname in ["/insights"]:
         return html.P("This is the content of page 1!")
     elif pathname == "/trends":
-        return html.P("This is the content of page 2. Yay!")
+        return trends.generate_split_layout()
     elif pathname in ["/", "/air"]:
         return air.generate_split_layout()
+    elif pathname in ["/rag", "/quality"]:
+        return rag.generate_layout()
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
         [
