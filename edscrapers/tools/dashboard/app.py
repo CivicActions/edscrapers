@@ -16,8 +16,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
-from .pages import air, rag
-from .pages import air, insights
+from .pages import air, rag, trends, insights
 
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -91,7 +90,7 @@ def render_page_content(pathname):
     elif pathname in ["/rag", "/quality"]:
         return rag.generate_layout()
     elif pathname == "/trends":
-        return [html.h1("Coming soon...")]
+        return trends.generate_layout()
     elif pathname in ["/air"]:
         return air.generate_split_layout()
     # If the user tries to reach a different page, return a 404 message

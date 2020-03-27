@@ -31,7 +31,7 @@ class Statistics():
                 os.path.join(os.getenv('ED_OUTPUT_PATH'), 'out_df.csv'),
                 header=0)
         except Exception as e:
-            logger.error('Cold not load the Datopian CSV, please generate it first.')
+            logger.error('Could not load the Datopian CSV, please generate it first.')
             # read the AIR csv into a dataframe
 
         try:
@@ -46,7 +46,7 @@ class Statistics():
                 os.path.join(os.getenv('ED_OUTPUT_PATH'), 'tools', 'stats', 'data', 'air_df.csv'),
                 header=0)
         except Exception as e:
-            logger.error('Cold not load the AIR CSV.')
+            logger.error('Could not load the AIR CSV.')
 
 
     def _add_to_spreadsheet(self, sheet_name, result):
