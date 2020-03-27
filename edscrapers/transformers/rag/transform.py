@@ -4,17 +4,16 @@ with name 'datasets_weighted_scores_{yyyy_mm_dd}.csv' """
 
 import urllib.parse
 import os
-import datetime
-
 import pandas as pd
+from datetime import datetime as dt
+from pathlib import Path
 
-import edscrapers.transformers.base.helpers as transformers_helpers
+import edscrapers.transformers.base.helpers as h
 from edscrapers.cli import logger
-
-from . import DATASET_WEIGHTING_SYS, TOTAL_WEIGHT # import weighting system & total weight
+from edscrapers.transformers.rag import DATASET_WEIGHTING_SYS, TOTAL_WEIGHT # import weighting system & total weight
 
 # get the output directory
-OUTPUT_DIR = os.getenv('ED_OUTPUT_PATH')
+OUTPUT_DIR = h.get_output_path('rag')
 
 
 def transform(name=None, input_file=None) -> pd.DataFrame:
@@ -40,11 +39,11 @@ def transform(name=None, input_file=None) -> pd.DataFrame:
         # loop over directory structure
         if name:
             # loop over <name> scraper output e.g nces
-            file_list = transformers_helpers.traverse_output(name)
+            file_list = h.traverse_output(name)
             # datasets = list of all <name> files
         else:
             # loop over everything
-            file_list = transformers_helpers.traverse_output(None)
+            file_list = h.traverse_output(None)
             # datasets = list of all JSON files
     else: # input file provided
         # read input_file, which is a list of files
@@ -53,21 +52,21 @@ def transform(name=None, input_file=None) -> pd.DataFrame:
                 file_list = [line.rstrip() for line in fp]
             except Exception:
                 # logger.warn(f'Cannot read from list of output files at {input_file}, falling back to all collected data!')
-                file_list = transformers_helpers.traverse_output(None)
+                file_list = h.traverse_output(None)
 
     # read the contents in file_list
     for file_path in file_list:
         # read json from the file using helper
-        data = transformers_helpers.read_file(file_path)
+        data = h.read_file(file_path)
         # compute the weight score of the dataset
         compute_score(data)
         datasets_list.append(data)
 
     # map the datasets to pandas format
-    dataset_rows_list = map(lambda dataset: [dataset['publisher'],\
-                                             dataset['source_url'], \
-                                            dataset['_weighted_score'], \
-                                            dataset['_weighted_score_ratio']], 
+    dataset_rows_list = map(lambda dataset: [dataset.get('publisher'),\
+                                             dataset.get('source_url'), \
+                                             dataset.get('_weighted_score'), \
+                                             dataset.get('_weighted_score_ratio')], 
                             datasets_list)
     # create the pandas df
     weighted_datasets_scores_df = pd.DataFrame(dataset_rows_list,
@@ -89,16 +88,22 @@ def transform(name=None, input_file=None) -> pd.DataFrame:
     weighted_datasets_scores_df2['weighted score ratio'] = weighted_datasets_scores_df['weighted score ratio']
 
     # create the output csv file name
-    output_filename = "datasets_weighted_scores_{}_{:02d}_{:02d}.csv".\
-        format(datetime.datetime.now().year, 
-                                      datetime.datetime.now().month,
-                                      datetime.datetime.today().day)
+
+    output_dated_dir = os.path.join(OUTPUT_DIR,
+                                    f'{dt.now().year}-{dt.now().month}-{dt.now().day}')
+    Path(output_dated_dir).mkdir(parents=True, exist_ok=True)
+    output_filename = "datasets_weighted_scores_{}.csv".format(name or "all")
+
     # create the fullpath weer file will be written
     fullpath = os.path.join(OUTPUT_DIR, output_filename)
+
     # write the dataframe to csv
     weighted_datasets_scores_df2.to_csv(fullpath, index=False)
+    weighted_datasets_scores_df2.to_csv(os.path.join(output_dated_dir,
+                                                     output_filename),
+                                        index=False)
     # write the csv to S3 bucket
-    transformers_helpers.upload_to_s3_if_configured(OUTPUT_DIR, output_filename)
+    h.upload_to_s3_if_configured(fullpath, f'rag/{output_filename}')
     
     return weighted_datasets_scores_df2
 
@@ -143,4 +148,3 @@ def compute_score(dataset: dict, append_score=True) -> dict:
 # TODO REMOVE THIS. THIS IS JUST FOR CONVENIENT TESTING
 if __name__ == "__main__":
     transform(name='ocr')
-    

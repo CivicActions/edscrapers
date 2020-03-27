@@ -174,8 +174,6 @@ def stats(name, **kwargs):
     Path(data_dir).mkdir(parents=True, exist_ok=True)
 
     stats = Statistics()
-    click.echo(stats.METRICS_OUTPUT_PATH)
-    click.echo(stats.METRICS_OUTPUT_XLSX)
     # stats.list_domain()
     # stats.list_exclusive_domain()
     # stats.list_intersection_domain()

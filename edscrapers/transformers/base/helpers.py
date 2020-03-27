@@ -177,3 +177,9 @@ def upload_to_s3_if_configured(file_path, file_name):
         return response
     else:
         return False
+
+def get_output_path(name):
+    output_path = os.path.join(OUTPUT_DIR, 'transformers', name)
+    Path(output_path).mkdir(parents=True, exist_ok=True)
+
+    return output_path
