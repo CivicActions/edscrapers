@@ -52,8 +52,7 @@ def transform(name, input_file=None):
     logger.debug('{} datasets transformed.'.format(datasets_number))
     logger.debug('{} resources transformed.'.format(resources_number))
 
-    output_path = os.path.join(OUTPUT_DIR, 'transformers', 'datajson')
-    Path(output_path).mkdir(parents=True, exist_ok=True)
+    output_path = h.get_output_path('datajson')
     file_path = os.path.join(output_path, f'{name}.data.json')
     with open(file_path, 'w') as output:
         output.write(catalog.dump())
