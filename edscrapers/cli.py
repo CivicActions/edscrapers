@@ -11,8 +11,11 @@ from edscrapers.scrapers.base import config as scrape_config
 from edscrapers.scrapers.base import helpers as scrape_base
 from edscrapers.scrapers.base import helpers as scrape_helpers
 
-from tools.compare import compare as compare_cli
 from edscrapers.tools.dashboard import app as dash_app
+from edscrapers.tools.stats import helpers as stats_helpers
+from edscrapers.tools.stats.stats import Statistics
+
+from tools.compare import compare as compare_cli
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -159,11 +162,26 @@ def compare(format, **kwargs):
 @cli.command(context_settings=CONTEXT_SETTINGS)
 @click.option('-n', '--name', default=None,
               help='Optionally, run the stats just for a specific output pipeline, identified by name (e.g. nces)')
+@click.option('-f', '--format', default=None, type=click.Choice(['ascii', 'json'], case_sensitive=False),
+              help='Format of the output.')
 @add_options(global_options)
 def stats(name, **kwargs):
     ''' Run a statistics algorhitm on the data extracted to provide more insights about the output.
     This does not compare against AIR. '''
     click.echo('Making stats')
+
+    data_dir = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'tools', 'stats', 'data')
+    Path(data_dir).mkdir(parents=True, exist_ok=True)
+
+    stats = Statistics()
+    click.echo(stats.METRICS_OUTPUT_PATH)
+    click.echo(stats.METRICS_OUTPUT_XLSX)
+    # stats.list_domain()
+    # stats.list_exclusive_domain()
+    # stats.list_intersection_domain()
+    # stats.list_highest_resources_from_pages('datopian')
+    # stats.get_compare_json()
+    logger.success('Stats complete!')
 
 
 @cli.command(context_settings=CONTEXT_SETTINGS)
