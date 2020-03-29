@@ -63,3 +63,10 @@ def get_variables(object, filter=None):
         variables[name] = value
     return variables
 
+def get_meta_value(soup, meta_name):
+    meta_tag = soup.head.find(name='meta',attrs={'name': meta_name})
+    if meta_tag is None:
+        meta_tag = soup.head.find(name='meta',attrs={'property': meta_name})
+        if meta_tag is None:
+            return None
+    return meta_tag['content']
