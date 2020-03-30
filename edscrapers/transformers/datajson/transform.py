@@ -104,12 +104,12 @@ def _transform_scraped_dataset(data, target_dept):
     if data.get('contact_person_name'):
         contactPoint['fn'] = data.get('contact_person_name')
     else:
-        contactPoint['fn'] = h.get_office_name(target_dept)
+        contactPoint['fn'] = '' #h.get_office_name(target_dept)
 
     if data.get('contact_person_email'):
         contactPoint['hasEmail'] = "mailto:" + data.get('contact_person_email')
     else:
-        contactPoint['hasEmail'] = "mailto:odp@ed.gov"
+        contactPoint['hasEmail'] = f'mailto:{target_dept}@ed.gov'
 
     dataset.contactPoint = contactPoint
 

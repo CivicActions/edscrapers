@@ -1,6 +1,7 @@
 """ parser2 for octae pages """
 
 import re
+import requests
 
 import bs4 # pip install beautifulsoup4
 from slugify import slugify
@@ -85,7 +86,10 @@ def parse(res) -> dict:
             # get the format of the resource from the file extension of the link
             resource_format = resource_link['href']\
                             [resource_link['href'].rfind('.') + 1:]
-            resource['format'] = resource_format
+
+            # Add header information to resource object
+            resource['headers'] = h.get_resource_headers(res.url, resource_link['href'])
+
             # add the resource to collection of resources
             dataset['resources'].append(resource)
 

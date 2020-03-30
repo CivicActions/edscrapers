@@ -2,6 +2,10 @@
 import re
 import logging
 import datetime
+import requests
+
+from urllib.parse import urlparse
+from urllib.parse import urljoin
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 from edscrapers.scrapers.base.models import Resource
 
@@ -70,3 +74,16 @@ def get_meta_value(soup, meta_name):
         if meta_tag is None:
             return None
     return meta_tag['content']
+
+def get_resource_headers(source_url, url):
+    headers = dict()
+    if urlparse(url).scheme:
+        raw_headers = requests.get(url).headers
+    else:
+        raw_headers = requests.get(urljoin(source_url, url)).headers
+
+    headers['content-type'] = raw_headers['Content-Type']
+    headers['last-modified'] = raw_headers['Last-Modified']
+    headers['content-length'] = raw_headers['Content-Length']
+
+    return headers

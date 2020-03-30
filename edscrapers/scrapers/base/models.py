@@ -33,3 +33,4 @@ class Resource(Item):
     source_url = Field()
     description = Field()
     format = Field()
+    headers = Field()
