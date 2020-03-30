@@ -5,6 +5,8 @@ other parsers in the 'parsers' subpackage"""
 # -*- coding: utf-8 -*-
 import re
 import json
+from urllib.parse import urlparse
+from urllib.parse import urljoin
 
 import bs4
 from dateutil import parser
@@ -22,7 +24,11 @@ def parse(res):
     """ function parses content to create a dataset model
     or return None if no resource in content"""
 
-    soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    try:
+        soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    except:
+        return None
+
     # check if the content contains any of the extensions
     if soup_parser.body.find(name='a', href=base_parser.resource_checker,
                              recursive=True):
@@ -69,8 +75,13 @@ def parse(res):
 
         dataset['resources'] = list()
 
-        # run both parsers, return whichever has results
-        return parsers.parser1.parse(res, container, dataset) or \
-            parsers.parser2.parse(res, container, dataset)
+        option_tags = soup_parser.find_all('option')
+        for option_tag in option_tags:
+            option_value = option_tag['value']
+            # if it has options with URLs as values, then engage parser2
+            if urlparse(option_value).scheme or option_value.startswith(('../', './', '/')):
+                return parsers.parser2.parse(res, container, dataset)
 
+        # run parser1, since parser2 was not activated until this point
+        return parsers.parser1.parse(res, container, dataset)
 
