@@ -15,7 +15,6 @@ def parse(res, container, dataset) -> dict:
 
     # add  resources from the 'container' to the dataset
     page_resource_links = container.find_all(name='option',
-                                                href=base_parser.resource_checker,
                                                 recursive=True)
     for resource_link in page_resource_links:
         resource = Resource(source_url=res.url,
@@ -25,12 +24,12 @@ def parse(res, container, dataset) -> dict:
             resource['name'] = str(child.text).strip()
 
         # get the format of the resource from the file extension of the link
-        resource_format = resource_link['href']\
-                        [resource_link['href'].rfind('.') + 1:]
+        resource_format = resource_link['value']\
+                        [resource_link['value'].rfind('.') + 1:]
         resource['format'] = resource_format
 
         # Add header information to resource object
-        resource['headers'] = h.get_resource_headers(res.url, resource_link['href'])
+        resource['headers'] = h.get_resource_headers(res.url, resource_link['value'])
 
         # add the resource to collection of resources
         dataset['resources'].append(resource)

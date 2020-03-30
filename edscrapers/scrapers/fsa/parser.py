@@ -33,8 +33,7 @@ def parse(res):
     if soup_parser.body.find(name='a', href=base_parser.resource_checker,
                              recursive=True):
         pass
-    elif soup_parser.body.find(name='select', href=base_parser.resource_checker,
-                               recursive=True):
+    elif soup_parser.body.find(name='select', recursive=True):
         pass
     else:
         # no resource on this page, so return None
@@ -44,44 +43,43 @@ def parse(res):
     # create parser object
     soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
 
-    dataset_containers = soup_parser.find_all(name='body')
-    # soup_parser.body.find_all(name='div', id='maincontent', recursive=True)
-    for container in dataset_containers:
-        # create dataset model dict
-        dataset = Dataset()
-        dataset['source_url'] = res.url
+    # create dataset model dict
+    dataset = Dataset()
+    dataset['source_url'] = res.url
 
-        dataset['title'] = h.get_meta_value(soup_parser, 'og:title') or \
-            str(soup_parser.head.find(name='title').string).strip()
+    dataset['title'] = h.get_meta_value(soup_parser, 'og:title') or \
+        str(soup_parser.head.find(name='title').string).strip()
 
-        # replace all non-word characters (e.g. ?/) with '-'
-        # also remove site title from the page title
-        dataset['name'] = slugify(dataset['title'].split('|')[0])
+    # replace all non-word characters (e.g. ?/) with '-'
+    # also remove site title from the page title
+    dataset['name'] = slugify(dataset['title'].split('|')[0])
 
-        dataset['publisher'] = h.get_meta_value(soup_parser, 'og:site_name') or \
-            __package__.split('.')[-1]
+    dataset['publisher'] = h.get_meta_value(soup_parser, 'og:site_name') or \
+        __package__.split('.')[-1]
 
-        dataset['notes'] = h.get_meta_value(soup_parser, 'og:description') or \
-            h.get_meta_value(soup_parser, 'description') or ''
+    dataset['notes'] = h.get_meta_value(soup_parser, 'og:description') or \
+        h.get_meta_value(soup_parser, 'description') or ''
 
-        dataset['date'] = h.get_meta_value(soup_parser, 'article:published_time') or \
-            h.get_meta_value(soup_parser, 'article:modified_time') or \
-            h.get_meta_value(soup_parser, 'og:updated_time') or ''
-        if dataset['date']:
-            dataset['date'] = parser.parse(dataset['date']).strftime('%Y-%m-%d')
+    dataset['date'] = h.get_meta_value(soup_parser, 'article:published_time') or \
+        h.get_meta_value(soup_parser, 'article:modified_time') or \
+        h.get_meta_value(soup_parser, 'og:updated_time') or ''
+    if dataset['date']:
+        dataset['date'] = parser.parse(dataset['date']).strftime('%Y-%m-%d')
 
-        dataset['contact_person_name'] = ''
-        dataset['contact_person_email'] = ''
+    dataset['contact_person_name'] = ''
+    dataset['contact_person_email'] = ''
 
-        dataset['resources'] = list()
+    dataset['resources'] = list()
 
-        option_tags = soup_parser.find_all('option')
-        for option_tag in option_tags:
-            option_value = option_tag['value']
-            # if it has options with URLs as values, then engage parser2
-            if urlparse(option_value).scheme or option_value.startswith(('../', './', '/')):
-                return parsers.parser2.parse(res, container, dataset)
+    option_tags = soup_parser.find_all('option')
 
-        # run parser1, since parser2 was not activated until this point
-        return parsers.parser1.parse(res, container, dataset)
+    for option_tag in option_tags:
+
+        option_value = option_tag['value']
+        # if it has options with URLs as values, then engage parser2
+        if option_value.startswith(('http', '../', './', '/')):
+            return parsers.parser2.parse(res, soup_parser, dataset)
+
+    # run parser1, since parser2 was not activated until this point
+    return parsers.parser1.parse(res, soup_parser, dataset)
 

@@ -13,20 +13,22 @@ class Crawler(CrawlSpider):
 
     name = 'fsa'
 
-    allowed_regex = r'https://studentaid.gov/.*$'
+    # allowed_regex = r'https://studentaid.gov/.*$'
+    allowed_domains = ['studentaid.gov']
+    depth = 10
 
     def __init__(self):
 
         self.start_urls = [
-            'https://studentaid.gov/',
-            'https://studentaid.gov/data-center',
-            'https://studentaid.gov/data-center/student/application-volume/fafsa-school-state'
+            'https://studentaid.gov/data-center/student/application-volume/fafsa-school-state',
+            # 'https://studentaid.gov/',
+            # 'https://studentaid.gov/data-center',
         ]
 
         # Make rules
         self.rules = [
             Rule(LinkExtractor(
-                allow=self.allowed_regex,
+                # allow=self.allowed_regex,
             ), callback=parse, follow=True),
         ]
 
