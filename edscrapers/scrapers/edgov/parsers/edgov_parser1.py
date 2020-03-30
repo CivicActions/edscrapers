@@ -101,7 +101,10 @@ def parse(res) -> dict:
             resource_format = resource_link['href']\
                             [resource_link['href'].rfind('.') + 1:]
             resource['format'] = resource_format
-            resource['headers'] = requests.get(resource_link['href']).headers
+
+            # Add header information to resource object
+            resource['headers'] = h.get_resource_headers(res.url, resource_link['href'])
+
             # add the resource to collection of resources
             dataset['resources'].append(resource)
 
