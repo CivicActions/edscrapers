@@ -90,7 +90,6 @@ def parse(res) -> dict:
             # Add header information to resource object
             resource['headers'] = h.get_resource_headers(res.url, resource_link['href'])
 
-            resource['headers'] = requests.get(resource_link['href']).headers
             # add the resource to collection of resources
             dataset['resources'].append(resource)
 
