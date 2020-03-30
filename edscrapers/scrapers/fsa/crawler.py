@@ -21,8 +21,8 @@ class Crawler(CrawlSpider):
 
         self.start_urls = [
             'https://studentaid.gov/data-center/student/application-volume/fafsa-school-state',
-            # 'https://studentaid.gov/',
-            # 'https://studentaid.gov/data-center',
+            'https://studentaid.gov/',
+            'https://studentaid.gov/data-center',
         ]
 
         # Make rules
