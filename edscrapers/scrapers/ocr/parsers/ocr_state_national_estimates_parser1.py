@@ -25,11 +25,20 @@ def parse(res) -> dict:
 
         dataset['title'] = str(container.find(class_='accordionheader').\
                             string).strip()
+        if dataset['title'] is None or dataset['title'] == '':
+            dataset['title'] = str(soup_parser.head.\
+                                find(name='title').string).strip()
         # replace all non-word characters (e.g. ?/) with '-'
         dataset['name'] = slugify(dataset['title'])
-        dataset['publisher'] = ''
+        # get publisher from parent package name
+        dataset['publisher'] = dataset['publisher'] = __package__.split('.')[-2]
+
         dataset['notes'] = str(container.find(name='p').string).\
                                   strip()
+        # if no notes/description available, default to dataset title
+        if dataset['notes'] is None or dataset['notes'] == '':
+            dataset['notes'] = dataset['title']
+
         dataset['tags'] = ''
         dataset['date'] = ''
         dataset['contact_person_name'] = ""
