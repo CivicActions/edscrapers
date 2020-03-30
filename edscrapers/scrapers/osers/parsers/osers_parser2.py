@@ -1,4 +1,5 @@
 import re
+import requests
 
 import bs4
 from slugify import slugify
@@ -89,6 +90,10 @@ def parse(res):
             resource_format = resource_link['href']\
                             [resource_link['href'].rfind('.') + 1:]
             resource['format'] = resource_format
+
+            # Add header information to resource object
+            resource['headers'] = h.get_resource_headers(res.url, resource_link['href'])
+
             # add the resource to collection of resources
             dataset['resources'].append(resource)
 
