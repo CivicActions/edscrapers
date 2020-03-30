@@ -40,7 +40,7 @@ def parse(res) -> dict:
                                 find(name='meta', attrs={'name': 'ED.office'})['content']
         
         if soup_parser.head.find(name='meta', attrs={'name': 'DC.description'}) is None:
-            dataset['notes'] = ''
+            dataset['notes'] = dataset['title']
         else:
             dataset['notes'] = soup_parser.head.\
                                 find(name='meta', attrs={'name': 'DC.description'})['content']
@@ -100,5 +100,8 @@ def parse(res) -> dict:
 
             # add the resource to collection of resources
             dataset['resources'].append(resource)
+        
+        if len(dataset['resources']) == 0:
+            continue
 
         yield dataset
