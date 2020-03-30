@@ -33,6 +33,10 @@ def parse(res) -> dict:
             # get the 1st div element from the first avaialble div
             dataset['title'] = str(container.find('div').find_all('div')[0].\
                                     string).strip()
+                                    
+        if dataset['title'] is None or dataset['title'] == '':
+            dataset['title'] = str(soup_parser.head.\
+                                find(name='title').string).strip()
         # replace all non-word characters (e.g. ?/) with '-'
         dataset['name'] = slugify(dataset['title'])
         # get publisher from parent package name
