@@ -35,7 +35,8 @@ def parse(res) -> dict:
                                     string).strip()
         # replace all non-word characters (e.g. ?/) with '-'
         dataset['name'] = slugify(dataset['title'])
-        dataset['publisher'] = ''
+        # get publisher from parent package name
+        dataset['publisher'] = dataset['publisher'] = __package__.split('.')[-2]
         if container.select_one('p') is not None:
             # get the first available p element
             dataset['notes'] = str(container.select_one('p').string).\
@@ -49,6 +50,11 @@ def parse(res) -> dict:
             dataset['notes'] = str(container.\
                                     find('div').find_all('div')[1].\
                                     string).strip()
+        # if no notes/description still not available (after best efforts),
+        # default to dataset title
+        if dataset['notes'] is None or dataset['notes'] == '':
+            dataset['notes'] = dataset['title']
+
         dataset['tags'] = ''
         dataset['date'] = ''
         dataset['contact_person_name'] = ""

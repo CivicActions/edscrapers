@@ -27,9 +27,15 @@ def parse(res) -> dict:
                             string).strip()
         # replace all non-word characters (e.g. ?/) with '-'
         dataset['name'] = slugify(dataset['title'])
-        dataset['publisher'] = ''
+        # get publisher from parent package name
+        dataset['publisher'] = dataset['publisher'] = __package__.split('.')[-2]
+        
         dataset['notes'] = str(container.find(name='p').string).\
                                   strip()
+        # if no notes/description available, default to dataset title
+        if dataset['notes'] is None or dataset['notes'] == '':
+            dataset['notes'] = dataset['title']
+
         dataset['tags'] = ''
         dataset['date'] = ''
         dataset['contact_person_name'] = ""
