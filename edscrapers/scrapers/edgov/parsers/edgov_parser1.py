@@ -1,6 +1,7 @@
 """ parser for edgov pages """
 
 import re
+import requests
 
 import bs4 # pip install beautifulsoup4
 from slugify import slugify
@@ -100,6 +101,7 @@ def parse(res) -> dict:
             resource_format = resource_link['href']\
                             [resource_link['href'].rfind('.') + 1:]
             resource['format'] = resource_format
+            resource['headers'] = requests.get(resource_link['href']).headers
             # add the resource to collection of resources
             dataset['resources'].append(resource)
 

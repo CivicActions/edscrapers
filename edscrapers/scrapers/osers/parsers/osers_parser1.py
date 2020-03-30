@@ -133,6 +133,7 @@ def parse(res):
             resource_format = resource_link['href']\
                             [resource_link['href'].rfind('.') + 1:]
             resource['format'] = resource_format
+            resource['headers'] = requests.get(resource_link['href']).headers
 
             # add the resource to collection of resources
             dataset['resources'].append(resource)
