@@ -5,6 +5,7 @@ import requests
 
 from slugify import slugify
 
+import edscrapers.scrapers.base.helpers as h
 import edscrapers.scrapers.base.parser as base_parser
 from edscrapers.scrapers import base
 from edscrapers.scrapers.base.models import Dataset, Resource
