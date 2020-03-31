@@ -15,6 +15,7 @@ SCRAPY_SETTINGS = {
         'edscrapers.scrapers.osers.crawler',
         'edscrapers.scrapers.nces.crawler',
         'edscrapers.scrapers.oese.crawler',
+        'edscrapers.scrapers.fsa.crawler',
     ],
     'DOWNLOAD_DELAY': float(os.getenv('DOWNLOAD_DELAY', 1)),
     'DOWNLOADER_MIDDLEWARES': {

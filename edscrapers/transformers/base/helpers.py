@@ -11,16 +11,17 @@ from edscrapers.cli import logger
 OUTPUT_DIR = os.getenv('ED_OUTPUT_PATH')
 
 map_office_name = {
-    'edgov' : 'Department of Education',
-    'ocr' : 'Office for Civil Rights',
-    'octae' : 'Office of Career, Technical and Adult Education',
-    'ope' : 'Office of Postsecondary Education',
-    'oela' : 'Office of English Language Acquisition',
-    'osers' : 'Office of Special Education and Rehabilitative Services',
-    'opepd' : 'Office of Planning, Evaluation and Policy Development',
-    'oese' : 'Office of Elementary and Secondary Education',
-    'oese' : 'Office of Elementary and Secondary Education',
-    'nces' : 'National Center for Education Statistics'
+    'edgov': 'Department of Education',
+    'ocr': 'Office for Civil Rights',
+    'octae': 'Office of Career, Technical and Adult Education',
+    'ope': 'Office of Postsecondary Education',
+    'oela': 'Office of English Language Acquisition',
+    'osers': 'Office of Special Education and Rehabilitative Services',
+    'opepd': 'Office of Planning, Evaluation and Policy Development',
+    'oese': 'Office of Elementary and Secondary Education',
+    'oese': 'Office of Elementary and Secondary Education',
+    'nces': 'National Center for Education Statistics',
+    'fsa': 'Federal Student Aid'
 }
 
 map_media_type = {

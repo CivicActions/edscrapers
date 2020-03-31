@@ -11,8 +11,8 @@ def resource_checker(tag_attr: str):
 
     if tag_attr != '' and tag_attr is not None:
         for extension in h.get_data_extensions().keys():
-            if tag_attr.endswith(f'{extension}') and\
-                (tag_attr[tag_attr.rfind('/')+1:] not in deny_list):
+            if tag_attr.lower().endswith(f'{extension}') and\
+                (tag_attr[tag_attr.rfind('/')+1:].lower() not in deny_list):
                 return True
         # if code gets here, no resources found
         return False
