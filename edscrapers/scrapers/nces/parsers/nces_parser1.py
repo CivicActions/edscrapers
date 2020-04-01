@@ -17,8 +17,7 @@ def parse(res) -> dict:
     # create parser object
     soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
 
-    dataset_containers = soup_parser.body.find_all(name='table',
-                                                   recursive=True)
+    dataset_containers = soup_parser.body.select('div.nces table')
     for container in dataset_containers:
         # create dataset model dict
         dataset = Dataset()
@@ -33,6 +32,10 @@ def parse(res) -> dict:
         else:
             dataset['title'] = soup_parser.head.find(name='meta',
                                            attrs={'name': 'DC.title'})['content']
+        
+        # remove any occurrence of the "Table [0-9]" from the beginning of title
+        dataset['title'] = re.sub(re.compile(r'^table [0-9a-z]+(-?[a-z])?\.', re.IGNORECASE), '',
+                                  dataset['title']).strip()
 
         # replace all non-word characters (e.g. ?/) with '-'
         dataset['name'] = slugify(dataset['title'])
@@ -74,11 +77,26 @@ def parse(res) -> dict:
             resource = Resource(source_url=res.url,
                                 url=resource_link['href'])
             # get the resource name
-            resource['name'] = str(soup_parser.body.\
+            if soup_parser.find(name='th', class_='title', recursive=True) is not None:
+                resource['name'] = str(soup_parser.find(name='th',
+                                                        class_='title', recursive=True))
+            elif soup_parser.body.\
+                                    find(name='div', class_='title') is not None:
+                resource['name'] = str(soup_parser.body.\
                                     find(name='div', class_='title').string).strip()
+            else:
+                # get the resource name iteratively
+                for child in resource_link.parent.children:
+                    resource['name'] = str(child).strip()
+                    if re.sub(r'(<.+>)', '',
+                              re.sub(r'(</.+>)', '', resource['name'])) != "":
+                        break
             # remove any html tags from the resource name
             resource['name'] = re.sub(r'(</.+>)', '', resource['name'])
+            resource['name'] = re.sub(r'(<[a-z]+/>)', '', resource['name'])
             resource['name'] = re.sub(r'(<.+>)', '', resource['name'])
+            resource['name'] = resource['name'].strip()
+
             # the page structure has NO description available for resources
             resource['description'] = ''
 
@@ -88,7 +106,7 @@ def parse(res) -> dict:
             resource['format'] = resource_format
 
             # Add header information to resource object
-            resource['headers'] = h.get_resource_headers(res.url, resource_link['href'])
+            # TODO resource['headers'] = h.get_resource_headers(res.url, resource_link['href'])
 
             # add the resource to collection of resources
             dataset['resources'].append(resource)
