@@ -17,7 +17,7 @@ def parse(res) -> dict:
     # create parser object
     soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
 
-    dataset_containers = soup_parser.body.select('div.nces table')
+    dataset_containers = soup_parser.body.select('table')
     for container in dataset_containers:
         # create dataset model dict
         dataset = Dataset()
@@ -106,7 +106,7 @@ def parse(res) -> dict:
             resource['format'] = resource_format
 
             # Add header information to resource object
-            # TODO resource['headers'] = h.get_resource_headers(res.url, resource_link['href'])
+            resource['headers'] = h.get_resource_headers(res.url, resource_link['href'])
 
             # add the resource to collection of resources
             dataset['resources'].append(resource)

@@ -23,5 +23,6 @@ So far these are the type of page structures discovered:
  - Resources have no description, but their name is obtained the content of the `a` tag which links to the resource
 
 ## IMPROVEMENTS NECESSARY TO CURRENT PARSERS
-- [ ] Remove the phrase "Table [0-9]" from the dataset titles
-- [ ] Ensure all datasets have a description
+- [x] Remove the phrase "Table [0-9]" from the dataset titles
+- [x] Ensure all datasets have a description
+- [x] Refactored all parsers and reduced parser numbers from 4 to 2 (which is ideal)
