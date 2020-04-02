@@ -40,7 +40,7 @@ def parse(res) -> dict:
                                 find(name='meta', attrs={'name': 'ED.office'})['content']
         
         if soup_parser.head.find(name='meta', attrs={'name': 'DC.description'}) is None:
-            dataset['notes'] = ''
+            dataset['notes'] = dataset['title']
         else:
             dataset['notes'] = soup_parser.head.\
                                 find(name='meta', attrs={'name': 'DC.description'})['content']
@@ -85,17 +85,19 @@ def parse(res) -> dict:
             if resource_link.parent.parent.find(name=True):
 
                 # concatenate the text content of parents with 
-                # class 'headersLevel1' & 'headersLevel2'
+                # resource name
                 resource['description'] = str(resource_link.parent.parent.find(name=True)).strip() +\
                                             " - " + str(resource['name']).strip()
                 resource['description'] = re.sub(r'(</.+>)', '', resource['description'])
                 resource['description'] = re.sub(r'(<.+>)', '', resource['description'])
+                resource['description'] = re.sub(r'^\s+\-\s+', '', resource['description'])
             else:
-                # concatenate the text content of parents with
-                # class 'headersLevel1' & 'contentText'
+                # use the resource name for description
                 resource['description'] = str(resource['name']).strip()
                 resource['description'] = re.sub(r'(</.+>)', '', resource['description'])
                 resource['description'] = re.sub(r'(<.+>)', '', resource['description'])
+            # after getting the best description possible, strip any white space    
+            resource['description'] = resource['description'].strip()
 
             # get the format of the resource from the file extension of the link
             resource_format = resource_link['href']\
@@ -103,9 +105,11 @@ def parse(res) -> dict:
             resource['format'] = resource_format
 
             # Add header information to resource object
-            resource['headers'] = h.get_resource_headers(res.url, resource_link['href'])
+            # TODO resource['headers'] = h.get_resource_headers(res.url, resource_link['href'])
 
             # add the resource to collection of resources
             dataset['resources'].append(resource)
+        if len(dataset['resources']) == 0:
+            continue
 
         yield dataset

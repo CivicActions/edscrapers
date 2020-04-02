@@ -14,6 +14,7 @@ class Crawler(CrawlSpider):
     name = 'edgov'
 
     allowed_regex = r'^http.*://[w2\.]*ed\.gov/.*$'
+    allowed_domains = ['www2.ed.gov']
 
     def __init__(self):
 
