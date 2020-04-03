@@ -1,4 +1,4 @@
-""" parser2 for nces pages """
+""" parser3 for nces pages """
 
 import re
 import requests
@@ -17,7 +17,7 @@ def parse(res) -> dict:
     # create parser object
     soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
 
-    dataset_containers = soup_parser.body.select('.dontPrintMe > table')
+    dataset_containers = soup_parser.body.select('div.MainContent')
     for container in dataset_containers:
         # create dataset model dict
         dataset = Dataset()
@@ -32,6 +32,10 @@ def parse(res) -> dict:
         else:
             dataset['title'] = soup_parser.head.find(name='meta',
                                            attrs={'name': 'DC.title'})['content']
+        
+        # remove any occurrence of the "Table [0-9]" from the beginning of title
+        dataset['title'] = re.sub(re.compile(r'^table [0-9a-z]+(-?[a-z])?\.', re.IGNORECASE), '',
+                                  dataset['title']).strip()
 
         # replace all non-word characters (e.g. ?/) with '-'
         dataset['name'] = slugify(dataset['title'])
@@ -72,13 +76,14 @@ def parse(res) -> dict:
         for resource_link in page_resource_links:
             resource = Resource(source_url=res.url,
                                 url=resource_link['href'])
-            # get the resource name
-            resource['name'] = str(soup_parser.find(name='th', class_='title', recursive=True))
-            # remove any html tags from the resource name
+            # get the resource name iteratively
+            for child in resource_link.parent.children:
+                resource['name'] = str(child).strip()
+                if re.sub(r'(<.+>)', '',
+                re.sub(r'(</.+>)', '', resource['name'])) != "":
+                    break
             resource['name'] = re.sub(r'(</.+>)', '', resource['name'])
-            resource['name'] = re.sub(r'(<[a-z]+/>)', '', resource['name'])
             resource['name'] = re.sub(r'(<.+>)', '', resource['name'])
-            resource['name'] = resource['name'].strip()
             # the page structure has NO description available for resources
             resource['description'] = ''
 
@@ -92,9 +97,9 @@ def parse(res) -> dict:
 
             # add the resource to collection of resources
             dataset['resources'].append(resource)
-
+        
         # check if created dataset has resources attached.
         if len(dataset['resources']) == 0: # no resources so don't yield it
             continue # skip this loop
-        
+
         yield dataset
