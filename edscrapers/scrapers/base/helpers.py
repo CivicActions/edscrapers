@@ -9,6 +9,9 @@ from urllib.parse import urljoin
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 from edscrapers.scrapers.base.models import Resource
 
+import pathlib
+import importlib
+
 logger = logging.getLogger(__name__)
 
 
@@ -87,3 +90,45 @@ def get_resource_headers(source_url, url):
     headers['content-length'] = raw_headers['Content-Length']
 
     return headers
+
+def retrieve_crawlers_allowed_domains(except_crawlers=[]) -> list:
+    """ function retireves all 'allowed_domains'
+    (domains which are allowed to be scraped) from the available
+    crawlers in the 'scrapers' package EXCEPT for the 'allowed_domains'
+    for crawlers listed in 'except_crawlers'.
+    
+    function returns a list containing domain names ('allowed_domains')
+    retrieved from all crawlers EXCEPT crawlers listed in 'except_crawlers'
+
+    PARMAETERS:
+    - except_crawlers : contains a list of crawler names whose
+    'allowed_domains' should NOT be retrieved'. The default
+    value is an empty list (which means no crawler is excluded) """
+
+    # get the path to the scrapers package
+    scrapers_path = pathlib.Path('./edscrapers/scrapers')
+    allowed_domains = set() # collection of allowed domains
+    except_allowed_domains = set() # domains to be exempted from collection
+
+    # iterate over all subpackages in the scrapers package
+    for subpath in scrapers_path.iterdir():
+        if subpath.is_dir(): # check if subpath is a directory
+            try:
+                # import the crawler module from the subpackage
+                crawler = importlib.import_module('.' + subpath.name + '.crawler', 
+                                                  'edscrapers.scrapers')
+                # check if the subpath is in included in exempted crawlers
+                if subpath.name not in except_crawlers: # subpath not exempted
+                    # retrieve the 'allowed_domains' from the imported crawler
+                    # and add it the set of 'allowed domains'
+                    allowed_domains.update(crawler.Crawler.allowed_domains)
+                else: # subpath is exempted
+                    # add the 'allowed_domains' from this subpackage to
+                    # set of exempted domains
+                    except_allowed_domains.update(crawler.Crawler.allowed_domains)
+            except:
+                continue
+            # remove all exempted domains which may also be present in
+            # 'allowed domains'
+            allowed_domains.difference_update(except_allowed_domains)
+    return list(allowed_domains) # return allowed_domains
