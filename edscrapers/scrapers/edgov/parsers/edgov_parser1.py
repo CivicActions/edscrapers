@@ -96,7 +96,7 @@ def parse(res) -> dict:
                 resource['description'] = str(resource['name']).strip()
                 resource['description'] = re.sub(r'(</.+>)', '', resource['description'])
                 resource['description'] = re.sub(r'(<.+>)', '', resource['description'])
-            # after getting the best description possible, strip any white space    
+            # after getting the best description possible, strip any white space
             resource['description'] = resource['description'].strip()
 
             # get the format of the resource from the file extension of the link
@@ -105,7 +105,7 @@ def parse(res) -> dict:
             resource['format'] = resource_format
 
             # Add header information to resource object
-            # TODO resource['headers'] = h.get_resource_headers(res.url, resource_link['href'])
+            resource['headers'] = h.get_resource_headers(res.url, resource_link['href'])
 
             # add the resource to collection of resources
             dataset['resources'].append(resource)
