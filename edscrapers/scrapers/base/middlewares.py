@@ -6,8 +6,9 @@ class RegexOffsiteMiddleware(OffsiteMiddleware):
 
         allowed_domains = getattr(spider, 'allowed_domains', None)
 
-        regex = r'^(.*\.)?(%s)$' % '|'.join(re.escape(d) for d in allowed_domains if d is not None)
-        if not allowed_domains:
+        if allowed_domains:
+            regex = r'^(.*\.)?(%s)$' % '|'.join(re.escape(d) for d in allowed_domains if d is not None)
+        else:
             return re.compile('') # allow all by default
 
         allowed_regex = getattr(spider, 'allowed_regex', None)
@@ -15,4 +16,3 @@ class RegexOffsiteMiddleware(OffsiteMiddleware):
             return re.compile(allowed_regex)
         else:
             return re.compile(regex)
-
