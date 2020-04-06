@@ -56,7 +56,7 @@ def parse(res):
 
         # description
         if soup_parser.head.find(name='meta', attrs={'name': 'DC.description'}) is None:
-            dataset['notes'] = ''
+            dataset['notes'] = dataset['title']
         else:
             dataset['notes'] = soup_parser.head.\
                                 find(name='meta', 
@@ -130,6 +130,10 @@ def parse(res):
                                                 contents[0]).strip()
                 resource['description'] = re.sub(r'(</.+>)', '', resource['description'])
                 resource['description'] = re.sub(r'(<.+>)', '', resource['description'])
+            # after getting the best description possible, remove any " - "
+            # and trailing white space
+            resource['description'] = re.sub(r'^\s+\-\s+', '', resource['description'])
+            resource['description'] = resource['description'].strip()
 
             # get the format of the resource from the file extension of the link
             resource_format = resource_link['href']\
@@ -143,6 +147,6 @@ def parse(res):
             dataset['resources'].append(resource)
 
         if len(dataset['resources']) == 0:
-            return None
+            continue
 
         yield dataset
