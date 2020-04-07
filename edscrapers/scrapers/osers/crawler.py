@@ -25,7 +25,8 @@ class Crawler(CrawlSpider):
         self.rules = [
             Rule(LinkExtractor(
                 allow=self.allowed_regex,
-                #deny=f'.*({"|".join(h.get_data_extensions())})',
+                deny_extensions=[regex[1:] for regex in h.get_data_extensions().keys()],
+                allow_domains=Crawler.allowed_domains
                 #restrict_xpaths='//*[@id="maincontent"]'
             ), callback=parse, follow=True),
         ]
