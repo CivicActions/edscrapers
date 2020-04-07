@@ -1,7 +1,7 @@
 import os
 import json
 from pathlib import Path
-import urllib
+import urllib.parse
 
 from edscrapers.cli import logger
 from edscrapers.transformers.base.helpers import traverse_output
@@ -110,12 +110,13 @@ class Transformer():
                 stripped_url = urllib.parse.urlunsplit(urllib.parse.urlsplit(url))
             else: # query string was provided
                 query_str_dict = urllib.parse.parse_qs(query_str)
+                query_str_dict2 = dict(query_str_dict)
                 for key in query_str_dict.keys(): # cycle through the query param names
                      # if any query param name in 'include_query_param' or 'include_query_param' 
                     if key in include_query_param or len(include_query_param) == 0:
-                        del query_str_dict[key] # delete the query param
+                        del query_str_dict2[key] # delete the query param
                 # convert the ammended query_param dict to a querystring
-                query_str = urllib.parse.urlencode(query_str_dict)
+                query_str = urllib.parse.urlencode(query_str_dict2, doseq=True)
                 stripped_url = urllib.parse.urlunsplit(urllib.parse.\
                                                        SplitResult(split_url.scheme,
                                                                    split_url.netloc,
@@ -133,12 +134,13 @@ class Transformer():
                 stripped_url = urllib.parse.urlunsplit(urllib.parse.urlsplit(url))
             else: # query string was provided
                 query_str_dict = urllib.parse.parse_qs(query_str)
+                query_str_dict2 = dict(query_str_dict)
                 for key in query_str_dict.keys(): # cycle through the query param names
                      # if any query param name not in 'exclude_query_param' and 'exclude_query_param' is not empty
                     if key not in exclude_query_param and len(exclude_query_param) > 0:
-                        del query_str_dict[key] # delete the query param
+                        del query_str_dict2[key] # delete the query param
                 # convert the ammended query_param dict to a querystring
-                query_str = urllib.parse.urlencode(query_str_dict)
+                query_str = urllib.parse.urlencode(query_str_dict2, doseq=True)
                 stripped_url = urllib.parse.urlunsplit(urllib.parse.\
                                                        SplitResult(split_url.scheme,
                                                                    split_url.netloc,
