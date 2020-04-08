@@ -1,6 +1,7 @@
 import os
 import json
 from pathlib import Path
+import re
 
 from slugify import slugify
 from urllib.parse import urlparse
@@ -71,17 +72,42 @@ def read_file(file_path):
         data = json.load(fl)
         return data
 
+
+def write_file(file_path, data, mode='w'):
+    """ write data to a file as json """
+
+    with open(file_path, mode) as fl:
+        json.dump(data, fl)
+
+
+
 def transform_keywords(tags_string):
 
-    keywords = list()
+    """ transform a string of tags to a list using common delimeters"""
+
+    # TODO: REMOVE THE COMMENT CODE BELOW
+    """keywords = list()
     for tag in tags_string.split(';'):
         tag = tag.strip()
         tag = tag.lower()
         tag = tag.replace(' ','-')
         if tag:
             keywords.append(tag)
+    return keywords"""
+
+    # split keywords using regex
+    keywords = re.split(r'[,;]+', tags_string, flags=re.IGNORECASE)
+    keywords = set(keywords) # remove duplicates
+    keywords.discard('') # remove any empty strings from the set
+    
+    keywords = list(keywords)
+
+    for index in range(0, len(keywords)):
+        keywords[index] = keywords[index].strip().replace(' ', '-').lower()
 
     return keywords
+
+
 
 def transform_dataset_title(title, url):
 
