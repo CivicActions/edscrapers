@@ -40,6 +40,9 @@ def transform(name=None, input_file=None):
         # 1. remove 'table [0-9].' from beginning of dataset title
         data = _strip_unwanted_string(data, r'^table [0-9a-z]+(-?[a-z])?\.', 
                                       dict_key='title')
+        
+        # set the 'level of data' for the dataset
+        data = _set_dataset_level_of_data(data)
 
         # write modified dataset back to file
         h.write_file(file_path, data)
@@ -160,6 +163,62 @@ def _strip_unwanted_string(dataset: dict, regex_str: str,
                                   count=count, flags=re.IGNORECASE)
     
     if len(clean_data.keys()) > 0: # if '_clean_data' has keys
+        dataset['_clean_data'] = clean_data # update dataset
+    else: # else no keys
+        del dataset['_clean_data'] # delete '_clean_data' key from dataset
+    
+    return dataset
+
+
+def _set_dataset_level_of_data(dataset: dict) -> dict:
+    """ private helper function.
+    FUNCTION ONLY adds/modifies the '_clean_data' key of 'dataset' during operations.
+    
+    function sets the 'level_of_data' for the dataset.
+    
+    possible values are: ['national', 'state', 
+    'district', 'school', 'individual', 
+    'Institution of Higher Education', 
+    'Accreditor', 'Grantee', 'Zip Code', 
+    'Census Block', 'Census Tract']
+
+    level of data is determined by examining each resource 'name' in the dataset.
+    """
+    if dataset.get('resources') is None:
+        return dataset
+    
+    # get the '_clean_data' key of dataset
+    clean_data = dataset.setdefault('_clean_data', {})
+
+    level_of_data = set()
+
+    # get the state names (used to determine if level of data is 'state')
+    list_of_states = list(map(lambda state: state.lower(), h.get_country_states(None)))
+
+    # loop through resources
+    for resource in dataset['resources']:
+        # if level_of_data already contain 'national' and 'state', no need to continue
+        if 'national' in level_of_data and 'state' in level_of_data:
+            break
+        else:
+            # if the string 'national' is found in the resource name or dataset title
+            if 'national' not in level_of_data and\
+                ('national' in resource.get('name', '').lower() or\
+                    'national' in dataset.get('title', '').lower()):
+                level_of_data.add('national') # add 'national'to level of data
+
+            # loop through each State name in list_of_states
+            for state in list_of_states:
+                # check if State name is contained in resource name
+                if state in resource.get('name', '').lower():
+                    level_of_data.add('state')  # add 'state' to level of data
+                    break # leave list_of_states loop
+
+    # update 'level_of_data'
+    if len(level_of_data) > 0:
+        clean_data['level_of_data'] = list(level_of_data)
+    
+    if len(clean_data.keys()) > 0: # if 'clean_data' has keys
         dataset['_clean_data'] = clean_data # update dataset
     else: # else no keys
         del dataset['_clean_data'] # delete '_clean_data' key from dataset
