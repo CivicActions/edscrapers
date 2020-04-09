@@ -33,10 +33,6 @@ def parse(res) -> dict:
             dataset['title'] = soup_parser.head.find(name='meta',
                                            attrs={'name': 'DC.title'})['content']
         
-        # remove any occurrence of the "Table [0-9]" from the beginning of title
-        dataset['title'] = re.sub(re.compile(r'^table [0-9a-z]+(-?[a-z])?\.', re.IGNORECASE), '',
-                                  dataset['title']).strip()
-
         # replace all non-word characters (e.g. ?/) with '-'
         dataset['name'] = slugify(dataset['title'])
         if soup_parser.head.find(name='meta', attrs={'name': 'ED.office'}) is None:

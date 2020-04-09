@@ -29,9 +29,18 @@ def transform(name=None, input_file=None):
         data = h.read_file(file_path)
         if not data: # if data is None
             continue
-        # mark private datasets that have certain keywords in their data
+        # mark as private datasets that have certain keywords in their data
         data = _mark_private(data, search_words=['conference', 'awards',
                                                 'user guide', 'applications'])
+
+        # mark of removal datasets that have certain keywords
+        data = _remove_dataset(data, search_words=['photo'])
+
+        # REMOVE UNWANTED STRING FROM THE VALUE OF A DATASET'S KEY
+        # 1. remove 'table [0-9].' from beginning of dataset title
+        data = _strip_unwanted_string(data, r'^table [0-9a-z]+(-?[a-z])?\.', 
+                                      dict_key='title')
+
         # write modified dataset back to file
         h.write_file(file_path, data)
 
@@ -47,19 +56,21 @@ def _mark_private(dataset: dict, search_words=[], add_word_tag=True,
     adds the search word as a tag to the list of keywords"""
 
     if dataset.get('title') is None:
-        return
+        return dataset
     
     dataset['title'] = dataset['title'].strip()
 
     # get the '_clean_data' key of dataset
     clean_data = dataset.setdefault('_clean_data', {})
+    # get the title key from clean_data or use those from dataset
+    title = clean_data.get('title', dataset['title'].strip())
     # get the tags key from clean_data or use those from dataset
     tags = clean_data.get('tags', dataset['tags'].strip())
 
 
     for word in search_words:
         # check if word is in dataset title
-        if re.search('\\b'+ word + '\\b', dataset['title'], re.IGNORECASE):
+        if re.search('\\b'+ re.escape(word) + '\\b', title, re.IGNORECASE):
             # word is in title
             if add_word_tag and word.lower().replace(' ', '-')\
                 not in h.transform_keywords(tags):
@@ -77,4 +88,80 @@ def _mark_private(dataset: dict, search_words=[], add_word_tag=True,
     else: # else no keys
         del dataset['_clean_data'] # delete '_clean_data' key from dataset
 
+    return dataset
+
+
+def _remove_dataset(dataset: dict, search_words=[]) -> dict:
+    """ private helper function.
+    FUNCTION ONLY adds/modifies the '_clean_data' key of 'dataset' during operations.
+
+    searches the dataset title for provided search_words.
+    if any search_words are found, will flag the dataset for deletion/removal i.e.
+    dataset should NOT be harvested.
+    
+    A dataset is flagged for deletion by adding the _remove_dataset key to the 
+    _clean_data key/dict pair """
+
+    if dataset.get('title') is None:
+        return dataset
+    
+    dataset['title'] = dataset['title'].strip()
+
+    # get the '_clean_data' key of dataset
+    clean_data = dataset.setdefault('_clean_data', {})
+    # get the title key from clean_data or use those from dataset
+    title = clean_data.get('title', dataset['title'].strip())
+     # if dataset already flagged for deletion/removal
+    if clean_data.get('_remove_dataset') and\
+        clean_data['_remove_dataset'] is True:
+        return dataset # exit function
+
+
+    for word in search_words:
+        # check if word is in dataset title
+        if re.search('\\b'+ re.escape(word) + '\\b', title, re.IGNORECASE):
+            # word is in title, so flag datset for removal/deletion
+            clean_data['_remove_dataset'] = True
+            break # exit foor loop since dataset has been marked
+
+    if len(clean_data.keys()) > 0: # if '_clean_data' has keys
+        dataset['_clean_data'] = clean_data # update dataset
+    else: # else no keys
+        del dataset['_clean_data'] # delete '_clean_data' key from dataset
+
+    return dataset
+
+
+def _strip_unwanted_string(dataset: dict, regex_str: str,
+                           dict_key='title', count=0) -> dict:
+    """ private helper function.
+    FUNCTION ONLY adds/modifies the '_clean_data' key of 'dataset' during operations.
+
+    performs a case-insensitive search for 'regex_str' on the specified
+    dataset key (dict_key) and removes the regex_str from dataset[dict_key] value.
+
+    'count' represents the number of types 'regex_str' will be removed from
+    dataset[dict_key]. 0 (the defualt) means remove all occurrences of 'regex_str'
+    
+    NOTE: the value of dataset[dict_key] MUST BE a string
+    """
+
+    if dataset.get(dict_key) is None:
+        return dataset
+    
+    # get the '_clean_data' key of dataset
+    clean_data = dataset.setdefault('_clean_data', {})
+
+    # get the dict_key value from clean_data or use those from dataset
+    dict_key_val = clean_data.get(dict_key, dataset[dict_key]).strip()
+
+    # remove regex_str from dict_key_val
+    clean_data[dict_key] = re.sub(regex_str, '', dict_key_val,
+                                  count=count, flags=re.IGNORECASE)
+    
+    if len(clean_data.keys()) > 0: # if '_clean_data' has keys
+        dataset['_clean_data'] = clean_data # update dataset
+    else: # else no keys
+        del dataset['_clean_data'] # delete '_clean_data' key from dataset
+    
     return dataset
