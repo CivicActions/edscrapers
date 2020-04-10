@@ -16,24 +16,37 @@ from edscrapers.transformers.rag import DATASET_WEIGHTING_SYS, TOTAL_WEIGHT # im
 OUTPUT_DIR = h.get_output_path('rag')
 
 
-def transform(name=None, input_file=None) -> pd.DataFrame:
-    """ function transforms the data.json into a dataframe/csv 
-    PARAMETERS
-    name: if provided must correspond to the name of a scraper.
-    the data.json files contained in the 'name' scraper subdirectory of the 
-    'ED_OUTPUT_PATH/scraper' will be read
+def transform(name=None, input_file=None, use_raw_datasets=False) -> pd.DataFrame:
+    """ function transforms the datajson/datasets into
+    a dataframe/csv containig data to be used for RAG analyses on
+    the efficacy of the scraping toolkit to get viable/usable structured data from
+    the unstructured data source.
     
-    input_file: if provided mut be a file with list of data.json
+    The function by default operates on/utilises datajson i.e.
+    the json that is ready to be ingested by the ckan harvester;
+    However, setting 'use_raw_datasets' to True means the function will
+    operate on the raw, parsed data which was scraped from the data source.
+
+    PARAMETERS
+    - name: if provided must correspond to the name of a scraper.
+    if 'use_raw_datasets' is False, file with the format '<name>.data.json'
+    will be located in the datajson subdirectory of 'ED_OUTPUT_PATH/transformers'
+    and read.
+    if 'use_raw_datasets' is True, dataset files contained in the 'name'
+    scrapers subdirectory of the 'ED_OUTPUT_PATH/scrapers' will be read
+    
+    input_file: if provided mut be a file with list of datajson or dataset files
     to read.
 
     If no parameters are provided, which is the default behaviour;
-    then all data.json files contained in 'ED_OUTPUT_PATH/scraper' will be read.
+    then all datajson files contained in datajson subdirectory of
+    'ED_OUTPUT_PATH/transformers' will be read.
 
-    function returns the DataFrame contained the transformed data.json files
+    function returns the DataFrame containing the transformed datajson/dataset files
     """
     
-    file_list = [] # holds the list of files which contain dataset json
-    datasets_list = [] # holds the datasets jsons gotten from files
+    file_list = [] # holds the list of files which contain datajson/dataset
+    datasets_list = [] # holds the data jsons gotten from files
 
     if not input_file: # no input file provided
         # loop over directory structure
