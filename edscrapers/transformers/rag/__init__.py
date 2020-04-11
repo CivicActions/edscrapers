@@ -86,5 +86,5 @@ DATASET_WEIGHTING_SYS = {'Title':
                          }
 
 # calculate the total weight
-TOTAL_WEIGHT = functools.reduce(lambda item1, item2: item1 + item2[2]['score'], 
+TOTAL_WEIGHT = functools.reduce(lambda item1, item2: item1 + item2[1]['score'], 
                                                           DATASET_WEIGHTING_SYS.items(), 0)
