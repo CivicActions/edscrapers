@@ -32,7 +32,7 @@ def parse(res) -> dict:
         else:
             dataset['title'] = soup_parser.head.find(name='meta',
                                            attrs={'name': 'DC.title'})['content']
-        
+
         # replace all non-word characters (e.g. ?/) with '-'
         dataset['name'] = slugify(dataset['title'])
         if soup_parser.head.find(name='meta', attrs={'name': 'ED.office'}) is None:
