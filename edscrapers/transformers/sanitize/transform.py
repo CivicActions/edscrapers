@@ -68,7 +68,7 @@ def _mark_private(dataset: dict, search_words=[], add_word_tag=True,
     # get the title key from clean_data or use those from dataset
     title = clean_data.get('title', dataset['title'].strip())
     # get the tags key from clean_data or use those from dataset
-    tags = clean_data.get('tags', dataset['tags'].strip())
+    tags = clean_data.get('tags', dataset.get('tags', '').strip())
 
 
     for word in search_words:
@@ -159,9 +159,12 @@ def _strip_unwanted_string(dataset: dict, regex_str: str,
     dict_key_val = clean_data.get(dict_key, dataset[dict_key]).strip()
 
     # remove regex_str from dict_key_val
-    clean_data[dict_key] = re.sub(regex_str, '', dict_key_val,
+    clean_key = re.sub(regex_str, '', dict_key_val,
                                   count=count, flags=re.IGNORECASE)
-    
+
+    if clean_key != dataset.get(dict_key):
+        clean_data[dict_key] = clean_key
+
     if len(clean_data.keys()) > 0: # if '_clean_data' has keys
         dataset['_clean_data'] = clean_data # update dataset
     else: # else no keys

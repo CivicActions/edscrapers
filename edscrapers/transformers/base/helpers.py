@@ -152,7 +152,7 @@ def write_file(file_path, data, mode='w'):
     """ write data to a file as json """
 
     with open(file_path, mode) as fl:
-        json.dump(data, fl)
+        json.dump(data, fl, indent=2)
 
 
 
