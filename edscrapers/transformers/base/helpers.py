@@ -1,6 +1,7 @@
 import os
 import json
 from pathlib import Path
+import re
 
 from slugify import slugify
 from urllib.parse import urlparse
@@ -48,6 +49,81 @@ map_media_type = {
     'sas7bdat': 'application/sas-data'
 }
 
+# KEY/VAUE PAIR FOR STATE NAMES (CURRENTLY US STATES).
+# THIS IS USED TO DETERMINE 'level_of_data'
+COUNTRY_STATES = {
+    "AL": "Alabama",
+    "AK": "Alaska",
+    "AS": "American Samoa",
+    "AZ": "Arizona",
+    "AR": "Arkansas",
+    "CA": "California",
+    "CO": "Colorado",
+    "CT": "Connecticut",
+    "DE": "Delaware",
+    "DC": "District Of Columbia",
+    "FM": "Federated States Of Micronesia",
+    "FL": "Florida",
+    "GA": "Georgia",
+    "GU": "Guam",
+    "HI": "Hawaii",
+    "ID": "Idaho",
+    "IL": "Illinois",
+    "IN": "Indiana",
+    "IA": "Iowa",
+    "KS": "Kansas",
+    "KY": "Kentucky",
+    "LA": "Louisiana",
+    "ME": "Maine",
+    "MH": "Marshall Islands",
+    "MD": "Maryland",
+    "MA": "Massachusetts",
+    "MI": "Michigan",
+    "MN": "Minnesota",
+    "MS": "Mississippi",
+    "MO": "Missouri",
+    "MT": "Montana",
+    "NE": "Nebraska",
+    "NV": "Nevada",
+    "NH": "New Hampshire",
+    "NJ": "New Jersey",
+    "NM": "New Mexico",
+    "NY": "New York",
+    "NC": "North Carolina",
+    "ND": "North Dakota",
+    "MP": "Northern Mariana Islands",
+    "OH": "Ohio",
+    "OK": "Oklahoma",
+    "OR": "Oregon",
+    "PW": "Palau",
+    "PA": "Pennsylvania",
+    "PR": "Puerto Rico",
+    "RI": "Rhode Island",
+    "SC": "South Carolina",
+    "SD": "South Dakota",
+    "TN": "Tennessee",
+    "TX": "Texas",
+    "UT": "Utah",
+    "VT": "Vermont",
+    "VI": "Virgin Islands",
+    "VA": "Virginia",
+    "WA": "Washington",
+    "WV": "West Virginia",
+    "WI": "Wisconsin",
+    "WY": "Wyoming"
+}
+
+def get_country_states(state_key=None):
+    """ returns the name of a State, using the 2-letter state_keys.
+    if state_key is None, then a list of all the State names is returned.
+    if the state_key provided does not exist, None is returned """
+
+    if state_key is None:
+        return list(COUNTRY_STATES.values())
+
+    return COUNTRY_STATES.get(state_key, None)
+
+
 def get_office_name(target_dept):
     return map_office_name.get(target_dept)
 
@@ -71,17 +147,42 @@ def read_file(file_path):
         data = json.load(fl)
         return data
 
+
+def write_file(file_path, data, mode='w'):
+    """ write data to a file as json """
+
+    with open(file_path, mode) as fl:
+        json.dump(data, fl, indent=2)
+
+
+
 def transform_keywords(tags_string):
 
-    keywords = list()
+    """ transform a string of tags to a list using common delimeters"""
+
+    # TODO: REMOVE THE COMMENT CODE BELOW
+    """keywords = list()
     for tag in tags_string.split(';'):
         tag = tag.strip()
         tag = tag.lower()
         tag = tag.replace(' ','-')
         if tag:
             keywords.append(tag)
+    return keywords"""
+
+    # split keywords using regex
+    keywords = re.split(r'[,;]+', tags_string, flags=re.IGNORECASE)
+    keywords = set(keywords) # remove duplicates
+    keywords.discard('') # remove any empty strings from the set
+    
+    keywords = list(keywords)
+
+    for index in range(0, len(keywords)):
+        keywords[index] = keywords[index].strip().replace(' ', '-').lower()
 
     return keywords
+
+
 
 def transform_dataset_title(title, url):
 

@@ -113,6 +113,9 @@ def _transform_scraped_dataset(data, target_dept):
 
     dataset.contactPoint = contactPoint
 
+    if data.get('accessLevel'):
+        dataset.accessLevel = data.get('accessLevel')
+
     if not len(dataset.bureauCode) > 0:
         dataset.bureauCode = ["018:40"]
 
