@@ -20,8 +20,7 @@ def parse(res, container, dataset) -> dict:
         resource = Resource(source_url=res.url,
                             url=resource_link['value'])
         # get the resource name
-        for child in resource_link.parent.children:
-            resource['name'] = str(child.text).strip()
+        resource['name'] = str(resource_link.text).strip()
 
         # get the format of the resource from the file extension of the link
         resource_format = resource_link['value']\
