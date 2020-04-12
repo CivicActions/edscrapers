@@ -8,3 +8,5 @@ edscrapers.egg-info/
 .gitignore
 LICENSE.md
 .mypy_cache/
+output/
+.scrapy/
