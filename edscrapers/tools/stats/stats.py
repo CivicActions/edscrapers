@@ -3,6 +3,7 @@ import sys
 import os
 import urllib.parse
 import functools
+import pathlib
 import edscrapers
 import pandas as pd
 import requests
@@ -37,13 +38,16 @@ class Statistics():
         try:
             air_csv_url = 'https://storage.googleapis.com/storage/v1/b/us-ed-scraping/o/AIR.csv?alt=media'
             req = requests.get(air_csv_url)
-            with open(os.path.join(
-                    os.getenv('ED_OUTPUT_PATH'), 'tools', 'stats', 'data', 'air_df.csv'
-            ), 'wb') as air_df_file:
+            air_df_path = pathlib.Path(os.getenv('ED_OUTPUT_PATH'),
+                                                 'tools', "stats", 'data', 'air_df.csv')
+            # make the required path/directories
+            pathlib.Path.resolve(air_df_path).parent.mkdir(parents=True, exist_ok=True)     
+            # write the downloded file to disk       
+            with open(air_df_path, 'wb') as air_df_file:
                 air_df_file.write(req.content)
 
             self.air_out_df = pd.read_csv(
-                os.path.join(os.getenv('ED_OUTPUT_PATH'), 'tools', 'stats', 'data', 'air_df.csv'),
+                air_df_path,
                 header=0)
         except Exception as e:
             logger.error('Could not load the AIR CSV.')
