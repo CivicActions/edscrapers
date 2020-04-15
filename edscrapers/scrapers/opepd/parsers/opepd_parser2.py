@@ -14,8 +14,15 @@ from edscrapers.scrapers.base.models import Dataset, Resource
 def parse(res) -> dict:
     """ function parses content to create a dataset model """
 
+    # ensure that the response text gotten is a string
+    if not isinstance(getattr(res, 'text', None), str):
+        return None
+
     # create parser object
-    soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    try:
+        soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    except:
+        return None
 
     dataset_containers = soup_parser.body.find_all(class_='contentText',
                                                    recursive=True)
@@ -39,12 +46,20 @@ def parse(res) -> dict:
             dataset['publisher'] = soup_parser.head.\
                                 find(name='meta', attrs={'name': 'ED.office'})['content']
         
-        if soup_parser.head.find(name='meta', attrs={'name': 'DC.description'}) is None:
-            dataset['notes'] = str(soup_parser.body.find(class_='headersLevel1',
+        try:
+            if soup_parser.head.find(name='meta', attrs={'name': 'DC.description'}) is None:
+                dataset['notes'] = str(soup_parser.body.find(class_='headersLevel1',
                                                      recursive=True).string).strip()
-        else:
-            dataset['notes'] = soup_parser.head.\
-                                find(name='meta', attrs={'name': 'DC.description'})['content']
+            else:
+                dataset['notes'] = soup_parser.head.\
+                                    find(name='meta', attrs={'name': 'DC.description'})['content']
+        except:
+            dataset['notes'] = dataset['title']
+
+        # if despite best efforts 'notes' is still empty or None
+        if not dataset.get('notes', None):
+            dataset['notes'] = dataset['title']
+
 
         if soup_parser.head.find(name='meta', attrs={'name': 'keywords'}) is None:
             dataset['tags'] = ''
@@ -114,6 +129,11 @@ def parse(res) -> dict:
                 resource['description'] = re.sub(r'(</.+>)', '', resource['description'])
                 resource['description'] = re.sub(r'(<.+>)', '', resource['description'])
 
+            # after getting the best description possible, remove any " - "
+            # and trailing white space
+            resource['description'] = re.sub(r'^\s+\-\s+', '', resource.get('description', ''))
+            resource['description'] = resource['description'].strip()
+            
             # get the format of the resource from the file extension of the link
             resource_format = resource_link['href']\
                             [resource_link['href'].rfind('.') + 1:]
@@ -124,5 +144,8 @@ def parse(res) -> dict:
 
             # add the resource to collection of resources
             dataset['resources'].append(resource)
+        
+        if len(dataset['resources']) == 0:
+            continue
 
         yield dataset
