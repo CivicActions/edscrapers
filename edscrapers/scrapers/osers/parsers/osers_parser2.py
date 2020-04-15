@@ -12,8 +12,15 @@ from edscrapers.scrapers.base.models import Dataset, Resource
 def parse(res):
     """ function parses content to create a dataset model """
 
+    # ensure that the response text gotten is a string
+    if not isinstance(getattr(res, 'text', None), str):
+        return None
+
     # create parser object
-    soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    try:
+        soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    except:
+        return None
 
     dataset_containers = soup_parser.body.find_all(class_='contentText',
                                                    recursive=True)
@@ -78,8 +85,11 @@ def parse(res):
         for resource_link in page_resource_links:
             resource = Resource(source_url=res.url,
                                 url=resource_link['href'])
-            resource['name'] = str(resource_link.find_parent(name='ul').\
+            try:
+                resource['name'] = str(resource_link.find_parent(name='ul').\
                                 find_previous_sibling(name=True))
+            except:
+                resource['name'] = str(resource_link.string).strip()
             resource['name'] +=  " " + str(resource_link.parent.contents[0]).strip()
             resource['name'] = re.sub(r'(</.+>)', '', resource['name'])
             resource['name'] = re.sub(r'(<.+>)', '', resource['name'])
