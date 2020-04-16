@@ -21,7 +21,16 @@ def parse(res):
     function delicates parsing responsibility to the
     appropriate parser"""
 
-    soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    # ensure that the response text gotten is a string
+    if not isinstance(getattr(res, 'text', None), str):
+        return None
+
+    # create parser object
+    try:
+        soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    except:
+        return None
+        
     # check if the content contains any of the extensions
     if soup_parser.body.find(name='a', href=base_parser.resource_checker,
                              recursive=True) is None:
