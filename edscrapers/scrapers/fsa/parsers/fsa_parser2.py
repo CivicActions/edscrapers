@@ -15,7 +15,8 @@ def parse(res, container, dataset) -> dict:
 
     # add  resources from the 'container' to the dataset
     page_resource_links = container.find_all(name='option',
-                                                recursive=True)
+                                             value=base_parser.resource_checker,
+                                             recursive=True)
     for resource_link in page_resource_links:
         resource = Resource(source_url=res.url,
                             url=resource_link['value'])
@@ -32,5 +33,8 @@ def parse(res, container, dataset) -> dict:
 
         # add the resource to collection of resources
         dataset['resources'].append(resource)
+
+    if len(dataset['resources']) == 0: # if no resources were found
+        return None
 
     yield dataset

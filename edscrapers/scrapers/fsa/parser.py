@@ -24,6 +24,10 @@ def parse(res):
     """ function parses content to create a dataset model
     or return None if no resource in content"""
 
+    # ensure that the response text gotten is a string
+    if not isinstance(getattr(res, 'text', None), str):
+        return None
+
     try:
         soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
     except:
@@ -71,7 +75,10 @@ def parse(res):
 
     dataset['resources'] = list()
 
-    option_tags = soup_parser.find_all('option')
+    # get option tags that have 'value' attribute linking to a resource file
+    option_tags = soup_parser.find_all(name='option',
+                                       value=base_parser.resource_checker,
+                                       recursive=True)
 
     for option_tag in option_tags:
 

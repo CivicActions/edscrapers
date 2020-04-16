@@ -56,5 +56,8 @@ def parse(res, container, dataset) -> dict:
 
         # add the resource to collection of resources
         dataset['resources'].append(resource)
+    
+    if len(dataset['resources']) == 0: # if no resources were found
+        return None
 
     yield dataset
