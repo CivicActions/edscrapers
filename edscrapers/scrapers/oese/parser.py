@@ -19,7 +19,15 @@ def parse(res):
     """ function parses content to create a dataset model
     or return None if no resource in content"""
 
-    soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    # ensure that the response text gotten is a string
+    if not isinstance(getattr(res, 'text', None), str):
+        return None
+
+    try:
+        soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    except:
+        return None
+        
     # check if the content contains any of the extensions
     if soup_parser.body.find(name='a', href=base_parser.resource_checker,
                              recursive=True) is None:

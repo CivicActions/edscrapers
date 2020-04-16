@@ -14,8 +14,14 @@ from edscrapers.scrapers.base.models import Dataset, Resource
 def parse(res) -> dict:
     """ function parses content to create a dataset model """
 
-    # create parser object
-    soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    # ensure that the response text gotten is a string
+    if not isinstance(getattr(res, 'text', None), str):
+        return None
+
+    try:
+        soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    except:
+        return None
 
     dataset_containers = soup_parser.body.find_all(name='div',
                                                    class_='container',
@@ -41,7 +47,7 @@ def parse(res) -> dict:
                                 find(name='meta', attrs={'name': 'ED.office'})['content']
         
         if soup_parser.head.find(name='meta', attrs={'name': 'DC.description'}) is None:
-            dataset['notes'] = ''
+            dataset['notes'] = dataset['title']
         else:
             dataset['notes'] = soup_parser.head.\
                                 find(name='meta', attrs={'name': 'DC.description'})['content']
@@ -87,8 +93,8 @@ def parse(res) -> dict:
                                                 contents[0]).strip()
                 resource['description'] = re.sub(r'(</.+>)', '', resource['description'])
                 resource['description'] = re.sub(r'(<.+>)', '', resource['description'])
-            else:
-                resource['description'] = ''
+            else: # set description to name of resource
+                resource['description'] = resource['name']
 
             # get the format of the resource from the file extension of the link
             resource_format = resource_link['href']\
@@ -100,5 +106,8 @@ def parse(res) -> dict:
 
             # add the resource to collection of resources
             dataset['resources'].append(resource)
+        
+        if len(dataset['resources']) == 0:
+            continue
 
         yield dataset
