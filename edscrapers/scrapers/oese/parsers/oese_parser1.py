@@ -74,6 +74,10 @@ def parse(res) -> dict:
         page_resource_links = container.find_all(name='a',
                                                  href=base_parser.resource_checker,
                                                  recursive=True)
+
+         # hold the list of resource names collected strictly by traversing resource parent
+        traverse_parent_unique_resource_names = list()
+
         for resource_link in page_resource_links:
             resource = Resource(source_url=res.url,
                                 url=resource_link['href'])
@@ -85,6 +89,18 @@ def parse(res) -> dict:
                     break
             resource['name'] = re.sub(r'(</.+>)', '', resource['name'])
             resource['name'] = re.sub(r'(<.+>)', '', resource['name'])
+
+            # to ensure that the same name is not repeated for a resource when using parental traversal,
+            # check if the retrieved name has been collected and assigned before
+            if resource['name'] in traverse_parent_unique_resource_names:
+                # the retrieved resource name has already been assigned to another resource
+                # then retrieve the content of the 'a' tag as the name
+                resource['name'] = " ".join(list(map(lambda string: str(string), 
+                                                     resource_link.stripped_strings)))
+            else:
+                # since resource name was retrieved by traversing parent,
+                # add resource name to the list
+                traverse_parent_unique_resource_names.append(resource['name'])
 
             if resource_link.find_parent(name='p'):
 
