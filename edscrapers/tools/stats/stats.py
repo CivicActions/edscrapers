@@ -36,19 +36,20 @@ class Statistics():
             # read the AIR csv into a dataframe
 
         try:
-            air_csv_url = 'https://storage.googleapis.com/storage/v1/b/us-ed-scraping/o/AIR.csv?alt=media'
-            req = requests.get(air_csv_url)
             air_df_path = pathlib.Path(os.getenv('ED_OUTPUT_PATH'),
                                                  'tools', "stats", 'data', 'air_df.csv')
-            # make the required path/directories
-            pathlib.Path.resolve(air_df_path).parent.mkdir(parents=True, exist_ok=True)     
-            # write the downloded file to disk       
-            with open(air_df_path, 'wb') as air_df_file:
-                air_df_file.write(req.content)
+            if not air_df_path.exists(): # if this filepath does not already exist
+                air_csv_url = 'https://storage.googleapis.com/storage/v1/b/us-ed-scraping/o/AIR.csv?alt=media'
+                req = requests.get(air_csv_url)
+                # make the required path/directories
+                pathlib.Path.resolve(air_df_path).parent.mkdir(parents=True, exist_ok=True)     
+                # write the downloded file to disk       
+                with open(air_df_path, 'wb') as air_df_file:
+                    air_df_file.write(req.content)
 
-            self.air_out_df = pd.read_csv(
-                air_df_path,
-                header=0)
+                self.air_out_df = pd.read_csv(
+                    air_df_path,
+                    header=0)
         except Exception as e:
             logger.error('Could not load the AIR CSV.')
 
