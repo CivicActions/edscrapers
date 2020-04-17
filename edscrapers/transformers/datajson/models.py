@@ -105,7 +105,8 @@ class Dataset():
         
         self.dataset_type = "dcat:Dataset"
         self.accessLevel = "public"
-        #self.dataset_license = "https://creativecommons.org/publicdomain/zero/1.0/"
+        # set license to cc-zero
+        self.dataset_license = "https://creativecommons.org/publicdomain/zero/1.0/"
         #self.dataset_license = "notspecified"
         self.spatial = "United States"
         self.description = "n/a"

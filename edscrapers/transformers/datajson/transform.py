@@ -72,6 +72,7 @@ def _transform_scraped_dataset(data, target_dept):
     
     ### removing leading and trailing withespaces from title
     title = data.get('title').strip()
+    # ensure datasets have a unique title
     if title and title not in dataset_title_list:
         dataset.title = title
         dataset_title_list.append(title)
@@ -79,6 +80,7 @@ def _transform_scraped_dataset(data, target_dept):
         dataset.title = h.transform_dataset_title(title, scraped_from)
 
     identifier = data.get('name')
+    # ensure datasets have a unique identifier
     if identifier in dataset_identifier_list:
         identifier = h.transform_dataset_identifier(title, scraped_from)
     dataset.identifier = identifier
