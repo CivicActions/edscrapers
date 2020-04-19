@@ -44,6 +44,10 @@ def transform(name, input_file=None):
             continue
 
         dataset = _transform_scraped_dataset(data, name)
+
+        if not dataset: # no dataset was returned (i.e. dataset probably marked for removal)
+            continue
+        
         catalog.datasets.append(dataset)
 
         datasets_number += 1
@@ -60,7 +64,17 @@ def transform(name, input_file=None):
 
     h.upload_to_s3_if_configured(file_path, f'{name}.data.json')
 
-def _transform_scraped_dataset(data, target_dept):
+def _transform_scraped_dataset(data: dict, target_dept):
+
+    # check if 'data' has sanitised data to be adopted
+    if data.get('_clean_data', None):
+        # there is sanitised data to be adopted into the datajson
+        if data['_clean_data'].get('_remove_dataset', False) is True:
+            # the 'data' has been flagged for removal
+            return None # exit function with no Dataset instance
+        else:
+            # update 'data' with the keys/value from _clean_data
+            data.update(data['_clean_data'])
 
     dataset = Dataset()
 
@@ -72,6 +86,7 @@ def _transform_scraped_dataset(data, target_dept):
     
     ### removing leading and trailing withespaces from title
     title = data.get('title').strip()
+    # ensure datasets have a unique title
     if title and title not in dataset_title_list:
         dataset.title = title
         dataset_title_list.append(title)
@@ -79,6 +94,7 @@ def _transform_scraped_dataset(data, target_dept):
         dataset.title = h.transform_dataset_title(title, scraped_from)
 
     identifier = data.get('name')
+    # ensure datasets have a unique identifier
     if identifier in dataset_identifier_list:
         identifier = h.transform_dataset_identifier(title, scraped_from)
     dataset.identifier = identifier
