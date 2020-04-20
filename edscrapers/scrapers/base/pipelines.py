@@ -13,7 +13,8 @@ from edscrapers.cli import logger
 class JsonWriterPipeline(object):
 
     def open_spider(self, spider):
-        Path(f"./output/scrapers/{spider.name}").mkdir(parents=True, exist_ok=True)
+        Path(f"{os.getenv('ED_OUTPUT_PATH')}/scrapers/{spider.name}").\
+                                                  mkdir(parents=True, exist_ok=True)
 
     def close_spider(self, spider):
         pass
@@ -24,7 +25,7 @@ class JsonWriterPipeline(object):
         hashed_url = hashlib.md5(dataset['source_url'].encode('utf-8')).hexdigest()
         hashed_name = hashlib.md5(dataset['name'].encode('utf-8')).hexdigest()
         file_name = f"{slug}-{hashed_url}-{hashed_name}.json"
-        file_path = f"./output/scrapers/{spider.name}/{file_name}"
+        file_path = f"{os.getenv('ED_OUTPUT_PATH')}/scrapers/{spider.name}/{file_name}"
         self._log(dataset)
         logger.debug(f"Dumping to {file_path}")
         with open(file_path, 'w') as output:

@@ -15,7 +15,8 @@ class Summary():
     air_df = None
     out_df = None
     output_path = os.getenv('ED_OUTPUT_PATH')
-    dedup_file = os.path.join(os.getenv('ED_OUTPUT_PATH', 'deduplicated_all.lst'))
+    dedup_file = os.path.join(output_path, "transformers",
+                              "deduplicate", "deduplicated_all.lst")
 
     scrapers = {
         'edgov': r'www2.ed.gov',
@@ -134,7 +135,7 @@ class Summary():
                 else:
                     files = [line.rstrip() for line in fp]
         except:
-            print('Warning! Cannot read deduplication results!')
+            # TODO ENABLE print('Warning! Cannot read deduplication results!')
             results = pathlib.Path(os.path.join(self.output_path, 'scrapers', name)).glob('**/*.json')
             files = [f.name for f in results]
 
@@ -203,7 +204,7 @@ class Summary():
         return result.count()['_merge']
 
 
-    def dump(self, path):
-        out_csv = pathlib.Path(os.path.join(self.output_path, 'datopian.csv'))
+    def dump(self, path=os.path.join(output_path, 'datopian.csv')):
+        out_csv = pathlib.Path(path)
         self.out_df.to_csv(out_csv, index=False)
         return out_csv

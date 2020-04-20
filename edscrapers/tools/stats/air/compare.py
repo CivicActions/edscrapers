@@ -1,4 +1,6 @@
+import os
 from os import system, name, path
+import pathlib
 import sys
 import json
 import pandas as pd
@@ -8,12 +10,16 @@ from .summary import Summary
 
 
 def compare():
-    air_csv = './tools/data/AIR.csv'
+    air_csv = str(pathlib.Path(os.getenv('ED_OUTPUT_PATH'),
+                                                 'tools', "stats", 'data', 'air_df.csv'))
 
     summary = Summary()
 
-    if path.exists('./output/deduplicated_all.lst'):
-        output_list_file = './output/deduplicated_all.lst'
+    if path.exists(os.getenv('ED_OUTPUT_PATH') +\
+         '/transformers/deduplicate/deduplicated_all.lst'):
+        
+        output_list_file = os.getenv('ED_OUTPUT_PATH') +\
+         '/transformers/deduplicate/deduplicated_all.lst'
     else:
         output_list_file = None
 
@@ -66,28 +72,28 @@ def compare():
     }
 
     print(
-        f"Total number of raw datasets: {summary.total['out_datasets']}\n"
-        f"\n---\n\n"
-        f"Total number of raw datasets per scraper: \n\n{summary.get_datasets_table()}\n"
-        f"\n---\n\n"
-        f"Total number of resources:\n"
-        f"     AIR: {summary.total['air_resources']}\n"
-        f"Datopian: {summary.total['out_resources']}\n"
-        f"\n---\n\n"
-        f"Total number of resources by office: \n{summary.get_resources_table(column='url')}\n"
-        f"\n---\n\n"
-        f"Total number of pages by office: \n{summary.get_resources_table(column='source_url')}\n"
-        f"\n---\n\n"
-        f"Pages scraped by AIR only: {summary.get_values_only_in('air', 'source_url')}\n"
-        f"Pages scraped by Datopian only: {summary.get_values_only_in('out', 'source_url')}\n"
-        f"\n---\n"
-        f"Resources collected by AIR only: {summary.get_values_only_in('air', 'url')}\n"
-        f"Resources collected by Datopian only: {summary.get_values_only_in('out', 'url')}\n"
-        f"\n---\n\n"
-        f"CSV file with all the resources was dumped in {summary.dump('./output/datopian.csv')}"
+        f"Total number of raw datasets: {summary.total['out_datasets']}\n",
+        f"\n---\n\n",
+        f"Total number of raw datasets per scraper: \n\n{summary.get_datasets_table()}\n",
+        f"\n---\n\n",
+        f"Total number of resources:\n",
+        f"     AIR: {summary.total['air_resources']}\n",
+        f"Datopian: {summary.total['out_resources']}\n",
+        f"\n---\n\n",
+        f"Total number of resources by office: \n{summary.get_resources_table(column='url')}\n",
+        f"\n---\n\n",
+        f"Total number of pages by office: \n{summary.get_resources_table(column='source_url')}\n",
+        f"\n---\n\n",
+        f"Pages scraped by AIR only: {summary.get_values_only_in('air', 'source_url')}\n",
+        f"Pages scraped by Datopian only: {summary.get_values_only_in('out', 'source_url')}\n",
+        f"\n---\n",
+        f"Resources collected by AIR only: {summary.get_values_only_in('air', 'url')}\n",
+        f"Resources collected by Datopian only: {summary.get_values_only_in('out', 'url')}\n",
+        f"\n---\n\n",
+        f"CSV file with all the resources was dumped in {summary.dump(os.getenv('ED_OUTPUT_PATH')+'/datopian.csv')}"
     )
 
-    with open('./output/statistics.json', 'w') as stats_file:
+    with open(f"{os.getenv('ED_OUTPUT_PATH')}/statistics.json", 'w') as stats_file:
         json.dump(statistics, stats_file)
 
 
