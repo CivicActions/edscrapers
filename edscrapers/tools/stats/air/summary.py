@@ -131,7 +131,7 @@ class Summary():
         try:
             with open(self.dedup_file, 'r') as fp:
                 if name:
-                    files = [line.rstrip() for line in fp if line.rstrip().split('/')[1] == name]
+                    files = [line.rstrip() for line in fp if line.rstrip().split('/')[-2] == name]
                 else:
                     files = [line.rstrip() for line in fp]
         except:

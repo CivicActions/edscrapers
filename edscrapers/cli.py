@@ -13,7 +13,7 @@ from edscrapers.scrapers.base import helpers as scrape_helpers
 
 from edscrapers.tools.dashboard import app as dash_app
 from edscrapers.tools.stats import helpers as stats_helpers
-from edscrapers.tools.stats.stats import Statistics
+from .tools.stats.stats import Statistics
 
 from .tools.stats.air.compare import compare as compare_cli
 
@@ -173,7 +173,7 @@ def stats(name, **kwargs):
     #data_dir = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'tools', 'stats', 'data')
     #Path(data_dir).mkdir(parents=True, exist_ok=True)
 
-    stats = Statistics()
+    stats = Statistics(delete_all_stats=True)
     stats.list_domain()
     stats.list_exclusive_domain()
     stats.list_intersection_domain()

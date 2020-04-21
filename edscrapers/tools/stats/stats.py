@@ -21,12 +21,12 @@ class Statistics():
     METRICS_OUTPUT_XLSX = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'tools', 'stats', 'metrics.xlsx')
 
 
-    def __init__(self):
+    def __init__(self, delete_all_stats=False):
 
         logger.debug("Creating statistics...")
-
-        if os.path.exists(self.METRICS_OUTPUT_XLSX): # check if excel sheet exist
-            os.remove(self.METRICS_OUTPUT_XLSX) # remove the excel sheet
+        if delete_all_stats is True:
+            if os.path.exists(self.METRICS_OUTPUT_XLSX): # check if excel sheet exist
+                os.remove(self.METRICS_OUTPUT_XLSX) # remove the excel sheet
         
         try:
             air_df_path = pathlib.Path(os.getenv('ED_OUTPUT_PATH'),
@@ -40,9 +40,9 @@ class Statistics():
                 with open(air_df_path, 'wb') as air_df_file:
                     air_df_file.write(req.content)
 
-                self.air_out_df = pd.read_csv(
-                    air_df_path,
-                    header=0)
+            self.air_out_df = pd.read_csv(
+                air_df_path,
+                header=0)
         except Exception as e:
             logger.error('Could not load the AIR CSV.')
 

@@ -63,16 +63,18 @@ def get_total_pages_by_office(source):
     data = read_json_file()
     return data['total'][source]['pages']
 
-def get_table_rows_by_office(key):
+def get_table_rows_by_office(key, is_sorted=True):
     data = read_json_file()
     scrapers = data['total']['datopian']['datasets_by_office'].keys()
     rows = []
     for s in scrapers:
         rows.append({
             's': s,
-            'air': data['total']['air'][key][s],
+            'air': data['total']['air'].get(key, {}).get(s, 0),
             'datopian': data['total']['datopian'][key][s]
         })
+    if is_sorted is True:
+        rows.sort(key=lambda item: item['datopian'], reverse=True)
     return rows
 
 def get_intersection_data():

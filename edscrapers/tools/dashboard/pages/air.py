@@ -15,7 +15,7 @@ from edscrapers.tools.dashboard.json_parser import (get_stats,
                          get_table_rows_by_office,
                          get_intersection_data)
 
-def get_datasets_bars_data():
+def get_datasets_bars_data(is_sorted=True):
 
     data_list = list()
     total_res_dict = get_total_datasets_data()
@@ -24,6 +24,8 @@ def get_datasets_bars_data():
             'x': ['Datasets'], 'y': [value],
             'type': 'bar', 'name': key
         })
+    if is_sorted is True:
+        data_list.sort(key=lambda item: item['y'][0], reverse=True)
     return data_list
 def get_resources_bars_data():
 

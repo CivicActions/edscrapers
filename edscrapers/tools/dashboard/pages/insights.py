@@ -205,7 +205,7 @@ def generate_split_layout():
     html.Div([
         dash_table.DataTable(
             columns=[{'name': 'Scraper', 'id': 's'}, {'name': 'Count', 'id': 'datopian'}],
-            data=get_table_rows_by_office('resources_by_office'),
+            data=get_table_rows_by_office('datasets_by_office'),
             sort_action='native',
             style_cell={'textAlign': 'left'},
         ),

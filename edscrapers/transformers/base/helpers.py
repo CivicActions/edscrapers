@@ -125,7 +125,7 @@ def get_country_states(state_key=None):
 
 
 def get_office_name(target_dept):
-    return map_office_name.get(target_dept)
+    return map_office_name.get(target_dept, 'all')
 
 def get_media_type(format):
     return map_media_type.get(format)
