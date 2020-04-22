@@ -74,7 +74,7 @@ def get_resources_by_office_bar_data():
     data_list = list()
 
     res_datopian_dict = get_total_resources_by_office('datopian')
-    res_air_dict = get_total_resources_by_office('air')
+    res_air_dict = get_total_resources_by_office('air', is_sorted=False)
 
     # del res_datopian_dict['others']
     # del res_datopian_dict['NCES']
@@ -98,7 +98,7 @@ def get_pages_by_office_bar_data():
     data_list = list()
 
     res_datopian_dict = get_total_pages_by_office('datopian')
-    res_air_dict = get_total_pages_by_office('air')
+    res_air_dict = get_total_pages_by_office('air', is_sorted=False)
 
     # del res_datopian_dict['others']
     # del res_datopian_dict['NCES']
