@@ -18,8 +18,9 @@ The `ED_OUT_PATH` environment variable is used to set the path to the directory 
 If GNU Make is available in your environment, you can run the command
 `make install`. Alternatively, run `python setup.py install`.
 
-After installing, run the `eds` command in a command line prompt to get more 
-info on the usage, or read the [docs](./edscrapers/README.md).
+After installing, run the `eds` command in a command line prompt.
+
+To get more info on the usage on the ED Scrapers Command Line Interface, **read the [eds cli docs](./edscrapers/README.md)**.
 
 ## Terminology
 
