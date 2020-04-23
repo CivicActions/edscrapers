@@ -32,7 +32,7 @@ The scrapers inherit from a `base` scraper package, that contains:
 Crawler classes are essentially [Scrapy 
 spiders](https://docs.scrapy.org/en/latest/topics/spiders.html).
 They have a unique `name` property that identifies them **and** 
-directs the output to a specific folder.
+directs the output to a specific folder. The `name` should be the same as the target/package in which the crawler is contained
 
 Every crawler class needs an `allowed_regex` property that determines which 
 URLs are acceptable to parse in the navigation process.
