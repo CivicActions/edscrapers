@@ -1,6 +1,8 @@
 """ module creates the dashboard '/insights' page """
 
 # -*- coding: utf-8 -*-
+import os
+
 import dash
 import dash_table
 import dash_daq as daq
@@ -16,7 +18,7 @@ from edscrapers.tools.stats.stats import Statistics
 class InsightsPage():
 
     # path to Excel sheet used for creating stas dataframes
-    PATH_TO_EXCEL_SHEET = 'tools/dataset_metrics/metrics.xlsx'
+    PATH_TO_EXCEL_SHEET = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'tools', 'stats', 'metrics.xlsx')
 
     def get_compare_dict(self):
         if not hasattr(self, 'stats'):
@@ -203,7 +205,7 @@ def generate_split_layout():
     html.Div([
         dash_table.DataTable(
             columns=[{'name': 'Scraper', 'id': 's'}, {'name': 'Count', 'id': 'datopian'}],
-            data=get_table_rows_by_office('resources_by_office'),
+            data=get_table_rows_by_office('datasets_by_office'),
             sort_action='native',
             style_cell={'textAlign': 'left'},
         ),

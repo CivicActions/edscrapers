@@ -32,7 +32,7 @@ def transform(name, input_file=None):
     logger.debug(f'{len(file_list)} files to transform.')
 
     catalog = Catalog()
-    catalog.catalog_id = "datopian_data_json_" + name
+    catalog.catalog_id = "datopian_data_json_" + (name or 'all')
 
     datasets_number = 0
     resources_number = 0
@@ -57,14 +57,14 @@ def transform(name, input_file=None):
     logger.debug('{} resources transformed.'.format(resources_number))
 
     output_path = h.get_output_path('datajson')
-    file_path = os.path.join(output_path, f'{name}.data.json')
+    file_path = os.path.join(output_path, f'{(name or "all")}.data.json')
     with open(file_path, 'w') as output:
         output.write(catalog.dump())
         logger.debug(f'Output file: {file_path}')
 
-    h.upload_to_s3_if_configured(file_path, f'{name}.data.json')
+    h.upload_to_s3_if_configured(file_path, f'{(name or "all")}.data.json')
 
-def _transform_scraped_dataset(data: dict, target_dept):
+def _transform_scraped_dataset(data: dict, target_dept='all'):
 
     # check if 'data' has sanitised data to be adopted
     if data.get('_clean_data', None):
@@ -139,7 +139,7 @@ def _transform_scraped_dataset(data: dict, target_dept):
         dataset.programCode = ["018:000"]
 
     if not len(dataset.keyword) > 0:
-        dataset.keyword = [target_dept]
+        dataset.keyword = [(target_dept or 'all')]
 
     distributions = []
     resources = data.get('resources')

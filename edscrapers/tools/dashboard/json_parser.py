@@ -53,26 +53,36 @@ def get_total_resources_data():
         'air' : air_res_number
     }
 
-def get_total_resources_by_office(source):
+def get_total_resources_by_office(source, is_sorted=True):
 
     data = read_json_file()
-    return data['total'][source]['resources_by_office']
+    if is_sorted is False:
+        return data['total'][source]['resources_by_office']
+    else:
+        data = data['total'][source]['resources_by_office'].items()
+        return dict(sorted(data, key=lambda item: item[1], reverse=True))
 
-def get_total_pages_by_office(source):
+def get_total_pages_by_office(source, is_sorted=True):
 
     data = read_json_file()
-    return data['total'][source]['pages']
+    if is_sorted is False:
+        return data['total'][source]['pages']
+    else:
+        data = data['total'][source]['pages'].items()
+        return dict(sorted(data, key=lambda item: item[1], reverse=True))
 
-def get_table_rows_by_office(key):
+def get_table_rows_by_office(key, is_sorted=True):
     data = read_json_file()
     scrapers = data['total']['datopian']['datasets_by_office'].keys()
     rows = []
     for s in scrapers:
         rows.append({
             's': s,
-            'air': data['total']['air'][key][s],
+            'air': data['total']['air'].get(key, {}).get(s, 0),
             'datopian': data['total']['datopian'][key][s]
         })
+    if is_sorted is True:
+        rows.sort(key=lambda item: item['datopian'], reverse=True)
     return rows
 
 def get_intersection_data():

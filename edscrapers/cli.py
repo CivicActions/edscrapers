@@ -15,7 +15,7 @@ from edscrapers.tools.dashboard import app as dash_app
 from edscrapers.tools.stats import helpers as stats_helpers
 from edscrapers.tools.stats.stats import Statistics
 
-from tools.compare import compare as compare_cli
+from edscrapers.tools.stats.air.compare import compare as compare_cli
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -170,15 +170,15 @@ def stats(name, **kwargs):
     This does not compare against AIR. '''
     click.echo('Making stats')
 
-    data_dir = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'tools', 'stats', 'data')
-    Path(data_dir).mkdir(parents=True, exist_ok=True)
+    #data_dir = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'tools', 'stats', 'data')
+    #Path(data_dir).mkdir(parents=True, exist_ok=True)
 
-    stats = Statistics()
-    # stats.list_domain()
-    # stats.list_exclusive_domain()
-    # stats.list_intersection_domain()
-    # stats.list_highest_resources_from_pages('datopian')
-    # stats.get_compare_json()
+    stats = Statistics(delete_all_stats=True)
+    stats.list_domain()
+    stats.list_exclusive_domain()
+    stats.list_intersection_domain()
+    stats.list_highest_resources_from_pages('datopian')
+    #stats.get_compare_dict()
     logger.success('Stats complete!')
 
 

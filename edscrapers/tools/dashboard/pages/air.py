@@ -15,7 +15,7 @@ from edscrapers.tools.dashboard.json_parser import (get_stats,
                          get_table_rows_by_office,
                          get_intersection_data)
 
-def get_datasets_bars_data():
+def get_datasets_bars_data(is_sorted=True):
 
     data_list = list()
     total_res_dict = get_total_datasets_data()
@@ -24,6 +24,8 @@ def get_datasets_bars_data():
             'x': ['Datasets'], 'y': [value],
             'type': 'bar', 'name': key
         })
+    if is_sorted is True:
+        data_list.sort(key=lambda item: item['y'][0], reverse=True)
     return data_list
 def get_resources_bars_data():
 
@@ -72,7 +74,7 @@ def get_resources_by_office_bar_data():
     data_list = list()
 
     res_datopian_dict = get_total_resources_by_office('datopian')
-    res_air_dict = get_total_resources_by_office('air')
+    res_air_dict = get_total_resources_by_office('air', is_sorted=False)
 
     # del res_datopian_dict['others']
     # del res_datopian_dict['NCES']
@@ -96,7 +98,7 @@ def get_pages_by_office_bar_data():
     data_list = list()
 
     res_datopian_dict = get_total_pages_by_office('datopian')
-    res_air_dict = get_total_pages_by_office('air')
+    res_air_dict = get_total_pages_by_office('air', is_sorted=False)
 
     # del res_datopian_dict['others']
     # del res_datopian_dict['NCES']

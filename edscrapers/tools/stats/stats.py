@@ -12,6 +12,7 @@ from json.decoder import JSONDecodeError
 
 from edscrapers.cli import logger
 from edscrapers.tools.stats import helpers as h
+from .air import compare
 
 
 class Statistics():
@@ -20,21 +21,13 @@ class Statistics():
     METRICS_OUTPUT_XLSX = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'tools', 'stats', 'metrics.xlsx')
 
 
-    def __init__(self):
+    def __init__(self, delete_all_stats=False):
 
         logger.debug("Creating statistics...")
-
-        if os.path.exists(self.METRICS_OUTPUT_XLSX): # check if excel sheet exist
-            os.remove(self.METRICS_OUTPUT_XLSX) # remove the excel sheet
-
-        try:
-            self.datopian_out_df = pd.read_csv(
-                os.path.join(os.getenv('ED_OUTPUT_PATH'), 'out_df.csv'),
-                header=0)
-        except Exception as e:
-            logger.error('Could not load the Datopian CSV, please generate it first.')
-            # read the AIR csv into a dataframe
-
+        if delete_all_stats is True:
+            if os.path.exists(self.METRICS_OUTPUT_XLSX): # check if excel sheet exist
+                os.remove(self.METRICS_OUTPUT_XLSX) # remove the excel sheet
+        
         try:
             air_df_path = pathlib.Path(os.getenv('ED_OUTPUT_PATH'),
                                                  'tools', "stats", 'data', 'air_df.csv')
@@ -47,11 +40,28 @@ class Statistics():
                 with open(air_df_path, 'wb') as air_df_file:
                     air_df_file.write(req.content)
 
-                self.air_out_df = pd.read_csv(
-                    air_df_path,
-                    header=0)
+            self.air_out_df = pd.read_csv(
+                air_df_path,
+                header=0)
         except Exception as e:
             logger.error('Could not load the AIR CSV.')
+
+        try:
+            if os.path.exists(os.path.join(os.getenv('ED_OUTPUT_PATH'), 'out_df.csv')):
+                self.datopian_out_df = pd.read_csv(
+                    os.path.join(os.getenv('ED_OUTPUT_PATH'), 'out_df.csv'),
+                    header=0)
+            else:
+                # create the Datopian CSV
+                compare.compare()
+                self.datopian_out_df = pd.read_csv(
+                    os.path.join(os.getenv('ED_OUTPUT_PATH'), 'out_df.csv'),
+                    header=0)
+        except Exception as e:
+            logger.error('Could not load the Datopian CSV, please generate it first.')
+            # read the AIR csv into a dataframe
+
+        
 
 
     def _add_to_spreadsheet(self, sheet_name, result):
