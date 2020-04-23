@@ -274,7 +274,9 @@ def upload_to_s3_if_configured(file_path, file_name):
 
         bucket = s3.Bucket(S3_BUCKET_NAME)
         with open(file_path, 'rb') as file_obj:
-            response = bucket.put_object(Key=f'{file_name}', Body=file_obj)
+            response = bucket.put_object(Key=f'{file_name}',
+                                         Body=file_obj,
+                                         CacheControl='no-cache')
         logger.info(f'File uploaded to https://storage.googleapis.com/us-ed-scraping/{file_name}')
         return response
     else:
