@@ -1,13 +1,21 @@
 # ED Tools
 
-This package is used to take the data dumped by scrapers and model it into
-formats usable by other applications.
+This package provides the subpackages and modules used to generate and display statistical and RAG analyses data gathered from scraping runs
 
 
 ## Structure
 
-A transformer subpackage has the following mandatory structure:
+The `tools` package has the following structure:
 
-- a new directory under `transformers`
-- a `__init__.py` file within the new path
-- a `transformer.py` file in the new path
+- a `dashboard` subpackage which contains the modules for generating the HTML pages for the dashboard webserver
+- a `stats` subpackage which contains the modules for running and generating statistical and RAG data
+
+## Tools Usage
+
+The tools are run via the following commands:
+
+- `eds stats`
+- `eds compare`
+- `eds dash`
+
+For detailed information on how to use the tools contained in this package, see the [eds cli doc](../README.md)

@@ -1,7 +1,6 @@
 # U.S. Department of Education scraping kit
 
-> NOTE: More specific documentation is available "on the spot", in the module 
-> directories (e.g. `edscrapers/scrapers` or `edscrapers/transformers`).
+> NOTE: More specific documentation is available "on the spot", in the package and subpackages directories (e.g. `edscrapers/scrapers` or `edscrapers/transformers`).
 
 ## Running the tool
 
@@ -20,7 +19,19 @@ If GNU Make is available in your environment, you can run the command
 
 After installing, run the `eds` command in a command line prompt.
 
-To get more info on the usage on the ED Scrapers Command Line Interface, **read the [eds cli docs](./edscrapers/README.md)**.
+## Containerization of Scraping Toolkit - Docker Image
+
+If you would like to run this toolkit in a container environment, we have packaged this toolkit into a Docker image.
+Simply run :
+`docker build` in the root directory of this cloned repo. This will build an image of the scraping tookit from the [Dockerfile](./Dockerfile)
+
+## ED Scrapers Command Line Interface
+
+To get more info on the usage on the ED Scrapers Command Line Interface  - `eds`, **read the [eds cli docs](./edscrapers/README.md)**.
+
+## Architectural Design
+
+To get more info on the architectural design/approach for the scraping toolkit, **read the [architectural design doc](./ARCHITECTURE.md)**
 
 ## Terminology
 
