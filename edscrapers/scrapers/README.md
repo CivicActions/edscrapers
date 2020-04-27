@@ -6,20 +6,19 @@ The modules in this directory have the unique purpose of exploring various web
 targets and collecting unstructured information as structured, macine readable 
 data.
 
-Each specific target is operated by a scraper submodule. In our case, the 
-acronym of the office or the name of the site dictates the module name.
+Each specific target is operated by a scraper subpackage. In our case, the acronym of the office or the name of the site dictates the package name.
 
-A scraper module usually has the following structure:
+A scraper package usually has the following structure:
 
 * a crawler
   * determine the rules for navigating the web (which sites, links etc.)
-  * calls a parser function on every successfuly accessed page
+  * calls a parser function on every successfully accessed page
 * a parser
   * called while crawling
   * identifies information in page
   * populates models with data
 
-The scrapers inherit from a base scraper module, that contains:
+The scrapers inherit from a `base` scraper package, that contains:
 
 * a set of helper functions
 * models for Resource and Dataset
@@ -33,7 +32,7 @@ The scrapers inherit from a base scraper module, that contains:
 Crawler classes are essentially [Scrapy 
 spiders](https://docs.scrapy.org/en/latest/topics/spiders.html).
 They have a unique `name` property that identifies them **and** 
-directs the output to a specific folder.
+directs the output to a specific folder. The `name` should be the same as the target/package in which the crawler is contained
 
 Every crawler class needs an `allowed_regex` property that determines which 
 URLs are acceptable to parse in the navigation process.
@@ -43,17 +42,15 @@ Docs related to Spiders](https://docs.scrapy.org/en/latest/topics/spiders.html).
 
 ## Parsing
 
-Parser callback invoked by the crawlers is a function that takes the result 
-object and parses the HTML inside.
+Parser callback invoked by the crawlers is a function that takes the result object and parses the HTML inside.
 
 Depending on the complexity of the page(s) parsed, there could be more parsers 
-and a main function that switches between them based on HTML markers in the 
+and a main function (parser task master) that switches between them based on HTML markers in the 
 page.
 
 ### Input
 
-The parser gets a HTML response from the crawler process. In order to parse it, 
-there is unlimited flexibility in terms of which libraries to use (e.g. 
+The parser gets a response object (the `text` attribute of this object contains the *crawled* HTML content) from the crawler process. In order to parse it, there is unlimited flexibility in terms of which libraries to use (e.g. 
 `beautifulsoup`).
 
 ### Output
@@ -65,8 +62,7 @@ If multiple datasets are detected on page, for every dataset model completed
 (i.e. has all the extracted properties and at least one resource) the parser 
 need to `yield` the resulting object.
 
-If only one dataset is detected, then a simple `return` statement is used to 
-return the resulting object.
+If only one dataset is detected, then a simple `return` statement is used to return the resulting object.
 
 ## How to create a new scraper
 
@@ -83,7 +79,7 @@ from scrapy.spiders import Rule
 from scrapy.spiders import CrawlSpider
 from scrapy.linkextractors import LinkExtractor
 
-from edscrapers.scrapers.edgov.parser import parse
+from edscrapers.scrapers.students.parser import parse
 
 
 class Crawler(CrawlSpider):
