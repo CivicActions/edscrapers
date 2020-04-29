@@ -1,6 +1,8 @@
 """ parser for ocr state/national estimates 2011/12, 2013/14"""
 
 import json
+import hashlib
+
 import requests
 
 import bs4 # pip install beautifulsoup4
@@ -8,7 +10,7 @@ from slugify import slugify
 
 import edscrapers.scrapers.base.helpers as h
 import edscrapers.scrapers.base.parser as base_parser
-from edscrapers.scrapers.base.models import Dataset, Resource
+from edscrapers.scrapers.base.models import Dataset, Resource, Collection, Source
 
 
 def parse(res) -> dict:
@@ -18,6 +20,25 @@ def parse(res) -> dict:
     soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
 
     dataset_containers = soup_parser.body.find_all(class_='accordiontitle', recursive=True)
+
+    # check if this page is a collection (i.e. collection of datasets)
+    if len(dataset_containers) > 0: # this is a collection
+        # create a default source for the collection
+        source = Source()
+        source['source_url'] = str(res.request.headers[str(b'Referer', encoding='utf-8')], 
+                      encoding='utf-8')
+        source['source_id'] = f'{hashlib.md5(source["source_url"].encode("utf-8")).hexdigest()}-{hashlib.md5(__package__.split(".")[-2].encode("utf-8")).hexdigest()}'
+
+        # create the collection
+        collection = Collection()
+        collection['collection_url'] = res.url
+        collection['collection_title'] = str(soup_parser.head.\
+                                find(name='title').string).strip()
+        collection['collection_id'] =\
+            f'{hashlib.md5(collection["collection_url"].encode("utf-8")).hexdigest()}-{hashlib.md5(__package__.split(".")[-2].encode("utf-8")).hexdigest()}'
+        # attach the source to the collection
+        collection['source'] = source
+
     for container in dataset_containers:
         # create dataset model dict
         dataset = Dataset()
@@ -43,6 +64,11 @@ def parse(res) -> dict:
         dataset['date'] = ''
         dataset['contact_person_name'] = ""
         dataset['contact_person_email'] = ""
+
+        # specify the collection which the dataset belongs to
+        if collection: # if collection exist
+            dataset['collection'] = collection
+
         dataset['resources'] = list()
 
         # add  resources from the 'container' to the dataset
@@ -60,7 +86,7 @@ def parse(res) -> dict:
             resource['format'] = resource_format
 
             # Add header information to resource object
-            resource['headers'] = h.get_resource_headers(res.url, resource_link['href'])
+            #resource['headers'] = h.get_resource_headers(res.url, resource_link['href'])
 
             # add the resource to collection of resources
             dataset['resources'].append(resource)
