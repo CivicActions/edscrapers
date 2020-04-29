@@ -31,11 +31,7 @@ def parse(res) -> dict:
 
         # create the collection
         collection = Collection()
-        collection['collection_url'] = res.url
-        collection['collection_title'] = str(soup_parser.head.\
-                                find(name='title').string).strip()
-        collection['collection_id'] =\
-            f'{hashlib.md5(collection["collection_url"].encode("utf-8")).hexdigest()}-{hashlib.md5(__package__.split(".")[-2].encode("utf-8")).hexdigest()}'
+        
         # attach the source to the collection
         collection['source'] = source
 

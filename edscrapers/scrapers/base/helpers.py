@@ -2,12 +2,14 @@
 import re
 import logging
 import datetime
+import hashlib
 import requests
+import bs4
 
 from urllib.parse import urlparse
 from urllib.parse import urljoin
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
-from edscrapers.scrapers.base.models import Resource
+from edscrapers.scrapers.base.models import Resource, Collection, Source
 
 import pathlib
 import importlib
@@ -132,3 +134,31 @@ def retrieve_crawlers_allowed_domains(except_crawlers=[]) -> list:
             # 'allowed domains'
             allowed_domains.difference_update(except_allowed_domains)
     return list(allowed_domains) # return allowed_domains
+
+    def extract_dataset_collection_from_url(collection_url, source_url=None):
+        """ function is used to generate/extract a dataset 'Collection' from
+        the provided collection_url.
+        A collection is created based on the Collection model in
+        edscrapers.scrapers.base.models
+        """
+        # make a request for html page contained in the provided url
+        res = requests.get(collection_url, verify=False)
+
+        # ensure that the response text gotten is a string
+        if not isinstance(getattr(res, 'text', None), str):
+            return None
+
+        try:
+            soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+        except:
+            return None
+        
+        collection = Collection()
+        collection['collection_url'] = res.url
+        collection['collection_title'] = str(soup_parser.head.\
+                                find(name='title').string).strip()
+        collection['collection_id'] =\
+            f'{hashlib.md5(collection["collection_url"].encode("utf-8")).hexdigest()}-{hashlib.md5(__package__.split(".")[-2].encode("utf-8")).hexdigest()}'
+
+        if source_url:
+            pass
