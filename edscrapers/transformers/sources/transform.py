@@ -1,11 +1,10 @@
 """ module transforms the raw dataset files (i.e. the results/output from scraping)
-into a different json data structure referred to as Collections.
+into a different json data structure referred to as Sources.
 Each scraping output directory will have its own
-collections file upon completion of the transformation. Files are titled
-'{name}.collections.json' .
-All transformation output is written into 'collections' subdirectory of the
-'transformers' directory on 'ED_OUTPUT_PATH'
-"""
+sources file upon completion of the transformation. Files are titled
+'{name}.sources.json' .
+All transformation output is written into 'sources' subdirectory of the
+'transformers' directory on 'ED_OUTPUT_PATH' """
 
 import os
 import json
