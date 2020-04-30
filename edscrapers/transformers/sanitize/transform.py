@@ -34,7 +34,7 @@ def transform(name=None, input_file=None):
                                                 'user guide', 'applications'])
 
         # mark of removal datasets that have certain keywords
-        data = _remove_dataset(data, search_words=['photo'])
+        data = _remove_dataset(data, search_words=['photo', 'foto', 'photos', 'fotos'])
 
         # REMOVE UNWANTED STRING FROM THE VALUE OF A DATASET'S KEY
         # 1. remove 'table [0-9].' from beginning of dataset title
