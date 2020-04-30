@@ -1,7 +1,6 @@
 """ parser for ocr state/national estimates 2011/12, 2013/14"""
 
 import json
-import hashlib
 
 import requests
 
@@ -23,17 +22,13 @@ def parse(res) -> dict:
 
     # check if this page is a collection (i.e. collection of datasets)
     if len(dataset_containers) > 0: # this is a collection
-        # create a default source for the collection
-        source = Source()
-        source['source_url'] = str(res.request.headers[str(b'Referer', encoding='utf-8')], 
-                      encoding='utf-8')
-        source['source_id'] = f'{hashlib.md5(source["source_url"].encode("utf-8")).hexdigest()}-{hashlib.md5(__package__.split(".")[-2].encode("utf-8")).hexdigest()}'
-
-        # create the collection
-        collection = Collection()
-        
-        # attach the source to the collection
-        collection['source'] = source
+        # create the collection (with a source)
+        collection = h.extract_dataset_collection_from_url(collection_url=res.url,
+                                        namespace="all",
+                                        source_url=\
+                                        str(res.request.headers[str(b'Referer',
+                                                                    encoding='utf-8')], 
+                                            encoding='utf-8'))
 
     for container in dataset_containers:
         # create dataset model dict
@@ -48,7 +43,7 @@ def parse(res) -> dict:
         # replace all non-word characters (e.g. ?/) with '-'
         dataset['name'] = slugify(dataset['title'])
         # get publisher from parent package name
-        dataset['publisher'] = dataset['publisher'] = __package__.split('.')[-2]
+        dataset['publisher'] = __package__.split('.')[-2]
 
         dataset['notes'] = str(container.find(name='p').string).\
                                   strip()
@@ -82,7 +77,7 @@ def parse(res) -> dict:
             resource['format'] = resource_format
 
             # Add header information to resource object
-            #resource['headers'] = h.get_resource_headers(res.url, resource_link['href'])
+            resource['headers'] = h.get_resource_headers(res.url, resource_link['href'])
 
             # add the resource to collection of resources
             dataset['resources'].append(resource)

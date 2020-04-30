@@ -20,15 +20,15 @@ class Crawler(CrawlSpider):
 
         self.start_urls = [
             # The main menu
-            'https://ocrdata.ed.gov/StateNationalEstimations'
-            # 'https://ocrdata.ed.gov/Home',
-            # 'https://ocrdata.ed.gov/DistrictSchoolSearch',
-            # 'https://ocrdata.ed.gov/StateNationalEstimations/Estimations_2011_12#',
-            # 'https://ocrdata.ed.gov/StateNationalEstimations/Estimations_2011_12#',
-            # 'https://ocrdata.ed.gov/DownloadDataFile',
-            # 'https://ocrdata.ed.gov/StateNationalEstimations',
-            # 'https://ocrdata.ed.gov/SpecialReports',
-            # 'https://ocrdata.ed.gov/DataAnalysisTools',
+            #'https://ocrdata.ed.gov/StateNationalEstimations'
+            'https://ocrdata.ed.gov/Home',
+            'https://ocrdata.ed.gov/DistrictSchoolSearch',
+            'https://ocrdata.ed.gov/StateNationalEstimations/Estimations_2011_12#',
+            'https://ocrdata.ed.gov/StateNationalEstimations/Estimations_2011_12#',
+            'https://ocrdata.ed.gov/DownloadDataFile',
+            'https://ocrdata.ed.gov/StateNationalEstimations',
+            'https://ocrdata.ed.gov/SpecialReports',
+            'https://ocrdata.ed.gov/DataAnalysisTools'
         ]
 
         """ self.start_urls = [
