@@ -36,6 +36,9 @@ class Catalog():
     conformsTo = str()
     describedBy = str()
     datasets = list() # datasets list
+    sources = list() # Sources list
+    collections = list() # Collection list
+
 
     def __init__(self):
         
@@ -65,6 +68,9 @@ class Catalog():
 
         if len(self.datasets) > 0:
             catalog_dict["dataset"] = self.dump_datasets()
+        
+        if len(self.sources) > 0:
+            catalog_dict['source'] = self.dump_sources() 
 
         return catalog_dict
 
@@ -76,11 +82,76 @@ class Catalog():
             datasets_lst.append(dataset.to_dict())
 
         return datasets_lst
+    
+    def dump_sources(self):
+
+        sources_lst = []
+
+        for source in self.sources:
+            sources_lst.append(source.to_dict())
+
+        return sources_lst
+
+    def dump_collections(self):
+
+        collections_lst = []
+
+        for collection in self.collections:
+            collections_lst.append(collection.to_dict())
+
+        return collections_lst
 
     
     def dump(self):
         return json.dumps(self.to_dict(), sort_keys=False, indent=2)
+
+
+class Source():
     
+    id = str()
+    title = str()
+
+    def to_dict(self):
+        
+        source_dict = {}
+
+        if self.id:
+            source_dict['id'] = self.id
+        
+        if self.title:
+            source_dict['title'] = self.title
+        
+        return source_dict
+
+class Collection():
+
+    id = str()
+    title = str()
+    sources = list()
+
+    def to_dict(self):
+
+        collection_dict = {}
+        
+        if self.id:
+            collection_dict['id'] = self.id
+        
+        if self.title:
+            collection_dict['title'] = self.title
+        
+        if len(self.sources) > 0:
+            collection_dict['source'] = self.dump_sources()
+        
+        return collection_dict
+    
+    def dump_sources(self):
+        
+        sources_list = []
+        for source in self.sources:
+            sources_list.append(source.id)
+        return sources_list
+
+
 class Dataset():
     
     dataset_type = str()
