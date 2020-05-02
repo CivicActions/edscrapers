@@ -70,7 +70,10 @@ class Catalog():
             catalog_dict["dataset"] = self.dump_datasets()
         
         if len(self.sources) > 0:
-            catalog_dict['source'] = self.dump_sources() 
+            catalog_dict['source'] = self.dump_sources()
+
+        if len(self.collections) > 0:
+            catalog_dict['collection'] = self.dump_collections() 
 
         return catalog_dict
 
@@ -129,6 +132,9 @@ class Collection():
     title = str()
     sources = list()
 
+    def __init(self):
+        self.sources = list()
+
     def to_dict(self):
 
         collection_dict = {}
@@ -171,6 +177,9 @@ class Dataset():
     temporal = str()
     theme = list()
     distribution = list() # resources list
+    levelOfData = str()
+    source = list() # list of Sources
+    collection = list() # list of Collections
 
     def __init__(self):
         
@@ -182,6 +191,9 @@ class Dataset():
         self.spatial = "United States"
         self.description = "n/a"
         self.modified = datetime.now().strftime("%Y-%m-%d")
+        self.distribution = list()
+        self.source = list()
+        self.collection = list()
 
     def to_dict(self):
 
@@ -237,6 +249,15 @@ class Dataset():
 
         if len(self.distribution) > 0:
             dataset_dict["distribution"] = self.dump_resources()
+        
+        if self.levelOfData:
+            dataset_dict['levelOfData'] = self.levelOfData
+        
+        if len(self.source) > 0:
+            dataset_dict['source'] = self.dump_sources()
+        
+        if len(self.collection) > 0:
+            dataset_dict['collection'] = self.dump_collections()
 
         return dataset_dict
 
@@ -248,6 +269,21 @@ class Dataset():
             resources_lst.append(resource.to_dict())
 
         return resources_lst
+    
+    def dump_sources(self):
+        sources_list = []
+
+        for source in self.source:
+            sources_list.append(source.id)
+        return sources_list
+    
+    def dump_collections(self):
+        collections_list = []
+
+        for collection in self.collection:
+            collections_list.append(collection.id)
+        return collections_list
+            
 
 class Resource():
 

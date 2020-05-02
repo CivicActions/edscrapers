@@ -53,7 +53,7 @@ def transform(name=None, input_file=None):
         sources_list.append(source)
 
     # get a list of non-duplicate Sources
-    sources_list = get_distinct_sources_from(sources_list, min_occurence_counter=1)
+    sources_list = get_distinct_sources_from(sources_list, min_occurence_counter=2)
     # get the path were the gotten Sources will be saved to on local disk
     file_output_path = f'{CURRENT_TRANSFORMER_OUTPUT_DIR}/{(name or "all")}.sources.json'
     # write to file the Sources gotten from 'name' scraped output
@@ -100,7 +100,7 @@ def get_distinct_sources_from(source_list,
     Sources from
 
     - min_occurence_counter: the operations used to identify a distinct Source can 
-    be instructed on how to identify a Collection for consideration. The
+    be instructed on how to identify a Source for consideration. The
     'min_occurence_counter' instructs the algorithm to
     ignore/remove a Source from the list of distinct Sources if it does not
     occur/appear within the provided 'sources_list' at least that number of times.

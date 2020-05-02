@@ -6,7 +6,7 @@ from urllib.parse import urljoin
 import edscrapers.transformers.base.helpers as h
 from edscrapers.cli import logger
 from edscrapers.transformers.base.helpers import traverse_output, read_file
-from edscrapers.transformers.datajson.models import Catalog, Dataset, Resource, Organization
+from edscrapers.transformers.datajson.models import Catalog, Dataset, Resource, Organization, Source, Collection
 
 OUTPUT_DIR = os.getenv('ED_OUTPUT_PATH')
 resources_common_names = ['excel', 'doc', 'download excel', 'download se excel',
@@ -53,6 +53,15 @@ def transform(name, input_file=None):
         datasets_number += 1
         resources_number += len(dataset.distribution)
 
+    # TODO WORK FROM BELOW HERE
+    catalog_sources = list()
+    try:
+        read_file(f"{h.get_output_path('sources')}/{(name or 'all')}.souces.json")
+    except:
+        logger.warning(f'"sources transformer" output file not found. This datajson will have no sources')
+        
+
+
     logger.debug('{} datasets transformed.'.format(datasets_number))
     logger.debug('{} resources transformed.'.format(resources_number))
 
@@ -63,6 +72,7 @@ def transform(name, input_file=None):
         logger.debug(f'Output file: {file_path}')
 
     h.upload_to_s3_if_configured(file_path, f'{(name or "all")}.data.json')
+
 
 def _transform_scraped_dataset(data: dict, target_dept='all'):
 
@@ -149,6 +159,20 @@ def _transform_scraped_dataset(data: dict, target_dept='all'):
 
     dataset.distribution = distributions
 
+    # get the 'source' attribute for the dataset object
+    dataset_source = _transform_scraped_source(data)
+    if dataset_source:
+        dataset.source.append(dataset_source)
+    
+    # get the 'collection' attribute for the dataset object
+    dataset_collection = _transform_scraped_collection(data)
+    if dataset_collection:
+        dataset.collection.append(dataset_collection)
+    
+    # get levelOfData
+    if data.get('level_of_data', None):
+        dataset.levelOfData = data.get('level_of_data')
+
     return dataset
 
 def _transform_scraped_resource(target_dept, resource):
@@ -184,3 +208,63 @@ def _transform_scraped_resource(target_dept, resource):
             distribution.mediaType = h.get_media_type(extension)
 
     return distribution
+
+
+def _transform_scraped_source(data: dict):
+    """
+    function is a private helper.
+    function returns the Source object from raw data provided
+    """
+
+    source = None
+    if data.get('collection', None) and data['collection'].get('source', None):
+        source = Source()
+        source.id = data['collection']['source'].get('source_id')
+        source.title = data['collection']['source'].get('source_title')
+    
+    return source
+
+def _transform_scraped_collection(data: dict):
+    """
+    function is a private helper.
+    function returns the Collection object from raw data provided
+    """
+
+    collection = None
+    if data.get('collection', None):
+        collection = Collection()
+        collection.id = data['collection'].get('collection_id')
+        collection.title = data['collection'].get('collection_title')
+        
+        source = None
+        # get a Source object from the raw data
+        source = _transform_scraped_source(data)
+        if source:
+            collection.sources.append(source)
+    
+    return collection
+
+def _transform_preprocessed_sources(sources_list: list):
+    """ function is a private helper.
+    function takes a collection of raw Source json  and transforms them to a
+    list of Source objects.
+    NOTE:
+    for details on the expected structure of the raw Source json, see the
+    output from the `sources transformer`
+    """
+    
+    if not sources_list or len(sources_list) == 0: # sources not provided
+        return None
+    
+    source_obj_list = [] # holds the list of Source objects
+
+    # loop through the provided 'sources_list'
+    for raw_source in sources_list:
+        source_obj = Source() # create a Source object
+        # populate the Source object from the raw source
+        source_obj.id = raw_source.get('source_id')
+        source_obj.title = raw_source.get('source_title')
+        # add the Source object to the list of Source objects
+        source_obj_list.append(source_obj)
+
+    return source_obj_list # return the list of Source objects
