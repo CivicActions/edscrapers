@@ -192,7 +192,7 @@ def dash(detached, port, host, debug, **kwargs):
     ''' Run the dash server for displaying HTML statistics. '''
     setup_logger(kwargs['quiet'], kwargs['verbosity'], 'dash')
     if detached:
-        logger.warn('Dash app detached mode not yet implemented!')
+        logger.warning('Dash app detached mode not yet implemented!')
         logger.info('Falling back to non-detached mode.')
     dash_app.app.run_server(debug=debug, dev_tools_hot_reload=debug, host=host)
 

@@ -65,7 +65,7 @@ def transform(name=None, input_file=None, use_raw_datasets=False) -> pd.DataFram
                 try:
                     file_list = [line.rstrip() for line in fp]
                 except Exception:
-                    logger.warn(f'Cannot read from list of output files at {input_file}, falling back to all collected data!')
+                    logger.warning(f'Cannot read from list of output files at {input_file}, falling back to all collected data!')
                     file_list = h.traverse_output(None)
     
     else: # work with processed/transformed datajson
@@ -80,7 +80,7 @@ def transform(name=None, input_file=None, use_raw_datasets=False) -> pd.DataFram
                 try:
                     file_list = [line.rstrip() for line in fp]
                 except Exception:
-                    logger.warn(f'Cannot read from list of output files at {input_file}, falling back to all collected data!')
+                    logger.warning(f'Cannot read from list of output files at {input_file}, falling back to all collected data!')
                     file_list.extend(Path(h.get_output_path('datajson')).glob('*.json'))
 
     if use_raw_datasets == True: # work on raw datasets

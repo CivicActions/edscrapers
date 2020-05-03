@@ -26,7 +26,7 @@ def transform(name, input_file=None):
             with open(input_file, 'r') as fp:
                 file_list = [line.rstrip() for line in fp]
         except:
-            logger.warn(f'Cannot read from list of output files at {input_file}, falling back to all collected data!')
+            logger.warning(f'Cannot read from list of output files at {input_file}, falling back to all collected data!')
             file_list = traverse_output(name)
 
     logger.debug(f'{len(file_list)} files to transform.')
@@ -34,9 +34,14 @@ def transform(name, input_file=None):
     catalog = Catalog()
     catalog.catalog_id = "datopian_data_json_" + (name or 'all')
 
+
+    # keep track/stata for item transformed
     datasets_number = 0
     resources_number = 0
+    sources_number = 0
+    collections_number = 0
 
+    # loop through the list of filepaths to be transformed
     for file_path in file_list:
 
         data = read_file(file_path)
@@ -54,14 +59,43 @@ def transform(name, input_file=None):
         resources_number += len(dataset.distribution)
 
     # TODO WORK FROM BELOW HERE
+    # get the list of Sources for this catalog
     catalog_sources = list()
     try:
-        read_file(f"{h.get_output_path('sources')}/{(name or 'all')}.souces.json")
+        # read the list of preprocessed (but still 'raw') Sources from file
+        catalog_sources = read_file(f"{h.get_output_path('sources')}/{(name or 'all')}.sources.json")
+        # transform the list of preprocessed Sources to a list of Source objects acceptable for the catalog object
+        catalog_sources = _transform_preprocessed_sources(catalog_sources)
     except:
-        logger.warning(f'"sources transformer" output file not found. This datajson will have no sources')
-        
+        logger.warning(f'"sources transformer" output file ({(name or "all")}.sources.json) not found. This datajson output will have no "source" field')
+    
+    # add the list of Source objects to the catalog
+    catalog.sources = catalog_sources
+    # update the number fo transformed Sources
+    sources_number = len(catalog_sources)
+    
+    # get the list of Collections for this catalog
+    catalog_collections = list()
+    try:
+        # read the list of preprocessed (but still 'raw') Collections from file
+        catalog_collections = read_file(f"{h.get_output_path('collections')}/{(name or 'all')}.collections.json")
+        # transform the list of preprocessed Collections to a list of Collection objects acceptable for the catalog object
+        catalog_collections = _transform_preprocessed_collections(catalog_collections)
+    except:
+        logger.warning(f'"sources transformer" output file ({(name or "all")}.collections.json) not found. This datajson output will have no "collection" field')
+    
+    # add the list of Collection objects to the catalog
+    catalog.collections = catalog_collections
+    # update the number fo transformed Collections
+    collections_number = len(catalog_collections)
 
+    # validate the catalog object
+    if not catalog.validate_catalog(pls_fix=True):
+        logger.error(f"catalog validation Failed! Ending transform process")
+        return
 
+    logger.debug('{} Sources transformed.'.format(sources_number))
+    logger.debug('{} Collections transformed.'.format(collections_number))
     logger.debug('{} datasets transformed.'.format(datasets_number))
     logger.debug('{} resources transformed.'.format(resources_number))
 
@@ -246,10 +280,10 @@ def _transform_scraped_collection(data: dict):
 
 def _transform_preprocessed_sources(sources_list: list):
     """ function is a private helper.
-    function takes a collection of raw Source json  and transforms them to a
+    function takes a list of 'raw' Source json/dicts and transforms them to a
     list of Source objects.
     NOTE:
-    for details on the expected structure of the raw Source json, see the
+    for details on the expected structure of the raw Source json/dict, see the
     output from the `sources transformer`
     """
     
@@ -268,3 +302,27 @@ def _transform_preprocessed_sources(sources_list: list):
         source_obj_list.append(source_obj)
 
     return source_obj_list # return the list of Source objects
+
+
+def _transform_preprocessed_collections(collections_list: list):
+    """ function is a private helper.
+    function takes a list of 'raw' Collection json/dicts and transforms them to a
+    list of Collection objects.
+    NOTE:
+    for details on the expected structure of the raw Collection json/dict, see the
+    output from the `collections transformer`
+    """
+    
+    if not collections_list or len(collections_list) == 0: # collections not provided
+        return None
+    
+    collection_obj_list = [] # holds the list of Collection objects
+
+    # loop through the provided 'collections_list'
+    for raw_collection in collections_list:
+         # create a Collection object, using the private helper
+        collection_obj = _transform_scraped_collection(dict(collection=raw_collection))
+        # add the Collection object to the list of Collection objects
+        collection_obj_list.append(collection_obj)
+
+    return collection_obj_list # return the list of Collection objects

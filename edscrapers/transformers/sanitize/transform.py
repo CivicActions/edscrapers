@@ -20,7 +20,7 @@ def transform(name=None, input_file=None):
             with open(input_file, 'r') as fp:
                 file_list = [line.rstrip() for line in fp]
         except:
-            logger.warn(f'Cannot read from list of output files at {input_file}, falling back to all collected data!')
+            logger.warning(f'Cannot read from list of output files at {input_file}, falling back to all collected data!')
             file_list = h.traverse_output(name)
     
     # loop through filepath in file list
