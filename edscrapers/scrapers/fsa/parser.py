@@ -49,6 +49,16 @@ def parse(res):
 
     # create dataset model dict
     dataset = Dataset()
+    # create the collection (with a source)
+    collection = h.extract_dataset_collection_from_url(collection_url=res.url,
+                                        namespace="all",
+                                        source_url=\
+                                        str(res.request.headers.get(str(b'Referer',
+                                                                    encoding='utf-8'), b''), 
+                                            encoding='utf-8'))
+    # specify the collection which the dataset belongs to
+    if collection: # if collection exist
+        dataset['collection'] = collection
     dataset['source_url'] = res.url
 
     dataset['title'] = h.get_meta_value(soup_parser, 'og:title') or \
