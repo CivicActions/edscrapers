@@ -20,7 +20,7 @@ def transform(name=None, input_file=None):
             with open(input_file, 'r') as fp:
                 file_list = [line.rstrip() for line in fp]
         except:
-            logger.warn(f'Cannot read from list of output files at {input_file}, falling back to all collected data!')
+            logger.warning(f'Cannot read from list of output files at {input_file}, falling back to all collected data!')
             file_list = h.traverse_output(name)
     
     # loop through filepath in file list
@@ -34,7 +34,7 @@ def transform(name=None, input_file=None):
                                                 'user guide', 'applications'])
 
         # mark of removal datasets that have certain keywords
-        data = _remove_dataset(data, search_words=['photo'])
+        data = _remove_dataset(data, search_words=['photo', 'foto', 'photos', 'fotos'])
 
         # REMOVE UNWANTED STRING FROM THE VALUE OF A DATASET'S KEY
         # 1. remove 'table [0-9].' from beginning of dataset title

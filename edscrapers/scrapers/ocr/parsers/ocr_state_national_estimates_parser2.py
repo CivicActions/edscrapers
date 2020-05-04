@@ -2,6 +2,7 @@
 2006,2004,2002 """
 
 import json
+
 import requests
 
 import bs4 # pip install beautifulsoup4
@@ -9,7 +10,7 @@ from slugify import slugify
 
 import edscrapers.scrapers.base.helpers as h
 import edscrapers.scrapers.base.parser as base_parser
-from edscrapers.scrapers.base.models import Dataset, Resource
+from edscrapers.scrapers.base.models import Dataset, Resource, Collection, Source
 
 
 
@@ -21,6 +22,17 @@ def parse(res) -> dict:
 
     dataset_containers = soup_parser.body.find_all(id='maincontent',
                                                    recursive=True)
+    
+    # check if this page is a collection (i.e. collection of datasets)
+    if len(dataset_containers) > 0: # this is a collection
+        # create the collection (with a source)
+        collection = h.extract_dataset_collection_from_url(collection_url=res.url,
+                                        namespace="all",
+                                        source_url=\
+                                        str(res.request.headers[str(b'Referer',
+                                                                    encoding='utf-8')], 
+                                            encoding='utf-8'))
+
     for container in dataset_containers:
         # create dataset model dict
         dataset = Dataset()
@@ -40,7 +52,7 @@ def parse(res) -> dict:
         # replace all non-word characters (e.g. ?/) with '-'
         dataset['name'] = slugify(dataset['title'])
         # get publisher from parent package name
-        dataset['publisher'] = dataset['publisher'] = __package__.split('.')[-2]
+        dataset['publisher'] = __package__.split('.')[-2]
         if container.select_one('p') is not None:
             # get the first available p element
             dataset['notes'] = str(container.select_one('p').string).\
@@ -63,6 +75,11 @@ def parse(res) -> dict:
         dataset['date'] = ''
         dataset['contact_person_name'] = ""
         dataset['contact_person_email'] = ""
+
+        # specify the collection which the dataset belongs to
+        if collection: # if collection exist
+            dataset['collection'] = collection
+            
         dataset['resources'] = list()
 
         # add  resources from the 'container' to the dataset

@@ -2,12 +2,15 @@
 import re
 import logging
 import datetime
+import hashlib
+import urllib.parse
 import requests
+import bs4
 
 from urllib.parse import urlparse
 from urllib.parse import urljoin
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
-from edscrapers.scrapers.base.models import Resource
+from edscrapers.scrapers.base.models import Resource, Collection, Source
 
 import pathlib
 import importlib
@@ -81,9 +84,9 @@ def get_meta_value(soup, meta_name):
 def get_resource_headers(source_url, url):
     headers = dict()
     if urlparse(url).scheme:
-        raw_headers = requests.get(url).headers
+        raw_headers = requests.head(url).headers
     else:
-        raw_headers = requests.get(urljoin(source_url, url)).headers
+        raw_headers = requests.head(urljoin(source_url, url)).headers
 
     headers['content-type'] = raw_headers['Content-Type']
     headers['last-modified'] = raw_headers['Last-Modified']
@@ -132,3 +135,196 @@ def retrieve_crawlers_allowed_domains(except_crawlers=[]) -> list:
             # 'allowed domains'
             allowed_domains.difference_update(except_allowed_domains)
     return list(allowed_domains) # return allowed_domains
+
+
+def extract_dataset_collection_from_url(collection_url,
+                                        namespace, source_url=None):
+    """ function is used to generate/extract a dataset 'Collection' from
+    the provided collection_url.
+    A collection is created based on the Collection model in
+    edscrapers.scrapers.base.models
+
+    PARAMETERS
+    - collection_url: the url from which the Collection should be extracted/generated
+
+    - namespace: in order to ensure a unique collection_id is created across
+    collections, a namespace MUST be provided, the namespace may be considered as
+    a distinguishing label between Collections with the same title.
+    A Collection's unique id (collection_id) is created using an
+    encoding algorithm which combines the 'collection_url' and 'namespace'.
+
+    - source_url: the url from which the Source (this
+    Collection belongs to) should be extracted/generated.
+    if not specified, it is assumed that the Collection has no source
+
+    Returns a edscrapers.scrapers.base.models.Collection object.
+    If any of the required parameters are not present, None is return
+    """
+
+    # check the required parameters
+    if (not collection_url) or (not namespace):
+        return None
+
+    # cleanup the collection_url i.e. remove all query parameters
+    collection_url = url_query_param_cleanup(collection_url, include_query_param=[])
+
+    # make a request for html page contained in the provided url
+    res = requests.get(collection_url, verify=False)
+
+    # ensure that the response text gotten is a string
+    if not isinstance(getattr(res, 'text', None), str):
+        return None
+
+    try:
+        soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    except:
+        return None
+    
+    collection = Collection()
+    collection['collection_url'] = collection_url
+    collection['collection_title'] = str(soup_parser.head.\
+                            find(name='title').string).strip()
+    collection['collection_id'] =\
+        f'{hashlib.md5(collection["collection_url"].encode("utf-8")).hexdigest()}-{hashlib.md5(namespace.encode("utf-8")).hexdigest()}'
+
+    # if source_url was specified and it's an absolute url
+    if source_url and urlparse(source_url).scheme:
+        # generate the Source for this collection
+        collection['source'] = extract_dataset_source_from_url(source_url, namespace)
+    
+    return collection
+
+
+def extract_dataset_source_from_url(source_url, namespace):
+    """ function is used to generate/extract a dataset 'Source' from
+    the provided source_url.
+    A source is created based on the Source model in
+    edscrapers.scrapers.base.models
+
+    PARAMETERS
+    - source_url: the url from which the Source should be extracted/generated
+
+    - namespace: in order to ensure a unique source_id is created across
+    sources, a namespace MUST be provided, the namespace may be considered as
+    a distinguishing label between Sources with the same title.
+    A Source's unique id (source_id) is created using an
+    encoding algorithm which combines the 'source_url' and 'namespace'.
+
+    Returns a edscrapers.scrapers.base.models.Source object.
+    If any of the required parameters are not present, None is return
+    """
+
+    # check the required parameters
+    if (not source_url) or (not namespace):
+        return None
+
+    # cleanup the source_url i.e. remove all query parameters
+    source_url = url_query_param_cleanup(source_url, include_query_param=[])
+    
+    # make a request for html page contained in the provided url
+    res = requests.get(source_url, verify=False)
+
+    # ensure that the response text gotten is a string
+    if not isinstance(getattr(res, 'text', None), str):
+        return None
+
+    try:
+        soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    except:
+        return None
+    
+    source = Source()
+    source['source_url'] = source_url
+    source['source_title'] = str(soup_parser.head.\
+                            find(name='title').string).strip()
+    source['source_id'] =\
+        f'{hashlib.md5(source["source_url"].encode("utf-8")).hexdigest()}-{hashlib.md5(namespace.encode("utf-8")).hexdigest()}'
+
+    return source
+
+
+def url_query_param_cleanup(url: str, include_query_param: list=None,
+                         exclude_query_param: list=None) -> str:
+    """ function helps to remove querystring name/value pairs from the provided url.
+    Returning the 'cleaned up' version of the url (without the specified query parameters).
+    See PARAMETERS for details
+
+    PARAMETERS:
+    - url: represents a valid url which can be parsed by urllib.parse.split()
+    
+    - include_query_param: a list containing the name(s) of query parameters to 
+    be removed from url. if list is None (which is the default), no parameters are
+    stripped. 
+    If list is empty, ALL parameters are stripped
+
+    - exclude_query_param: a list containing the name(s) of query parameters NOT to be 
+    removed from url. That is, ALL available query parameters will
+    be removed from url EXCEPT those provided in this list.
+    if list is None (which is the default), ALL parameters are excluded from stripping.
+    if list is empty, all parameters are excluded from being stripped provided
+    'include_query_param' is None.
+
+    NOTE: in terms of precedence, 'include_query_param' has a higher order than
+    'exclude_query_param'. That is if both 'include_query_param' and
+    'exclude_query_param' are specified AND 'include_query_param' is NOT None,
+    then 'include_query_param' will be applied and 'exclude_query_param' disregarded.
+
+    Returns: function returns a url that has been
+    stripped of querystring name/value pairs"""
+
+    split_url = urllib.parse.urlsplit(url) # holds the split components of the url
+    stripped_url = url # holds the url string after stripping query parameters
+
+    # if no query parameters are included or excluded,
+    if include_query_param is None and exclude_query_param is None:
+        # return a 'cleaned up' (but equivalent) version of the provided url
+        stripped_url = urllib.parse.urlunsplit(urllib.parse.urlsplit(url))
+        return stripped_url # return stripped url
+
+    # if 'include_query_param' is empty list or includes params to be stripped
+    if include_query_param is not None and len(include_query_param) >= 0:
+        # get the query component of the url
+        query_str = split_url.query
+        if query_str == "": # no query string contained in the provided url
+            # return a 'cleaned up' (but equivalent) version of the provided url
+            stripped_url = urllib.parse.urlunsplit(urllib.parse.urlsplit(url))
+        else: # query string was provided
+            query_str_dict = urllib.parse.parse_qs(query_str)
+            query_str_dict2 = dict(query_str_dict)
+            for key in query_str_dict.keys(): # cycle through the query param names
+                    # if any query param name in 'include_query_param' or 'include_query_param' 
+                if key in include_query_param or len(include_query_param) == 0:
+                    del query_str_dict2[key] # delete the query param
+            # convert the ammended query_param dict to a querystring
+            query_str = urllib.parse.urlencode(query_str_dict2, doseq=True)
+            stripped_url = urllib.parse.urlunsplit(urllib.parse.\
+                                                    SplitResult(split_url.scheme,
+                                                                split_url.netloc,
+                                                                split_url.path,
+                                                                query_str,
+                                                                split_url.fragment))
+        return stripped_url # return stripped url
+    
+    # if 'exclude_query_param' is empty list or includes params to be excluded
+    if exclude_query_param is not None and len(exclude_query_param) >= 0:
+        # get the query component of the url
+        query_str = split_url.query
+        if query_str == "": # no query string contained in the provided url
+            # return a 'cleaned up' (but equivalent) version of the provided url
+            stripped_url = urllib.parse.urlunsplit(urllib.parse.urlsplit(url))
+        else: # query string was provided
+            query_str_dict = urllib.parse.parse_qs(query_str)
+            query_str_dict2 = dict(query_str_dict)
+            for key in query_str_dict.keys(): # cycle through the query param names
+                    # if any query param name not in 'exclude_query_param' and 'exclude_query_param' is not empty
+                if key not in exclude_query_param and len(exclude_query_param) > 0:
+                    del query_str_dict2[key] # delete the query param
+            # convert the ammended query_param dict to a querystring
+            query_str = urllib.parse.urlencode(query_str_dict2, doseq=True)
+            stripped_url = urllib.parse.urlunsplit(urllib.parse.\
+                                                    SplitResult(split_url.scheme,
+                                                                split_url.netloc,
+                                                                split_url.path,
+                                                                query_str,
+                                                                split_url.fragment))
+        return stripped_url # return stripped url
