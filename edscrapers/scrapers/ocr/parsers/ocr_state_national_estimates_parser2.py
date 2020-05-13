@@ -29,8 +29,8 @@ def parse(res) -> dict:
         collection = h.extract_dataset_collection_from_url(collection_url=res.url,
                                         namespace="all",
                                         source_url=\
-                                        str(res.request.headers[str(b'Referer',
-                                                                    encoding='utf-8')], 
+                                        str(res.request.headers.get(str(b'Referer',
+                                                                    encoding='utf-8'), b''), 
                                             encoding='utf-8'))
 
     for container in dataset_containers:

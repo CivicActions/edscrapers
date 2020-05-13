@@ -88,9 +88,9 @@ def get_resource_headers(source_url, url):
     else:
         raw_headers = requests.head(urljoin(source_url, url)).headers
 
-    headers['content-type'] = raw_headers['Content-Type']
-    headers['last-modified'] = raw_headers['Last-Modified']
-    headers['content-length'] = raw_headers['Content-Length']
+    headers['content-type'] = raw_headers.get('Content-Type', None)
+    headers['last-modified'] = raw_headers.get('Last-Modified', None)
+    headers['content-length'] = raw_headers.get('Content-Length', None)
 
     return headers
 
@@ -164,6 +164,10 @@ def extract_dataset_collection_from_url(collection_url,
     # check the required parameters
     if (not collection_url) or (not namespace):
         return None
+    
+    # if collection_url is not an absolute url
+    if not urlparse(collection_url).scheme:
+        return None
 
     # cleanup the collection_url i.e. remove all query parameters
     collection_url = url_query_param_cleanup(collection_url, include_query_param=[])
@@ -182,8 +186,12 @@ def extract_dataset_collection_from_url(collection_url,
     
     collection = Collection()
     collection['collection_url'] = collection_url
-    collection['collection_title'] = str(soup_parser.head.\
+    # get the collection title
+    if soup_parser.head.find(name='title'):
+        collection['collection_title'] = str(soup_parser.head.\
                             find(name='title').string).strip()
+    else:
+      collection['collection_title'] = '[no title]'
     collection['collection_id'] =\
         f'{hashlib.md5(collection["collection_url"].encode("utf-8")).hexdigest()}-{hashlib.md5(namespace.encode("utf-8")).hexdigest()}'
 
