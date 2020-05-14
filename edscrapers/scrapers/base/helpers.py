@@ -4,8 +4,11 @@ import logging
 import datetime
 import hashlib
 import urllib.parse
+import itertools
 import requests
 import bs4
+import ratelimit
+import backoff
 
 from urllib.parse import urlparse
 from urllib.parse import urljoin
@@ -17,6 +20,15 @@ import importlib
 
 logger = logging.getLogger(__name__)
 
+# some of the sites scraped have rate limits so we need to throttle.
+# a simple throttling implementation is employed for some api calls (that are affected by rate limits) within this module because
+# such calls occur outside of scrapy's control and need to be catered for.
+NUMBER_OF_CALLS_PER_LIMIT_WINDOWS = 3 # number of api calls allowed per rate limit period/window
+RATE_LIMIT_WINDOW = 3 # time period (in seconds) within which 'NUMBER_OF_CALLS_PER_LIMIT_WINDOWS' are allowed
+NUMBER_OF_RETRIES_AFTER_LIMIT = 10 # total number of times to retry a rate-limited api call
+# total number of time (in seconds) which the exponential backoff algorithm (for rate-limited api call) will wait before final failure
+TOTAL_BACKOFF_TIME = sum(itertools.accumulate(itertools.repeat(RATE_LIMIT_WINDOW, 
+                                    NUMBER_OF_RETRIES_AFTER_LIMIT+1)))
 
 def get_data_extensions():
     return {
@@ -81,6 +93,12 @@ def get_meta_value(soup, meta_name):
             return None
     return meta_tag['content']
 
+
+@backoff.on_exception(backoff.expo, Exception,
+                      max_time=TOTAL_BACKOFF_TIME,
+                      max_tries=NUMBER_OF_RETRIES_AFTER_LIMIT) # exponential backoff
+@ratelimit.limits(calls=NUMBER_OF_CALLS_PER_LIMIT_WINDOWS,
+                  period=RATE_LIMIT_WINDOW) # apply rate-limit throttling
 def get_resource_headers(source_url, url):
     headers = dict()
     if urlparse(url).scheme:
@@ -137,6 +155,11 @@ def retrieve_crawlers_allowed_domains(except_crawlers=[]) -> list:
     return list(allowed_domains) # return allowed_domains
 
 
+@backoff.on_exception(backoff.expo, Exception,
+                      max_time=TOTAL_BACKOFF_TIME,
+                      max_tries=NUMBER_OF_RETRIES_AFTER_LIMIT) # exponential backoff
+@ratelimit.limits(calls=NUMBER_OF_CALLS_PER_LIMIT_WINDOWS,
+                  period=RATE_LIMIT_WINDOW) # apply rate-limit throttling
 def extract_dataset_collection_from_url(collection_url,
                                         namespace, source_url=None):
     """ function is used to generate/extract a dataset 'Collection' from
@@ -171,6 +194,13 @@ def extract_dataset_collection_from_url(collection_url,
 
     # cleanup the collection_url i.e. remove all query parameters
     collection_url = url_query_param_cleanup(collection_url, include_query_param=[])
+    # compare collection_url and source_url
+    if source_url and urlparse(source_url).scheme: # first make sure source_url is valid
+        # now the comparison
+        if collection_url == url_query_param_cleanup(source_url, include_query_param=[]):
+            # collection_url and source_url are the same, so this is not a valid collection
+            return None
+
 
     # make a request for html page contained in the provided url
     res = requests.get(collection_url, verify=False)
@@ -204,6 +234,11 @@ def extract_dataset_collection_from_url(collection_url,
     return collection
 
 
+@backoff.on_exception(backoff.expo, Exception,
+                      max_time=TOTAL_BACKOFF_TIME,
+                      max_tries=NUMBER_OF_RETRIES_AFTER_LIMIT) # exponential backoff
+@ratelimit.limits(calls=NUMBER_OF_CALLS_PER_LIMIT_WINDOWS,
+                  period=RATE_LIMIT_WINDOW) # apply rate-limit throttling
 def extract_dataset_source_from_url(source_url, namespace):
     """ function is used to generate/extract a dataset 'Source' from
     the provided source_url.
