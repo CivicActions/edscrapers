@@ -192,6 +192,7 @@ def extract_dataset_collection_from_url(collection_url,
                             find(name='title').string).strip()
     else:
       collection['collection_title'] = '[no title]'
+
     collection['collection_id'] =\
         f'{hashlib.md5(collection["collection_url"].encode("utf-8")).hexdigest()}-{hashlib.md5(namespace.encode("utf-8")).hexdigest()}'
 
@@ -243,8 +244,13 @@ def extract_dataset_source_from_url(source_url, namespace):
     
     source = Source()
     source['source_url'] = source_url
-    source['source_title'] = str(soup_parser.head.\
+    # get the Source title
+    if soup_parser.head.find(name='title'):
+        source['source_title'] = str(soup_parser.head.\
                             find(name='title').string).strip()
+    else:
+        source['source_title'] = '[no title]'
+    
     source['source_id'] =\
         f'{hashlib.md5(source["source_url"].encode("utf-8")).hexdigest()}-{hashlib.md5(namespace.encode("utf-8")).hexdigest()}'
 
