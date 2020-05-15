@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import datetime
 import pandas as pd
 from glob import glob
 
@@ -8,9 +9,8 @@ import dash_daq as daq
 import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
 import plotly.express as px
-
+from dash.dependencies import Input, Output
 
 import dash_table.FormatTemplate as FormatTemplate
 from dash_table.Format import Format, Scheme, Sign, Symbol
@@ -41,6 +41,9 @@ def get_series(name=None):
     out_dir = h.get_output_path('rag')
     dfs_list = glob(out_dir + f'/*/*_{name or "all"}.csv')
 
+    if len(dfs_list) == 0:
+        return None
+
     dfs = []
     for df_csv in dfs_list:
 
@@ -50,7 +53,7 @@ def get_series(name=None):
         df['weighted score ratio'] = df['weighted score ratio'].apply(lambda x: x*100)
 
         df_date = df_csv.split('/')[-2]  
-        df['date'] = df_date
+        df['date'] = datetime.datetime.strptime(df_date, '%Y-%m-%d')
 
         dfs.append(df)
 
@@ -60,7 +63,6 @@ def domain_quality_series(name=None):
     dfs = get_df_series(name)
 
     df = pd.concat(dfs)
-
     df = df.sort_values(by='date')
 
     figure = px.line(df,
@@ -76,21 +78,29 @@ def domain_quality_series(name=None):
 
 def all_domain_quality_series():
 
+    concat_lst = []
+
     dfs_edgov = get_series('edgov')
-    dfs_edgov = pd.concat(dfs_edgov, ignore_index=True)
+    if dfs_edgov:
+        dfs_edgov = pd.concat(dfs_edgov, ignore_index=True)
+        concat_lst.append(dfs_edgov)
 
     dfs_ocr = get_series('ocr')
-    dfs_ocr = pd.concat(dfs_ocr, ignore_index=True)
+    if dfs_ocr: 
+        dfs_ocr = pd.concat(dfs_ocr, ignore_index=True)
+        concat_lst.append(dfs_ocr)
 
     dfs_octae = get_series('octae')
-    dfs_octae = pd.concat(dfs_octae, ignore_index=True)
+    if dfs_octae:    
+        dfs_octae = pd.concat(dfs_octae, ignore_index=True)
+        concat_lst.append(dfs_octae)
 
-    #dfs_oela = get_series('oela')
-    #dfs_oela = pd.concat(dfs_oela, ignore_index=True)
+    dfs_oela = get_series('oela')
+    if dfs_oela:
+        dfs_oela = pd.concat(dfs_oela, ignore_index=True)
+        concat_lst.append(dfs_oela)
 
-    df = pd.concat([dfs_edgov,
-       dfs_ocr, dfs_octae], ignore_index=True)
-
+    df = pd.concat(concat_lst, ignore_index=True)
     df = df.sort_values(by='date')
 
     figure = px.line(df,
@@ -98,7 +108,17 @@ def all_domain_quality_series():
                      y="weighted score ratio",
                      color='publisher',
                      # line_group='domain',
-                     title=f'{"Overall"} Data Quality Trend')
+                     #title='Overall Data Quality Trend'
+                     )
+
+    # Edit the layout
+    figure.update_layout(xaxis_title='Date',
+                   yaxis_title='Weighted Score',
+                   yaxis_range=['0','100'],
+                   plot_bgcolor='#F8F9FA')
+
+    figure.update_traces(mode='markers+lines')
+    #figure.layout.paper_bgcolor = '#F8F9FA'
 
     return dcc.Graph(
         figure=figure,
@@ -112,6 +132,12 @@ def generate_layout():
         # domain_quality_series(),
         #domain_quality_series('ocr'),
         #domain_quality_series('edgov'),
+        html.Hr(),
+        html.Div([
+            html.H4('Overall Data Quality Trend',
+            style={'text-align': 'center'}),
+        ]), 
+        html.Hr(),
         all_domain_quality_series()
     ])
 

@@ -107,7 +107,7 @@ class InsightsPage():
                             {'x': df['domain'], 'y': df['page count'], 'type': 'bar'}
                         ],
                 'layout': {
-                    'title': 'Datasets by Domain'
+                    #'title': 'Datasets by Domain'
                 }
             },
             config={ 
@@ -212,7 +212,10 @@ class InsightsPage():
 
         pie_figure = go.Figure(data=[go.Pie(labels=df['domain'],
                                             values=df['resource count'],
-                                            title={'text': 'Resources By Domain', 'font': {'size': 16}, 'position': 'bottom right'})])
+                                            title={
+                                                #'text': 'Resources By Domain', 
+                                                'font': {'size': 16}, 
+                                                'position': 'bottom right'})])
         pie_figure.update_traces(textposition='inside', textinfo='value+label')
 
         # return the pie chart
@@ -273,7 +276,7 @@ def generate_split_layout():
 
     # Datasets By Domain
     html.Div([
-        html.H4('Domain Dataset Stats',
+        html.H4('Datasets by Domain',
         style={'text-align': 'center'}),
         ], 
     style={
@@ -306,6 +309,17 @@ def generate_split_layout():
 
     # Datasets By Office
     html.Div([
+        html.H4('Datasets by Office',
+        style={'text-align': 'center'}),
+        ], 
+    style={
+        'width': '100%', 
+        'vertical-align': 'middle'}
+    ),
+
+    html.Hr(),
+    
+    html.Div([
         dash_table.DataTable(
             columns=[{'name': 'Office', 'id': 's'}, 
                     {'name': 'Count', 'id': 'datopian'}],
@@ -336,7 +350,7 @@ def generate_split_layout():
             figure={
                 'data': get_datasets_bars_data(),
                 'layout': {
-                    'title': 'Datasets by Office'
+                    #'title': 'Datasets by Office'
                 }
             },
             config={ 
@@ -354,6 +368,17 @@ def generate_split_layout():
     html.Hr(),
 
     # Resources by Domain
+    html.Div([
+        html.H4('Resources by Domain',
+        style={'text-align': 'center'}),
+        ], 
+    style={
+        'width': '100%', 
+        'vertical-align': 'middle'}
+    ),
+
+    html.Hr(),
+
     html.Div([
         p.resources_by_domain_table()
     ], style={
@@ -376,9 +401,7 @@ def generate_split_layout():
 
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
 app.layout = generate_split_layout
 
 if __name__ == '__main__':
