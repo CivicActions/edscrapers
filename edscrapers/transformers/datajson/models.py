@@ -448,12 +448,14 @@ class Resource():
     mediaType = str()
     accessURL = str()
     downloadURL = str()
+    headerMetadata = dict()
 
     def __init__(self):    
         self.resource_type = "dcat:Distribution"
         self.description = "n/a"
         self.resource_format = "txt"
         self.mediaType = h.get_media_type(self.resource_format)
+        self.headerMetadata = dict()
 
     def to_dict(self):
 
@@ -479,5 +481,8 @@ class Resource():
 
         if self.mediaType:
             resource_dict["mediaType"] = self.mediaType
+        
+        if len(list(self.headerMetadata.keys())) > 0:
+            resource_dict["headerMetadata"] = self.headerMetadata
 
         return resource_dict

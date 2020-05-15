@@ -70,9 +70,9 @@ def transform(name, input_file=None):
         logger.warning(f'"sources transformer" output file ({(name or "all")}.sources.json) not found. This datajson output will have no "source" field')
     
     # add the list of Source objects to the catalog
-    catalog.sources = catalog_sources
+    catalog.sources = catalog_sources or []
     # update the number fo transformed Sources
-    sources_number = len(catalog_sources)
+    sources_number = len(catalog_sources or [])
     
     # get the list of Collections for this catalog
     catalog_collections = list()
@@ -85,9 +85,9 @@ def transform(name, input_file=None):
         logger.warning(f'"sources transformer" output file ({(name or "all")}.collections.json) not found. This datajson output will have no "collection" field')
     
     # add the list of Collection objects to the catalog
-    catalog.collections = catalog_collections
+    catalog.collections = catalog_collections or []
     # update the number fo transformed Collections
-    collections_number = len(catalog_collections)
+    collections_number = len(catalog_collections or [])
 
     # validate the catalog object
     if not catalog.validate_catalog(pls_fix=True):
@@ -240,6 +240,9 @@ def _transform_scraped_resource(target_dept, resource):
         if extension:
             distribution.resource_format = extension
             distribution.mediaType = h.get_media_type(extension)
+    
+    if resource.get('headers'):
+        distribution.headerMetadata = resource.get('headers')
 
     return distribution
 

@@ -23,8 +23,8 @@ class Crawler(CrawlSpider):
             #'https://ocrdata.ed.gov/StateNationalEstimations'
             'https://ocrdata.ed.gov/Home',
             'https://ocrdata.ed.gov/DistrictSchoolSearch',
-            'https://ocrdata.ed.gov/StateNationalEstimations/Estimations_2011_12#',
-            'https://ocrdata.ed.gov/StateNationalEstimations/Estimations_2011_12#',
+            #'https://ocrdata.ed.gov/StateNationalEstimations/Estimations_2011_12#',
+            #'https://ocrdata.ed.gov/StateNationalEstimations/Estimations_2011_12#',
             'https://ocrdata.ed.gov/DownloadDataFile',
             'https://ocrdata.ed.gov/StateNationalEstimations',
             'https://ocrdata.ed.gov/SpecialReports',
