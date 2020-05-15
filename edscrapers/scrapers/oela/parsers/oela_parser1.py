@@ -14,8 +14,14 @@ from edscrapers.scrapers.base.models import Dataset, Resource
 def parse(res) -> dict:
     """ function parses content to create a dataset model """
 
-    # create parser object
-    soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    # ensure that the response text gotten is a string
+    if not isinstance(getattr(res, 'text', None), str):
+        return None
+
+    try:
+        soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    except:
+        return None
 
     dataset_containers = soup_parser.body.select('.container .content:not(.node-page)')
 
