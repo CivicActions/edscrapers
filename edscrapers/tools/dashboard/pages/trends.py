@@ -9,6 +9,7 @@ import dash_daq as daq
 import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_bootstrap_components as dbc
 import plotly.express as px
 from dash.dependencies import Input, Output
 
@@ -22,6 +23,37 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 OUTPUT_PATH = os.getenv('ED_OUTPUT_PATH')
+
+TOOLTIP_STYLE = {
+    'font-size': '0.8em',
+    'text-align': 'center',
+    'cursor': 'pointer',
+    'height': '20px',
+    'width': '20px',
+    'color': '#1F77B4',
+    'background-color': '#E6E6E6',
+    'border-radius': '50%',
+    'display': 'inline-block',
+}
+
+def tooltip(text, alignment):
+    return html.Div([
+        html.Span(
+            "?",
+            id="tooltip-target",
+            style=TOOLTIP_STYLE,
+        ),
+
+        dbc.Tooltip(
+            text,
+            target="tooltip-target",
+            placement="center",
+        )
+    ], style={
+        'display': 'inline-block',
+        'vertical-align': alignment,
+        }
+    )
 
 def get_df_series(name=None):
     out_dir = h.get_output_path('rag')
@@ -132,12 +164,24 @@ def generate_layout():
         # domain_quality_series(),
         #domain_quality_series('ocr'),
         #domain_quality_series('edgov'),
+        
         html.Hr(),
         html.Div([
-            html.H4('Overall Data Quality Trend',
-            style={'text-align': 'center'}),
-        ]), 
+            html.H4('Overall Data Quality Trends',
+                style={
+                    'display':'inline-block',
+                    'margin-bottom': '0',
+                    'margin-right': '10px',
+                    }), 
+            tooltip("Some text", alignment='text-bottom'),
+        ], style={
+            'width': '100%', 
+            'text-align': 'center',
+            'vertical-align': 'middle',
+            'display':'inline-block', 
+        }),
         html.Hr(),
+
         all_domain_quality_series()
     ])
 

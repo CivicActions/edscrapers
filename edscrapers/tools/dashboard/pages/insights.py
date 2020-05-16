@@ -5,22 +5,40 @@ import os
 
 import dash
 import dash_table
+import pandas as pd
 import dash_daq as daq
+import plotly.graph_objects as go
 import dash_core_components as dcc
 import dash_html_components as html
-import pandas as pd
-import plotly.graph_objects as go
+import dash_bootstrap_components as dbc
 
-from edscrapers.tools.dashboard.pages.air import get_datasets_bars_data, get_table_rows_by_office
 from edscrapers.tools.stats.stats import Statistics
-
 from edscrapers.tools.dashboard.utils import buttonsToRemove
-
+from edscrapers.tools.dashboard.pages.air import get_datasets_bars_data, get_table_rows_by_office
 
 LED_DISPLAY_STYLE = {
-    'width': '24%', 
+    #'width': '20%', 
     'display': 'inline-block', 
-    'vertical-align': 'middle'
+    'vertical-align': 'middle',
+    'margin-right': '50px',
+}
+
+TOOLTIP_STYLE = {
+    'font-size': '0.8em',
+    'text-align': 'center',
+    'cursor': 'pointer',
+    'height': '20px',
+    'width': '20px',
+    'color': '#1F77B4',
+    'background-color': '#E6E6E6',
+    'border-radius': '50%',
+    'display': 'inline-block',
+}
+
+HEADER_STYLE = {
+    'display':'inline-block',
+    'margin-bottom': '0',
+    'margin-right': '10px'
 }
 
 class InsightsPage():
@@ -226,6 +244,24 @@ class InsightsPage():
                          }
                         )
 
+    def tooltip(self, text, alignment):
+        return html.Div([
+            html.Span(
+                "?",
+                id="tooltip-target",
+                style=TOOLTIP_STYLE,
+            ),
+
+            dbc.Tooltip(
+                text,
+                target="tooltip-target",
+                placement="center",
+            )
+        ], style={
+                'display': 'inline-block',
+                'vertical-align': alignment,
+                }
+        )
 
 
 def generate_split_layout():
@@ -237,53 +273,66 @@ def generate_split_layout():
    
     # Totals
     html.Div([
-        daq.LEDDisplay(
-            value=p.get_compare_dict()['total']['datopian']['datasets'], 
-            color="#1F77B4", label="DATASETS",
-            backgroundColor="#F8F9FA"
-        ),
-    ], 
-    style=LED_DISPLAY_STYLE),
 
-    html.Div([
-        daq.LEDDisplay(
-            value=p.get_compare_dict()['total']['datopian']['resources'], 
-            color="#1F77B4", label="RESOURCES",
-            backgroundColor="#F8F9FA"
-        ),
-    ], 
-    style=LED_DISPLAY_STYLE),
+        html.Div([
+            daq.LEDDisplay(
+                value=p.get_compare_dict()['total']['datopian']['datasets'], 
+                color="#1F77B4", label="DATASETS",
+                backgroundColor="#F8F9FA"
+            ),
+        ], 
+        style=LED_DISPLAY_STYLE),
 
-    html.Div([
-        daq.LEDDisplay(
-            value=sum(s for s in p.get_compare_dict()['total']['datopian']['pages'].values()),
-            color="#1F77B4", label="PAGES",
-            backgroundColor="#F8F9FA"
-        ),
-    ], 
-    style=LED_DISPLAY_STYLE),
+        html.Div([
+            daq.LEDDisplay(
+                value=p.get_compare_dict()['total']['datopian']['resources'], 
+                color="#1F77B4", label="RESOURCES",
+                backgroundColor="#F8F9FA"
+            ),
+        ], 
+        style=LED_DISPLAY_STYLE),
 
-    html.Div([
-        daq.LEDDisplay(
-            value=p.resources_by_domain_df().count()['domain'], 
-            color="#1F77B4", label="DOMAINS",
-            backgroundColor="#F8F9FA"
-        ),
-    ], 
-    style=LED_DISPLAY_STYLE),
+        html.Div([
+            daq.LEDDisplay(
+                value=sum(s for s in p.get_compare_dict()['total']['datopian']['pages'].values()),
+                color="#1F77B4", label="PAGES",
+                backgroundColor="#F8F9FA"
+            ),
+        ], 
+        style=LED_DISPLAY_STYLE),
+
+        html.Div([
+            daq.LEDDisplay(
+                value=p.resources_by_domain_df().count()['domain'], 
+                color="#1F77B4", label="DOMAINS",
+                backgroundColor="#F8F9FA"
+            ),
+        ], 
+        style=LED_DISPLAY_STYLE),
+
+        p.tooltip("Some text", alignment='bottom'),
+
+        ], 
+        style={
+            'margin-top':'10',
+            'text-align':'center',
+        }
+    ),
 
     html.Hr(),
 
     # Datasets By Domain
     html.Div([
         html.H4('Datasets by Domain',
-        style={'text-align': 'center'}),
-        ], 
-    style={
+            style=HEADER_STYLE), 
+        p.tooltip("Some text", alignment='text-bottom'),
+    ], style={
         'width': '100%', 
-        'vertical-align': 'middle'}
-    ),
-
+        'text-align': 'center',
+        'vertical-align': 'middle',
+        'display':'inline-block', 
+    }),
+    
     html.Hr(),
 
     html.Div([
@@ -310,12 +359,14 @@ def generate_split_layout():
     # Datasets By Office
     html.Div([
         html.H4('Datasets by Office',
-        style={'text-align': 'center'}),
-        ], 
-    style={
+            style=HEADER_STYLE), 
+        p.tooltip("Some text", alignment='text-bottom'),
+    ], style={
         'width': '100%', 
-        'vertical-align': 'middle'}
-    ),
+        'text-align': 'center',
+        'vertical-align': 'middle',
+        'display':'inline-block', 
+    }),
 
     html.Hr(),
     
@@ -370,12 +421,14 @@ def generate_split_layout():
     # Resources by Domain
     html.Div([
         html.H4('Resources by Domain',
-        style={'text-align': 'center'}),
-        ], 
-    style={
+            style=HEADER_STYLE), 
+        p.tooltip("Some text", alignment='text-bottom'),
+    ], style={
         'width': '100%', 
-        'vertical-align': 'middle'}
-    ),
+        'text-align': 'center',
+        'vertical-align': 'middle',
+        'display':'inline-block', 
+    }),
 
     html.Hr(),
 
@@ -400,7 +453,7 @@ def generate_split_layout():
 ])
 
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = [dbc.themes.BOOTSTRAP, 'https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app.layout = generate_split_layout
 
