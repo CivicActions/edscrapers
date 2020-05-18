@@ -255,6 +255,7 @@ def _transform_scraped_source(data: dict):
         source = Source()
         source.id = data['collection']['source'].get('source_id')
         source.title = data['collection']['source'].get('source_title')
+        source.url = data['collection']['source'].get('source_url')
     
     return source
 
@@ -269,6 +270,7 @@ def _transform_scraped_collection(data: dict):
         collection = Collection()
         collection.id = data['collection'].get('collection_id')
         collection.title = data['collection'].get('collection_title')
+        collection.url = data['collection'].get('collection_url')
         
         source = None
         # get a Source object from the raw data
@@ -298,6 +300,7 @@ def _transform_preprocessed_sources(sources_list: list):
         # populate the Source object from the raw source
         source_obj.id = raw_source.get('source_id')
         source_obj.title = raw_source.get('source_title')
+        source_obj.url = raw_source.get('source_url')
         # add the Source object to the list of Source objects
         source_obj_list.append(source_obj)
 
