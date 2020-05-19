@@ -266,6 +266,7 @@ class Catalog():
 class Source():
     
     id = str()
+    url = str()
     title = str()
 
     def to_dict(self):
@@ -277,12 +278,16 @@ class Source():
         
         if self.title:
             source_dict['title'] = self.title
+
+        if self.url:
+            source_dict['scraped_from'] = self.url
         
         return source_dict
 
 class Collection():
 
     id = str()
+    url = str()
     title = str()
     sources = list()
 
@@ -298,6 +303,9 @@ class Collection():
         
         if self.title:
             collection_dict['title'] = self.title
+
+        if self.url:
+            collection_dict['scraped_from'] = self.url
         
         if len(self.sources) > 0:
             collection_dict['source'] = self.dump_sources()
