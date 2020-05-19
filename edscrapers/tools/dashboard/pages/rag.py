@@ -34,7 +34,7 @@ class RAGSummary():
                 #{'name': '', 'id': 'index'},
                 {'name': 'Domain', 'id': 'domain'},
                 #{'name': 'Score', 'id': 'weighted score', 'format': Format(precision=2, scheme=Scheme.decimal)},
-                {'name': 'Percent', 'id': 'weighted score ratio', 'type': 'numeric', 'format': FormatTemplate.percentage(1)},
+                {'name': 'Score', 'id': 'weighted score ratio', 'type': 'numeric', 'format': FormatTemplate.percentage(1)},
             ],
             data=self.df.groupby('domain', as_index=False).mean().round({'weighted score': 2}).to_dict('records'),
             sort_action='native',
@@ -71,7 +71,7 @@ class RAGSummary():
                 # {'name': 'Publisher', 'id': 'publisher'},
                 {'name': 'URL', 'id': 'source url'},
                 #{'name': 'Score', 'id': 'weighted score', 'format': Format(precision=2, scheme=Scheme.decimal)},
-                {'name': 'Percent', 'id': 'weighted score ratio', 'type': 'numeric', 'format': FormatTemplate.percentage(1)},
+                {'name': 'Score', 'id': 'weighted score ratio', 'type': 'numeric', 'format': FormatTemplate.percentage(1)},
             ],
             data=self.df.to_dict('records'),
             sort_action='native',
@@ -116,7 +116,7 @@ class RAGSummary():
                 #{'name': '', 'id': 'index'},
                 {'name': 'Publisher', 'id': 'publisher'},
                 #{'name': 'Score', 'id': 'weighted score', 'format': Format(precision=2, scheme=Scheme.decimal)},
-                {'name': 'Percent', 'id': 'weighted score ratio', 'type': 'numeric', 'format': FormatTemplate.percentage(1)},
+                {'name': 'Score', 'id': 'weighted score ratio', 'type': 'numeric', 'format': FormatTemplate.percentage(1)},
             ],
             data=self.df.groupby('publisher', as_index=False).mean().round({'weighted score': 2}).to_dict('records'),
             sort_action='native',
@@ -147,6 +147,15 @@ class RAGSummary():
 def generate_layout():
     rag = RAGSummary()
     return html.Div(children=[
+
+        html.Div([
+            html.Span(
+                "Some Notes",
+                className='text-muted text-center',
+            ),
+        ], style={'margin-bottom':'50px'}),
+
+
         dcc.Tabs(id="rag-tabs", value='tab-publishers-table', children=[
             dcc.Tab(label='Publishers', value='tab-publishers-table',
                     children=[rag.publishers_table()]

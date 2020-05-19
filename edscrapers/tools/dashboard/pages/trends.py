@@ -16,6 +16,7 @@ from dash.dependencies import Input, Output
 import dash_table.FormatTemplate as FormatTemplate
 from dash_table.Format import Format, Scheme, Sign, Symbol
 from edscrapers.transformers.base import helpers as h
+from edscrapers.tools.dashboard.tooltips import TRENDS_OVERALL_DATA_QUALITY_TOOLTIP
 
 from edscrapers.tools.dashboard.utils import buttonsToRemove
 
@@ -36,7 +37,7 @@ TOOLTIP_STYLE = {
     'display': 'inline-block',
 }
 
-def tooltip(text, alignment):
+def tooltip(children, alignment):
     return html.Div([
         html.Span(
             "?",
@@ -45,7 +46,7 @@ def tooltip(text, alignment):
         ),
 
         dbc.Tooltip(
-            text,
+            children,
             target="tooltip-target",
             placement="center",
         )
@@ -132,6 +133,31 @@ def all_domain_quality_series():
         dfs_oela = pd.concat(dfs_oela, ignore_index=True)
         concat_lst.append(dfs_oela)
 
+    dfs_ope = get_series('ope')
+    if dfs_ope:
+        dfs_ope = pd.concat(dfs_ope, ignore_index=True)
+        concat_lst.append(dfs_ope)
+
+    dfs_opepd = get_series('opepd')
+    if dfs_opepd:
+        dfs_opepd = pd.concat(dfs_opepd, ignore_index=True)
+        concat_lst.append(dfs_opepd)
+
+    dfs_osers = get_series('osers')
+    if dfs_osers:
+        dfs_osers = pd.concat(dfs_osers, ignore_index=True)
+        concat_lst.append(dfs_osers)
+
+    dfs_oese = get_series('oese')
+    if dfs_oese:
+        dfs_oese = pd.concat(dfs_oese, ignore_index=True)
+        concat_lst.append(dfs_oese)
+
+    dfs_nces = get_series('nces')
+    if dfs_nces:
+        dfs_nces = pd.concat(dfs_nces, ignore_index=True)
+        concat_lst.append(dfs_nces)
+
     df = pd.concat(concat_lst, ignore_index=True)
     df = df.sort_values(by='date')
 
@@ -167,13 +193,13 @@ def generate_layout():
         
         html.Hr(),
         html.Div([
-            html.H4('Overall Data Quality Trends',
+            html.H5('Overall Data Quality Trends',
                 style={
                     'display':'inline-block',
                     'margin-bottom': '0',
                     'margin-right': '10px',
                     }), 
-            tooltip("Some text", alignment='text-bottom'),
+            tooltip(TRENDS_OVERALL_DATA_QUALITY_TOOLTIP, alignment='text-bottom'),
         ], style={
             'width': '100%', 
             'text-align': 'center',

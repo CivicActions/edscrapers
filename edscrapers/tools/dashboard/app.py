@@ -57,7 +57,7 @@ NAV_LINK_STYLE = {
 
 sidebar = html.Div(
     [
-        html.H5("Scraping Dashboard", 
+        html.H4("Scraping Dashboard", 
             className="display-6 text-center",
         ),
         html.Span(

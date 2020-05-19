@@ -14,13 +14,19 @@ import dash_bootstrap_components as dbc
 
 from edscrapers.tools.stats.stats import Statistics
 from edscrapers.tools.dashboard.utils import buttonsToRemove
-from edscrapers.tools.dashboard.pages.air import get_datasets_bars_data, get_table_rows_by_office
+from edscrapers.tools.dashboard.tooltips import (INSIGHTS_TOTALS_TOOLTIP, 
+                                                INSIGHTS_DATASETS_BY_DOMAIN_TOOOLTIP,
+                                                INSIGHTS_DATASETS_BY_OFFICE_TOOOLTIP,
+                                                INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP)
+from edscrapers.tools.dashboard.pages.air import (get_datasets_bars_data, 
+                                                 get_table_rows_by_office)
 
 LED_DISPLAY_STYLE = {
-    #'width': '20%', 
+    'width': '25%', 
     'display': 'inline-block', 
     'vertical-align': 'middle',
-    'margin-right': '50px',
+    'margin-top':'20px',
+    #'margin-right': '40px',
 }
 
 TOOLTIP_STYLE = {
@@ -38,7 +44,7 @@ TOOLTIP_STYLE = {
 HEADER_STYLE = {
     'display':'inline-block',
     'margin-bottom': '0',
-    'margin-right': '10px'
+    'margin-right': '10px',
 }
 
 class InsightsPage():
@@ -244,22 +250,23 @@ class InsightsPage():
                          }
                         )
 
-    def tooltip(self, text, alignment):
+    def tooltip(self, id, children, alignment):
         return html.Div([
             html.Span(
                 "?",
-                id="tooltip-target",
+                id="tooltip-target-" + id,
                 style=TOOLTIP_STYLE,
             ),
 
             dbc.Tooltip(
-                text,
-                target="tooltip-target",
+                children,
+                target="tooltip-target-" + id,
                 placement="center",
             )
         ], style={
                 'display': 'inline-block',
                 'vertical-align': alignment,
+                'margin-right': '20px',
                 }
         )
 
@@ -273,6 +280,22 @@ def generate_split_layout():
    
     # Totals
     html.Div([
+
+        html.Hr(style={'margin-top':'0px'}),
+
+        # Datasets By Domain
+        html.Div([
+            html.H5('Based on Original Scraper',
+                style=HEADER_STYLE), 
+            p.tooltip('totals', INSIGHTS_TOTALS_TOOLTIP, alignment='text-bottom'),
+        ], style={
+            'width': '100%', 
+            'text-align': 'center',
+            'vertical-align': 'middle',
+            'display':'inline-block',
+        }),
+        
+        html.Hr(),
 
         html.Div([
             daq.LEDDisplay(
@@ -310,22 +333,20 @@ def generate_split_layout():
         ], 
         style=LED_DISPLAY_STYLE),
 
-        p.tooltip("Some text", alignment='bottom'),
-
         ], 
         style={
-            'margin-top':'10',
             'text-align':'center',
+            'border': '3px',
         }
     ),
 
-    html.Hr(),
+    html.Hr(style={'margin-top':'70px'}),
 
     # Datasets By Domain
     html.Div([
-        html.H4('Datasets by Domain',
+        html.H5('Datasets Ingested into the Portal by Domain',
             style=HEADER_STYLE), 
-        p.tooltip("Some text", alignment='text-bottom'),
+        p.tooltip('datasets-domain',INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP, alignment='text-bottom'),
     ], style={
         'width': '100%', 
         'text-align': 'center',
@@ -342,7 +363,8 @@ def generate_split_layout():
         'width': '50%', 
         'display': 'inline-block',
         'vertical-align': 'middle', 
-        'overflow-x': 'auto'}
+        'overflow-x': 'auto',
+        'margin-bottom': '50px',}
     ),
 
     html.Div([
@@ -350,7 +372,8 @@ def generate_split_layout():
         style={
             'width': '50%', 
             'display': 'inline-block', 
-            'vertical-align': 'middle'
+            'vertical-align': 'middle',
+            'margin-bottom': '50px',
         }
     ),
 
@@ -358,9 +381,9 @@ def generate_split_layout():
 
     # Datasets By Office
     html.Div([
-        html.H4('Datasets by Office',
+        html.H5('Datasets Ingested into the Portal by Office',
             style=HEADER_STYLE), 
-        p.tooltip("Some text", alignment='text-bottom'),
+        p.tooltip('datasets-office',INSIGHTS_DATASETS_BY_OFFICE_TOOOLTIP, alignment='text-bottom'),
     ], style={
         'width': '100%', 
         'text-align': 'center',
@@ -420,9 +443,9 @@ def generate_split_layout():
 
     # Resources by Domain
     html.Div([
-        html.H4('Resources by Domain',
+        html.H5('Resources Ingested into the Portal by Domain',
             style=HEADER_STYLE), 
-        p.tooltip("Some text", alignment='text-bottom'),
+        p.tooltip('resources-domain',INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP, alignment='text-bottom'),
     ], style={
         'width': '100%', 
         'text-align': 'center',
