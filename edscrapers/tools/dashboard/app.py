@@ -18,7 +18,7 @@ from dash.dependencies import Input, Output
 
 from .pages import air, rag, trends, insights
 
-app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 # the style arguments for the sidebar. We use position:fixed and a fixed width
 SIDEBAR_STYLE = {
@@ -39,24 +39,42 @@ CONTENT_STYLE = {
     "padding": "2rem 1rem",
 }
 
+FOOTER_STYLE = {
+    "background-color": "#f8f9fa",
+    #"position": "absolute",
+    "bottom": 0,
+    "width": "100%",
+}
+
+IMAGE_FOOTER_STYLE = {
+    "width": 100, 
+    "margin-right": 10,
+}
+
+NAV_LINK_STYLE = {
+    '.active' : {'background-color' : '#1F77B4'}
+}
+
 sidebar = html.Div(
     [
-        html.Img(src='https://www.datopian.com/img/datopian-logo.png', style={'width': 200, 'float': 'right', 'margin': 20}),
-        html.Img(src='https://i.stack.imgur.com/wSpIb.png', style={'width': 200, 'float': 'right', 'margin': 20}),
-        html.H5("Scraping Dashboard", className="display-6"),
-        html.Hr(),
-        html.P(
-            "Statistics on data extracted from ED sites", className="lead"
+        html.H4("Scraping Dashboard", 
+            className="display-6 text-center",
         ),
+        html.Span(
+            "Statistics on data extracted from ED sites",
+            className='text-muted text-center',
+        ),
+        html.Hr(),
         dbc.Nav(
             [
-                dbc.NavLink("Insights", href="/insights", id="page-1-link"),
+                dbc.NavLink("Insights", href="/insights", id="page-1-link", style=NAV_LINK_STYLE),
                 dbc.NavLink("Data Quality", href="/quality", id="page-2-link"),
                 dbc.NavLink("Trends", href="/trends", id="page-3-link"),
                 dbc.NavLink("AIR comparison", href="/air", id="page-4-link"),
             ],
             vertical=True,
             pills=True,
+            
         ),
     ],
     style=SIDEBAR_STYLE,
@@ -64,11 +82,42 @@ sidebar = html.Div(
 
 content = html.Div(id="page-content", style=CONTENT_STYLE)
 
+footer = html.Footer(
+    className='page-footer',
+    style=FOOTER_STYLE,
+    children=html.Div(
+        id='footer',
+        className='container-fluid text-center',
+        children=[
+            html.Span(
+                className='text-muted align-middle',
+                style={'float': 'right', 'margin-bottom': 10},
+                children=[
+                    html.Span(
+                        'Made by',
+                        className='text-muted',
+                        style={'margin-right': 10}
+                    ),
+                    html.Img(src='https://i.stack.imgur.com/wSpIb.png', style=IMAGE_FOOTER_STYLE),
+                    html.Img(src='https://www.datopian.com/img/datopian-logo.png', style=IMAGE_FOOTER_STYLE),
+                ],
+            ),
+            html.H5()
+        ]
+    )
+)
+
 def generate_layout():
-    return html.Div([dcc.Location(id="url"), sidebar, content])
+    return html.Div(
+            children=[
+                dcc.Location(id="url"),
+                sidebar, 
+                content, 
+                footer
+            ]
+    )
 
 app.layout = generate_layout
-
 
 # this callback uses the current pathname to set the active state of the
 # corresponding nav link to true, allowing users to tell see page they are on
@@ -102,6 +151,10 @@ def render_page_content(pathname):
         ]
     )
 
+@app.server.route('/assets/style.css')
+def static_file(path):
+    static_folder = os.path.join(os.getcwd(), 'assets')
+    return send_from_directory(static_folder, path)
 
 if __name__ == '__main__':
     app.run_server(debug=False, dev_tools_hot_reload=True, host='0.0.0.0')
