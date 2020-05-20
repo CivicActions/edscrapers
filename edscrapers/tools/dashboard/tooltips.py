@@ -20,20 +20,23 @@ INSIGHTS_TOTALS_TOOLTIP = html.Div([
 
 INSIGHTS_DATASETS_BY_DOMAIN_TOOOLTIP = html.Div([
     html.Span("Datasets by Domain", style={'font-weight':'bold'}),
-    html.Span(" - Amount of Datasets ingested into the Portal by Domain."
-        "We count the total number of Datasets inserted in the Portal by each scraped Domain."),
+    html.Span(" - Total Datasets ingested into the data portal by Domain (webpages)."
+        "A Publisher will have 1 or more domains."),
 ])
 
 INSIGHTS_DATASETS_BY_OFFICE_TOOOLTIP = html.Div([
     html.Span("Datasets by Office", style={'font-weight':'bold'}),
-    html.Span(" - Amount of Datasets ingested into the Portal by Office."
-        "We count the total number of Datasets inserted in the Portal by each scraped Office."),
+    html.Span(" - Total Datasets ingested into the data portal by Publisher (aka Office)"),
 ])
 
 INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP = html.Div([
     html.Span("Resources by Domain", style={'font-weight':'bold'}),
-    html.Span(" - Amount of Resources ingested into the Portal by Domain." 
-        "We count the total number of Resources inserted in the Portal by scraped Domain.")  
+    html.Span(" - Total Resources (ie datafiles / data assets) ingested into the Portal by Domain")  
+])
+
+INSIGHTS_RESOURCES_BY_OFFICE_TOOOLTIP = html.Div([
+    html.Span("Resources by Publisher ", style={'font-weight':'bold'}),
+    html.Span(" - Total Resources ingested into the data portal by Publisher (aka Office)"),
 ])
 
 TRENDS_OVERALL_DATA_QUALITY_TOOLTIP = html.Div([

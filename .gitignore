@@ -120,6 +120,7 @@ dmypy.json
 
 # Scraping output
 /output
+/edscrapers/output
 
 # Yaml output
 yaml-output
