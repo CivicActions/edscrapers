@@ -67,7 +67,7 @@ sidebar = html.Div(
         html.Hr(),
         dbc.Nav(
             [
-                dbc.NavLink("Insights", href="/insights", id="page-1-link", style=NAV_LINK_STYLE),
+                dbc.NavLink("Scraping Insights", href="/insights", id="page-1-link", style=NAV_LINK_STYLE),
                 dbc.NavLink("Data Quality", href="/quality", id="page-2-link"),
                 dbc.NavLink("Trends", href="/trends", id="page-3-link"),
                 dbc.NavLink("AIR comparison", href="/air", id="page-4-link"),

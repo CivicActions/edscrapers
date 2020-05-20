@@ -17,9 +17,12 @@ from edscrapers.tools.dashboard.utils import buttonsToRemove
 from edscrapers.tools.dashboard.tooltips import (INSIGHTS_TOTALS_TOOLTIP, 
                                                 INSIGHTS_DATASETS_BY_DOMAIN_TOOOLTIP,
                                                 INSIGHTS_DATASETS_BY_OFFICE_TOOOLTIP,
-                                                INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP)
+                                                INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP,
+                                                INSIGHTS_RESOURCES_BY_OFFICE_TOOOLTIP)
 from edscrapers.tools.dashboard.pages.air import (get_datasets_bars_data, 
-                                                 get_table_rows_by_office)
+                                                 get_table_rows_by_office,
+                                                 get_total_resources_by_office)
+                                                 
 
 LED_DISPLAY_STYLE = {
     'width': '25%', 
@@ -228,6 +231,21 @@ class InsightsPage():
         # concatenate the 2 dataframes
         return pd.concat([working_df1, working_df2], axis='index', ignore_index=True)
 
+    def resources_by_publisher_df(self):
+        data = dict(get_total_resources_by_office('datopian'))
+
+        publishers = []
+        counts = []
+        for key,value in data.items():
+            publishers.append(key)
+            counts.append(value)
+
+        df = pd.DataFrame(columns=['publisher','resource count'])
+        df['publisher'] = publishers
+        df['resource count'] = counts
+
+        return df
+
     def resources_by_domain_pie(self):
         """" function is used to created a pie chart showing
         the number of resources gotten per domain """
@@ -249,6 +267,87 @@ class InsightsPage():
                             'modeBarButtonsToRemove': buttonsToRemove 
                          }
                         )
+
+    def resources_by_publisher_table(self):
+
+        df = self.resources_by_publisher_df()
+
+         # add a total of resource count at the end of the df
+        total_resource_count = df['resource count'].sum()   
+
+        df_total = pd.DataFrame([['Total', total_resource_count]], 
+                            columns=['publisher','resource count'])
+        df = df.append(df_total, ignore_index=True)
+
+        # return the created DataTable
+        return dash_table.DataTable(
+            id='resource_by_publisher_table',
+            columns=[{"id": "publisher", "name": "Publisher"},
+                     {"id": "resource count", "name": "Resource Count"}],
+            data=df.to_dict('records'),
+            sort_action='native',
+            style_cell={'textAlign': 'left', 
+                'whiteSpace': 'normal'},
+            style_cell_conditional=[
+                {'if': {'column_id': 'publisher'},
+                'width': '70%', 'textAlign': 'right'},
+                {'if': {'column_id': 'resource count'},
+                'width': '30%'},
+                {'if': {'row_index': 'odd'},
+                'backgroundColor': 'rgb(248, 248, 248)'}],
+            style_table={
+                        'maxHeight': '300px',
+                        'maxWidth': '100%',
+                        'overflowY': 'scroll',
+                        'overflowX': 'hidden',
+                        'margin': 0,
+                        'padding': 0
+            },
+            style_header={
+                        'backgroundColor': 'rgb(230, 230, 230)',
+                        'fontWeight': 'bold',
+                        'textAlign': 'center',
+            }        
+        )
+
+    def resources_by_publisher_pie(self):
+
+        df = self.resources_by_publisher_df()
+
+        pie_figure = go.Figure(data=[go.Pie(labels=df['publisher'],
+                                            values=df['resource count'],
+                                            title={
+                                                #'text': 'Resources By Domain', 
+                                                'font': {'size': 16}, 
+                                                'position': 'bottom right'})])
+        pie_figure.update_traces(textposition='inside', textinfo='value+label')
+
+        # return the pie chart
+        return dcc.Graph(id='resources_by_publisher_pie',
+                         figure=pie_figure,
+                         config={ 
+                            'modeBarButtonsToRemove': buttonsToRemove 
+                         }
+                        )
+
+
+
+    def dataset_by_office_data(self):
+        # return the rows for the datasets by office table including total
+        rows = get_table_rows_by_office('datasets_by_office')
+
+        total_air = 0
+        total_datopian = 0
+
+        for row in rows: 
+            total_air += row.get('air', 0)
+            total_datopian += row.get('datopian', 0)
+
+        total_row = {'s': 'Total', 'air' : total_air, 'datopian' : total_datopian}
+        rows.append(total_row)
+
+        return rows
+
 
     def tooltip(self, id, children, alignment):
         return html.Div([
@@ -283,9 +382,9 @@ def generate_split_layout():
 
         html.Hr(style={'margin-top':'0px'}),
 
-        # Datasets By Domain
+        # Totals Based on Original Scraper
         html.Div([
-            html.H5('Based on Original Scraper',
+            html.H5('Based on original crawler',
                 style=HEADER_STYLE), 
             p.tooltip('totals', INSIGHTS_TOTALS_TOOLTIP, alignment='text-bottom'),
         ], style={
@@ -342,46 +441,9 @@ def generate_split_layout():
 
     html.Hr(style={'margin-top':'70px'}),
 
-    # Datasets By Domain
+    # Datasets By Publisher
     html.Div([
-        html.H5('Datasets Ingested into the Portal by Domain',
-            style=HEADER_STYLE), 
-        p.tooltip('datasets-domain',INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP, alignment='text-bottom'),
-    ], style={
-        'width': '100%', 
-        'text-align': 'center',
-        'vertical-align': 'middle',
-        'display':'inline-block', 
-    }),
-    
-    html.Hr(),
-
-    html.Div([
-        p.dataset_by_domain_table()
-    ],
-    style={
-        'width': '50%', 
-        'display': 'inline-block',
-        'vertical-align': 'middle', 
-        'overflow-x': 'auto',
-        'margin-bottom': '50px',}
-    ),
-
-    html.Div([
-        p.dataset_by_domain_bar()],
-        style={
-            'width': '50%', 
-            'display': 'inline-block', 
-            'vertical-align': 'middle',
-            'margin-bottom': '50px',
-        }
-    ),
-
-    html.Hr(),
-
-    # Datasets By Office
-    html.Div([
-        html.H5('Datasets Ingested into the Portal by Office',
+        html.H5('Datasets Ingested into the Portal by Publisher',
             style=HEADER_STYLE), 
         p.tooltip('datasets-office',INSIGHTS_DATASETS_BY_OFFICE_TOOOLTIP, alignment='text-bottom'),
     ], style={
@@ -395,9 +457,9 @@ def generate_split_layout():
     
     html.Div([
         dash_table.DataTable(
-            columns=[{'name': 'Office', 'id': 's'}, 
+            columns=[{'name': 'Publisher', 'id': 's'}, 
                     {'name': 'Count', 'id': 'datopian'}],
-            data=get_table_rows_by_office('datasets_by_office'),
+            data=p.dataset_by_office_data(),
             sort_action='native',
             style_cell={'textAlign': 'left'},
             style_cell_conditional=[
@@ -437,6 +499,79 @@ def generate_split_layout():
             'display': 'inline-block', 
             'vertical-align': 'middle'
             }
+    ),
+
+    html.Hr(),
+
+    # Resources by Publisher
+    html.Div([
+        html.H5('Resources Ingested into the Portal by Publisher',
+            style=HEADER_STYLE), 
+        p.tooltip('datasets-domain',INSIGHTS_RESOURCES_BY_OFFICE_TOOOLTIP, alignment='text-bottom'),
+    ], style={
+        'width': '100%', 
+        'text-align': 'center',
+        'vertical-align': 'middle',
+        'display':'inline-block', 
+    }),
+
+    html.Hr(),
+
+    html.Div([
+        p.resources_by_publisher_table()
+    ],
+    style={
+        'width': '50%', 
+        'display': 'inline-block',
+        'vertical-align': 'middle', 
+        'overflow-x': 'auto',
+        'margin-bottom': '50px',}
+    ),
+
+    html.Div([
+        p.resources_by_publisher_pie(),
+    ], style={
+        'width': '50%', 
+        'display': 'inline-block', 
+        'vertical-align': 'middle'}
+    ),
+    
+
+    html.Hr(),
+
+    # Datasets By Domain
+    html.Div([
+        html.H5('Datasets Ingested into the Portal by Domain',
+            style=HEADER_STYLE), 
+        p.tooltip('datasets-domain',INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP, alignment='text-bottom'),
+    ], style={
+        'width': '100%', 
+        'text-align': 'center',
+        'vertical-align': 'middle',
+        'display':'inline-block', 
+    }),
+    
+    html.Hr(),
+
+    html.Div([
+        p.dataset_by_domain_table()
+    ],
+    style={
+        'width': '50%', 
+        'display': 'inline-block',
+        'vertical-align': 'middle', 
+        'overflow-x': 'auto',
+        'margin-bottom': '50px',}
+    ),
+
+    html.Div([
+        p.dataset_by_domain_bar()],
+        style={
+            'width': '50%', 
+            'display': 'inline-block', 
+            'vertical-align': 'middle',
+            'margin-bottom': '50px',
+        }
     ),
 
     html.Hr(),
