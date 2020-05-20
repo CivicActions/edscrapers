@@ -333,7 +333,7 @@ class InsightsPage():
 
 
     def dataset_by_office_data(self):
-        # return the rows for the datasets by office table including total
+        # returns the rows for the datasets by office table including total
         rows = get_table_rows_by_office('datasets_by_office')
 
         total_air = 0
@@ -348,8 +348,8 @@ class InsightsPage():
 
         return rows
 
-
     def tooltip(self, id, children, alignment):
+        # returns a html component for tooltip
         return html.Div([
             html.Span(
                 "?",
@@ -369,6 +369,29 @@ class InsightsPage():
                 }
         )
 
+    def header(self, title, tooltip_id, tooltip_text):
+        # returns a Header html component with a tooltip at the right side
+        return html.Div([
+            html.H5(title, style=HEADER_STYLE), 
+            self.tooltip(tooltip_id, tooltip_text, alignment='text-bottom'),
+        ], style={
+            'width': '100%', 
+            'text-align': 'center',
+            'vertical-align': 'middle',
+            'display':'inline-block',
+        })
+
+    def led_display(self, value, label):
+        # returns a component with a Led Display
+        return html.Div([
+            daq.LEDDisplay(
+                value=value, 
+                color="#1F77B4", label=label,
+                backgroundColor="#F8F9FA"
+            ),
+        ], style=LED_DISPLAY_STYLE)
+
+
 
 def generate_split_layout():
     """" function generates the latyout for this page """
@@ -377,82 +400,41 @@ def generate_split_layout():
 
     return html.Div(children=[
    
-    # Totals
-    html.Div([
+    # Totals Based on Original Scraper
+    html.Hr(style={'margin-top':'0px'}),
+    p.header('Based on original crawler', 'totals-crawler', INSIGHTS_TOTALS_TOOLTIP),
+    html.Hr(),
 
-        html.Hr(style={'margin-top':'0px'}),
+    # LED displays
+    p.led_display(p.get_compare_dict()['total']['datopian']['datasets'], 
+        "DATASETS"),
+    p.led_display(p.get_compare_dict()['total']['datopian']['resources'], 
+        "RESOURCES"),
+    p.led_display(sum(s for s in p.get_compare_dict()['total']['datopian']['pages'].values()),
+        "PAGES"),
+    p.led_display(p.resources_by_domain_df().count()['domain'], 
+        "DOMAINS"),
 
-        # Totals Based on Original Scraper
-        html.Div([
-            html.H5('Based on original crawler',
-                style=HEADER_STYLE), 
-            p.tooltip('totals', INSIGHTS_TOTALS_TOOLTIP, alignment='text-bottom'),
-        ], style={
-            'width': '100%', 
-            'text-align': 'center',
-            'vertical-align': 'middle',
-            'display':'inline-block',
-        }),
-        
-        html.Hr(),
+    # Totals Based on Original Scraper
+    html.Hr(style={'margin-top':'30px'}),
+    p.header('Ingested into data portal', 'totals-ingested', INSIGHTS_TOTALS_TOOLTIP),
+    html.Hr(),
 
-        html.Div([
-            daq.LEDDisplay(
-                value=p.get_compare_dict()['total']['datopian']['datasets'], 
-                color="#1F77B4", label="DATASETS",
-                backgroundColor="#F8F9FA"
-            ),
-        ], 
-        style=LED_DISPLAY_STYLE),
+    # LED displays
+    p.led_display(000,
+        "DATASETS"),
+    p.led_display(000,
+        "RESOURCES"),
+    p.led_display(000,
+        "PAGES"),
+    p.led_display(0,
+        "DOMAINS"),
 
-        html.Div([
-            daq.LEDDisplay(
-                value=p.get_compare_dict()['total']['datopian']['resources'], 
-                color="#1F77B4", label="RESOURCES",
-                backgroundColor="#F8F9FA"
-            ),
-        ], 
-        style=LED_DISPLAY_STYLE),
-
-        html.Div([
-            daq.LEDDisplay(
-                value=sum(s for s in p.get_compare_dict()['total']['datopian']['pages'].values()),
-                color="#1F77B4", label="PAGES",
-                backgroundColor="#F8F9FA"
-            ),
-        ], 
-        style=LED_DISPLAY_STYLE),
-
-        html.Div([
-            daq.LEDDisplay(
-                value=p.resources_by_domain_df().count()['domain'], 
-                color="#1F77B4", label="DOMAINS",
-                backgroundColor="#F8F9FA"
-            ),
-        ], 
-        style=LED_DISPLAY_STYLE),
-
-        ], 
-        style={
-            'text-align':'center',
-            'border': '3px',
-        }
-    ),
-
-    html.Hr(style={'margin-top':'70px'}),
 
     # Datasets By Publisher
-    html.Div([
-        html.H5('Datasets Ingested into the Portal by Publisher',
-            style=HEADER_STYLE), 
-        p.tooltip('datasets-office',INSIGHTS_DATASETS_BY_OFFICE_TOOOLTIP, alignment='text-bottom'),
-    ], style={
-        'width': '100%', 
-        'text-align': 'center',
-        'vertical-align': 'middle',
-        'display':'inline-block', 
-    }),
-
+    html.Hr(style={'margin-top':'70px'}),
+    p.header('Datasets Ingested into the Portal by Publisher', 
+            'datasets-office', INSIGHTS_DATASETS_BY_OFFICE_TOOOLTIP),
     html.Hr(),
     
     html.Div([
@@ -501,20 +483,10 @@ def generate_split_layout():
             }
     ),
 
-    html.Hr(),
-
     # Resources by Publisher
-    html.Div([
-        html.H5('Resources Ingested into the Portal by Publisher',
-            style=HEADER_STYLE), 
-        p.tooltip('datasets-domain',INSIGHTS_RESOURCES_BY_OFFICE_TOOOLTIP, alignment='text-bottom'),
-    ], style={
-        'width': '100%', 
-        'text-align': 'center',
-        'vertical-align': 'middle',
-        'display':'inline-block', 
-    }),
-
+    html.Hr(),
+    p.header('Resources Ingested into the Portal by Publisher', 
+            'datasets-domain',INSIGHTS_RESOURCES_BY_OFFICE_TOOOLTIP),
     html.Hr(),
 
     html.Div([
@@ -537,20 +509,10 @@ def generate_split_layout():
     ),
     
 
-    html.Hr(),
-
     # Datasets By Domain
-    html.Div([
-        html.H5('Datasets Ingested into the Portal by Domain',
-            style=HEADER_STYLE), 
-        p.tooltip('datasets-domain',INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP, alignment='text-bottom'),
-    ], style={
-        'width': '100%', 
-        'text-align': 'center',
-        'vertical-align': 'middle',
-        'display':'inline-block', 
-    }),
-    
+    html.Hr(),
+    p.header('Datasets Ingested into the Portal by Domain', 
+            'datasets-domain',INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP),   
     html.Hr(),
 
     html.Div([
@@ -574,20 +536,10 @@ def generate_split_layout():
         }
     ),
 
-    html.Hr(),
-
     # Resources by Domain
-    html.Div([
-        html.H5('Resources Ingested into the Portal by Domain',
-            style=HEADER_STYLE), 
-        p.tooltip('resources-domain',INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP, alignment='text-bottom'),
-    ], style={
-        'width': '100%', 
-        'text-align': 'center',
-        'vertical-align': 'middle',
-        'display':'inline-block', 
-    }),
-
+    html.Hr(),
+    p.header('Resources Ingested into the Portal by Domain', 
+            'resources-domain',INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP),
     html.Hr(),
 
     html.Div([
@@ -609,7 +561,6 @@ def generate_split_layout():
     html.Hr(),
 
 ])
-
 
 external_stylesheets = [dbc.themes.BOOTSTRAP, 'https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)

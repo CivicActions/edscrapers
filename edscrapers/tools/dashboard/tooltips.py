@@ -25,7 +25,7 @@ INSIGHTS_DATASETS_BY_DOMAIN_TOOOLTIP = html.Div([
 ])
 
 INSIGHTS_DATASETS_BY_OFFICE_TOOOLTIP = html.Div([
-    html.Span("Datasets by Office", style={'font-weight':'bold'}),
+    html.Span("Datasets by Publisher", style={'font-weight':'bold'}),
     html.Span(" - Total Datasets ingested into the data portal by Publisher (aka Office)"),
 ])
 
