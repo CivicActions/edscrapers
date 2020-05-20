@@ -354,20 +354,62 @@ def cumulate_sources_across_offices(path_to_datajson_files):
                     yield stripped_source # yield the stripped down source
 
 
+def track_duplicate_collections(collections_iterator, sources_iterator):
+    """ function tracks duplicate collections from within
+    the iterator provided """
+
+    # ensure the parameter is really an iterator
+    collections_iterator = list(iter(collections_iterator))
+    sources_iterator = list(iter(sources_iterator))
+
+    # create a counter to track where duplicates exist
+    collection_counter = collections.Counter(collections_iterator)
+
+    # TODO the commented out variable 'trashed' is a circuilt-breaker variable.
+    # it is used to shorten the output & execution time when searching for linked reasources
+    # remove the comments on any line which contains the variable 'trash' in order to use it
+    #trash = 0
+    for counter_key, counter_value in collection_counter.items():
+        #if trash == 2:
+            #return trash
+        if not counter_key: # if key is None
+            continue # move to the next resource
+
+        if counter_value > 1: # if the value is >1, there is a duplicate resource
+            # filter out the actual resources that match the counter_key
+            filtered_collections = list(filter(lambda collection, compare_collection=counter_key: collection == compare_collection,
+                                       collections_iterator))
+            
+            # identify the offices that share these filtered collections
+            linked_offices = {a_collection.get('office').lower() for a_collection in filtered_collections}
+            # check if the collection is linked across different offices
+            if len(linked_offices) <= 0: # if only 1 office is listed, there is no link across offices
+                continue # move to the next
+
+            #trash +=1
+            filtered_sources = list(filter(lambda source, compare_collection=counter_key: source['id'] in compare_collection.get('source', []),
+                                          sources_iterator))
+            # return a dict with the linked datsets information
+            yield {'scraped_from': counter_key['scraped_from'],
+                    'title': counter_key['title'],
+                   #'number_of_times_linked': counter_value,
+                   'linked_offices': list(linked_offices),
+                   'number_of_sources_linked_to': len(list(set(filtered_sources))),
+                   'linked_sources': list(set(filtered_sources))}
 
 # run the script
 if __name__ == "__main__":
     
     # get all collections available
     print("Accumulate all Collections....")
-    collections_across_offices = cumulate_collections_across_offices(pathlib.Path(OUTPUT_PATH,
-                              'transformers/datajson'))
+    collections_across_offices = list(cumulate_collections_across_offices(pathlib.Path(OUTPUT_PATH,
+                              'transformers/datajson')))
     print("Done.")
 
     # get all sources available
     print("Accumulate all Sources....")
-    sources_across_offices = cumulate_sources_across_offices(pathlib.Path(OUTPUT_PATH,
-                              'transformers/datajson'))
+    sources_across_offices = list(cumulate_sources_across_offices(pathlib.Path(OUTPUT_PATH,
+                              'transformers/datajson')))
     print("Done.")
 
 
@@ -390,6 +432,22 @@ if __name__ == "__main__":
     # write the result of the linked dataset search to file
     with open(pathlib.Path(OUTPUT_PATH, "linked_datasets.json"), 'wt') as file_stream:
         json.dump(list(duplicate_datasets), file_stream,
+                  cls=ModuleJSONEncoder, indent=2, sort_keys=False)
+    print('Done.')
+
+    ###
+    #track which collections are duplicated across offices
+    print("Finding linked collections across offices....")
+    duplicate_collections = track_duplicate_collections(collections_across_offices,
+                                                  sources_across_offices)
+    print('Done.')
+
+    # write the result of the linked collections search
+    print('Producing output file at:',
+           f"{pathlib.Path(OUTPUT_PATH, 'linked_collections.json')}")
+    # write the result of the linked collection search to file
+    with open(pathlib.Path(OUTPUT_PATH, "linked_collections.json"), 'wt') as file_stream:
+        json.dump(list(duplicate_collections), file_stream,
                   cls=ModuleJSONEncoder, indent=2, sort_keys=False)
     print('Done.')
 
