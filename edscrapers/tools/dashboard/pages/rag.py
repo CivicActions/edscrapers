@@ -214,6 +214,6 @@ def generate_layout():
     )
 
 
-app.layout = generate_layout()
+app.layout = generate_layout
 
 

@@ -82,7 +82,7 @@ def generate_layout():
 
 external_stylesheets = [dbc.themes.BOOTSTRAP, 'https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-app.layout = generate_layout()
+app.layout = generate_layout
 
 if __name__ == '__main__':
     app.run_server(debug=False, dev_tools_hot_reload=True, host='0.0.0.0')
