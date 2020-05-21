@@ -66,8 +66,7 @@ sidebar = html.Div(
                 dbc.NavLink("Dashboard", href="/dashboard", id="page-1-link"),
                 dbc.NavLink("Scraping Insights", href="/insights", id="page-2-link"),
                 dbc.NavLink("Data Quality", href="/quality", id="page-3-link"),
-                dbc.NavLink("Trends", href="/trends", id="page-4-link"),
-                dbc.NavLink("AIR comparison", href="/air", id="page-5-link"),
+                dbc.NavLink("Trends", href="/trends", id="page-4-link")
             ],
             vertical=True,
             pills=True,
@@ -119,14 +118,14 @@ app.layout = generate_layout
 # this callback uses the current pathname to set the active state of the
 # corresponding nav link to true, allowing users to tell see page they are on
 @app.callback(
-    [Output(f"page-{i}-link", "active") for i in range(1, 6)],
+    [Output(f"page-{i}-link", "active") for i in range(1, 5)],
     [Input("url", "pathname")],
 )
 def toggle_active_links(pathname):
     if pathname == "/":
         # Treat page 1 as the homepage / index
         return True, False, False, False, False
-    return [pathname == f"/{i}" for i in ['dashboard','insights', 'quality', 'trends', 'air']]
+    return [pathname == f"/{i}" for i in ['dashboard','insights', 'quality', 'trends']]
 
 
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
@@ -139,8 +138,6 @@ def render_page_content(pathname):
         return rag.generate_layout()
     elif pathname == "/trends":
         return trends.generate_layout()
-    elif pathname in ["/air"]:
-        return air.generate_split_layout()
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
         [
