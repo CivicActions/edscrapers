@@ -14,7 +14,8 @@ import dash_bootstrap_components as dbc
 
 from edscrapers.tools.stats.stats import Statistics
 from edscrapers.tools.dashboard.utils import buttonsToRemove
-from edscrapers.tools.dashboard.tooltips import (INSIGHTS_TOTALS_TOOLTIP, 
+from edscrapers.tools.dashboard.pages.tooltips import (INSIGHTS_TOTALS_SCRAPED_TOOLTIP,
+                                                INSIGHTS_TOTALS_INGESTED_TOOLTIP,
                                                 INSIGHTS_DATASETS_BY_DOMAIN_TOOOLTIP,
                                                 INSIGHTS_DATASETS_BY_OFFICE_TOOOLTIP,
                                                 INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP,
@@ -329,7 +330,7 @@ def generate_split_layout():
    
     # Totals Based on Original Scraper
     html.Hr(style={'margin-top':'0px'}),
-    header('Based on original crawler', 'totals-crawler', INSIGHTS_TOTALS_TOOLTIP),
+    header('Based on original crawler', 'totals-crawler', INSIGHTS_TOTALS_SCRAPED_TOOLTIP),
     html.Hr(),
 
     # LED displays
@@ -344,7 +345,7 @@ def generate_split_layout():
 
     # Totals Based on Original Scraper
     html.Hr(style={'margin-top':'30px'}),
-    header('Ingested into data portal', 'totals-ingested', INSIGHTS_TOTALS_TOOLTIP),
+    header('Ingested into data portal', 'totals-ingested', INSIGHTS_TOTALS_INGESTED_TOOLTIP),
     html.Hr(),
 
     # LED displays

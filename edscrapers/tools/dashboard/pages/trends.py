@@ -16,7 +16,7 @@ from dash.dependencies import Input, Output
 import dash_table.FormatTemplate as FormatTemplate
 from dash_table.Format import Format, Scheme, Sign, Symbol
 from edscrapers.transformers.base import helpers as h
-from edscrapers.tools.dashboard.tooltips import TRENDS_OVERALL_DATA_QUALITY_TOOLTIP
+from edscrapers.tools.dashboard.pages.tooltips import TRENDS_OVERALL_DATA_QUALITY_TOOLTIP
 
 from edscrapers.tools.dashboard.utils import buttonsToRemove
 
