@@ -22,34 +22,8 @@ from edscrapers.tools.dashboard.tooltips import (INSIGHTS_TOTALS_TOOLTIP,
 from edscrapers.tools.dashboard.pages.air import (get_datasets_bars_data, 
                                                  get_table_rows_by_office,
                                                  get_total_resources_by_office)
-                                                 
-
-LED_DISPLAY_STYLE = {
-    'width': '25%', 
-    'display': 'inline-block', 
-    'vertical-align': 'middle',
-    'margin-top':'20px',
-    #'margin-right': '40px',
-}
-
-TOOLTIP_STYLE = {
-    'font-size': '0.8em',
-    'text-align': 'center',
-    'cursor': 'pointer',
-    'height': '20px',
-    'width': '20px',
-    'color': '#1F77B4',
-    'background-color': '#E6E6E6',
-    'border-radius': '50%',
-    'display': 'inline-block',
-}
-
-HEADER_STYLE = {
-    'display':'inline-block',
-    'margin-bottom': '0',
-    'margin-right': '10px',
-}
-
+from edscrapers.tools.dashboard.pages.components import header, led_display
+                                        
 class InsightsPage():
 
     # path to Excel sheet used for creating stas dataframes
@@ -330,8 +304,6 @@ class InsightsPage():
                          }
                         )
 
-
-
     def dataset_by_office_data(self):
         # returns the rows for the datasets by office table including total
         rows = get_table_rows_by_office('datasets_by_office')
@@ -348,51 +320,6 @@ class InsightsPage():
 
         return rows
 
-    def tooltip(self, id, children, alignment):
-        # returns a html component for tooltip
-        return html.Div([
-            html.Span(
-                "?",
-                id="tooltip-target-" + id,
-                style=TOOLTIP_STYLE,
-            ),
-
-            dbc.Tooltip(
-                children,
-                target="tooltip-target-" + id,
-                placement="center",
-            )
-        ], style={
-                'display': 'inline-block',
-                'vertical-align': alignment,
-                'margin-right': '20px',
-                }
-        )
-
-    def header(self, title, tooltip_id, tooltip_text):
-        # returns a Header html component with a tooltip at the right side
-        return html.Div([
-            html.H5(title, style=HEADER_STYLE), 
-            self.tooltip(tooltip_id, tooltip_text, alignment='text-bottom'),
-        ], style={
-            'width': '100%', 
-            'text-align': 'center',
-            'vertical-align': 'middle',
-            'display':'inline-block',
-        })
-
-    def led_display(self, value, label):
-        # returns a component with a Led Display
-        return html.Div([
-            daq.LEDDisplay(
-                value=value, 
-                color="#1F77B4", label=label,
-                backgroundColor="#F8F9FA"
-            ),
-        ], style=LED_DISPLAY_STYLE)
-
-
-
 def generate_split_layout():
     """" function generates the latyout for this page """
 
@@ -402,38 +329,38 @@ def generate_split_layout():
    
     # Totals Based on Original Scraper
     html.Hr(style={'margin-top':'0px'}),
-    p.header('Based on original crawler', 'totals-crawler', INSIGHTS_TOTALS_TOOLTIP),
+    header('Based on original crawler', 'totals-crawler', INSIGHTS_TOTALS_TOOLTIP),
     html.Hr(),
 
     # LED displays
-    p.led_display(p.get_compare_dict()['total']['datopian']['datasets'], 
+    led_display(p.get_compare_dict()['total']['datopian']['datasets'], 
         "DATASETS"),
-    p.led_display(p.get_compare_dict()['total']['datopian']['resources'], 
+    led_display(p.get_compare_dict()['total']['datopian']['resources'], 
         "RESOURCES"),
-    p.led_display(sum(s for s in p.get_compare_dict()['total']['datopian']['pages'].values()),
+    led_display(sum(s for s in p.get_compare_dict()['total']['datopian']['pages'].values()),
         "PAGES"),
-    p.led_display(p.resources_by_domain_df().count()['domain'], 
+    led_display(p.resources_by_domain_df().count()['domain'], 
         "DOMAINS"),
 
     # Totals Based on Original Scraper
     html.Hr(style={'margin-top':'30px'}),
-    p.header('Ingested into data portal', 'totals-ingested', INSIGHTS_TOTALS_TOOLTIP),
+    header('Ingested into data portal', 'totals-ingested', INSIGHTS_TOTALS_TOOLTIP),
     html.Hr(),
 
     # LED displays
-    p.led_display(000,
+    led_display(000,
         "DATASETS"),
-    p.led_display(000,
+    led_display(000,
         "RESOURCES"),
-    p.led_display(000,
+    led_display(000,
         "PAGES"),
-    p.led_display(0,
+    led_display(0,
         "DOMAINS"),
 
 
     # Datasets By Publisher
     html.Hr(style={'margin-top':'70px'}),
-    p.header('Datasets Ingested into the Portal by Publisher', 
+    header('Datasets Ingested into the Portal by Publisher', 
             'datasets-office', INSIGHTS_DATASETS_BY_OFFICE_TOOOLTIP),
     html.Hr(),
     
@@ -485,8 +412,8 @@ def generate_split_layout():
 
     # Resources by Publisher
     html.Hr(),
-    p.header('Resources Ingested into the Portal by Publisher', 
-            'datasets-domain',INSIGHTS_RESOURCES_BY_OFFICE_TOOOLTIP),
+    header('Resources Ingested into the Portal by Publisher', 
+            'resources-office',INSIGHTS_RESOURCES_BY_OFFICE_TOOOLTIP),
     html.Hr(),
 
     html.Div([
@@ -511,8 +438,8 @@ def generate_split_layout():
 
     # Datasets By Domain
     html.Hr(),
-    p.header('Datasets Ingested into the Portal by Domain', 
-            'datasets-domain',INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP),   
+    header('Datasets Ingested into the Portal by Domain', 
+            'datasets-domain',INSIGHTS_DATASETS_BY_DOMAIN_TOOOLTIP),   
     html.Hr(),
 
     html.Div([
@@ -538,7 +465,7 @@ def generate_split_layout():
 
     # Resources by Domain
     html.Hr(),
-    p.header('Resources Ingested into the Portal by Domain', 
+    header('Resources Ingested into the Portal by Domain', 
             'resources-domain',INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP),
     html.Hr(),
 
