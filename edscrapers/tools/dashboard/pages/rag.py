@@ -98,13 +98,8 @@ class RAGSummary():
             }
         )
 
-
-def generate_layout():
-    rag = RAGSummary()
-    return html.Div(children=[
-
-        # header notes
-        html.Div([
+    def header_notes(self):
+        return html.Div(id="header_notes",children=[
             html.Span(
                 "The data quality by ",
                 className='text-muted',
@@ -144,22 +139,10 @@ def generate_layout():
                 className='text-muted',
             ),
             dcc.Link("bottom of this page.", href="#footer-notes"),
-        ], style={'margin-bottom':'30px'}),
+        ], style={'margin-bottom':'30px'})
 
-
-        # tabs
-        dcc.Tabs(id="rag-tabs", value='tab-publishers-table', children=[
-            dcc.Tab(label='Publishers', value='tab-publishers-table',
-                    children=[rag.publishers_table()]
-            ),
-            dcc.Tab(label='Domains', value='tab-domains-table',
-                    children=[rag.domains_table()]
-            ),
-        ]),
-        html.Div(id='tabs-content',style={"margin-bottom":"30px"}),
-
-        # footer notes
-        html.Div(id="footer-notes", children=[
+    def footer_notes(self):
+        return html.Div(id="footer-notes", children=[
             html.Span("The Score reflect the whether how complete the metadata" 
                 "is in the form. 100% would mean that all the metadata fields" 
                 "were present (this does not mean that the metadata is correct," 
@@ -203,12 +186,34 @@ def generate_layout():
                 html.Tr([html.Td('Access level'), html.Td('1')]),
                 ],style={})
         ])
+
+def generate_layout():
+    rag = RAGSummary()
+    return html.Div(children=[
+
+        # header notes
+        rag.header_notes(),
+
+        # tabs
+        dcc.Tabs(id="rag-tabs", value='tab-publishers-table', children=[
+            dcc.Tab(label='Publishers', value='tab-publishers-table',
+                    children=[rag.publishers_table()]
+            ),
+            dcc.Tab(label='Domains', value='tab-domains-table',
+                    children=[rag.domains_table()]
+            ),
+        ]),
+        html.Div(id='tabs-content',style={"margin-bottom":"30px"}),
+
+        # footer notes
+        rag.footer_notes(),
+        
     ],
     style={'display': 'inline-block',
             'width': '100%'}
     )
 
 
-app.layout = generate_layout
+app.layout = generate_layout()
 
 

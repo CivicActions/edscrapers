@@ -1,7 +1,24 @@
 # -*- coding: utf-8 -*-
 import dash_html_components as html
 
-INSIGHTS_TOTALS_TOOLTIP = html.Div([
+INSIGHTS_TOTALS_SCRAPED_TOOLTIP = html.Div([
+    html.Span("Datasets", style={'font-weight':'bold'}),
+    html.Span(" - Amount of scraped Datasets."),
+    html.Br(),
+    html.Br(), 
+    html.Span("Resources", style={'font-weight':'bold'}),
+    html.Span(" - Amount of scraped Resources."),
+    html.Br(),
+    html.Br(),
+    html.Span("Pages", style={'font-weight':'bold'}), 
+    html.Span(" - Amount of scraped Pages."),
+    html.Br(),
+    html.Br(),
+    html.Span("Domains", style={'font-weight':'bold'}), 
+    html.Span(" - Amount of scraped Domains.")
+])
+
+INSIGHTS_TOTALS_INGESTED_TOOLTIP = html.Div([
     html.Span("Datasets", style={'font-weight':'bold'}),
     html.Span(" - Amount of scraped Datasets."),
     html.Br(),
