@@ -77,8 +77,9 @@ class InsightsPage():
                             'textAlign': 'right'},
                             {'if': {'column_id': 'page count'},
                             'width': '30%'},
-                            {'if': {'row_index': 'odd'},
-                            'backgroundColor': 'rgb(248, 248, 248)'}],
+                            #{'if': {'row_index': 'odd'},
+                            #'backgroundColor': 'rgb(248, 248, 248)'}
+                            ],
                 style_table={
                             'maxHeight': '300px',
                             'maxWidth': '100%',
@@ -172,8 +173,10 @@ class InsightsPage():
                         'width': '70%', 'textAlign': 'right'},
                         {'if': {'column_id': 'resource count'},
                         'width': '30%'},
-                        {'if': {'row_index': 'odd'},
-                        'backgroundColor': 'rgb(248, 248, 248)'}],
+                        #{'if': {'row_index': 'odd'},
+                        #'backgroundColor': 'rgb(248, 248, 248)'}
+                        ]
+                        ,
                     style_table={
                         'maxHeight': '300px',
                         'maxWidth': '100%',
@@ -267,8 +270,9 @@ class InsightsPage():
                 'width': '70%', 'textAlign': 'right'},
                 {'if': {'column_id': 'resource count'},
                 'width': '30%'},
-                {'if': {'row_index': 'odd'},
-                'backgroundColor': 'rgb(248, 248, 248)'}],
+                #{'if': {'row_index': 'odd'},
+                #'backgroundColor': 'rgb(248, 248, 248)'}
+                ],
             style_table={
                         'maxHeight': '300px',
                         'maxWidth': '100%',
@@ -372,8 +376,9 @@ def generate_split_layout():
             sort_action='native',
             style_cell={'textAlign': 'left'},
             style_cell_conditional=[
-                    {'if': {'row_index': 'odd'},
-                    'backgroundColor': 'rgb(248, 248, 248)'}],
+                    #{'if': {'row_index': 'odd'},
+                    #'backgroundColor': 'rgb(248, 248, 248)'}
+                    ],
             style_table={
                 'maxHeight': '300px',
             },

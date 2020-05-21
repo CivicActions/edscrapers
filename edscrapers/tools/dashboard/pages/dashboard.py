@@ -40,7 +40,22 @@ def generate_layout():
     # Datasets By Domain
     html.Hr(),
     header('Portal Totals', 
-            'portal-totals','Some text'),   
+            'portal-totals',html.Div([
+    html.Span("Datasets in Portal", style={'font-weight':'bold'}),
+    html.Span(" - Total number of datasets in portal."),
+    html.Br(),
+    html.Br(), 
+    html.Span("Scraped Datasets", style={'font-weight':'bold'}),
+    html.Span(" - Total number of scraped datasets."),
+    html.Br(),
+    html.Br(),
+    html.Span("Datasets Amended", style={'font-weight':'bold'}), 
+    html.Span(" - Total number of scraped datasets which have been amended by a user."),
+    html.Br(),
+    html.Br(),
+    html.Span("Datasets Manually Added", style={'font-weight':'bold'}), 
+    html.Span(" - Total number of datasets manually added by a user.")
+])),   
     html.Hr(),
 
     # LED displays

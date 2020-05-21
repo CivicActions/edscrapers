@@ -43,7 +43,7 @@ class RAGSummary():
             # virtualization=True,
             style_cell_conditional=[
                 {'if': {'column_id': 'weighted score ratio'}, 'fontWeight': 'bold', 'textAlign': 'center'},
-                {'if': {'row_index': 'odd'},'backgroundColor': 'rgb(248, 248, 248)'},
+                #{'if': {'row_index': 'odd'},'backgroundColor': 'rgb(248, 248, 248)'},
             ],
             style_data_conditional=[
                 {'if': {'column_id': 'weighted score ratio', 'filter_query': '{weighted score ratio} > 0.5'},
@@ -79,7 +79,7 @@ class RAGSummary():
             # virtualization=True,
             style_cell_conditional=[
                 {'if': {'column_id': 'weighted score ratio'}, 'fontWeight': 'bold', 'textAlign': 'center'},
-                {'if': {'row_index': 'odd'},'backgroundColor': 'rgb(248, 248, 248)'},
+                #{'if': {'row_index': 'odd'},'backgroundColor': 'rgb(248, 248, 248)'},
             ],
             style_data_conditional=[
                 {'if': {'column_id': 'weighted score ratio', 'filter_query': '{weighted score ratio} > 0.5'},
