@@ -40,6 +40,6 @@ INSIGHTS_RESOURCES_BY_OFFICE_TOOOLTIP = html.Div([
 ])
 
 TRENDS_OVERALL_DATA_QUALITY_TOOLTIP = html.Div([
-    html.Span("Overall Data Quality Trends", style={'font-weight':'bold'}),
-    html.Span(" - Shows the Score of Data Quality based on each Office per day when the scrapers were run.")
+    html.Span("Data Quality Trend", style={'font-weight':'bold'}),
+    html.Span(" - This shows the progression of metadata quality across all offices over time.")
 ])
