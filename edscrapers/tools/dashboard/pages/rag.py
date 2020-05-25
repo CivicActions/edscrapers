@@ -14,7 +14,7 @@ from dash.dependencies import Input, Output
 import dash_table.FormatTemplate as FormatTemplate
 from dash_table.Format import Format, Scheme, Sign, Symbol
 
-from edscrapers.tools.dashboard.pages.air import get_datasets_bars_data
+from edscrapers.tools.dashboard.json_parser import get_datasets_bars_data
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)

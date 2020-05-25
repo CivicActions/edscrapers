@@ -12,8 +12,6 @@ Options:
   --help  Show this message and exit.
 
 Commands:
-  compare    Run a stats comparison algorhitm between the results/output obtained via this Datopian scraping toolkit against the results /output of AIR (a company which applied a manual approach to gathering structured data). This command also generates summary statistics data
-
   dash       Runs an inbuilt web server to display a useful HTML dashboard containing summary statistics, RAG analyses etc gotten from the scraping output. The dash server is based on the 'plotly dash' project.
 
   scrape     Run a Scrapy pipeline for crawling / parsing / dumping output
@@ -71,22 +69,6 @@ Options:
   -h, --help         Show this message and exit.
 ```
 
-### Compare
-
-```
-$ eds compare --help  
-Usage: eds compare [OPTIONS]
-
-  Run a comparison algorhitm against AIR's data gathering results/output.
-
-Options:
-  -f, --format [ascii|json]  Format of the output.
-  -v, --verbose              Show INFO and DEBUG messages.
-  -q, --quiet                Do not show anything.
-
-  -h, --help                 Show this message and exit.
-```
-
 ### Stats
 
 ```
@@ -94,7 +76,7 @@ $ eds stats --help
 Usage: eds stats [OPTIONS]
 
   Run a statistics algorhitm on the data extracted to provide more insights
-  about the output. This does not compare against AIR.
+  about the output.
 
 Options:
   -n, --name TEXT    Optionally, run the stats just for a specific output

@@ -12,6 +12,10 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 
+
+from edscrapers.tools.dashboard.json_parser import (get_datasets_bars_data,
+                                                 get_table_rows_by_office,
+                                                 get_total_resources_by_office)
 from edscrapers.tools.stats.stats import Statistics
 from edscrapers.tools.dashboard.ckan_api import CkanApi
 from edscrapers.tools.dashboard.utils import buttonsToRemove
@@ -22,9 +26,6 @@ from edscrapers.tools.dashboard.pages.tooltips import (INSIGHTS_TOTALS_INITIAL_T
                                                 INSIGHTS_DATASETS_BY_OFFICE_TOOOLTIP,
                                                 INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP,
                                                 INSIGHTS_RESOURCES_BY_OFFICE_TOOOLTIP)
-from edscrapers.tools.dashboard.pages.air import (get_datasets_bars_data,
-                                                 get_table_rows_by_office,
-                                                 get_total_resources_by_office)
 from edscrapers.tools.dashboard.pages.components import header, led_display
 
 class InsightsPage():
@@ -92,7 +93,7 @@ class InsightsPage():
         the number of pages/datasets obtained from each domain """
 
         # get the dataframe from the excel sheet
-        #df = self._get_df_from_excel_sheet('PAGE COUNT (DATOPIAN)')
+        # df = self._get_df_from_excel_sheet('PAGE COUNT')
         df = self.dataset_by_domain_portal_df()
 
         # add a total of page count at the end of the df
@@ -101,6 +102,7 @@ class InsightsPage():
         df_total = pd.DataFrame([['Total', total_page_count]],
                             columns=['domain','page count'])
         df = df.append(df_total, ignore_index=True)
+
 
         # create the DataTable
         return dash_table.DataTable(
@@ -146,7 +148,7 @@ class InsightsPage():
         """ function creates a bar chart which displays the
         number of pages/datasets per domain """
         # the the dataframe from the Excel sheet
-        #df = self._get_df_from_excel_sheet('PAGE COUNT (DATOPIAN)')
+        #df = self._get_df_from_excel_sheet('PAGE COUNT')
         df = self.dataset_by_domain_portal_df()
         # create the bar chart using the created dataframe
         return dcc.Graph(
@@ -169,27 +171,30 @@ class InsightsPage():
         """ function is used to create DataTable containing
         the number of resources/domains """
 
-        # to perform this tasks, we need to collect stas from 2 different sheets
-        # and unifiy it into one dataframe
+        # df = self.resources_by_domain_df()
 
-        # get the resources collected from the datopian end of the air-datopian intersect
-        #df = self._get_df_from_excel_sheet('RESOURCE COUNT PER DOMAIN (DATOPIAN-AIR INTERSECTION)')
-
-        # create a dataframe to hold the necessary info we use for this task
-        #working_df1 = pd.DataFrame(columns=['domain'])
-        #working_df1['domain'] = df['domain']
-        #working_df1['resource count'] = df['resource count_datopian']
-
-        # get the resources from the DAtopian only resource count
-        #df = self._get_df_from_excel_sheet('RESOURCE COUNT PER DOMAIN (DATOPIAN ONLY)')
-
-        #working_df2 = pd.DataFrame(columns=['domain'])
-        #working_df2['domain'] = df['domain']
-        #working_df2['resource count'] = df['resource count']
-
-        # concatenate the 2 dataframes
-        #working_df1 = pd.concat([working_df1,
-        #                        working_df2], axis='index', ignore_index=True)
+        # # return the created DataTable
+        # return dash_table.DataTable(id='resource_by_domain_table',
+        #                             columns=[{"name": i, "id": i} for i in df.columns],
+        #                             data=df.to_dict('records'),
+        #                             sort_action='native',
+        #                             style_cell={'textAlign': 'left', 
+        #                                         'whiteSpace': 'normal'},
+        #                             #fixed_rows={ 'headers': True, 'data': 0 },
+        #                             #virtualization=True,
+        #                             style_cell_conditional=[
+        #                                     {'if': {'column_id': 'domain'},
+        #                                     'width': '70%', 'textAlign': 'right'},
+        #                                     {'if': {'column_id': 'resource count'},
+        #                                     'width': '30%'}],
+        #                             style_table={
+        #                                             'maxHeight': '300px',
+        #                                             'maxWidth': '100%',
+        #                                             'overflowY': 'scroll',
+        #                                             'overflowX': 'hidden',
+        #                                             'margin': 0,
+        #                                             'padding': 0
+        #                                             })
 
         working_df1 = self.resource_by_domain_portal_df()
 
@@ -241,21 +246,13 @@ class InsightsPage():
                     }
         )
 
-
     def resources_by_domain_df(self):
-        # this function uses a concatenation of 2 different excel sheets and dataframes
-        df = self._get_df_from_excel_sheet('RESOURCE COUNT PER DOMAIN (DATOPIAN-AIR INTERSECTION)')
+        df = self._get_df_from_excel_sheet('RESOURCE COUNT PER DOMAIN')
         working_df1 = pd.DataFrame(columns=['domain'])
         working_df1['domain'] = df['domain']
-        working_df1['resource count'] = df['resource count_datopian']
+        working_df1['resource count'] = df['resource count']
 
-        df = self._get_df_from_excel_sheet('RESOURCE COUNT PER DOMAIN (DATOPIAN ONLY)')
-        working_df2 = pd.DataFrame(columns=['domain'])
-        working_df2['domain'] = df['domain']
-        working_df2['resource count'] = df['resource count']
-
-        # concatenate the 2 dataframes
-        return pd.concat([working_df1, working_df2], axis='index', ignore_index=True)
+        return working_df1
 
     def resources_by_publisher_df(self):
         data = dict(get_total_resources_by_office('datopian'))
@@ -383,15 +380,12 @@ class InsightsPage():
     def dataset_by_office_data(self):
         # returns the rows for the datasets by office table including total
         rows = get_table_rows_by_office('datasets_by_office')
-
-        total_air = 0
         total_datopian = 0
 
         for row in rows:
-            total_air += row.get('air', 0)
             total_datopian += row.get('datopian', 0)
 
-        total_row = {'s': 'Total', 'air' : total_air, 'datopian' : total_datopian}
+        total_row = {'s': 'Total', 'datopian' : total_datopian}
         rows.append(total_row)
 
         return rows

@@ -16,7 +16,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
-from .pages import dashboard, air, rag, trends, insights
+from .pages import dashboard, rag, trends, insights
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP,'https://codepen.io/tanvirchahal/pen/WNQWvjE.css'])
 
@@ -137,7 +137,6 @@ def toggle_active_links(pathname):
         # Treat page 1 as the homepage / index
         return True, False, False, False
     return [pathname == f"/{i}" for i in ['dashboard','insights', 'quality', 'trends']]
-
 
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):

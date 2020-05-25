@@ -46,11 +46,9 @@ def get_total_resources_data():
     data = read_json_file()
 
     datopian_res_number = data['total']['datopian']['resources']
-    air_res_number = data['total']['air']['resources']
 
     return {
         'datopian' : datopian_res_number,
-        'air' : air_res_number
     }
 
 def get_total_resources_by_office(source, is_sorted=True):
@@ -63,6 +61,7 @@ def get_total_resources_by_office(source, is_sorted=True):
         return dict(sorted(data, key=lambda item: item[1], reverse=True))
 
 def get_total_pages_by_office(source, is_sorted=True):
+    # @FIXME Is this really used anywhere? Seems dead to me...
 
     data = read_json_file()
     if is_sorted is False:
@@ -78,7 +77,6 @@ def get_table_rows_by_office(key, is_sorted=True):
     for s in scrapers:
         rows.append({
             's': s,
-            'air': data['total']['air'].get(key, {}).get(s, 0),
             'datopian': data['total']['datopian'][key][s]
         })
     if is_sorted is True:
@@ -88,3 +86,16 @@ def get_table_rows_by_office(key, is_sorted=True):
 def get_intersection_data():
     data = read_json_file()
     return data['intersections']
+
+def get_datasets_bars_data(is_sorted=True):
+
+    data_list = list()
+    total_res_dict = get_total_datasets_data()
+    for key, value in total_res_dict.items():
+        data_list.append({
+            'x': ['Datasets'], 'y': [value],
+            'type': 'bar', 'name': key
+        })
+    if is_sorted is True:
+        data_list.sort(key=lambda item: item['y'][0], reverse=True)
+    return data_list
