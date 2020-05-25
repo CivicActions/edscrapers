@@ -153,8 +153,7 @@ def transform(in_file_path, name, transformer, **kwargs):
               help='Format of the output.')
 @add_options(global_options)
 def stats(name, **kwargs):
-    ''' Run a statistics algorhitm on the data extracted to provide more insights about the output.
-    This does not compare against AIR. '''
+    ''' Run a statistics algorhitm on the data extracted to provide more insights about the output.'''
     click.echo('Making stats')
 
     #data_dir = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'tools', 'stats', 'data')
