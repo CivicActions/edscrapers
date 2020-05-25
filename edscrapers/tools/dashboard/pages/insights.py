@@ -431,7 +431,6 @@ def generate_split_layout():
     return html.Div(children=[
 
     # Totals Based on Original Scraper
-    html.Hr(style={'margin-top':'0px'}),
     header('Initial Estimate', 'total-initial', INSIGHTS_TOTALS_INITIAL_TOOLTIP),
     html.Hr(),
 
@@ -446,7 +445,10 @@ def generate_split_layout():
         "DOMAINS"),
 
     # Totals Based on Original Scraper
-    html.Hr(style={'margin-top':'30px'}),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
     header('Based on Original Scraper', 'total-scraper', INSIGHTS_TOTALS_SCRAPED_TOOLTIP),
     html.Hr(),
 
