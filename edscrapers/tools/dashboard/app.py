@@ -18,7 +18,7 @@ from dash.dependencies import Input, Output
 
 from .pages import dashboard, air, rag, trends, insights
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP,'https://codepen.io/tanvirchahal/pen/WNQWvjE.css'])
 
 # the style arguments for the sidebar. We use position:fixed and a fixed width
 SIDEBAR_STYLE = {
@@ -28,7 +28,7 @@ SIDEBAR_STYLE = {
     "bottom": 0,
     "width": "16rem",
     "padding": "2rem 1rem",
-    "background-color": "#f8f9fa",
+    "background-color": "#007bff",
 }
 
 # the styles for the main content position it to the right of the sidebar and
@@ -37,6 +37,7 @@ CONTENT_STYLE = {
     "margin-left": "18rem",
     "margin-right": "2rem",
     "padding": "2rem 1rem",
+    "min-height": "100vh",
 }
 
 FOOTER_STYLE = {
@@ -44,9 +45,15 @@ FOOTER_STYLE = {
     #"position": "absolute",
     "bottom": 0,
     "width": "100%",
+    "height": "40px",
 }
 
-IMAGE_FOOTER_STYLE = {
+IMAGE_FOOTER_STYLE1 = {
+    "width": 80, 
+    "margin-right": 10,
+}
+
+IMAGE_FOOTER_STYLE2 = {
     "width": 100, 
     "margin-right": 10,
 }
@@ -74,6 +81,7 @@ sidebar = html.Div(
         ),
     ],
     style=SIDEBAR_STYLE,
+    id='sidebar',
 )
 
 content = html.Div(id="page-content", style=CONTENT_STYLE)
@@ -92,10 +100,13 @@ footer = html.Footer(
                     html.Span(
                         'Made by',
                         className='text-muted',
-                        style={'margin-right': 10}
+                        style={
+                            'margin-right': 10,
+                            'font-size':'12px',
+                        }
                     ),
-                    html.Img(src='https://i.stack.imgur.com/wSpIb.png', style=IMAGE_FOOTER_STYLE),
-                    html.Img(src='https://www.datopian.com/img/datopian-logo.png', style=IMAGE_FOOTER_STYLE),
+                    html.Img(src='https://i.stack.imgur.com/wSpIb.png', style=IMAGE_FOOTER_STYLE1),
+                    html.Img(src='https://www.datopian.com/img/datopian-logo.png', style=IMAGE_FOOTER_STYLE2),
                 ],
             ),
             html.H5()

@@ -43,7 +43,6 @@ def generate_layout():
     return html.Div(children=[
     
     # Datasets By Domain
-    html.Hr(),
     header('Portal Totals', 
             'portal-totals',html.Div(id='portal-totals-tooltip-div', children=[
     html.Span("Datasets in Portal", style={'font-weight':'bold'}),
@@ -73,7 +72,6 @@ def generate_layout():
     led_display(ckan_api.total_manual_datasets(), 
         "Datasets Manually Added"),
 
-    html.Hr(),
 
     # Total dataset in the portal pie chart
     html.Div([

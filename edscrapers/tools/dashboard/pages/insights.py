@@ -22,11 +22,11 @@ from edscrapers.tools.dashboard.pages.tooltips import (INSIGHTS_TOTALS_INITIAL_T
                                                 INSIGHTS_DATASETS_BY_OFFICE_TOOOLTIP,
                                                 INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP,
                                                 INSIGHTS_RESOURCES_BY_OFFICE_TOOOLTIP)
-from edscrapers.tools.dashboard.pages.air import (get_datasets_bars_data, 
+from edscrapers.tools.dashboard.pages.air import (get_datasets_bars_data,
                                                  get_table_rows_by_office,
                                                  get_total_resources_by_office)
 from edscrapers.tools.dashboard.pages.components import header, led_display
-                                        
+
 class InsightsPage():
 
     # path to Excel sheet used for creating stas dataframes
@@ -42,7 +42,7 @@ class InsightsPage():
 
 
     def _get_df_from_excel_sheet(self, sheet_name):
-        """ private helper function used to read excel sheets and 
+        """ private helper function used to read excel sheets and
             create dataframes from the specified sheet"""
 
         return pd.read_excel(self.PATH_TO_EXCEL_SHEET, sheet_name, engine='openpyxl')
@@ -88,7 +88,7 @@ class InsightsPage():
         return df
 
     def dataset_by_domain_table(self):
-        """ function used to create the Table component which displays 
+        """ function used to create the Table component which displays
         the number of pages/datasets obtained from each domain """
 
         # get the dataframe from the excel sheet
@@ -96,9 +96,9 @@ class InsightsPage():
         df = self.dataset_by_domain_portal_df()
 
         # add a total of page count at the end of the df
-        total_page_count = df['page count'].sum()   
+        total_page_count = df['page count'].sum()
 
-        df_total = pd.DataFrame([['Total', total_page_count]], 
+        df_total = pd.DataFrame([['Total', total_page_count]],
                             columns=['domain','page count'])
         df = df.append(df_total, ignore_index=True)
 
@@ -109,11 +109,11 @@ class InsightsPage():
                 #    if i != "page count" else \
                 #        {"name": "Dataset Count", "id": i} \
                 #            for i in df.columns],
-                columns=[{"id": "domain", "name": "Domain"}, 
+                columns=[{"id": "domain", "name": "Domain"},
                         {"id": "page count", "name": "Dataset Count"}],
                 data=df.to_dict('records'),
                 sort_action='native',
-                style_cell={'textAlign': 'left', 
+                style_cell={'textAlign': 'left',
                             'whiteSpace': 'normal'},
                             #fixed_rows={ 'headers': True, 'data': 0 },
                             #virtualization=True,
@@ -143,7 +143,7 @@ class InsightsPage():
 
 
     def dataset_by_domain_bar(self):
-        """ function creates a bar chart which displays the 
+        """ function creates a bar chart which displays the
         number of pages/datasets per domain """
         # the the dataframe from the Excel sheet
         #df = self._get_df_from_excel_sheet('PAGE COUNT (DATOPIAN)')
@@ -159,8 +159,8 @@ class InsightsPage():
                     #'title': 'Datasets by Domain'
                 }
             },
-            config={ 
-                'modeBarButtonsToRemove': buttonsToRemove 
+            config={
+                'modeBarButtonsToRemove': buttonsToRemove
             }
         )
 
@@ -182,7 +182,7 @@ class InsightsPage():
 
         # get the resources from the DAtopian only resource count
         #df = self._get_df_from_excel_sheet('RESOURCE COUNT PER DOMAIN (DATOPIAN ONLY)')
-        
+
         #working_df2 = pd.DataFrame(columns=['domain'])
         #working_df2['domain'] = df['domain']
         #working_df2['resource count'] = df['resource count']
@@ -190,7 +190,7 @@ class InsightsPage():
         # concatenate the 2 dataframes
         #working_df1 = pd.concat([working_df1,
         #                        working_df2], axis='index', ignore_index=True)
-        
+
         working_df1 = self.resource_by_domain_portal_df()
 
         # sort values
@@ -199,12 +199,12 @@ class InsightsPage():
                                     ignore_index=True)
 
         # add a total of resource count at the end of the df
-        total_resource_count = working_df1['resource count'].sum()   
+        total_resource_count = working_df1['resource count'].sum()
 
-        df_total = pd.DataFrame([['Total', total_resource_count]], 
+        df_total = pd.DataFrame([['Total', total_resource_count]],
                             columns=['domain','resource count'])
         working_df1 = working_df1.append(df_total, ignore_index=True)
-        
+
         # return the created DataTable
         return dash_table.DataTable(
                     id='resource_by_domain_table',
@@ -213,7 +213,7 @@ class InsightsPage():
                             {"id": "resource count", "name": "Resource Count"}],
                     data=working_df1.to_dict('records'),
                     sort_action='native',
-                    style_cell={'textAlign': 'left', 
+                    style_cell={'textAlign': 'left',
                         'whiteSpace': 'normal'},
                     #fixed_rows={ 'headers': True, 'data': 0 },
                     #virtualization=True,
@@ -303,16 +303,16 @@ class InsightsPage():
         pie_figure = go.Figure(data=[go.Pie(labels=df['domain'],
                                             values=df['resource count'],
                                             title={
-                                                #'text': 'Resources By Domain', 
-                                                'font': {'size': 16}, 
+                                                #'text': 'Resources By Domain',
+                                                'font': {'size': 16},
                                                 'position': 'bottom right'})])
         pie_figure.update_traces(textposition='inside', textinfo='value+label')
 
         # return the pie chart
         return dcc.Graph(id='resources_by_domain_pie',
                          figure=pie_figure,
-                         config={ 
-                            'modeBarButtonsToRemove': buttonsToRemove 
+                         config={
+                            'modeBarButtonsToRemove': buttonsToRemove
                          }
                         )
 
@@ -322,9 +322,9 @@ class InsightsPage():
         df = self.resources_by_publisher_portal_df()
 
          # add a total of resource count at the end of the df
-        total_resource_count = df['resource count'].sum()   
+        total_resource_count = df['resource count'].sum()
 
-        df_total = pd.DataFrame([['Total', total_resource_count]], 
+        df_total = pd.DataFrame([['Total', total_resource_count]],
                             columns=['publisher','resource count'])
         df = df.append(df_total, ignore_index=True)
 
@@ -335,7 +335,7 @@ class InsightsPage():
                      {"id": "resource count", "name": "Resource Count"}],
             data=df.to_dict('records'),
             sort_action='native',
-            style_cell={'textAlign': 'left', 
+            style_cell={'textAlign': 'left',
                 'whiteSpace': 'normal'},
             style_cell_conditional=[
                 {'if': {'column_id': 'publisher'},
@@ -357,7 +357,7 @@ class InsightsPage():
                         'backgroundColor': 'rgb(230, 230, 230)',
                         'fontWeight': 'bold',
                         'textAlign': 'center',
-            }        
+            }
         )
 
     def resources_by_publisher_pie(self):
@@ -367,16 +367,16 @@ class InsightsPage():
         pie_figure = go.Figure(data=[go.Pie(labels=df['publisher'],
                                             values=df['resource count'],
                                             title={
-                                                #'text': 'Resources By Domain', 
-                                                'font': {'size': 16}, 
+                                                #'text': 'Resources By Domain',
+                                                'font': {'size': 16},
                                                 'position': 'bottom right'})])
         pie_figure.update_traces(textposition='inside', textinfo='value+label')
 
         # return the pie chart
         return dcc.Graph(id='resources_by_publisher_pie',
                          figure=pie_figure,
-                         config={ 
-                            'modeBarButtonsToRemove': buttonsToRemove 
+                         config={
+                            'modeBarButtonsToRemove': buttonsToRemove
                          }
                         )
 
@@ -387,7 +387,7 @@ class InsightsPage():
         total_air = 0
         total_datopian = 0
 
-        for row in rows: 
+        for row in rows:
             total_air += row.get('air', 0)
             total_datopian += row.get('datopian', 0)
 
@@ -419,9 +419,9 @@ class InsightsPage():
                 'x': ['Datasets'], 'y': [count],
                 'type': 'bar', 'name': name
             })
-        
+
         data_list.sort(key=lambda item: item['y'][0], reverse=True)
-        return data_list       
+        return data_list
 
 def generate_split_layout():
     """" function generates the layout for this page """
@@ -431,60 +431,67 @@ def generate_split_layout():
     return html.Div(children=[
 
     # Totals Based on Original Scraper
+<<<<<<< HEAD
     html.Hr(style={'margin-top':'0px'}),
     header('Initial Estimate', 'total-initial', INSIGHTS_TOTALS_INITIAL_TOOLTIP),
     html.Hr(),
 
     # LED displays
-    led_display(32985, 
+    led_display(32985,
         "DATASETS"),
-    led_display(52709, 
+    led_display(52709,
         "RESOURCES"),
     led_display(52745,
         "PAGES"),
-    led_display(26, 
+    led_display(26,
         "DOMAINS"),
-   
+
     # Totals Based on Original Scraper
     html.Hr(style={'margin-top':'30px'}),
     header('Based on Original Scraper', 'total-scraper', INSIGHTS_TOTALS_SCRAPED_TOOLTIP),
     html.Hr(),
 
     # LED displays
-    led_display(p.get_compare_dict()['total']['datopian']['datasets'], 
-        "DATASETS"),
-    led_display(p.get_compare_dict()['total']['datopian']['resources'], 
-        "RESOURCES"),
+    led_display(p.get_compare_dict()['total']['datopian']['datasets'],
+        "Datasets"),
+    led_display(p.get_compare_dict()['total']['datopian']['resources'],
+        "Resources"),
     led_display(sum(s for s in p.get_compare_dict()['total']['datopian']['pages'].values()),
-        "PAGES"),
-    led_display(p.resources_by_domain_df().count()['domain'], 
-        "DOMAINS"),
+        "Pages"),
+    led_display(p.resources_by_domain_df().count()['domain'],
+        "Domains"),
 
     # Totals Based on Original Scraper
-    html.Hr(style={'margin-top':'30px'}),
-    header('Ingested into Data Portal', 'total-ingested', INSIGHTS_TOTALS_INGESTED_TOOLTIP),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    header('Ingested into data portal', 'total-ingested', INSIGHTS_TOTALS_INGESTED_TOOLTIP),
     html.Hr(),
 
     # LED displays
     led_display(p.ckan_api.total_scraped_datasets(),
-        "DATASETS"),
+        "Datasets"),
     led_display(p.ckan_api.total_scraped_resources(),
-        "RESOURCES"),
+        "Resources"),
     led_display(p.ckan_api.total_scraped_pages(),
-        "PAGES"),
+        "Pages"),
     led_display(p.ckan_api.total_scraped_domains(),
-        "DOMAINS"),
+        "Domains"),
 
 
     # Datasets By Publisher
-    html.Hr(style={'margin-top':'70px'}),
-    header('Datasets Ingested into the Portal by Publisher', 
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    header('Datasets Ingested into the Portal by Publisher',
             'datasets-office', INSIGHTS_DATASETS_BY_OFFICE_TOOOLTIP),
     html.Hr(),
-    
+
     html.Div([
         dash_table.DataTable(
-            columns=[{'name': 'Publisher', 'id': 's'}, 
+            columns=[{'name': 'Publisher', 'id': 's'},
                     {'name': 'Count', 'id': 'datopian'}],
             #data=p.dataset_by_office_data(),
             data=p.dataset_by_office_portal_data(),
@@ -508,8 +515,8 @@ def generate_split_layout():
 
         ),
     ], style={
-            'width': '50%', 
-            'display': 'inline-block', 
+            'width': '50%',
+            'display': 'inline-block',
             'vertical-align': 'middle'}
     ),
 
@@ -522,21 +529,24 @@ def generate_split_layout():
                     #'title': 'Datasets by Office'
                 }
             },
-            config={ 
-                'modeBarButtonsToRemove': buttonsToRemove 
+            config={
+                'modeBarButtonsToRemove': buttonsToRemove
             }
             ),
-        ], 
+        ],
         style={
-            'width': '50%', 
-            'display': 'inline-block', 
+            'width': '50%',
+            'display': 'inline-block',
             'vertical-align': 'middle'
             }
     ),
 
     # Resources by Publisher
-    html.Hr(),
-    header('Resources Ingested into the Portal by Publisher', 
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    header('Resources Ingested into the Portal by Publisher',
             'resources-office',INSIGHTS_RESOURCES_BY_OFFICE_TOOOLTIP),
     html.Hr(),
 
@@ -544,9 +554,9 @@ def generate_split_layout():
         p.resources_by_publisher_table()
     ],
     style={
-        'width': '50%', 
+        'width': '50%',
         'display': 'inline-block',
-        'vertical-align': 'middle', 
+        'vertical-align': 'middle',
         'overflow-x': 'auto',
         'margin-bottom': '50px',}
     ),
@@ -554,25 +564,28 @@ def generate_split_layout():
     html.Div([
         p.resources_by_publisher_pie(),
     ], style={
-        'width': '50%', 
-        'display': 'inline-block', 
+        'width': '50%',
+        'display': 'inline-block',
         'vertical-align': 'middle'}
     ),
-    
+
 
     # Datasets By Domain
-    html.Hr(),
-    header('Datasets Ingested into the Portal by Domain', 
-            'datasets-domain',INSIGHTS_DATASETS_BY_DOMAIN_TOOOLTIP),   
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    header('Datasets Ingested into the Portal by Domain',
+            'datasets-domain',INSIGHTS_DATASETS_BY_DOMAIN_TOOOLTIP),
     html.Hr(),
 
     html.Div([
         p.dataset_by_domain_table()
     ],
     style={
-        'width': '50%', 
+        'width': '50%',
         'display': 'inline-block',
-        'vertical-align': 'middle', 
+        'vertical-align': 'middle',
         'overflow-x': 'auto',
         'margin-bottom': '50px',}
     ),
@@ -580,36 +593,38 @@ def generate_split_layout():
     html.Div([
         p.dataset_by_domain_bar()],
         style={
-            'width': '50%', 
-            'display': 'inline-block', 
+            'width': '50%',
+            'display': 'inline-block',
             'vertical-align': 'middle',
             'margin-bottom': '50px',
         }
     ),
 
     # Resources by Domain
-    html.Hr(),
-    header('Resources Ingested into the Portal by Domain', 
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    header('Resources Ingested into the Portal by Domain',
             'resources-domain',INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP),
     html.Hr(),
 
     html.Div([
         p.resources_by_domain_table()
     ], style={
-        'width': '50%', 
-        'display': 'inline-block', 
+        'width': '50%',
+        'display': 'inline-block',
         'vertical-align': 'middle'}
     ),
 
     html.Div([
         p.resources_by_domain_pie(),
     ], style={
-        'width': '50%', 
-        'display': 'inline-block', 
+        'width': '50%',
+        'display': 'inline-block',
         'vertical-align': 'middle'}
     ),
 
-    html.Hr(),
 
 ])
 
