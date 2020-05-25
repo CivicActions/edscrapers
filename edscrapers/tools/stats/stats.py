@@ -1,6 +1,7 @@
 import json
 import sys
 import os
+import re
 import urllib.parse
 import functools
 import pathlib
@@ -13,6 +14,17 @@ from json.decoder import JSONDecodeError
 from edscrapers.cli import logger
 
 
+SCRAPERS =  {
+    'edgov': r'www2.ed.gov',
+    'octae': r'ovae|OVAE|octae|OCTAE',
+    'oela': r'oela|ncela',
+    'ope': r'/ope/',
+    'opepd': r'\bopepd\b',
+    'osers': r'osers|osep|idea',
+    'ocr': r'ocrdata.ed.gov',
+    'oese': r'oese.ed.gov',
+    'nces': r'\bnces\b',
+}
 
 class Statistics():
 
@@ -27,13 +39,47 @@ class Statistics():
             if os.path.exists(self.METRICS_OUTPUT_XLSX): # check if excel sheet exist
                 os.remove(self.METRICS_OUTPUT_XLSX) # remove the excel sheet
 
-        try:
-            self.datopian_out_df = pd.read_csv(
-                os.path.join(os.getenv('ED_OUTPUT_PATH'), 'out_df.csv'),
-                header=0)
-        except Exception as e:
-            logger.error('Could not load the Datopian CSV, please generate it first.')
+        if os.path.exists(os.getenv('ED_OUTPUT_PATH') +\
+            '/transformers/deduplicate/deduplicated_all.lst'):
 
+            self.deduplicated_list_path = os.getenv('ED_OUTPUT_PATH') +\
+            '/transformers/deduplicate/deduplicated_all.lst'
+        else:
+            self.deduplicated_list_path = None
+
+        self.datopian_out_df = self._generate_datopian_df(use_dump=False)
+        self.resource_count_per_page = self.list_resource_count_per_page()
+        self.resource_count_per_domain = self.list_resource_count_per_domain()
+        self.page_count_per_domain = self.list_page_count_per_domain()
+
+    def generate_statistics(self):
+        statistics = {
+            'total': {
+                'datopian': {
+                    'datasets': self._get_total_datasets(),
+                    'resources': int(self.resource_count_per_domain['resource count'].sum()),
+                    'pages': self.format_dataframe_results(self.page_count_per_domain),
+                    'resources_by_office': self.format_dataframe_results(self.resource_count_per_domain),
+                    'datasets_by_office': self.get_datasets_dict(),
+                }
+            }
+        }
+
+        print(
+            f"Total number of raw datasets: {statistics['total']['datopian']['datasets']}\n",
+            f"\n---\n\n",
+            f"Total number of pages: {statistics['total']['datopian']['pages']}\n",
+            f"\n---\n\n",
+            f"Total number of resources: {statistics['total']['datopian']['resources']}\n",
+            f"\n---\n\n",
+            f"Total number of resources by domain: \n{self.resource_count_per_domain}\n",
+            f"\n---\n\n",
+            f"Total number of pages by domain: \n{self.page_count_per_domain}\n",
+            f"\n---\n\n",
+        )
+
+        with open(f"{os.getenv('ED_OUTPUT_PATH')}/statistics.json", 'w') as stats_file:
+            json.dump(statistics, stats_file)
 
     def _add_to_spreadsheet(self, sheet_name, result):
         # write the result (dataframe) to an excel sheet
@@ -61,6 +107,14 @@ class Statistics():
         """
         pass
 
+    def format_dataframe_results(self, df):
+        results = {}
+
+        for row in df.to_dict('records'):
+            matching = { key: value for key, value in SCRAPERS.items() if re.match(value, row['domain']) }
+            matching_domain = list(matching.keys())[0].upper()
+            results[matching_domain] = list(row.values())[1]
+        return results
 
     def get_compare_dict(self):
         json_url = 'https://storage.googleapis.com/storage/v1/b/us-ed-scraping/o/compare-statistics.json?alt=media'
@@ -88,11 +142,11 @@ class Statistics():
 
         return result
 
-
-    def generate_datopian_df(self, use_dump=False, output_list_file=None):
+    # TODO: Imported from the Summary module, needs refactoring to fit in
+    def _generate_datopian_df(self, use_dump=False):
 
         def get_files_list():
-            results = pathlib.Path(os.path.join(self.output_path, 'scrapers')).glob('**/*.json')
+            results = pathlib.Path(os.path.join(os.getenv('ED_OUTPUT_PATH'), 'scrapers')).glob('**/*.json')
             return [f for f in results]
 
         def abs_url(url, source_url):
@@ -102,16 +156,16 @@ class Statistics():
             else:
                 return url
 
-        if output_list_file is None:
+        if self.deduplicated_list_path is None:
             files = get_files_list()
         else:
             try:
-                with open(output_list_file, 'r') as fp:
+                with open(self.deduplicated_list_path, 'r') as fp:
                     files = [pathlib.Path(line.rstrip()) for line in fp]
             except:
                 files = get_files_list()
 
-        df_dump = str(pathlib.Path(os.path.join(self.output_path, 'out_df.csv')))
+        df_dump = str(pathlib.Path(os.path.join(os.getenv('ED_OUTPUT_PATH'), 'out_df.csv')))
         if use_dump:
             df = pd.read_csv(df_dump)
         else:
@@ -134,9 +188,31 @@ class Statistics():
             df = pd.concat(dfs, ignore_index=True)
             df.to_csv(df_dump, index=False)
 
-        # import ipdb; ipdb.set_trace()
         return df
 
+
+    # TODO: Imported from the Summary module, needs refactoring to fit in
+    def _get_total_datasets(self, name=''):
+        files = list()
+        try:
+            with open(self.deduplicated_list_path, 'r') as fp:
+                if name:
+                    files = [line.rstrip() for line in fp if line.rstrip().split('/')[-2] == name]
+                else:
+                    files = [line.rstrip() for line in fp]
+        except:
+            # TODO ENABLE print('Warning! Cannot read deduplication results!')
+            results = pathlib.Path(os.path.join(os.getenv('ED_OUTPUT_PATH'), 'scrapers', name)).glob('**/*.json')
+            files = [f.name for f in results]
+
+        return len(files)
+
+    # TODO: Imported from the Summary module, needs refactoring to fit in 
+    def get_datasets_dict(self):
+        data = dict()
+        for scraper in SCRAPERS:
+            data[scraper.upper()] = int(self._get_total_datasets(scraper))
+        return data
 
     def list_page_count_per_domain(self, ordered=True):
         """Generate page count per domain

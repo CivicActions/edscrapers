@@ -149,16 +149,6 @@ def transform(in_file_path, name, transformer, **kwargs):
 
 
 @cli.command(context_settings=CONTEXT_SETTINGS)
-@click.option('-f', '--format', default=None, type=click.Choice(['ascii', 'json'], case_sensitive=False),
-              help='Format of the output.')
-@add_options(global_options)
-def compare(format, **kwargs):
-    ''' Run a comparison algorhitm against AIR's resources. '''
-    setup_logger(kwargs['quiet'], kwargs['verbosity'], 'compare')
-    compare_cli()
-
-
-@cli.command(context_settings=CONTEXT_SETTINGS)
 @click.option('-n', '--name', default=None,
               help='Optionally, run the stats just for a specific output pipeline, identified by name (e.g. nces)')
 @click.option('-f', '--format', default=None, type=click.Choice(['ascii', 'json'], case_sensitive=False),
@@ -173,9 +163,7 @@ def stats(name, **kwargs):
     #Path(data_dir).mkdir(parents=True, exist_ok=True)
 
     stats = Statistics(delete_all_stats=True)
-    stats.list_page_count_per_domain()
-    stats.list_resource_count_per_domain()
-    stats.list_resource_count_per_page()
+    stats.generate_statistics()
     logger.success('Stats complete!')
 
 
