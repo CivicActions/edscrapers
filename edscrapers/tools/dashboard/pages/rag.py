@@ -134,20 +134,21 @@ class RAGSummary():
             ),
 
             html.Br(),
+            html.Br(),
             html.Span(
                 "An outline of how data quality is calculated provided at the ",
                 className='text-muted',
             ),
-            dcc.Link("bottom of this page.", href="#footer-notes"),
+            dcc.Link("bottom of this page.", href="#foot-table"),
         ], style={'margin-bottom':'30px'})
 
     def footer_notes(self):
         return html.Div(id="footer-notes", children=[
-            html.Span("The Score reflect the whether how complete the metadata" 
-                "is in the form. 100% would mean that all the metadata fields" 
-                "were present (this does not mean that the metadata is correct," 
-                "as the metadata has either been ingested by a scraper or input by a user."
-                "In other words, the metadata quality has not been assessed, the algorithm"
+            html.Span("The Score reflect how complete the metadata " 
+                "is in the form. 100% would mean that all the metadata fields " 
+                "were present (this does not mean that the metadata is correct, " 
+                "as the metadata has either been ingested by a scraper or input by a user. "
+                "In other words, the metadata quality has not been assessed, the algorithm "
                 "only checks how many metadata fields have been entered).",
                 className='text-muted'),
             html.Br(),
@@ -184,7 +185,7 @@ class RAGSummary():
                 html.Tr([html.Td('Bureau code'), html.Td('1')]),
                 html.Tr([html.Td('Program code'), html.Td('1')]),
                 html.Tr([html.Td('Access level'), html.Td('1')]),
-                ],style={})
+                ],style={}, id="foot-table")
         ])
 
 def generate_layout():
