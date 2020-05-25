@@ -14,8 +14,6 @@ from edscrapers.scrapers.base import helpers as scrape_helpers
 from edscrapers.tools.dashboard import app as dash_app
 from edscrapers.tools.stats.stats import Statistics
 
-from edscrapers.tools.stats.air.compare import compare as compare_cli
-
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
 global_options=[

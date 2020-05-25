@@ -13,7 +13,9 @@ import dash_html_components as html
 import dash_bootstrap_components as dbc
 
 
-from edscrapers.tools.dashboard.json_parser import get_datasets_bars_data, get_table_rows_by_office
+from edscrapers.tools.dashboard.json_parser import (get_datasets_bars_data,
+                                                 get_table_rows_by_office,
+                                                 get_total_resources_by_office)
 from edscrapers.tools.stats.stats import Statistics
 from edscrapers.tools.dashboard.ckan_api import CkanApi
 from edscrapers.tools.dashboard.utils import buttonsToRemove
@@ -24,9 +26,6 @@ from edscrapers.tools.dashboard.pages.tooltips import (INSIGHTS_TOTALS_INITIAL_T
                                                 INSIGHTS_DATASETS_BY_OFFICE_TOOOLTIP,
                                                 INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP,
                                                 INSIGHTS_RESOURCES_BY_OFFICE_TOOOLTIP)
-from edscrapers.tools.dashboard.pages.air import (get_datasets_bars_data,
-                                                 get_table_rows_by_office,
-                                                 get_total_resources_by_office)
 from edscrapers.tools.dashboard.pages.components import header, led_display
 
 class InsightsPage():
@@ -381,15 +380,12 @@ class InsightsPage():
     def dataset_by_office_data(self):
         # returns the rows for the datasets by office table including total
         rows = get_table_rows_by_office('datasets_by_office')
-
-        total_air = 0
         total_datopian = 0
 
         for row in rows:
-            total_air += row.get('air', 0)
             total_datopian += row.get('datopian', 0)
 
-        total_row = {'s': 'Total', 'air' : total_air, 'datopian' : total_datopian}
+        total_row = {'s': 'Total', 'datopian' : total_datopian}
         rows.append(total_row)
 
         return rows
