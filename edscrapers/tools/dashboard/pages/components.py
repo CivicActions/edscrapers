@@ -10,11 +10,12 @@ LED_DISPLAY_STYLE = {
 }
 
 TOOLTIP_STYLE = {
-    'font-size': '0.8em',
+    'font-size': '0.7em',
     'text-align': 'center',
     'cursor': 'pointer',
-    'height': '20px',
-    'width': '20px',
+    'height': '16px',
+    'width': '16px',
+    'font-weight':'bold',
     'color': '#1F77B4',
     'background-color': '#E6E6E6',
     'border-radius': '50%',
@@ -23,8 +24,9 @@ TOOLTIP_STYLE = {
 
 HEADER_STYLE = {
     'display':'inline-block',
-    'margin-bottom': '0',
+    'margin-bottom': '12px',
     'margin-right': '10px',
+    'margin-top':'0px',
 }
 
 def tooltip(id, children, alignment):
@@ -55,7 +57,6 @@ def header(title, tooltip_id, tooltip_text):
         tooltip(tooltip_id, tooltip_text, alignment='text-bottom'),
     ], style={
         'width': '100%', 
-        'text-align': 'center',
         'vertical-align': 'middle',
         'display':'inline-block',
     })
