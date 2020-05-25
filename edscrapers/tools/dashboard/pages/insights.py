@@ -151,7 +151,6 @@ class InsightsPage():
         # the the dataframe from the Excel sheet
         #df = self._get_df_from_excel_sheet('PAGE COUNT')
         df = self.dataset_by_domain_portal_df()
-        df = self._get_df_from_excel_sheet('PAGE COUNT')
         # create the bar chart using the created dataframe
         return dcc.Graph(
             id='dataset_by_domain_graph',
