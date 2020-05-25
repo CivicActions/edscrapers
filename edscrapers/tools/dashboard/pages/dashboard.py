@@ -38,7 +38,6 @@ def generate_layout():
     return html.Div(children=[
     
     # Datasets By Domain
-    html.Hr(),
     header('Portal Totals', 
             'portal-totals',html.Div([
     html.Span("Datasets in Portal", style={'font-weight':'bold'}),
@@ -68,7 +67,6 @@ def generate_layout():
     led_display(34, 
         "Datasets Manually Added"),
 
-    html.Hr(),
 
     # Total dataset in the portal pie chart
     html.Div([

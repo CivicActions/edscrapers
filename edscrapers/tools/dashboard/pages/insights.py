@@ -333,38 +333,43 @@ def generate_split_layout():
     return html.Div(children=[
    
     # Totals Based on Original Scraper
-    html.Hr(style={'margin-top':'0px'}),
     header('Based on original crawler', 'totals-crawler', INSIGHTS_TOTALS_SCRAPED_TOOLTIP),
     html.Hr(),
 
     # LED displays
     led_display(p.get_compare_dict()['total']['datopian']['datasets'], 
-        "DATASETS"),
+        "Datasets"),
     led_display(p.get_compare_dict()['total']['datopian']['resources'], 
-        "RESOURCES"),
+        "Resources"),
     led_display(sum(s for s in p.get_compare_dict()['total']['datopian']['pages'].values()),
-        "PAGES"),
+        "Pages"),
     led_display(p.resources_by_domain_df().count()['domain'], 
-        "DOMAINS"),
+        "Domains"),
 
     # Totals Based on Original Scraper
-    html.Hr(style={'margin-top':'30px'}),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
     header('Ingested into data portal', 'totals-ingested', INSIGHTS_TOTALS_INGESTED_TOOLTIP),
     html.Hr(),
 
     # LED displays
     led_display(000,
-        "DATASETS"),
+        "Datasets"),
     led_display(000,
-        "RESOURCES"),
+        "Resources"),
     led_display(000,
-        "PAGES"),
+        "Pages"),
     led_display(0,
-        "DOMAINS"),
+        "Domains"),
 
 
     # Datasets By Publisher
-    html.Hr(style={'margin-top':'70px'}),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
     header('Datasets Ingested into the Portal by Publisher', 
             'datasets-office', INSIGHTS_DATASETS_BY_OFFICE_TOOOLTIP),
     html.Hr(),
@@ -417,7 +422,10 @@ def generate_split_layout():
     ),
 
     # Resources by Publisher
-    html.Hr(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
     header('Resources Ingested into the Portal by Publisher', 
             'resources-office',INSIGHTS_RESOURCES_BY_OFFICE_TOOOLTIP),
     html.Hr(),
@@ -443,7 +451,10 @@ def generate_split_layout():
     
 
     # Datasets By Domain
-    html.Hr(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
     header('Datasets Ingested into the Portal by Domain', 
             'datasets-domain',INSIGHTS_DATASETS_BY_DOMAIN_TOOOLTIP),   
     html.Hr(),
@@ -470,7 +481,10 @@ def generate_split_layout():
     ),
 
     # Resources by Domain
-    html.Hr(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
     header('Resources Ingested into the Portal by Domain', 
             'resources-domain',INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP),
     html.Hr(),
@@ -491,7 +505,6 @@ def generate_split_layout():
         'vertical-align': 'middle'}
     ),
 
-    html.Hr(),
 
 ])
 

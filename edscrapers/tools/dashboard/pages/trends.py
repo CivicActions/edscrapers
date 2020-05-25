@@ -191,18 +191,17 @@ def generate_layout():
         #domain_quality_series('ocr'),
         #domain_quality_series('edgov'),
         
-        html.Hr(),
         html.Div([
             html.H5('Overall Data Quality Trends',
                 style={
                     'display':'inline-block',
                     'margin-bottom': '0',
                     'margin-right': '10px',
+                    'margin-top':'0px',
                     }), 
             tooltip(TRENDS_OVERALL_DATA_QUALITY_TOOLTIP, alignment='text-bottom'),
         ], style={
             'width': '100%', 
-            'text-align': 'center',
             'vertical-align': 'middle',
             'display':'inline-block', 
         }),
