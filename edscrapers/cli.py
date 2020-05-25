@@ -175,8 +175,6 @@ def stats(name, **kwargs):
 
     stats = Statistics(delete_all_stats=True)
     stats.list_domain()
-    stats.list_exclusive_domain()
-    stats.list_intersection_domain()
     stats.list_highest_resources_from_pages('datopian')
     #stats.get_compare_dict()
     logger.success('Stats complete!')
