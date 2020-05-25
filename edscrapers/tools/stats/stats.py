@@ -16,6 +16,7 @@ from edscrapers.cli import logger
 
 SCRAPERS =  {
     'edgov': r'www2.ed.gov',
+    'fsa': r'studentaid.gov',
     'octae': r'ovae|OVAE|octae|OCTAE',
     'oela': r'oela|ncela',
     'ope': r'/ope/',
@@ -207,7 +208,7 @@ class Statistics():
 
         return len(files)
 
-    # TODO: Imported from the Summary module, needs refactoring to fit in 
+    # TODO: Imported from the Summary module, needs refactoring to fit in
     def get_datasets_dict(self):
         data = dict()
         for scraper in SCRAPERS:
@@ -256,10 +257,10 @@ class Statistics():
 
 
     def list_resource_count_per_domain(self, ordered=True):
-        """Generate resource count per domain 
+        """Generate resource count per domain
 
         PARAMETERS
-        - ordered: whether the resulting DataFrame or 
+        - ordered: whether the resulting DataFrame or
         Excel sheet result be sorted/ordered. If True, order by 'resource per domain'
         """
 

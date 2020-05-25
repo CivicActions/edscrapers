@@ -60,7 +60,8 @@ def get_total_resources_by_office(source, is_sorted=True):
         data = data['total'][source]['resources_by_office'].items()
         return dict(sorted(data, key=lambda item: item[1], reverse=True))
 
-def get_total_datasets_by_office(source, is_sorted=True):
+def get_total_pages_by_office(source, is_sorted=True):
+    # @FIXME Is this really used anywhere? Seems dead to me...
 
     data = read_json_file()
     if is_sorted is False:
