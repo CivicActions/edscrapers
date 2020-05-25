@@ -124,7 +124,7 @@ app.layout = generate_layout
 def toggle_active_links(pathname):
     if pathname == "/":
         # Treat page 1 as the homepage / index
-        return True, False, False, False, False
+        return True, False, False, False
     return [pathname == f"/{i}" for i in ['dashboard','insights', 'quality', 'trends']]
 
 
