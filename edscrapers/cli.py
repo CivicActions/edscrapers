@@ -12,7 +12,6 @@ from edscrapers.scrapers.base import helpers as scrape_base
 from edscrapers.scrapers.base import helpers as scrape_helpers
 
 from edscrapers.tools.dashboard import app as dash_app
-from edscrapers.tools.stats import helpers as stats_helpers
 from edscrapers.tools.stats.stats import Statistics
 
 from edscrapers.tools.stats.air.compare import compare as compare_cli
@@ -174,9 +173,9 @@ def stats(name, **kwargs):
     #Path(data_dir).mkdir(parents=True, exist_ok=True)
 
     stats = Statistics(delete_all_stats=True)
-    stats.list_domain()
-    stats.list_highest_resources_from_pages('datopian')
-    #stats.get_compare_dict()
+    stats.list_page_count_per_domain()
+    stats.list_resource_count_per_domain()
+    stats.list_resource_count_per_page()
     logger.success('Stats complete!')
 
 

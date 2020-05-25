@@ -11,8 +11,7 @@ import requests
 from json.decoder import JSONDecodeError
 
 from edscrapers.cli import logger
-from edscrapers.tools.stats import helpers as h
-from .air import compare
+
 
 
 class Statistics():
@@ -27,41 +26,13 @@ class Statistics():
         if delete_all_stats is True:
             if os.path.exists(self.METRICS_OUTPUT_XLSX): # check if excel sheet exist
                 os.remove(self.METRICS_OUTPUT_XLSX) # remove the excel sheet
-        
-        try:
-            air_df_path = pathlib.Path(os.getenv('ED_OUTPUT_PATH'),
-                                                 'tools', "stats", 'data', 'air_df.csv')
-            if not air_df_path.exists(): # if this filepath does not already exist
-                air_csv_url = 'https://storage.googleapis.com/storage/v1/b/us-ed-scraping/o/AIR.csv?alt=media'
-                req = requests.get(air_csv_url)
-                # make the required path/directories
-                pathlib.Path.resolve(air_df_path).parent.mkdir(parents=True, exist_ok=True)     
-                # write the downloded file to disk       
-                with open(air_df_path, 'wb') as air_df_file:
-                    air_df_file.write(req.content)
 
-            self.air_out_df = pd.read_csv(
-                air_df_path,
+        try:
+            self.datopian_out_df = pd.read_csv(
+                os.path.join(os.getenv('ED_OUTPUT_PATH'), 'out_df.csv'),
                 header=0)
         except Exception as e:
-            logger.error('Could not load the AIR CSV.')
-
-        try:
-            if os.path.exists(os.path.join(os.getenv('ED_OUTPUT_PATH'), 'out_df.csv')):
-                self.datopian_out_df = pd.read_csv(
-                    os.path.join(os.getenv('ED_OUTPUT_PATH'), 'out_df.csv'),
-                    header=0)
-            else:
-                # create the Datopian CSV
-                compare.compare()
-                self.datopian_out_df = pd.read_csv(
-                    os.path.join(os.getenv('ED_OUTPUT_PATH'), 'out_df.csv'),
-                    header=0)
-        except Exception as e:
             logger.error('Could not load the Datopian CSV, please generate it first.')
-            # read the AIR csv into a dataframe
-
-        
 
 
     def _add_to_spreadsheet(self, sheet_name, result):
@@ -167,20 +138,17 @@ class Statistics():
         return df
 
 
-    def list_domain(self, provider='datopian', ordered=True):
-        """function is used to list the domains scraped by
-        'provider'. Optionally order these domains
-        by number of pages parsed if 'ordered' is True """
+    def list_page_count_per_domain(self, ordered=True):
+        """Generate page count per domain
 
-        if provider.upper() == "DATOPIAN":
-            # create a dataframe with duplicate source_urls removed
-            df = self.datopian_out_df.\
-                drop_duplicates(subset='source_url', inplace=False)
-        elif provider.upper() == "AIR":
-            df = self.air_out_df.\
-                drop_duplicates(subset='source_url', inplace=False)
-        else:
-            raise ValueError('invalid "provider" provided')
+        PARAMETERS
+        - ordered: whether the resulting DataFrame or
+        Excel sheet result be sorted/ordered. If True, order by 'page count'
+        """
+
+        # create a dataframe with duplicate source_urls removed
+        df = self.datopian_out_df.\
+            drop_duplicates(subset='source_url', inplace=False)
 
         # create subset of the datopian dataframe (subset will house domain info)
         df_subset = pd.DataFrame(columns=['domain'])
@@ -206,42 +174,67 @@ class Statistics():
                                     ascending=False, inplace=True,
                                     ignore_index=True)
 
-            self._add_to_spreadsheet(sheet_name='PAGE COUNT (DATOPIAN)',
+            self._add_to_spreadsheet(sheet_name='PAGE COUNT',
                                      result=df_subset)
         return df_subset
 
-    def list_highest_resources_from_pages(self, provider='datopian', ordered=True):
-        """ function is used to determine what pages from a particular
-        provider produced/generated the highest number of resources.
+
+    def list_resource_count_per_domain(self, ordered=True):
+        """Generate resource count per domain 
 
         PARAMETERS
-        - provider: the provider that was run on the domains to generate the 
-        datasets e.g. DATOPIAN or AIR
-
         - ordered: whether the resulting DataFrame or 
+        Excel sheet result be sorted/ordered. If True, order by 'resource per domain'
+        """
+
+        # create a dataframe with duplicate url and source_urls removed
+        df_deduplicated_df = self.datopian_out_df.\
+            drop_duplicates(subset=['url', 'source_url'], inplace=False)
+
+        # create subset of the df dataframe (subset will house domain info)
+        df_subset = pd.DataFrame(columns=['domain'])
+        # create the domain column from the source_url info available
+        df_subset['domain'] = df_deduplicated_df.\
+            apply(lambda row: urllib.parse.\
+                    urlparse(row['source_url']).hostname.\
+                        replace('www2.', 'www.').replace('www.', ''), axis=1)
+        # to get the number of pages visited from each domain, perform groupby
+        grouped = df_subset.groupby(['domain'])
+        # recreate the datopian dataframe subset to store aggreated domain info
+        df_subset = pd.DataFrame(columns=['domain'])
+        # get the keys/names for grouped domains
+        df_subset['domain'] = list(grouped.indices.keys())
+        # get the size of each group
+        # i.e. the number of times each domain appeared in the non-grouped dataframe
+        # this value represents the number of resources visited
+        df_subset['resource count'] = list(grouped.size().values)
+
+        if ordered:
+            df_subset.sort_values(by='resource count', axis='index',
+                                        ascending=False, inplace=True,
+                                        ignore_index=True)
+
+        self._add_to_spreadsheet(sheet_name='RESOURCE COUNT PER DOMAIN',
+                                    result=df_subset)
+        return df_subset
+
+    def list_resource_count_per_page(self, ordered=True):
+        """Determine resources produced/generated from each page
+
+        PARAMETERS
+        - ordered: whether the resulting DataFrame or
         Excel sheet result be sorted/ordered. If True, order by 'resource per page'
         """
 
-        df_map = {
-            'datopian': self.datopian_out_df,
-            'air': self.air_out_df
-        }
-
-        try:
-            df = df_map[str(provider.lower())]
-        except:
-            raise ValueError('invalid "provider" value')
-
         # create a dataframe with duplicate url and source_urls removed
-        deduplicated_df = df.drop_duplicates(subset=['url', 'source_url'],
+        deduplicated_df = self.datopian_out_df.drop_duplicates(subset=['url', 'source_url'],
                                              inplace=False)
         # create subset of the dataframe (subset will house domain info)
         df_subset = pd.DataFrame(columns=['domain'])
         # create the domain column from the source_url info available
-        df_subset['domain'] = df.apply(lambda row: urllib.parse.\
+        df_subset['domain'] = self.datopian_out_df.apply(lambda row: urllib.parse.\
                                        urlparse(row['source_url']).hostname.\
                                        replace('www2.', 'www.').replace('www.', ''), axis=1)
-
 
         # get the 'source_url' renamed as 'page'
         df_subset['page'] = deduplicated_df['source_url']
@@ -263,7 +256,7 @@ class Statistics():
                                   inplace=True,
                                   ignore_index=True)
 
-        self._add_to_spreadsheet(sheet_name='RESOURCE COUNT PER PAGE (DATOPIAN)',
+        self._add_to_spreadsheet(sheet_name='RESOURCE COUNT PER PAGE',
                                  result=result)
 
         return result
