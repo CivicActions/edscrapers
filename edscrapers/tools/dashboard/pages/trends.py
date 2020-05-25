@@ -153,6 +153,11 @@ def all_domain_quality_series():
         dfs_oese = pd.concat(dfs_oese, ignore_index=True)
         concat_lst.append(dfs_oese)
 
+    dfs_fsa = get_series('fsa')
+    if dfs_fsa:
+        dfs_fsa = pd.concat(dfs_fsa, ignore_index=True)
+        concat_lst.append(dfs_fsa)
+
     dfs_nces = get_series('nces')
     if dfs_nces:
         dfs_nces = pd.concat(dfs_nces, ignore_index=True)
