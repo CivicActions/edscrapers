@@ -7,15 +7,18 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 
+from edscrapers.tools.dashboard.ckan_api import CkanApi
 from edscrapers.tools.dashboard.utils import buttonsToRemove
 from edscrapers.tools.dashboard.pages.components import header, led_display
 
-def datasets_in_portal_pie():
+def datasets_in_portal_pie(ckan_api):
     """" function is used to created a pie chart showing
     the number of datasets in the Portal """
 
     labels=["Scraped Datasets", "Datasets Amended", "Datasets Manually Added"]
-    values=[223,15,34]
+    values=[ckan_api.total_scraped_datasets(),
+            ckan_api.total_amended_datasets(),
+            ckan_api.total_manual_datasets()]
 
     pie_figure = go.Figure(data=[go.Pie(labels=labels,
                                         values=values,
@@ -34,13 +37,15 @@ def datasets_in_portal_pie():
     )
 
 def generate_layout():
+
+    ckan_api = CkanApi()
     
     return html.Div(children=[
     
     # Datasets By Domain
     html.Hr(),
     header('Portal Totals', 
-            'portal-totals',html.Div([
+            'portal-totals',html.Div(id='portal-totals-tooltip-div', children=[
     html.Span("Datasets in Portal", style={'font-weight':'bold'}),
     html.Span(" - Total number of datasets in portal."),
     html.Br(),
@@ -55,24 +60,24 @@ def generate_layout():
     html.Br(),
     html.Span("Datasets Manually Added", style={'font-weight':'bold'}), 
     html.Span(" - Total number of datasets manually added by a user.")
-])),   
+    ])),   
     html.Hr(),
 
     # LED displays
-    led_display(272, 
+    led_display(ckan_api.total_datasets(), 
         "Datasets in Portal"),
-    led_display(223, 
+    led_display(ckan_api.total_scraped_datasets(), 
         "Scraped Datasets"),
-    led_display(15,
-        "Datasets Amended"),
-    led_display(34, 
+    led_display(ckan_api.total_amended_datasets(),
+        "Datasets Amended by User"),
+    led_display(ckan_api.total_manual_datasets(), 
         "Datasets Manually Added"),
 
     html.Hr(),
 
     # Total dataset in the portal pie chart
     html.Div([
-            datasets_in_portal_pie(),
+            datasets_in_portal_pie(ckan_api=ckan_api),
         ], style={'vertical-align': 'middle'}
     ),
     
