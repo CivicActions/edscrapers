@@ -12,6 +12,8 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 
+
+from edscrapers.tools.dashboard.json_parser import get_datasets_bars_data, get_table_rows_by_office
 from edscrapers.tools.stats.stats import Statistics
 from edscrapers.tools.dashboard.ckan_api import CkanApi
 from edscrapers.tools.dashboard.utils import buttonsToRemove
