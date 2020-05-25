@@ -1,10 +1,12 @@
+import os
 import requests
 
 class CkanApi():
 
     def __init__(self):
 
-        self.api_endpoint_url = 'https://us-ed-testing.ckan.io/api/action/ed_scraping_dashboard'
+        ckan_host = os.getenv('CKAN_HOST', 'https://us-ed-testing.ckan.io')
+        self.api_endpoint_url = '{}/api/action/ed_scraping_dashboard'.format(ckan_host)
         self.data = {}
         response = requests.get(self.api_endpoint_url).json()
 
