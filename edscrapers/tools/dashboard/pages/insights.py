@@ -4,6 +4,7 @@
 import os
 
 import dash
+import textwrap
 import dash_table
 import pandas as pd
 import dash_daq as daq
@@ -297,6 +298,11 @@ class InsightsPage():
         #df = self.resources_by_domain_df()
         df = self.resource_by_domain_portal_df()
 
+        wrapped_domain_names = []
+        for domain in df['domain']:
+            wrapped_domain_names.append(str('<br>'.join(textwrap.wrap(domain, width=20))))
+        df['domain'] = wrapped_domain_names
+
         pie_figure = go.Figure(data=[go.Pie(labels=df['domain'],
                                             values=df['resource count'],
                                             title={
@@ -361,6 +367,11 @@ class InsightsPage():
 
         df = self.resources_by_publisher_portal_df()
 
+        wrapped_publisher_names = []
+        for publisher in df['publisher']:
+            wrapped_publisher_names.append(str('<br>'.join(textwrap.wrap(publisher, width=20))))
+        df['publisher'] = wrapped_publisher_names
+
         pie_figure = go.Figure(data=[go.Pie(labels=df['publisher'],
                                             values=df['resource count'],
                                             title={
@@ -409,9 +420,10 @@ class InsightsPage():
         data_list = list()
         datasets_by_publisher = self.ckan_api.datasets_by_publisher()
         for name, count in datasets_by_publisher:
+            legend_str = '<br>'.join(textwrap.wrap(name, width=20))
             data_list.append({
                 'x': ['Datasets'], 'y': [count],
-                'type': 'bar', 'name': name
+                'type': 'bar', 'name': legend_str
             })
 
         data_list.sort(key=lambda item: item['y'][0], reverse=True)
@@ -522,6 +534,8 @@ def generate_split_layout():
                 #'data': get_datasets_bars_data(),
                 'layout': {
                     #'title': 'Datasets by Office'
+                    #'showlegend': False
+                    #'legend': {'x': 1.02},
                 }
             },
             config={
