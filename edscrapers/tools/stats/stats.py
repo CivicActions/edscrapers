@@ -49,7 +49,7 @@ class Statistics():
             self.deduplicated_list_path = None
 
         self.datopian_out_df = self._generate_datopian_df(use_dump=False)
-        self.resource_count_per_page = self.list_resource_count_per_page()
+        # self.resource_count_per_page = self.list_resource_count_per_page()
         self.resource_count_per_domain = self.list_resource_count_per_domain()
         self.page_count_per_domain = self.list_page_count_per_domain()
 
@@ -113,8 +113,11 @@ class Statistics():
 
         for row in df.to_dict('records'):
             matching = { key: value for key, value in SCRAPERS.items() if re.match(value, row['domain']) }
-            matching_domain = list(matching.keys())[0].upper()
-            results[matching_domain] = list(row.values())[1]
+            if matching.keys():
+                matching_domain = list(matching.keys())[0].upper()
+                results[matching_domain] = list(row.values())[1]
+            else:
+                continue
         return results
 
     def get_compare_dict(self):
