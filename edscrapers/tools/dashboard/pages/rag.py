@@ -132,8 +132,6 @@ class RAGSummary():
                 " is shown below.",
                 className='text-muted',
             ),
-
-            html.Br(),
             html.Br(),
             html.Span(
                 "An outline of how data quality is calculated provided at the ",
@@ -163,29 +161,31 @@ class RAGSummary():
                 className='text-muted'),
             html.Br(),
             html.Br(),
-            html.Table(children=[
-                html.Tr([html.Th('Field'), html.Th('Weight')]),
-                html.Tr([html.Td('Title'), html.Td('10')]),
-                html.Tr([html.Td('Date period - Start'), html.Td('10')]),
-                html.Tr([html.Td('Date period - End'), html.Td('10')]),
-                html.Tr([html.Td('Categories'), html.Td('9.5')]),
-                html.Tr([html.Td('Tags'), html.Td('9.5')]),
-                html.Tr([html.Td('Description'), html.Td('9')]),
-                html.Tr([html.Td('Organization'), html.Td('8.5')]),
-                html.Tr([html.Td('Publisher'), html.Td('8.5')]),
-                html.Tr([html.Td('Data level'), html.Td('7')]),
-                html.Tr([html.Td('Spatial'), html.Td('6')]),
-                html.Tr([html.Td('Created Date'), html.Td('5')]),
-                html.Tr([html.Td('Frequency'), html.Td('5')]),
-                html.Tr([html.Td('Data Steward Name'), html.Td('4')]),
-                html.Tr([html.Td('Data Steward Email'), html.Td('4')]),
-                html.Tr([html.Td('Helpdesk Phone'), html.Td('4')]),
-                html.Tr([html.Td('Helpdesk Email'), html.Td('4')]),
-                html.Tr([html.Td('License'), html.Td('4')]),
-                html.Tr([html.Td('Bureau code'), html.Td('1')]),
-                html.Tr([html.Td('Program code'), html.Td('1')]),
-                html.Tr([html.Td('Access level'), html.Td('1')]),
-                ],style={}, id="foot-table")
+            html.Div([
+                html.Table(children=[
+                    html.Tr([html.Th('Field'), html.Th('Weight')], style={'border': '1px solid'}),
+                    html.Tr([html.Td('Title'), html.Td('10')]),
+                    html.Tr([html.Td('Date period - Start'), html.Td('10')]),
+                    html.Tr([html.Td('Date period - End'), html.Td('10')]),
+                    html.Tr([html.Td('Categories'), html.Td('9.5')]),
+                    html.Tr([html.Td('Tags'), html.Td('9.5')]),
+                    html.Tr([html.Td('Description'), html.Td('9')]),
+                    html.Tr([html.Td('Organization'), html.Td('8.5')]),
+                    html.Tr([html.Td('Publisher'), html.Td('8.5')]),
+                    html.Tr([html.Td('Data level'), html.Td('7')]),
+                    html.Tr([html.Td('Spatial'), html.Td('6')]),
+                    html.Tr([html.Td('Created Date'), html.Td('5')]),
+                    html.Tr([html.Td('Frequency'), html.Td('5')]),
+                    html.Tr([html.Td('Data Steward Name'), html.Td('4')]),
+                    html.Tr([html.Td('Data Steward Email'), html.Td('4')]),
+                    html.Tr([html.Td('Helpdesk Phone'), html.Td('4')]),
+                    html.Tr([html.Td('Helpdesk Email'), html.Td('4')]),
+                    html.Tr([html.Td('License'), html.Td('4')]),
+                    html.Tr([html.Td('Bureau code'), html.Td('1')]),
+                    html.Tr([html.Td('Program code'), html.Td('1')]),
+                    html.Tr([html.Td('Access level'), html.Td('1')]),
+                    ],style={'border': '1px solid'}, id="foot-table", className='text-muted')
+            ],style={'width': '30%', 'margin': 'auto'})
         ])
 
 def generate_layout():

@@ -399,7 +399,7 @@ class InsightsPage():
             rows.append({'s' : name, 'datopian': count})
             total += count
 
-        rows.sort(key = lambda item: item['datopian'])
+        rows.sort(key = lambda item: item['datopian'], reverse=True)
 
         rows.append({'s' : 'Total', 'datopian': total})
         return rows
