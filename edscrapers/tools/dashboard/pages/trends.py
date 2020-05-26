@@ -197,7 +197,7 @@ def generate_layout():
         #domain_quality_series('edgov'),
         
         html.Div([
-            html.H5('Overall Data Quality Trends',
+            html.H5('Data Quality Trend',
                 style={
                     'display':'inline-block',
                     'margin-bottom': '0',
