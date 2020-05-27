@@ -35,7 +35,6 @@ class Statistics():
 
     def __init__(self, delete_all_stats=False):
 
-        logger.debug("Creating statistics...")
         if delete_all_stats is True:
             if os.path.exists(self.METRICS_OUTPUT_XLSX): # check if excel sheet exist
                 os.remove(self.METRICS_OUTPUT_XLSX) # remove the excel sheet
@@ -48,15 +47,16 @@ class Statistics():
         else:
             self.deduplicated_list_path = None
 
-        self.datopian_out_df = self._generate_datopian_df(use_dump=False)
         self.resource_count_per_page = []
         self.resource_count_per_domain = []
         self.page_count_per_domain = []
 
     def generate_statistics(self):
-        self.resource_count_per_page = self.list_resource_count_per_page()
-        self.resource_count_per_domain = self.list_resource_count_per_domain()
-        self.page_count_per_domain = self.list_page_count_per_domain()
+        logger.debug("Creating statistics...")
+        scraper_outputs_df = self._generate_scraper_outputs_df(use_dump=False)
+        self.resource_count_per_page = self.list_resource_count_per_page(scraper_outputs_df)
+        self.resource_count_per_domain = self.list_resource_count_per_domain(scraper_outputs_df)
+        self.page_count_per_domain = self.list_page_count_per_domain(scraper_outputs_df)
 
         statistics = {
             'total': {
@@ -121,34 +121,8 @@ class Statistics():
             results[matching_domain] = list(row.values())[1]
         return results
 
-    def get_compare_dict(self):
-        json_url = 'https://storage.googleapis.com/storage/v1/b/us-ed-scraping/o/compare-statistics.json?alt=media'
-        json_s3_file = os.path.join(os.getenv('ED_OUTPUT_PATH'),
-                                    'tools', 'stats', 's3_compare-statistics.json')
-        json_local_file = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'statistics.json')
-
-        try:
-            req = requests.get(json_url)
-            req.raise_for_status()
-            with open(json_s3_file, 'wb') as json_file:
-                json_file.write(req.content)
-        except:
-            pass
-
-        try:
-            result = json.loads(json_s3_file)
-        except JSONDecodeError:
-            try:
-                with open(json_local_file) as json_file:
-                    result = json.load(json_file)
-            except FileNotFoundError:
-                logger.error('Comparison statistics JSON not found!')
-                raise
-
-        return result
-
     # TODO: Imported from the Summary module, needs refactoring to fit in
-    def _generate_datopian_df(self, use_dump=False):
+    def _generate_scraper_outputs_df(self, use_dump=False):
 
         def get_files_list():
             results = pathlib.Path(os.path.join(os.getenv('ED_OUTPUT_PATH'), 'scrapers')).glob('**/*.json')
@@ -219,16 +193,18 @@ class Statistics():
             data[scraper.upper()] = int(self._get_total_datasets(scraper))
         return data
 
-    def list_page_count_per_domain(self, ordered=True):
+    def list_page_count_per_domain(self, scraper_outputs_df, ordered=True):
         """Generate page count per domain
 
         PARAMETERS
+        - scraper_outputs_df: dataframe containing scraper outputs,
+           generated with the method with the same name
         - ordered: whether the resulting DataFrame or
         Excel sheet result be sorted/ordered. If True, order by 'page count'
         """
 
         # create a dataframe with duplicate source_urls removed
-        df = self.datopian_out_df.\
+        df = scraper_outputs_df.\
             drop_duplicates(subset='source_url', inplace=False)
 
         # create subset of the datopian dataframe (subset will house domain info)
@@ -260,16 +236,18 @@ class Statistics():
         return df_subset
 
 
-    def list_resource_count_per_domain(self, ordered=True):
+    def list_resource_count_per_domain(self, scraper_outputs_df, ordered=True):
         """Generate resource count per domain
 
         PARAMETERS
+        - scraper_outputs_df: dataframe containing scraper outputs,
+           generated with the method with the same name
         - ordered: whether the resulting DataFrame or
         Excel sheet result be sorted/ordered. If True, order by 'resource per domain'
         """
 
         # create a dataframe with duplicate url and source_urls removed
-        df_deduplicated_df = self.datopian_out_df.\
+        df_deduplicated_df = scraper_outputs_df.\
             drop_duplicates(subset=['url', 'source_url'], inplace=False)
 
         # create subset of the df dataframe (subset will house domain info)
@@ -299,21 +277,23 @@ class Statistics():
                                     result=df_subset)
         return df_subset
 
-    def list_resource_count_per_page(self, ordered=True):
+    def list_resource_count_per_page(self, scraper_outputs_df, ordered=True,):
         """Determine resources produced/generated from each page
 
         PARAMETERS
+        - scraper_outputs_df: dataframe containing scraper outputs,
+           generated with the method with the same name
         - ordered: whether the resulting DataFrame or
         Excel sheet result be sorted/ordered. If True, order by 'resource per page'
         """
 
         # create a dataframe with duplicate url and source_urls removed
-        deduplicated_df = self.datopian_out_df.drop_duplicates(subset=['url', 'source_url'],
+        deduplicated_df = scraper_outputs_df.drop_duplicates(subset=['url', 'source_url'],
                                              inplace=False)
         # create subset of the dataframe (subset will house domain info)
         df_subset = pd.DataFrame(columns=['domain'])
         # create the domain column from the source_url info available
-        df_subset['domain'] = self.datopian_out_df.apply(lambda row: urllib.parse.\
+        df_subset['domain'] = scraper_outputs_df.apply(lambda row: urllib.parse.\
                                        urlparse(row['source_url']).hostname.\
                                        replace('www2.', 'www.').replace('www.', ''), axis=1)
 
