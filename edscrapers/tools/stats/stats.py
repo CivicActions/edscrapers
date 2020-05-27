@@ -49,11 +49,15 @@ class Statistics():
             self.deduplicated_list_path = None
 
         self.datopian_out_df = self._generate_datopian_df(use_dump=False)
+        self.resource_count_per_page = []
+        self.resource_count_per_domain = []
+        self.page_count_per_domain = []
+
+    def generate_statistics(self):
         self.resource_count_per_page = self.list_resource_count_per_page()
         self.resource_count_per_domain = self.list_resource_count_per_domain()
         self.page_count_per_domain = self.list_page_count_per_domain()
 
-    def generate_statistics(self):
         statistics = {
             'total': {
                 'datopian': {
