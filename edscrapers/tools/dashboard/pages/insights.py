@@ -383,20 +383,20 @@ def generate_split_layout():
 
     # LED displays
     led_display(32985,
-        "DATASETS"),
+        "Datasets"),
     led_display(52709,
-        "RESOURCES"),
+        "Resources"),
     led_display(52745,
-        "PAGES"),
+        "Pages"),
     led_display(26,
-        "DOMAINS"),
+        "Domains"),
 
     # Totals Based on Original Scraper
     html.Br(),
     html.Br(),
     html.Br(),
     html.Br(),
-    header('Based on Original Scraper', 'total-scraper', INSIGHTS_TOTALS_SCRAPED_TOOLTIP),
+    header('Based On Scraper', 'total-scraper', INSIGHTS_TOTALS_SCRAPED_TOOLTIP),
     html.Hr(),
 
     # LED displays
@@ -410,7 +410,7 @@ def generate_split_layout():
     html.Br(),
     html.Br(),
     html.Br(),
-    header('Ingested into data portal', 'total-ingested', INSIGHTS_TOTALS_INGESTED_TOOLTIP),
+    header('Ingested Into Data Portal', 'total-ingested', INSIGHTS_TOTALS_INGESTED_TOOLTIP),
     html.Hr(),
 
     # LED displays
@@ -429,7 +429,7 @@ def generate_split_layout():
     html.Br(),
     html.Br(),
     html.Br(),
-    header('Datasets Ingested into the Portal by Publisher',
+    header('Datasets Ingested Into The Portal By Publisher',
             'datasets-office', INSIGHTS_DATASETS_BY_OFFICE_TOOOLTIP),
     html.Hr(),
 
@@ -491,7 +491,7 @@ def generate_split_layout():
     html.Br(),
     html.Br(),
     html.Br(),
-    header('Resources Ingested into the Portal by Publisher',
+    header('Resources Ingested Into The Portal By Publisher',
             'resources-office',INSIGHTS_RESOURCES_BY_OFFICE_TOOOLTIP),
     html.Hr(),
 
@@ -520,7 +520,7 @@ def generate_split_layout():
     html.Br(),
     html.Br(),
     html.Br(),
-    header('Datasets Ingested into the Portal by Domain',
+    header('Datasets Ingested Into The Portal By Domain',
             'datasets-domain',INSIGHTS_DATASETS_BY_DOMAIN_TOOOLTIP),
     html.Hr(),
 
@@ -550,7 +550,7 @@ def generate_split_layout():
     html.Br(),
     html.Br(),
     html.Br(),
-    header('Resources Ingested into the Portal by Domain',
+    header('Resources Ingested Into The Portal By Domain',
             'resources-domain',INSIGHTS_RESOURCES_BY_DOMAIN_TOOOLTIP),
     html.Hr(),
 

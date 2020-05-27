@@ -45,7 +45,7 @@ def generate_layout():
     # Datasets By Domain
     header('Portal Totals', 
             'portal-totals',html.Div(id='portal-totals-tooltip-div', children=[
-    html.Span("Datasets in Portal", style={'font-weight':'bold'}),
+    html.Span("Datasets In Portal", style={'font-weight':'bold'}),
     html.Span(" - Total number of datasets in portal."),
     html.Br(),
     html.Br(), 
@@ -64,11 +64,11 @@ def generate_layout():
 
     # LED displays
     led_display(ckan_api.total_datasets(), 
-        "Datasets in Portal"),
+        "Datasets In Portal"),
     led_display(ckan_api.total_scraped_datasets(), 
         "Scraped Datasets"),
     led_display(ckan_api.total_amended_datasets(),
-        "Datasets Amended by User"),
+        "Datasets Amended By User"),
     led_display(ckan_api.total_manual_datasets(), 
         "Datasets Manually Added"),
 

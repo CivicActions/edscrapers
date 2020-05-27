@@ -100,11 +100,10 @@ class RAGSummary():
         return html.Div(id="header_notes",children=[
             html.Span(
                 "The data quality by ",
-                className='text-muted',
             ),
             html.Span(
                 "publisher",
-                id="tooltip-publisher", className='text-muted',
+                id="tooltip-publisher", 
                 style={"textDecoration": "underline", "cursor": "pointer"},
             ),
             dbc.Tooltip(
@@ -114,11 +113,10 @@ class RAGSummary():
             ),
             html.Span(
                 " and ",
-                className='text-muted',
             ),
             html.Span(
                 "domain",
-                id="tooltip-domain", className='text-muted',
+                id="tooltip-domain",
                 style={"textDecoration": "underline", "cursor": "pointer"},
             ),
             dbc.Tooltip(
@@ -128,12 +126,11 @@ class RAGSummary():
             ),
             html.Span(
                 " is shown below.",
-                className='text-muted',
             ),
+            html.Br(),
             html.Br(),
             html.Span(
                 "An outline of how data quality is calculated provided at the ",
-                className='text-muted',
             ),
             dcc.Link("bottom of this page.", href="#foot-table"),
         ], style={'margin-bottom':'30px'})
@@ -146,17 +143,17 @@ class RAGSummary():
                 "as the metadata has either been ingested by a scraper or input by a user. "
                 "In other words, the metadata quality has not been assessed, the algorithm "
                 "only checks how many metadata fields have been entered).",
-                className='text-muted'),
+                className='text-mutedz'),
             html.Br(),
             html.Br(),
             html.Span("The score is shown by two dimensions: by Publisher and by Domain.",
-                className='text-muted'),
+                className='text-mutedz'),
             html.Br(),
             html.Br(),
             html.Span("Data quality is calculated in the following way. "
                     "For each metadata filed that is present in a dataset," 
                     "points are assigned as per the table below",
-                className='text-muted'),
+                className='text-mutedz'),
             html.Br(),
             html.Br(),
             html.Div([
@@ -182,8 +179,8 @@ class RAGSummary():
                     html.Tr([html.Td('Bureau code'), html.Td('1')]),
                     html.Tr([html.Td('Program code'), html.Td('1')]),
                     html.Tr([html.Td('Access level'), html.Td('1')]),
-                    ],style={'border': '1px solid'}, id="foot-table", className='text-muted')
-            ],style={'width': '30%', 'margin': 'auto'})
+                    ],style={'border': '1px solid'}, id="foot-table", className='text-mutedz')
+            ],style={'width': '60%', 'margin': '0'})
         ])
 
 def generate_layout():
