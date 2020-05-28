@@ -11,6 +11,7 @@ import requests
 
 from json.decoder import JSONDecodeError
 
+from  edscrapers.transformers.base.helpers import traverse_output
 from edscrapers.cli import logger
 
 class Statistics():
@@ -87,10 +88,6 @@ class Statistics():
     # TODO: Imported from the Summary module, needs refactoring to fit in
     def _generate_scraper_outputs_df(self, use_dump=False):
 
-        def get_files_list():
-            results = pathlib.Path(os.path.join(os.getenv('ED_OUTPUT_PATH'), 'scrapers')).glob('**/*.json')
-            return [f for f in results]
-
         def abs_url(url, source_url):
             if url.startswith(('../', './', '/')) or not urllib.parse.urlparse(url).scheme:
                 full_url = urllib.parse.urljoin(source_url, url)
@@ -99,13 +96,13 @@ class Statistics():
                 return url
 
         if self.deduplicated_list_path is None:
-            files = get_files_list()
+            files = traverse_output()
         else:
             try:
                 with open(self.deduplicated_list_path, 'r') as fp:
                     files = [pathlib.Path(line.rstrip()) for line in fp]
             except:
-                files = get_files_list()
+                files = traverse_output()
 
         df_dump = str(pathlib.Path(os.path.join(os.getenv('ED_OUTPUT_PATH'), 'out_df.csv')))
         if use_dump:
@@ -141,14 +138,19 @@ class Statistics():
         Excel sheet result be sorted/ordered. If True, order by 'page count'
         """
 
-        scraper_counts = {}
+        filenames = []
         try:
             with open(self.deduplicated_list_path, 'r') as fp:
-                for line in fp.readlines():
-                    scraper_name = line.rstrip().split('/')[-2]
-                    scraper_counts[scraper_name] = (scraper_counts.get(scraper_name, 0) + 1)
+                filenames = fp.readlines()
         except:
             logger.warning('Warning! Cannot read deduplication results. Please run deduplicate transformer first')
+            filenames = traverse_output()
+
+        scraper_counts = {}
+        for filename in filenames:
+            scraper_name = str(filename).rstrip().split('/')[-2]
+            scraper_counts[scraper_name] = (scraper_counts.get(scraper_name, 0) + 1)
+
         df = pd.DataFrame(columns=['scraper', 'dataset count'])
         df['scraper'] = list(scraper_counts.keys())
         df['dataset count'] = list(scraper_counts.values())
@@ -263,7 +265,7 @@ class Statistics():
         # create subset of the dataframe (subset will house domain info)
         df_subset = pd.DataFrame(columns=['domain'])
         # create the domain column from the source_url info available
-        df_subset['domain'] = scraper_outputs_df.apply(lambda row: urllib.parse.\
+        df_subset['domain'] = deduplicated_df.apply(lambda row: urllib.parse.\
                                        urlparse(row['source_url']).hostname.\
                                        replace('www2.', 'www.').replace('www.', ''), axis=1)
 
@@ -277,14 +279,7 @@ class Statistics():
         result['page'] = [page for domain, page in grouped.indices.keys()]
         # get the size of each group
         # this value represents the number of resources gotten per page
-        try:
-            result['resource per page'] = list(grouped.size().values)
-        except:
-            try:
-                result['resource per page'] = grouped.size().values.tolist()
-            except:
-                logger.warning('Could not save values into "reosurces per page"!')
-                result['resource per page'] = [0 for k in grouped.indices.keys()]
+        result['resource per page'] = list(grouped.size().values)
 
         # if 'ordered' is True, sorted the df by 'resource count' in descending order
         if ordered:
