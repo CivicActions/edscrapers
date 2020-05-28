@@ -260,7 +260,7 @@ class Statistics():
         # create subset of the dataframe (subset will house domain info)
         df_subset = pd.DataFrame(columns=['domain'])
         # create the domain column from the source_url info available
-        df_subset['domain'] = scraper_outputs_df.apply(lambda row: urllib.parse.\
+        df_subset['domain'] = deduplicated_df.apply(lambda row: urllib.parse.\
                                        urlparse(row['source_url']).hostname.\
                                        replace('www2.', 'www.').replace('www.', ''), axis=1)
 
@@ -274,6 +274,7 @@ class Statistics():
         result['page'] = [page for domain, page in grouped.indices.keys()]
         # get the size of each group
         # this value represents the number of resources gotten per page
+
         result['resource per page'] = list(grouped.size().values)
 
         # if 'ordered' is True, sorted the df by 'resource count' in descending order
