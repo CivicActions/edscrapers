@@ -118,13 +118,16 @@ class Statistics():
                     continue
 
                 with open(fp, 'r') as json_file:
-                    j = json.load(json_file)
-                    j = [{
-                        'url': abs_url(r['url'], r['source_url']),
-                        'source_url': r['source_url'],
-                        'scraper': fp.parent.name
-                    } for r in j['resources'] if r['source_url'].find('/print/') == -1]
-                    dfs.append(pd.read_json(json.dumps(j)))
+                    try:
+                        j = json.load(json_file)
+                        j = [{
+                            'url': abs_url(r['url'], r['source_url']),
+                            'source_url': r['source_url'],
+                            'scraper': fp.parent.name
+                        } for r in j['resources'] if r['source_url'].find('/print/') == -1]
+                        dfs.append(pd.read_json(json.dumps(j)))
+                    except:
+                        logger.warning(f'Could not parse file {json_file} as JSON!')
             df = pd.concat(dfs, ignore_index=True)
             df.to_csv(df_dump, index=False)
 
@@ -274,7 +277,6 @@ class Statistics():
         result['page'] = [page for domain, page in grouped.indices.keys()]
         # get the size of each group
         # this value represents the number of resources gotten per page
-
         result['resource per page'] = list(grouped.size().values)
 
         # if 'ordered' is True, sorted the df by 'resource count' in descending order
