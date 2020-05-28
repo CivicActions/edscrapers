@@ -14,9 +14,6 @@ import dash_html_components as html
 import dash_bootstrap_components as dbc
 
 
-from edscrapers.tools.dashboard.json_parser import (get_datasets_bars_data,
-                                                 get_table_rows_by_office,
-                                                 get_total_resources_by_office)
 from edscrapers.tools.stats.stats import Statistics
 from edscrapers.tools.dashboard.ckan_api import CkanApi
 from edscrapers.tools.dashboard.utils import buttonsToRemove
@@ -36,12 +33,6 @@ class InsightsPage():
 
     def __init__(self):
         self.ckan_api = CkanApi()
-
-    def get_compare_dict(self):
-        if not hasattr(self, 'stats'):
-            self.stats = Statistics()
-        return self.stats.get_compare_dict()
-
 
     def _get_df_from_excel_sheet(self, sheet_name):
         """ private helper function used to read excel sheets and
@@ -93,8 +84,6 @@ class InsightsPage():
         """ function used to create the Table component which displays
         the number of pages/datasets obtained from each domain """
 
-        # get the dataframe from the excel sheet
-        # df = self._get_df_from_excel_sheet('PAGE COUNT')
         df = self.dataset_by_domain_portal_df()
 
         # add a total of page count at the end of the df
@@ -148,8 +137,7 @@ class InsightsPage():
     def dataset_by_domain_bar(self):
         """ function creates a bar chart which displays the
         number of pages/datasets per domain """
-        # the the dataframe from the Excel sheet
-        #df = self._get_df_from_excel_sheet('PAGE COUNT')
+
         df = self.dataset_by_domain_portal_df()
         # create the bar chart using the created dataframe
         return dcc.Graph(
@@ -171,31 +159,6 @@ class InsightsPage():
     def resources_by_domain_table(self):
         """ function is used to create DataTable containing
         the number of resources/domains """
-
-        # df = self.resources_by_domain_df()
-
-        # # return the created DataTable
-        # return dash_table.DataTable(id='resource_by_domain_table',
-        #                             columns=[{"name": i, "id": i} for i in df.columns],
-        #                             data=df.to_dict('records'),
-        #                             sort_action='native',
-        #                             style_cell={'textAlign': 'left', 
-        #                                         'whiteSpace': 'normal'},
-        #                             #fixed_rows={ 'headers': True, 'data': 0 },
-        #                             #virtualization=True,
-        #                             style_cell_conditional=[
-        #                                     {'if': {'column_id': 'domain'},
-        #                                     'width': '70%', 'textAlign': 'right'},
-        #                                     {'if': {'column_id': 'resource count'},
-        #                                     'width': '30%'}],
-        #                             style_table={
-        #                                             'maxHeight': '300px',
-        #                                             'maxWidth': '100%',
-        #                                             'overflowY': 'scroll',
-        #                                             'overflowX': 'hidden',
-        #                                             'margin': 0,
-        #                                             'padding': 0
-        #                                             })
 
         working_df1 = self.resource_by_domain_portal_df()
 
@@ -247,28 +210,21 @@ class InsightsPage():
                     }
         )
 
-    def resources_by_domain_df(self):
+    def total_domains_count_stats(self):
         df = self._get_df_from_excel_sheet('RESOURCE COUNT PER DOMAIN')
-        working_df1 = pd.DataFrame(columns=['domain'])
-        working_df1['domain'] = df['domain']
-        working_df1['resource count'] = df['resource count']
-
-        return working_df1
-
-    def resources_by_publisher_df(self):
-        data = dict(get_total_resources_by_office('datopian'))
-
-        publishers = []
-        counts = []
-        for key,value in data.items():
-            publishers.append(key)
-            counts.append(value)
-
-        df = pd.DataFrame(columns=['publisher','resource count'])
-        df['publisher'] = publishers
-        df['resource count'] = counts
-
-        return df
+        return df['domain'].count()
+    
+    def total_page_count_stats(self):
+        df = self._get_df_from_excel_sheet('PAGE COUNT PER DOMAIN')
+        return df['page count'].sum()
+    
+    def total_resource_count_stats(self):
+        df = self._get_df_from_excel_sheet('RESOURCE COUNT PER DOMAIN')
+        return df['resource count'].sum()
+    
+    def total_datasets_count_stats(self):
+        df = self._get_df_from_excel_sheet('DATASET COUNT PER SCRAPER')
+        return df['dataset count'].sum()
 
     def resources_by_publisher_portal_df(self):
 
@@ -295,7 +251,6 @@ class InsightsPage():
         """" function is used to created a pie chart showing
         the number of resources gotten per domain """
 
-        #df = self.resources_by_domain_df()
         df = self.resource_by_domain_portal_df()
 
         wrapped_domain_names = []
@@ -321,7 +276,6 @@ class InsightsPage():
 
     def resources_by_publisher_table(self):
 
-        #df = self.resources_by_publisher_df()
         df = self.resources_by_publisher_portal_df()
 
          # add a total of resource count at the end of the df
@@ -388,19 +342,6 @@ class InsightsPage():
                          }
                         )
 
-    def dataset_by_office_data(self):
-        # returns the rows for the datasets by office table including total
-        rows = get_table_rows_by_office('datasets_by_office')
-        total_datopian = 0
-
-        for row in rows:
-            total_datopian += row.get('datopian', 0)
-
-        total_row = {'s': 'Total', 'datopian' : total_datopian}
-        rows.append(total_row)
-
-        return rows
-
     def dataset_by_office_portal_data(self):
         rows = []
         total = 0
@@ -459,14 +400,10 @@ def generate_split_layout():
     html.Hr(),
 
     # LED displays
-    led_display(p.get_compare_dict()['total']['datopian']['datasets'],
-        "Datasets"),
-    led_display(p.get_compare_dict()['total']['datopian']['resources'],
-        "Resources"),
-    led_display(sum(s for s in p.get_compare_dict()['total']['datopian']['pages'].values()),
-        "Pages"),
-    led_display(p.resources_by_domain_df().count()['domain'],
-        "Domains"),
+    led_display(p.total_datasets_count_stats(), "Datasets"),
+    led_display(p.total_resource_count_stats(), "Resources"),
+    led_display(p.total_page_count_stats(), "Pages"),
+    led_display(p.total_domains_count_stats(), "Domains"),
 
     # Totals Based on Original Scraper
     html.Br(),
@@ -531,7 +468,6 @@ def generate_split_layout():
         dcc.Graph(
             figure={
                 'data': p.get_datasets_bars_portal_data(),
-                #'data': get_datasets_bars_data(),
                 'layout': {
                     #'title': 'Datasets by Office'
                     #'showlegend': False
