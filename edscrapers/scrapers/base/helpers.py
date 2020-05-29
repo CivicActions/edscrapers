@@ -63,6 +63,16 @@ def get_document_extensions():
         '.pdf': 'PDF file'
     }
 
+def get_avoidable_extensions():
+    return {
+        '.jpg': 'JPG image file',
+        '.jpeg': 'JPEG image file',
+        '.png': 'PNG image file',
+        '.ppt': 'MS PowerPoint file',
+        '.pptx': 'MS PowerPoint file',
+        '.mp3': 'MP3 audio file',
+    }
+
 def get_all_resources(res, dataset, extensions, deny_list=[]):
     for link in LxmlLinkExtractor(deny_extensions=[], deny=deny_list).extract_links(res):
         for extension in extensions.keys():
