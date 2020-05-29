@@ -17,6 +17,10 @@ class Collection(Item):
     collection_url = Field()
     source = Field()
 
+class Publisher(Item):
+    name = Field()
+    subOrganizationOf = Field()
+
 
 class Dataset(Item):
 
@@ -25,7 +29,6 @@ class Dataset(Item):
     title = Field()
     name = Field()
     notes = Field()
-    publisher = Field()
     date = Field()
     contact_person_name = Field()
     contact_person_email = Field()
@@ -33,6 +36,7 @@ class Dataset(Item):
     tags = Field()
     resources = Field()
     collection = Field()
+    publisher = Field()
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__['_values'],

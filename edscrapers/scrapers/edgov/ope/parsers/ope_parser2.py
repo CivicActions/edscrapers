@@ -1,4 +1,4 @@
-""" parser for edgov pages """
+""" parser2 for OPE pages """
 
 import re
 import requests
@@ -17,18 +17,18 @@ def parse(res, publisher) -> dict:
     # create parser object
     soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
 
-    dataset_containers = soup_parser.find_all(name='body')
-    
+    dataset_containers = soup_parser.body.find_all(class_='contentText',
+                                                   recursive=True)
+
     # check if this page is a collection (i.e. collection of datasets)
     if len(dataset_containers) > 0: # this is a collection
-        # create the collection (with a source)
+       # create the collection (with a source)
         collection = h.extract_dataset_collection_from_url(collection_url=res.url,
                                         namespace="all",
                                         source_url=\
                                         str(res.request.headers.get(str(b'Referer',
                                                                     encoding='utf-8'), b''), 
                                             encoding='utf-8'))
-
     for container in dataset_containers:
         # create dataset model dict
         dataset = Dataset()
@@ -82,32 +82,23 @@ def parse(res, publisher) -> dict:
                                 url=resource_link['href'])
             # get the resource name iteratively
             for child in resource_link.parent.children:
-                if resource_link.parent.name == 'td':
-                    resource['name'] = str(resource_link.find_parent(name='tr').contents[1]).strip()
-                else:
-                    resource['name'] = str(child).strip()
+                resource['name'] = str(child).strip()
                 if re.sub(r'(<.+>)', '',
                 re.sub(r'(</.+>)', '', resource['name'])) != "":
                     break
             resource['name'] = re.sub(r'(</.+>)', '', resource['name'])
             resource['name'] = re.sub(r'(<.+>)', '', resource['name'])
 
-            if resource_link.parent.parent.find(name=True):
+            # concatenate the content of resource link's parent 1st & 2nd child 
+            # class 'headersLevel1' & 'headersLevel2'
+            resource['description'] = str(resource_link.\
+                                           parent.contents[0]).strip() +\
+                                        " - " + str(dict(enumerate(resource_link.\
+                                           parent.contents)).get(1, '')).strip()
 
-                # concatenate the text content of parents with 
-                # resource name
-                resource['description'] = str(resource_link.parent.parent.find(name=True)).strip() +\
-                                            " - " + str(resource['name']).strip()
-                resource['description'] = re.sub(r'(</.+>)', '', resource['description'])
-                resource['description'] = re.sub(r'(<.+>)', '', resource['description'])
-                resource['description'] = re.sub(r'^\s+\-\s+', '', resource['description'])
-            else:
-                # use the resource name for description
-                resource['description'] = str(resource['name']).strip()
-                resource['description'] = re.sub(r'(</.+>)', '', resource['description'])
-                resource['description'] = re.sub(r'(<.+>)', '', resource['description'])
-            # after getting the best description possible, strip any white space
-            resource['description'] = resource['description'].strip()
+            resource['description'] = re.sub(r'(</.+>)', '', resource['description'])
+            resource['description'] = re.sub(r'(<.+>)', '', resource['description'])
+            
 
             # get the format of the resource from the file extension of the link
             resource_format = resource_link['href']\
@@ -119,6 +110,7 @@ def parse(res, publisher) -> dict:
 
             # add the resource to collection of resources
             dataset['resources'].append(resource)
+        
         if len(dataset['resources']) == 0:
             continue
 
