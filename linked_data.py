@@ -6,6 +6,8 @@ import pathlib
 import collections
 import json
 
+import pandas as pd
+
 from edscrapers.transformers.base import helpers as t_helpers
 from edscrapers.scrapers.base import helpers as s_helpers
 
@@ -166,7 +168,7 @@ def cumulate_datasets_across_offices(path_to_datajson_files):
 
 
 def track_duplicate_datasets(datasets_iterator, collections_iterator,
-                             sources_iterator):
+                             sources_iterator, min_num_offices=2):
     """ function tracks duplicate datasets from within
     the iterator provided """
 
@@ -190,7 +192,7 @@ def track_duplicate_datasets(datasets_iterator, collections_iterator,
             # identify the offices that share these filtered datasets
             linked_offices = {a_dataset.get('office') for a_dataset in filtered_datasets}
             # check if the dataset is linked across different offices
-            if len(linked_offices) <= 0: # if only 1 office is listed, there is no link across offices
+            if len(linked_offices) < min_num_offices: # if less than min_num_offices is listed, there is no link across offices
                 continue # move to the next
             
             filtered_collections = list(filter(lambda collection, compare_dataset=counter_key: collection['id'] in compare_dataset.get('collection', []),
@@ -244,7 +246,7 @@ def cumulate_resources_across_offices(path_to_datajson_files):
                         yield stripped_resource # yield the stripped down resource
 
 
-def track_duplicate_resources(resources_iterator):
+def track_duplicate_resources(resources_iterator, min_num_offices=2):
     """ function tracks duplicate resources from within
     the iterator provided """
 
@@ -272,7 +274,7 @@ def track_duplicate_resources(resources_iterator):
             # identify the offices that share these filtered resources
             linked_offices = {a_resource.get('office').lower() for a_resource in filtered_resources}
             # check if the resource is linked across different offices
-            if len(linked_offices) <= 1: # if only 1 office is listed, there is no link across offices
+            if len(linked_offices) < min_num_offices: # if less than min_num_offices is listed, there is no link across offices
                 continue # move to the next
 
             #trash +=1
@@ -354,7 +356,8 @@ def cumulate_sources_across_offices(path_to_datajson_files):
                     yield stripped_source # yield the stripped down source
 
 
-def track_duplicate_collections(collections_iterator, sources_iterator):
+def track_duplicate_collections(collections_iterator, sources_iterator,
+                                min_num_offices=2):
     """ function tracks duplicate collections from within
     the iterator provided """
 
@@ -370,8 +373,7 @@ def track_duplicate_collections(collections_iterator, sources_iterator):
     # remove the comments on any line which contains the variable 'trash' in order to use it
     #trash = 0
     for counter_key, counter_value in collection_counter.items():
-        #if trash == 2:
-            #return trash
+        
         if not counter_key: # if key is None
             continue # move to the next resource
 
@@ -383,10 +385,9 @@ def track_duplicate_collections(collections_iterator, sources_iterator):
             # identify the offices that share these filtered collections
             linked_offices = {a_collection.get('office').lower() for a_collection in filtered_collections}
             # check if the collection is linked across different offices
-            if len(linked_offices) <= 0: # if only 1 office is listed, there is no link across offices
+            if len(linked_offices) < min_num_offices: # if less than min_num_offices is listed, there is no link across offices
                 continue # move to the next
 
-            #trash +=1
             filtered_sources = list(filter(lambda source, compare_collection=counter_key: source['id'] in compare_collection.get('source', []),
                                           sources_iterator))
             # return a dict with the linked datsets information
@@ -396,6 +397,28 @@ def track_duplicate_collections(collections_iterator, sources_iterator):
                    'linked_offices': list(linked_offices),
                    'number_of_sources_linked_to': len(list(set(filtered_sources))),
                    'linked_sources': list(set(filtered_sources))}
+
+def dict_to_csv(data_list:list, key_to_column:dict, file_path):
+    """ function is used to creat a panda data frame and
+    subsequently a csv/excel file from the panda df """
+
+    pd_data = []
+    for data in data_list:
+        data_array = []
+        for key in key_to_column.keys():
+            if key == "linked_offices":
+                data[key] = ",".join(data[key])
+            data_array.append(data[key])
+        
+        pd_data.append(data_array)
+    
+    df = pd.DataFrame(data=pd_data,
+                      columns=[col for col in key_to_column.values()])
+    
+    # write csv
+    df.to_csv(file_path, columns=[col for col in key_to_column.values()],
+              header=True, index=False)
+
 
 # run the script
 if __name__ == "__main__":
@@ -435,6 +458,8 @@ if __name__ == "__main__":
                   cls=ModuleJSONEncoder, indent=2, sort_keys=False)
     print('Done.')
 
+
+    """    
     ###
     #track which collections are duplicated across offices
     print("Finding linked collections across offices....")
@@ -449,7 +474,7 @@ if __name__ == "__main__":
     with open(pathlib.Path(OUTPUT_PATH, "linked_collections.json"), 'wt') as file_stream:
         json.dump(list(duplicate_collections), file_stream,
                   cls=ModuleJSONEncoder, indent=2, sort_keys=False)
-    print('Done.')
+    print('Done.') """
 
     #######
     # get all resources available
@@ -471,3 +496,15 @@ if __name__ == "__main__":
         json.dump(list(duplicate_resources), file_stream,
                   cls=ModuleJSONEncoder, indent=2, sort_keys=False)
     print('Done.') """
+
+    # write linked resources as csv
+    dict_to_csv(data_list=json.load(open(pathlib.Path(OUTPUT_PATH, "linked_resources(first run).json"), 'rt')), 
+                key_to_column={'downloadURL': "Resource URL",
+                               'linked_offices': "Links Across Offices"},
+                file_path=pathlib.Path(OUTPUT_PATH, "resources.csv"))
+
+    # write linked datasets as csv
+    dict_to_csv(data_list=json.load(open(pathlib.Path(OUTPUT_PATH, "linked_datasets.json"), 'rt')), 
+                key_to_column={'scraped_from': "Dataset URL",
+                               'linked_offices': "Linked Across Offices"},
+                file_path=pathlib.Path(OUTPUT_PATH, "datasets.csv"))
