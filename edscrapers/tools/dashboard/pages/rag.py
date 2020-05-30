@@ -130,7 +130,7 @@ class RAGSummary():
             html.Br(),
             html.Br(),
             html.Span(
-                "An outline of how data quality is calculated provided at the ",
+                "An outline of how data quality is calculated is provided at the ",
             ),
             dcc.Link("bottom of this page.", href="#foot-table"),
         ], style={'margin-bottom':'30px'})

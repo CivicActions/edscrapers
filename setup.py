@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 if sys.version_info < (3,6):
-    sys.exit('Sorry, Python < 3.6 is not supported')
+    sys.exit('Sorry, Python < 3.7 is not supported')
 
 setuptools.setup(
     name="edscrapers",
@@ -22,7 +22,7 @@ setuptools.setup(
         "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     install_requires=[
         'Click'
     ],
