@@ -31,11 +31,11 @@ def parse(res, publisher):
     # check if the parser is working on OPE web page
     if soup_parser.body.find(name='div', id='maincontent', recursive=True) is not None:
         # parse the page with the parser and return result
-        return parsers.parser1.parse(res, publisher)
+        return parsers.parser1.parse(res=res, publisher=publisher)
     # check if the parser is working on OCTAE web page (variant 2)
     if soup_parser.body.select_one('.headersLevel1') is not None:
         # parse the page with the parser and return result
-        return parsers.parser2.parse(res, publisher)
+        return parsers.parser2.parse(res=res, publisher=publisher)
     else:
         return None
 

@@ -36,7 +36,7 @@ def parse(res, publisher) -> dict:
 
         if soup_parser.head.find(name='meta',attrs={'name': 'DC.title'}) is None:
             dataset['title'] = str(soup_parser.head.\
-                                find(name='title').string).strip()
+                                find(name='title')).strip()
         else:
             dataset['title'] = soup_parser.head.find(name='meta',
                                            attrs={'name': 'DC.title'})['content']

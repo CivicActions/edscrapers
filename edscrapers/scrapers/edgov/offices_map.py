@@ -1,7 +1,7 @@
 offices_map = {
     'Office of Communications and Outreach (OCO)': {
         'name': 'oco',
-        'subOrganizationOf': 'edgov'
+        'subOrganizationOf': None
     },
     'Office of Elementary and Secondary Education (OESE)': {
         'name': 'oese',
@@ -9,7 +9,7 @@ offices_map = {
     },
     'Office of Innovation and Improvement (OII)': {
         'name': 'oii',
-        'subOrganizationOf': 'edgov'
+        'subOrganizationOf': 'oese'
     },
     'Office of Postsecondary Education (OPE)': {
         'name': 'ope',
@@ -25,11 +25,11 @@ offices_map = {
     },
     'Office of the Secretary (OS)': {
         'name': 'os',
-        'subOrganizationOf': 'edgov'
+        'subOrganizationOf': None
     },
     'Office of Management (OM)': {
         'name': 'om',
-        'subOrganizationOf': 'edgov'
+        'subOrganizationOf': 'ofo'
     },
     'U.S. Department of Education': {
         'name': 'edgov',
@@ -37,11 +37,11 @@ offices_map = {
     },
     'Office of the Deputy Secretary (ODS)': {
         'name': 'ods',
-        'subOrganizationOf': 'edgov'
+        'subOrganizationOf': None
     },
     'Office of Vocational and Adult Education (OVAE)': {
-        'name': 'octae',
-        'subOrganizationOf': None
+        'name': 'ovae',
+        'subOrganizationOf': 'octae'
     },
     'Office of Finance and Operations': {
         'name': 'ofo',
@@ -49,7 +49,7 @@ offices_map = {
     },
     'Office of the Under Secretary (OUS)': {
         'name': 'ous',
-        'subOrganizationOf': 'edgov'
+        'subOrganizationOf': None
     },
     'Office of the Chief Financial Officer (OCFO)': {
         'name': 'ocfo',
@@ -57,11 +57,11 @@ offices_map = {
     },
     'Office of Safe and Drug-Free Schools (OSDFS)': {
         'name': 'osdfs',
-        'subOrganizationOf': 'edgov'
+        'subOrganizationOf': 'oese'
     },
     'Office of Planning, Evaluation and Program Development (OPEPD)': {
         'name': 'opepd',
-        'subOrganizationOf': 'edgov'
+        'subOrganizationOf': None
     },
     'Office of English Language Acquisition (OELA)': {
         'name': 'oela',
@@ -69,7 +69,7 @@ offices_map = {
     },
     'Office of Intergovernmental and Interagency Affairs (OIIA)': {
         'name': 'oiia',
-        'subOrganizationOf': 'edgov'
+        'subOrganizationOf': 'oco'
     },
     'Institute of Education Sciences (IES)': {
         'name': 'ies',
@@ -77,31 +77,31 @@ offices_map = {
     },
     'Office of the Chief Information Officer (OCIO)': {
         'name': 'ocio',
-        'subOrganizationOf': 'edgov'
+        'subOrganizationOf': None
     },
     'Office of Public Affairs (OPA)': {
         'name': 'opa',
-        'subOrganizationOf': 'edgov'
+        'subOrganizationOf': 'oco'
     },
     'Student Financial Assistance (SFA)': {
         'name': 'sfa',
-        'subOrganizationOf': 'edgov'
+        'subOrganizationOf': 'fsa'
     },
     'Office of Inspector General (OIG)': {
         'name': 'oig',
-        'subOrganizationOf': 'edgov'
+        'subOrganizationOf': None
     },
     'Office of Legislation and Congressional Affairs (OLCA)': {
         'name': 'olca',
-        'subOrganizationOf': 'edgov'
+        'subOrganizationOf': None
     },
     'Advisory Committee on Student Financial Assistance (ACSFA)': {
         'name': 'acsfa',
-        'subOrganizationOf': 'edgov'
+        'subOrganizationOf': 'fsa'
     },
     'Office of the General Counsel (OGC)': {
         'name': 'ogc',
-        'subOrganizationOf': 'edgov'
+        'subOrganizationOf': None
     },
     'Office of Federal Student Aid (FSA)': {
         'name': 'fsa',
