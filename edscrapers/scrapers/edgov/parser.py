@@ -35,10 +35,6 @@ def parse(res):
     publisher['name'] = 'edgov'
     publisher['subOrganizationOf'] = None
 
-    print(office)
-    if not office:
-        print(res.url)
-
     if office:
         if office in offices_map.keys():
             publisher['name'] = offices_map[office]['name']
