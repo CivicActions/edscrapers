@@ -35,12 +35,22 @@ def parse(res) -> dict:
 
         # replace all non-word characters (e.g. ?/) with '-'
         dataset['name'] = slugify(dataset['title'])
-        if soup_parser.head.find(name='meta', attrs={'name': 'ED.office'}) is None:
-            dataset['publisher'] = __package__.split('.')[-2]
+        if container.find('table', {'itemprop': 'mainEntity'}) is not None:
+            main_info = container.find('table', {'itemprop': 'mainEntity'}).find_all('tr')
+            for row in main_info:
+                info = [cell.text.strip().lower() for cell in row.findAll("td")]
+                if info[0] == 'center/program:':
+                    dataset['publisher'] = info[1]
         else:
-            dataset['publisher'] = soup_parser.head.\
-                                find(name='meta', attrs={'name': 'ED.office'})['content']
-        
+            if soup_parser.head.find(name='meta', attrs={'name': 'ED.office'}) is not None:
+                dataset['publisher'] = soup_parser.head.\
+                        find(name='meta', attrs={'name': 'ED.office'})['content']
+            elif soup_parser.head.find(name='meta', attrs={'name': 'DC.Publisher'}) is not None:
+                dataset['publisher'] = soup_parser.head.\
+                        find(name='meta', attrs={'name': 'DC.Publisher'})['content']
+            else:
+                dataset['publisher'] = __package__.split('.')[-2]
+
         if soup_parser.head.find(name='meta', attrs={'name': 'DC.description'}) is None:
             dataset['notes'] = dataset['title']
         else:
@@ -52,13 +62,13 @@ def parse(res) -> dict:
         else:
             dataset['tags'] = soup_parser.head.\
                                 find(name='meta', attrs={'name': 'keywords'})['content']
-    
+
         if soup_parser.head.find(name='meta', attrs={'name': 'DC.date.valid'}) is None:
             dataset['date'] = ''
         else:
             dataset['date'] = soup_parser.head.\
                                     find(name='meta', attrs={'name': 'DC.date.valid'})['content']
-        
+
         dataset['contact_person_name'] = ""
 
         dataset['contact_person_email'] = ""
