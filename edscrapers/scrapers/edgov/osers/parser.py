@@ -9,7 +9,7 @@ from edscrapers.scrapers.edgov.osers import parsers
 
 deny_list = []
 
-def parse(res, publisher):
+def parse(res, publisher={'name': 'osers', 'subOrganizationOf': None}):
 
     """ function parses content to create a dataset model
     or return None if no resource in content"""

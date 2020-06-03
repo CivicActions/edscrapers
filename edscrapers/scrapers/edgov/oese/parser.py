@@ -15,7 +15,7 @@ from edscrapers.scrapers.edgov.oese import parsers
 # contains list of data resources to exclude from dataset
 deny_list = []
 
-def parse(res, publisher):
+def parse(res, publisher={'name': 'oese', 'subOrganizationOf': None}):
     """ function parses content to create a dataset model
     or return None if no resource in content"""
 
