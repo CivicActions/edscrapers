@@ -1,9 +1,7 @@
-""" parser for edgov pages """
-
 import re
 import requests
 
-import bs4 # pip install beautifulsoup4
+import bs4
 from slugify import slugify
 
 import edscrapers.scrapers.base.helpers as h
@@ -11,14 +9,22 @@ import edscrapers.scrapers.base.parser as base_parser
 from edscrapers.scrapers.base.models import Dataset, Resource
 
 
-def parse(res, publisher) -> dict:
+def parse(res, publisher):
     """ function parses content to create a dataset model """
 
-    # create parser object
-    soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    # ensure that the response text gotten is a string
+    if not isinstance(getattr(res, 'text', None), str):
+        return None
 
-    dataset_containers = soup_parser.find_all(name='body')
-    
+    # create parser object
+    try:
+        soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    except:
+        return None
+
+    dataset_containers = soup_parser.body.find_all(class_='contentText',
+                                                   recursive=True)
+
     # check if this page is a collection (i.e. collection of datasets)
     if len(dataset_containers) > 0: # this is a collection
         # create the collection (with a source)
@@ -34,37 +40,45 @@ def parse(res, publisher) -> dict:
         dataset = Dataset()
         dataset['source_url'] = res.url
 
+        # title
         if soup_parser.head.find(name='meta',attrs={'name': 'DC.title'}) is None:
             dataset['title'] = str(soup_parser.head.\
-                                find(name='title')).strip()
+                                find(name='title').string).strip()
         else:
             dataset['title'] = soup_parser.head.find(name='meta',
-                                           attrs={'name': 'DC.title'})['content']
+                                    attrs={'name': 'DC.title'})['content']
 
-        # replace all non-word characters (e.g. ?/) with '-'
+        # name
         dataset['name'] = slugify(dataset['title'])
         dataset['publisher'] = publisher
         
+        # description
         if soup_parser.head.find(name='meta', attrs={'name': 'DC.description'}) is None:
-            dataset['notes'] = dataset['title']
+            dataset['notes'] = str(soup_parser.body.find(class_='headersLevel1',
+                                    recursive=True).string).strip()
         else:
             dataset['notes'] = soup_parser.head.\
                                 find(name='meta', attrs={'name': 'DC.description'})['content']
+        # if after searching, description is still not satisfactorily set
+        if dataset['notes'] is None or str(dataset['notes']).strip() == "":
+            # set description to document title
+            dataset['notes'] = dataset['title']
 
+        # tags
         if soup_parser.head.find(name='meta', attrs={'name': 'keywords'}) is None:
             dataset['tags'] = ''
         else:
             dataset['tags'] = soup_parser.head.\
                                 find(name='meta', attrs={'name': 'keywords'})['content']
-    
+        # date
         if soup_parser.head.find(name='meta', attrs={'name': 'DC.date.valid'}) is None:
             dataset['date'] = ''
         else:
             dataset['date'] = soup_parser.head.\
-                                    find(name='meta', attrs={'name': 'DC.date.valid'})['content']
+                                    find(name='meta', 
+                                    attrs={'name': 'DC.date.valid'})['content']
         
         dataset['contact_person_name'] = ""
-
         dataset['contact_person_email'] = ""
 
         # specify the collection which the dataset belongs to
@@ -80,34 +94,20 @@ def parse(res, publisher) -> dict:
         for resource_link in page_resource_links:
             resource = Resource(source_url=res.url,
                                 url=resource_link['href'])
-            # get the resource name iteratively
-            for child in resource_link.parent.children:
-                if resource_link.parent.name == 'td':
-                    resource['name'] = str(resource_link.find_parent(name='tr').contents[1]).strip()
-                else:
-                    resource['name'] = str(child).strip()
-                if re.sub(r'(<.+>)', '',
-                re.sub(r'(</.+>)', '', resource['name'])) != "":
-                    break
+            try:
+                resource['name'] = str(resource_link.find_parent(name='ul').\
+                                find_previous_sibling(name=True))
+            except:
+                resource['name'] = str(resource_link.string).strip()
+            resource['name'] +=  " " + str(resource_link.parent.contents[0]).strip()
             resource['name'] = re.sub(r'(</.+>)', '', resource['name'])
             resource['name'] = re.sub(r'(<.+>)', '', resource['name'])
 
-            if resource_link.parent.parent.find(name=True):
+            resource['description'] = str(resource_link.\
+                find_parent(class_='contentText').contents[0].string).strip()
 
-                # concatenate the text content of parents with 
-                # resource name
-                resource['description'] = str(resource_link.parent.parent.find(name=True)).strip() +\
-                                            " - " + str(resource['name']).strip()
-                resource['description'] = re.sub(r'(</.+>)', '', resource['description'])
-                resource['description'] = re.sub(r'(<.+>)', '', resource['description'])
-                resource['description'] = re.sub(r'^\s+\-\s+', '', resource['description'])
-            else:
-                # use the resource name for description
-                resource['description'] = str(resource['name']).strip()
-                resource['description'] = re.sub(r'(</.+>)', '', resource['description'])
-                resource['description'] = re.sub(r'(<.+>)', '', resource['description'])
-            # after getting the best description possible, strip any white space
-            resource['description'] = resource['description'].strip()
+            resource['description'] = re.sub(r'(</.+>)', '', resource['description'])
+            resource['description'] = re.sub(r'(<.+>)', '', resource['description'])
 
             # get the format of the resource from the file extension of the link
             resource_format = resource_link['href']\
@@ -119,6 +119,7 @@ def parse(res, publisher) -> dict:
 
             # add the resource to collection of resources
             dataset['resources'].append(resource)
+        
         if len(dataset['resources']) == 0:
             continue
 

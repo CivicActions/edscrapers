@@ -1,4 +1,4 @@
-""" parser for edgov pages """
+""" parser for oese pages """
 
 import re
 import requests
@@ -14,10 +14,18 @@ from edscrapers.scrapers.base.models import Dataset, Resource
 def parse(res, publisher) -> dict:
     """ function parses content to create a dataset model """
 
-    # create parser object
-    soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    # ensure that the response text gotten is a string
+    if not isinstance(getattr(res, 'text', None), str):
+        return None
 
-    dataset_containers = soup_parser.find_all(name='body')
+    try:
+        soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    except:
+        return None
+
+    dataset_containers = soup_parser.body.find_all(name='div',
+                                                   class_='container',
+                                                   recursive=True)
     
     # check if this page is a collection (i.e. collection of datasets)
     if len(dataset_containers) > 0: # this is a collection
@@ -36,7 +44,7 @@ def parse(res, publisher) -> dict:
 
         if soup_parser.head.find(name='meta',attrs={'name': 'DC.title'}) is None:
             dataset['title'] = str(soup_parser.head.\
-                                find(name='title')).strip()
+                                find(name='title').string).strip()
         else:
             dataset['title'] = soup_parser.head.find(name='meta',
                                            attrs={'name': 'DC.title'})['content']
@@ -77,37 +85,43 @@ def parse(res, publisher) -> dict:
         page_resource_links = container.find_all(name='a',
                                                  href=base_parser.resource_checker,
                                                  recursive=True)
+
+         # hold the list of resource names collected strictly by traversing resource parent
+        traverse_parent_unique_resource_names = list()
+
         for resource_link in page_resource_links:
             resource = Resource(source_url=res.url,
                                 url=resource_link['href'])
             # get the resource name iteratively
             for child in resource_link.parent.children:
-                if resource_link.parent.name == 'td':
-                    resource['name'] = str(resource_link.find_parent(name='tr').contents[1]).strip()
-                else:
-                    resource['name'] = str(child).strip()
+                resource['name'] = str(child).strip()
                 if re.sub(r'(<.+>)', '',
                 re.sub(r'(</.+>)', '', resource['name'])) != "":
                     break
             resource['name'] = re.sub(r'(</.+>)', '', resource['name'])
             resource['name'] = re.sub(r'(<.+>)', '', resource['name'])
 
-            if resource_link.parent.parent.find(name=True):
-
-                # concatenate the text content of parents with 
-                # resource name
-                resource['description'] = str(resource_link.parent.parent.find(name=True)).strip() +\
-                                            " - " + str(resource['name']).strip()
-                resource['description'] = re.sub(r'(</.+>)', '', resource['description'])
-                resource['description'] = re.sub(r'(<.+>)', '', resource['description'])
-                resource['description'] = re.sub(r'^\s+\-\s+', '', resource['description'])
+            # to ensure that the same name is not repeated for a resource when using parental traversal,
+            # check if the retrieved name has been collected and assigned before
+            if resource['name'] in traverse_parent_unique_resource_names:
+                # the retrieved resource name has already been assigned to another resource
+                # then retrieve the content of the 'a' tag as the name
+                resource['name'] = " ".join(list(map(lambda string: str(string), 
+                                                     resource_link.stripped_strings)))
             else:
-                # use the resource name for description
-                resource['description'] = str(resource['name']).strip()
+                # since resource name was retrieved by traversing parent,
+                # add resource name to the list
+                traverse_parent_unique_resource_names.append(resource['name'])
+
+            if resource_link.find_parent(name='p'):
+
+                resource['description'] = str(resource_link.\
+                                        find_parent(name='p').
+                                                contents[0]).strip()
                 resource['description'] = re.sub(r'(</.+>)', '', resource['description'])
                 resource['description'] = re.sub(r'(<.+>)', '', resource['description'])
-            # after getting the best description possible, strip any white space
-            resource['description'] = resource['description'].strip()
+            else: # set description to name of resource
+                resource['description'] = resource['name']
 
             # get the format of the resource from the file extension of the link
             resource_format = resource_link['href']\
@@ -119,6 +133,7 @@ def parse(res, publisher) -> dict:
 
             # add the resource to collection of resources
             dataset['resources'].append(resource)
+        
         if len(dataset['resources']) == 0:
             continue
 

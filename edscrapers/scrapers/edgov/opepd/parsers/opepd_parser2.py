@@ -1,4 +1,4 @@
-""" parser for edgov pages """
+""" parser2 for opepd pages """
 
 import re
 import requests
@@ -14,10 +14,18 @@ from edscrapers.scrapers.base.models import Dataset, Resource
 def parse(res, publisher) -> dict:
     """ function parses content to create a dataset model """
 
-    # create parser object
-    soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    # ensure that the response text gotten is a string
+    if not isinstance(getattr(res, 'text', None), str):
+        return None
 
-    dataset_containers = soup_parser.find_all(name='body')
+    # create parser object
+    try:
+        soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
+    except:
+        return None
+
+    dataset_containers = soup_parser.body.find_all(class_='contentText',
+                                                   recursive=True)
     
     # check if this page is a collection (i.e. collection of datasets)
     if len(dataset_containers) > 0: # this is a collection
@@ -36,7 +44,7 @@ def parse(res, publisher) -> dict:
 
         if soup_parser.head.find(name='meta',attrs={'name': 'DC.title'}) is None:
             dataset['title'] = str(soup_parser.head.\
-                                find(name='title')).strip()
+                                find(name='title').string).strip()
         else:
             dataset['title'] = soup_parser.head.find(name='meta',
                                            attrs={'name': 'DC.title'})['content']
@@ -45,11 +53,20 @@ def parse(res, publisher) -> dict:
         dataset['name'] = slugify(dataset['title'])
         dataset['publisher'] = publisher
         
-        if soup_parser.head.find(name='meta', attrs={'name': 'DC.description'}) is None:
+        try:
+            if soup_parser.head.find(name='meta', attrs={'name': 'DC.description'}) is None:
+                dataset['notes'] = str(soup_parser.body.find(class_='headersLevel1',
+                                                     recursive=True).string).strip()
+            else:
+                dataset['notes'] = soup_parser.head.\
+                                    find(name='meta', attrs={'name': 'DC.description'})['content']
+        except:
             dataset['notes'] = dataset['title']
-        else:
-            dataset['notes'] = soup_parser.head.\
-                                find(name='meta', attrs={'name': 'DC.description'})['content']
+
+        # if despite best efforts 'notes' is still empty or None
+        if not dataset.get('notes', None):
+            dataset['notes'] = dataset['title']
+
 
         if soup_parser.head.find(name='meta', attrs={'name': 'keywords'}) is None:
             dataset['tags'] = ''
@@ -74,14 +91,15 @@ def parse(res, publisher) -> dict:
         dataset['resources'] = list()
 
         # add  resources from the 'container' to the dataset
-        page_resource_links = container.find_all(name='a',
+        page_resource_links = soup_parser.body.find_all(name='a',
                                                  href=base_parser.resource_checker,
                                                  recursive=True)
+
         for resource_link in page_resource_links:
             resource = Resource(source_url=res.url,
                                 url=resource_link['href'])
-            # get the resource name iteratively
             for child in resource_link.parent.children:
+                # check if the resource is contained in a table
                 if resource_link.parent.name == 'td':
                     resource['name'] = str(resource_link.find_parent(name='tr').contents[1]).strip()
                 else:
@@ -92,23 +110,41 @@ def parse(res, publisher) -> dict:
             resource['name'] = re.sub(r'(</.+>)', '', resource['name'])
             resource['name'] = re.sub(r'(<.+>)', '', resource['name'])
 
-            if resource_link.parent.parent.find(name=True):
+            if resource_link.find_parent(class_='contentText').\
+                find_previous_sibling(class_='headersLevel2'):
 
                 # concatenate the text content of parents with 
-                # resource name
-                resource['description'] = str(resource_link.parent.parent.find(name=True)).strip() +\
-                                            " - " + str(resource['name']).strip()
+                # class 'headersLevel1' & 'headersLevel2'
+                resource['description'] = str(resource_link.\
+                                        find_parent(class_='contentText').\
+                                            find_previous_sibling(class_='headersLevel1').\
+                                                contents[0]).strip() +\
+                                            " - " + str(resource_link.\
+                                        find_parent(class_='contentText').\
+                                            find_previous_sibling(class_='headersLevel2').\
+                                                contents[0]).strip()
                 resource['description'] = re.sub(r'(</.+>)', '', resource['description'])
                 resource['description'] = re.sub(r'(<.+>)', '', resource['description'])
-                resource['description'] = re.sub(r'^\s+\-\s+', '', resource['description'])
             else:
-                # use the resource name for description
-                resource['description'] = str(resource['name']).strip()
+                # concatenate the text content of parents with
+                # class 'headersLevel1' & 'contentText'
+                resource['description'] = str(resource_link.\
+                                        find_parent(class_='contentText').\
+                                            find_previous_sibling(class_='headersLevel1').\
+                                                contents[0]).strip() +\
+                                            " - " + str(resource_link.\
+                                        find_parent(class_='contentText').\
+                                                contents[0].string or resource_link.\
+                                        find_parent(class_='contentText').\
+                                                contents[0]).strip()
                 resource['description'] = re.sub(r'(</.+>)', '', resource['description'])
                 resource['description'] = re.sub(r'(<.+>)', '', resource['description'])
-            # after getting the best description possible, strip any white space
-            resource['description'] = resource['description'].strip()
 
+            # after getting the best description possible, remove any " - "
+            # and trailing white space
+            resource['description'] = re.sub(r'^\s+\-\s+', '', resource.get('description', ''))
+            resource['description'] = resource['description'].strip()
+            
             # get the format of the resource from the file extension of the link
             resource_format = resource_link['href']\
                             [resource_link['href'].rfind('.') + 1:]
@@ -119,6 +155,7 @@ def parse(res, publisher) -> dict:
 
             # add the resource to collection of resources
             dataset['resources'].append(resource)
+        
         if len(dataset['resources']) == 0:
             continue
 
