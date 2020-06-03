@@ -154,7 +154,8 @@ def _transform_scraped_dataset(data: dict, target_dept='all'):
         dataset.modified = data.get('date')
 
     publisher = Organization()
-    publisher.name = h.get_office_name(target_dept)
+    publisher.name = data.get('publisher', {'name': 'edgov'})['name']
+    publisher.sub_organization_of = data.get('publisher', {}).get('subOrganizationOf', None)
     dataset.publisher = publisher
 
     contactPoint = {
