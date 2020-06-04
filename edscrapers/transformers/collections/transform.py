@@ -88,7 +88,7 @@ def transform(name=None, input_file=None):
 
 
 def identify_collections_within_graph(graph=GraphWrapper.graph):
-    """ method identifies AND flags/marks Collection vertices
+    """ function identifies AND flags/marks Collection vertices
     within the provided graph. All updates are done inplace,
     so the provided graph will be updated/modified after this process """
 
@@ -131,7 +131,20 @@ def identify_collections_within_graph(graph=GraphWrapper.graph):
             collection_vertex['collection_id'] = f'{hashlib.md5(collection_vertex["name"].encode("utf-8")).hexdigest()}-{hashlib.md5("all".encode("utf-8")).hexdigest()}'
         
         # return all identified collections as a Vertext_Seq
-        return combined_col_seq 
+        return combined_col_seq
+
+def link_datasets_to_collections_in_graph(graph=GraphWrapper.graph):
+    """ function marks dataset pages with the graph as
+    belonging to their appropriate Collection """
+
+    with graph.graph_lock:
+        # select all the collection vertices
+        collection_vertex_seq = graph.vs.select(is_collection_eq=True)
+        # select all the dataset Page vertices (i.e dataset page that are NOT marked as collections)
+        dataset_page_vertex_seq = graph.vs.select(is_dataset_page_eq=True, 
+                                                  is_collection_eq=None)
+        graph.es.select(_between=(list(collection_vertex_seq), list(dataset_page_vertex_seq)))   
+
 
 
 # TODO THIS METHOD IS DEPRECATED. WILL REMOVE WHEN WE ARE SURE NO OTHER MDOULE RELIES ON IT
