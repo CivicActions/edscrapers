@@ -21,8 +21,8 @@ class Crawler(CrawlSpider):
     def __init__(self):
 
         self.start_urls = [
-            'https://ies.ed.gov/pubsearch/',
-            'https://ies.ed.gov/resourcesforresearchers.asp',
+            # Get all records since 1980
+            'https://ies.ed.gov/pubsearch/index.asp?searchyear=1980'
             # Imported from the nces parser
             'https://nces.ed.gov/datatools/',
             'https://ies.ed.gov/data.asp',

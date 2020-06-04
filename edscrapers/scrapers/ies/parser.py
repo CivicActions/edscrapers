@@ -28,16 +28,15 @@ def parse(res):
 
     # if code gets here, at least one resource was found
 
-    if (soup_parser.body.find(name='div', class_='MainContent', recursive=True) is not None)\
-       and  (len(soup_parser.body.select('ul > li')) > 0 or\
-             soup_parser.body.find(name='div', id='ContentRight',
-                                   recursive=True) is not None):
-        return parsers.nces_parser2.parse(res)
-
     if (soup_parser.body.find(name='div', class_='nces', recursive=True) is not None)\
        and  (len(soup_parser.body.find_all(name='table', recursive=True)) > 0):
-        return parsers.nces_parser2.parse(res)
+        return parsers.nces_parser.parse(res)
 
+    if (soup_parser.body.find(name='div', class_='MainContent', recursive=True) is not None)\
+       and (len(soup_parser.body.select('ul > li')) > 0)\
+       or (soup_parser.body.find(name='div', id='ContentRight',recursive=True) is not None)\
+       or (soup_parser.body.find(name='div', itemprop="mainEntity", recursive=True) is not None):
+        return parsers.ies_parser.parse(res)
     else:
         return None
 

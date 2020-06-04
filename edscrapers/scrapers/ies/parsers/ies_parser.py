@@ -51,6 +51,10 @@ def parse(res) -> dict:
             else:
                 dataset['publisher'] = __package__.split('.')[-2]
 
+        # Handle case when meta field contains full name
+        if dataset['publisher'] == 'National Center for Education Statistics':
+            dataset['publisher'] = 'nces'
+
         if soup_parser.head.find(name='meta', attrs={'name': 'DC.description'}) is None:
             dataset['notes'] = dataset['title']
         else:

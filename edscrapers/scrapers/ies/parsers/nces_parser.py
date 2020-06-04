@@ -47,7 +47,8 @@ def parse(res) -> dict:
         # replace all non-word characters (e.g. ?/) with '-'
         dataset['name'] = slugify(dataset['title'])
         if soup_parser.head.find(name='meta', attrs={'name': 'ED.office'}) is None:
-            dataset['publisher'] = __package__.split('.')[-2]
+            # Use nces by default since this parser is used only when there is an `nces` class in the page
+            dataset['publisher'] = 'nces'
         else:
             dataset['publisher'] = soup_parser.head.\
                                 find(name='meta', attrs={'name': 'ED.office'})['content']
