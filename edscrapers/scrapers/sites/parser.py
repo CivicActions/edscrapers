@@ -10,6 +10,7 @@ import importlib
 import bs4
 
 from edscrapers.scrapers import base
+from edscrapers.scrapers.sites import parsers
 import edscrapers.scrapers.base.parser as base_parser
 from edscrapers.scrapers.base.models import Publisher
 

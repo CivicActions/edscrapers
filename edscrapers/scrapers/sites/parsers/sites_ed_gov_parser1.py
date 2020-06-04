@@ -17,7 +17,7 @@ def parse(res, publisher) -> dict:
     # create parser object
     soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
 
-    dataset_containers = soup_parser.body.find_all(class_='page', recursive=True)
+    dataset_containers = soup_parser.body.find_all(name='div', id='page', recursive=True)
 
     # check if this page is a collection (i.e. collection of datasets)
     if len(dataset_containers) > 0: # this is a collection
@@ -29,13 +29,17 @@ def parse(res, publisher) -> dict:
                                                                     encoding='utf-8'), b''), 
                                             encoding='utf-8'))
 
+    # print(dataset_containers)
+
     for container in dataset_containers:
         # create dataset model dict
         dataset = Dataset()
         dataset['source_url'] = res.url
 
-        dataset['title'] = str(container.find(class_='site-title').string).strip()
-        if dataset['title'] is None or dataset['title'] == '':
+        # import ipdb; ipdb.set_trace()
+        try:
+            dataset['title'] = str(container.find(class_='site-title').string).strip()
+        except:
             dataset['title'] = str(soup_parser.head.\
                                 find(name='title').string).strip()
         # replace all non-word characters (e.g. ?/) with '-'
@@ -43,10 +47,10 @@ def parse(res, publisher) -> dict:
         # get publisher from parent package name
         dataset['publisher'] = publisher
 
-        dataset['notes'] = str(container.find(_class='site-description').string).\
+        try:
+            dataset['notes'] = str(container.find(_class='site-description').string).\
                                   strip()
-        # if no notes/description available, default to dataset title
-        if dataset['notes'] is None or dataset['notes'] == '':
+        except:
             dataset['notes'] = dataset['title']
 
         dataset['tags'] = ''
@@ -79,6 +83,7 @@ def parse(res, publisher) -> dict:
 
             # add the resource to collection of resources
             dataset['resources'].append(resource)
+
 
         # if this dataset alread has data resource files look for
         # document resource files
