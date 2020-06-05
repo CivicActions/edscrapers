@@ -43,9 +43,11 @@ def transform(name=None, input_file=None):
     # get the loaded graph
     graph = GraphWrapper.get_graph()
 
-    # identify cpllections within the graph
+    # identify collections within the graph
     identify_collections_within_graph(graph)
     link_datasets_to_collections_in_graph(graph)
+    add_collections_to_raw_datasets(graph=graph,
+                                    output_dir=OUTPUT_DIR)
 
     # write the graph to files
     # this method is explicitly thread/proccess safe, so no need for lock
@@ -57,35 +59,25 @@ def transform(name=None, input_file=None):
     GraphWrapper.create_graph_page_legend(file_dir_path=Path(os.getenv('ED_OUTPUT_PATH'), 
                                                         "graphs", f"{name}"),
                                          file_stem_name=f'{name}.collections')                                    
+                                          
+    collections_list = [] # holds the list of collections acquired from graph
+
+    with graph.graph_lock:
+        for collection in graph.vs.select(is_collection_eq=True, name_ne='base_vertex'):
+            collections_list.append({'collection_id': collection['collection_id'],
+                                     'collection_title': collection['title'],
+                                      'collection_url': collection['name']})
     
-
-
-    """                                      
-    collections_list = [] # holds the list of collections acquired from 'name' scraper directory
-    # loop through filepath in file list
-    for file_path in file_list:
-        # read the json data in each filepath
-        data = h.read_file(file_path)
-        if not data: # if data is None
-            continue
-
-        # retrieve collection from dataset
-        collection = extract_collection_from(dataset=data, use_key='collection')
-        if not collection: # collection could not be retrieved
-            continue
-        # add collection to list
-        collections_list.append(collection)
-
     # get a list of non-duplicate collections
     collections_list = get_distinct_collections_from(collections_list,
-                                                     min_occurence_counter=2)
+                                                     min_occurence_counter=1)
     # get the path were the gotten Collections will be saved to on local disk
     file_output_path = f'{CURRENT_TRANSFORMER_OUTPUT_DIR}/{(name or "all")}.collections.json'
     # write to file the collections gotten from 'name' scraped output
     h.write_file(file_output_path, collections_list)
     # write file the collections gotten from 'name' scraped out to S3 bucket
     h.upload_to_s3_if_configured(file_output_path, 
-                                 f'{(name or "all")}.collections.json') """
+                                 f'{(name or "all")}.collections.json')
 
 
 def identify_collections_within_graph(graph=GraphWrapper.graph):
@@ -158,6 +150,7 @@ def link_datasets_to_collections_in_graph(graph=GraphWrapper.graph):
                     dataset_vertex['in_collection'] = list()
                 dataset_vertex['in_collection'].\
                     append({'collection_id': edge.source_vertex['collection_id'],
+                            'collection_title': edge.source_vertex['title'],
                             'collection_url': edge.source_vertex['name']})
             
         # select collection vertices that have also been marked as 'is_dataset_page'
@@ -174,33 +167,30 @@ def link_datasets_to_collections_in_graph(graph=GraphWrapper.graph):
                     dataset_vertex['in_collection'] = list()
                 dataset_vertex['in_collection'].\
                     append({'collection_id': vertex['collection_id'],
+                            'collection_title': vertex['title'],
                             'collection_url': vertex['name']})
 
-def add_collections_to_raw_datasets(office_name, graph=GraphWrapper.graph, 
+def add_collections_to_raw_datasets(graph=GraphWrapper.graph, 
                                     output_dir=OUTPUT_DIR):
     """ function writes the collections which have been identified in `graph`
     to their associated raw dataset json file. 
     This function updates the raw dataset json files by
-    adding a collection file to the json structure """
+    adding a `collection` field to the json structure """
     
     with graph.graph_lock:
         # select the dataset vertices from the graph
-        graph.vs
-
-# TODO THIS METHOD IS DEPRECATED. WILL REMOVE WHEN WE ARE SURE NO OTHER MDOULE RELIES ON IT
-def extract_collection_from(dataset: dict, use_key: str='collection') -> dict:
-    """ function is used to extract a Collection from the provided dataset 
-    
-    - use_key: the key within the dataset that houses the collection object
-    """
-
-    if not dataset.get(use_key, None): # if there is no collection present
-        return None
-    
-    if len(dataset[use_key]) == 0: # empty key (no collection content)
-        return None
-    
-    return dataset[use_key] # return extracted Collection
+        dataset_vertex_seq = graph.vs.select(is_dataset_eq=True, 
+                                             name_ne='base_vertex',
+                                             in_collection_ne=None)
+        for dataset in dataset_vertex_seq:
+            # read the raw dataset
+            data = h.read_file(Path(output_dir, dataset['name']))
+            if not data:
+                continue
+            # update the raw dataset
+            data['collection'] = dataset['in_collection']
+            # write the updated raw dataset back to file
+            h.write_file(Path(output_dir, dataset['name']), data)
 
 
 def get_distinct_collections_from(collection_list,
