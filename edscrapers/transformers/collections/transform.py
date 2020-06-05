@@ -45,6 +45,7 @@ def transform(name=None, input_file=None):
 
     # identify cpllections within the graph
     identify_collections_within_graph(graph)
+    link_datasets_to_collections_in_graph(graph)
 
     # write the graph to files
     # this method is explicitly thread/proccess safe, so no need for lock
@@ -126,7 +127,7 @@ def identify_collections_within_graph(graph=GraphWrapper.graph):
         # update the identified collection vertices to flag/mark them as collections
         for collection_vertex in combined_col_seq:
             collection_vertex['is_collection'] = True
-            collection_vertex['label']= f'C{collection_vertex.index}'
+            collection_vertex['label'] = f'C{collection_vertex.index}'
             collection_vertex['color'] = 'green'
             collection_vertex['collection_id'] = f'{hashlib.md5(collection_vertex["name"].encode("utf-8")).hexdigest()}-{hashlib.md5("all".encode("utf-8")).hexdigest()}'
         
@@ -142,10 +143,49 @@ def link_datasets_to_collections_in_graph(graph=GraphWrapper.graph):
         collection_vertex_seq = graph.vs.select(is_collection_eq=True)
         # select all the dataset Page vertices (i.e dataset page that are NOT marked as collections)
         dataset_page_vertex_seq = graph.vs.select(is_dataset_page_eq=True, 
-                                                  is_collection_eq=None)
-        graph.es.select(_between=(list(collection_vertex_seq), list(dataset_page_vertex_seq)))   
+                                                  is_collection_eq=None,
+                                                  name_ne='base_vertex')
+        collection_dataset_page_edge_seq = graph.es.select(_between=(list(collection_vertex_seq),
+                                  list(dataset_page_vertex_seq)))
+        
+        # loop through the collection-to-dataset pages links/edges
+        for edge in collection_dataset_page_edge_seq:
+            # loop through the successors of data Page vertex
+            for dataset_vertex in edge.target_vertex.successors():
+                # assign the dataset_vertex to the collection which is it's parent
+                if 'in_collection' not in dataset_vertex.attribute_names() or\
+                    dataset_vertex['in_collection'] is None:
+                    dataset_vertex['in_collection'] = list()
+                dataset_vertex['in_collection'].\
+                    append({'collection_id': edge.source_vertex['collection_id'],
+                            'collection_url': edge.source_vertex['name']})
+            
+        # select collection vertices that have also been marked as 'is_dataset_page'
+        collection_vertex_seq = graph.vs.select(is_collection_eq=True, 
+                                                is_dataset_page_eq=True,
+                                                name_ne='base_vertex').\
+                                                select(lambda vertex: len(vertex['datasets']) > 0)
+        # loop through the succesors of each identified collection vertex
+        for vertex in collection_vertex_seq:
+            for dataset_vertex in vertex.successors():
+                # assign the dataset_vertex to the collection which is it's parent
+                if 'in_collection' not in dataset_vertex.attribute_names() or\
+                    dataset_vertex['in_collection'] is None:
+                    dataset_vertex['in_collection'] = list()
+                dataset_vertex['in_collection'].\
+                    append({'collection_id': vertex['collection_id'],
+                            'collection_url': vertex['name']})
 
-
+def add_collections_to_raw_datasets(office_name, graph=GraphWrapper.graph, 
+                                    output_dir=OUTPUT_DIR):
+    """ function writes the collections which have been identified in `graph`
+    to their associated raw dataset json file. 
+    This function updates the raw dataset json files by
+    adding a collection file to the json structure """
+    
+    with graph.graph_lock:
+        # select the dataset vertices from the graph
+        graph.vs
 
 # TODO THIS METHOD IS DEPRECATED. WILL REMOVE WHEN WE ARE SURE NO OTHER MDOULE RELIES ON IT
 def extract_collection_from(dataset: dict, use_key: str='collection') -> dict:
