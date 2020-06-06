@@ -45,7 +45,9 @@ def transform(name=None, input_file=None):
 
     # identify collections within the graph
     identify_collections_within_graph(graph)
+    # link dataset vertices to their appropriate collection(s) within the graph
     link_datasets_to_collections_in_graph(graph)
+    # write the identified collections to the raw dataset files
     add_collections_to_raw_datasets(graph=graph,
                                     output_dir=OUTPUT_DIR)
 
@@ -53,13 +55,14 @@ def transform(name=None, input_file=None):
     # this method is explicitly thread/proccess safe, so no need for lock
     GraphWrapper.write_graph(file_dir_path=Path(os.getenv('ED_OUTPUT_PATH'), 
                                                         "graphs", f"{name}"),
-                                        file_stem_name=f'{name}.collections',
-                                        graph_width=2500, graph_height=2500)
+                                        file_stem_name=f'{name}.collections')
     # create the page legend file for this graph
     GraphWrapper.create_graph_page_legend(file_dir_path=Path(os.getenv('ED_OUTPUT_PATH'), 
                                                         "graphs", f"{name}"),
                                          file_stem_name=f'{name}.collections')                                    
-                                          
+
+    
+    # create the collections.json file                                      
     collections_list = [] # holds the list of collections acquired from graph
 
     with graph.graph_lock:
@@ -127,7 +130,7 @@ def identify_collections_within_graph(graph=GraphWrapper.graph):
         return combined_col_seq
 
 def link_datasets_to_collections_in_graph(graph=GraphWrapper.graph):
-    """ function marks dataset pages with the graph as
+    """ function marks dataset vertices within the graph as
     belonging to their appropriate Collection """
 
     with graph.graph_lock:
@@ -137,6 +140,7 @@ def link_datasets_to_collections_in_graph(graph=GraphWrapper.graph):
         dataset_page_vertex_seq = graph.vs.select(is_dataset_page_eq=True, 
                                                   is_collection_eq=None,
                                                   name_ne='base_vertex')
+        # select the edges which connect collection vertices to dataset Page vertices                                                  
         collection_dataset_page_edge_seq = graph.es.select(_between=(list(collection_vertex_seq),
                                   list(dataset_page_vertex_seq)))
         
