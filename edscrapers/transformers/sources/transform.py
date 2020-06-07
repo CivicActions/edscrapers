@@ -45,7 +45,7 @@ def transform(name=None, input_file=None):
     # link collection vertices to their appropriate sources(s) within the graph
     link_collection_to_sources_in_graph(graph)
     # write the identified sources to the {name}.collections.json file
-    add_sources_to_collection(graph=graph,
+    add_sources_to_collections_json(name=name, graph=graph,
                                     output_dir=OUTPUT_DIR)
 
     # write the graph to files
@@ -58,31 +58,24 @@ def transform(name=None, input_file=None):
                                                         "graphs", f"{name}"),
                                          file_stem_name=f'{name}.sources')
     
-    """ 
+    # create the sources.json file
     sources_list = [] # holds the list of sources acquired from 'name' scraper directory
-    # loop through filepath in file list
-    for file_path in file_list:
-        # read the json data in each filepath
-        data = h.read_file(file_path)
-        if not data: # if data is None
-            continue
-
-        # retrieve source from dataset
-        source = extract_source_from(dataset=data, use_key='collection')
-        if not source: # source could not be retrieved
-            continue
-        # add source to list
-        sources_list.append(source)
+    with graph.graph_lock:
+        for source in graph.vs.select(is_source_eq=True, name_ne='base_vertex'):
+            sources_list.append({'source_id': source['source_id'],
+                                     'source_title': source['title'],
+                                      'source_url': source['name']})
+        
 
     # get a list of non-duplicate Sources
-    sources_list = get_distinct_sources_from(sources_list, min_occurence_counter=2)
+    sources_list = get_distinct_sources_from(sources_list, min_occurence_counter=1)
     # get the path were the gotten Sources will be saved to on local disk
     file_output_path = f'{CURRENT_TRANSFORMER_OUTPUT_DIR}/{(name or "all")}.sources.json'
     # write to file the Sources gotten from 'name' scraped output
     h.write_file(file_output_path, sources_list)
     # write file the Sources gotten from 'name' scraped out to S3 bucket
     h.upload_to_s3_if_configured(file_output_path, 
-                                 f'{(name or "all")}.sources.json') """
+                                 f'{(name or "all")}.sources.json')
 
 
 def identify_sources_within_graph(graph):
@@ -116,8 +109,8 @@ def link_collection_to_sources_in_graph(graph=GraphWrapper.graph):
         collection_vertex_seq = graph.vs.select(is_collection_eq=True)
 
         # select the edges which connect source vertices to collection vertices                                                  
-        source_collection_edge_seq = graph.es.select(_between=(list(source_vertex_seq),
-                                  list(collection_vertex_seq)))
+        source_collection_edge_seq = graph.es.select(_between=([vertex.index for vertex in source_vertex_seq],
+                                  [vertex.index for vertex in collection_vertex_seq]))
 
         for edge in source_collection_edge_seq:
             # assign the collection vertex to the source which is it's parent
@@ -145,14 +138,14 @@ def link_collection_to_sources_in_graph(graph=GraphWrapper.graph):
                 if len(dataset_collection_list) == 0: # we are not interested in any collection object within this dataset vertex
                     continue # skip it
                 
-                dataset_collection_list[0].setdefault('in_source', [])
-                dataset_collection_list[0]['in_source'].\
+                dataset_collection_list[0].setdefault('source', [])
+                dataset_collection_list[0]['source'].\
                     append({'source_id': edge.source_vertex['source_id'],
                             'source_title': edge.source_vertex['title'],
                             'source_url': edge.source_vertex['name']})
                  
 
-def add_sources_to_collections_json(name, graph=graph,
+def add_sources_to_collections_json(name, graph=GraphWrapper.graph,
                                     output_dir=OUTPUT_DIR):
     """ function writes the sources which have been identified in `graph`
     to their associated collections.json and raw dataset json files. 
@@ -166,7 +159,37 @@ def add_sources_to_collections_json(name, graph=graph,
     
     with graph.graph_lock:
         # select all collection vertices within the graph
-        collection_vertex_seq = graph.vs.select(is_collection_eq=True)
+        collection_vertex_seq = graph.vs.select(is_collection_eq=True, name_ne='base_vertex')
+        for collection in collection_vertex_seq:
+            # get the list of collections within the collections.json that matches this collection vertex
+            collection_json_list = list(filter(lambda collection_obj, compare_collection_id=collection['collection_id']: collection_obj['collection_id'] == compare_collection_id,
+                       collections_json))
+            # if no collection returned from the datajson, skip this collection vertex
+            if len(collection_json_list) == 0:
+                continue
+            # assign the source info from the collection vertex to the collection json
+            collection_json_list[0]['source'] = collection['in_source']
+        # write the updated collection datajson back to file
+        h.write_file(Path(output_dir, 
+                                   'transformers/collections', 
+                                   f'{name}.collections.json'), collections_json)
+
+        # update the source info for each raw dataset i.e. each dataset json file
+        # select the dataset vertices from the graph
+        dataset_vertex_seq = graph.vs.select(is_dataset_eq=True, 
+                                             name_ne='base_vertex',
+                                             in_collection_ne=None)
+        for dataset_vertex in dataset_vertex_seq:
+            # read the raw dataset
+            data = h.read_file(Path(output_dir, dataset_vertex['name']))
+            if not data:
+                continue
+            # update the raw dataset collection field & source sub-field
+            data['collection'] = dataset_vertex['in_collection']
+            # write the updated raw dataset back to file
+            h.write_file(Path(output_dir, dataset_vertex['name']), data)
+
+
 
 
 

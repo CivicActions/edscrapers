@@ -141,9 +141,9 @@ def link_datasets_to_collections_in_graph(graph=GraphWrapper.graph):
                                                   is_collection_eq=None,
                                                   name_ne='base_vertex')
         # select the edges which connect collection vertices to dataset Page vertices                                                  
-        collection_dataset_page_edge_seq = graph.es.select(_between=(list(collection_vertex_seq),
-                                  list(dataset_page_vertex_seq)))
-        
+        collection_dataset_page_edge_seq = graph.es.select(_between=([vertex.index for vertex in collection_vertex_seq],
+                                  [vertex.index for vertex in dataset_page_vertex_seq]))
+
         # loop through the collection-to-dataset pages links/edges
         for edge in collection_dataset_page_edge_seq:
             # loop through the successors of data Page vertex
