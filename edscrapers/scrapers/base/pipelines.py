@@ -42,7 +42,7 @@ class JsonWriterPipeline(object):
             output.write(dataset.toJSON())
         
         # add this attribute so that the saved (relative) location of datasets can be tracked
-        dataset['saved_as_file'] = f"scrapers/{spider.name}/{file_name}"
+        dataset['saved_as_file'] = file_path[file_path.find("/scrapers/")+1 : ]
 
         return dataset # return the dataset
 
