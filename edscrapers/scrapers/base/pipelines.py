@@ -28,9 +28,9 @@ class JsonWriterPipeline(object):
         hashed_name = hashlib.md5(dataset['name'].encode('utf-8')).hexdigest()
         file_name = f"{slug}-{hashed_url}-{hashed_name}.json"
         if dataset.get('publisher') and (spider.name == 'edgov' or spider.name == 'sites'):
-            if type(dataset['publisher']) is dict:
+            try:
                 name = dataset['publisher'].get('name', '')
-            else:
+            except:
                 name = dataset['publisher']
             Path(f"{os.getenv('ED_OUTPUT_PATH')}/scrapers/{spider.name}/{name}").mkdir(parents=True, exist_ok=True)
             file_path = f"{os.getenv('ED_OUTPUT_PATH')}/scrapers/{spider.name}/{name}/{file_name}"
