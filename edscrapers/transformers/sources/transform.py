@@ -84,6 +84,7 @@ def identify_sources_within_graph(graph):
     so the provided graph will be updated/modified after this process """
 
     with graph.graph_lock:
+        graph.vs['is_source'] = None # do this to ensure no vertice are identified as sources yet
         collection_vertices = graph.vs.select(is_collection_eq=True, name_ne='base_vertex')
         source_vertices = set()
         for collection_vertex in collection_vertices:

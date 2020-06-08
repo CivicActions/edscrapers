@@ -89,6 +89,7 @@ def identify_collections_within_graph(graph=GraphWrapper.graph):
     so the provided graph will be updated/modified after this process """
 
     with graph.graph_lock:
+        graph.vs['is_collection'] = None # do this to ensure no vertice are identified as collections yet
         # Step 1: identify Dataset Page vertices that have multiple Dataset vertices pointing to it
         collection_vertex_seq1 = graph.vs.\
              select(lambda vertex: vertex['datasets'] is not None and len(vertex['datasets']) > 1)
