@@ -111,7 +111,10 @@ def identify_collections_within_graph(graph=GraphWrapper.graph):
             for parent_vertex in vertex.predecessors():
                 if parent_vertex['name'] == 'base_vertex': # this is the start-point vertex, ignore it
                     continue
-                collection_vertex_seq3.update(parent_vertex.successors())
+                for another_vertex in parent_vertex.successors():
+                    if another_vertex in combined_col_seq or another_vertex['is_dataset_page'] is None:
+                        continue
+                    collection_vertex_seq3.update([another_vertex])
         
         # END OF STPEPS USED TO IDENTIFY COLLECTIONS
 
