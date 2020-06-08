@@ -42,7 +42,7 @@ class JsonWriterPipeline(object):
             output.write(dataset.toJSON())
         
         # add this attribute so that the saved (relative) location of datasets can be tracked
-        dataset['saved_as_file'] = f"scrapers/{spider.name}/{file_name}"
+        dataset['saved_as_file'] = file_path[file_path.find("/scrapers/")+1 : ]
 
         return dataset # return the dataset
 
@@ -76,8 +76,7 @@ class GraphItemPipeline:
         # this method is explicitly thread/proccess safe, so no need for lock
         GraphWrapper.write_graph(file_dir_path=Path(os.getenv('ED_OUTPUT_PATH'), 
                                                             "graphs", f"{spider.name}"),
-                                         file_stem_name=spider.name,
-                                         graph_width=2500, graph_height=2500)
+                                         file_stem_name=spider.name)
         
         # create the page legend file for this graph
         # this method is explicitly thread/proccess safe, so no need for lock
