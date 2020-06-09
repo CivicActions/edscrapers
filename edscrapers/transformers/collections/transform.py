@@ -138,6 +138,7 @@ def link_datasets_to_collections_in_graph(graph=GraphWrapper.graph):
     belonging to their appropriate Collection """
 
     with graph.graph_lock:
+        graph.vs['in_collection'] = None
         # select all the collection vertices
         collection_vertex_seq = graph.vs.select(is_collection_eq=True)
         # select all the dataset Page vertices (i.e dataset page that are NOT marked as collections)
