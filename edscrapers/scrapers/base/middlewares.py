@@ -31,8 +31,8 @@ class GraphMiddleWare():
         try:
             soup_parser = bs4.BeautifulSoup(response.text, 'html5lib')
         except Exception as exc:
-            response.text = '<html><head><title>[no title]</title></head><body></body></html>'
-            soup_parser = bs4.BeautifulSoup(response.text, 'html5lib')
+            response_text = '<html><head><title>[no title]</title></head><body></body></html>'
+            soup_parser = bs4.BeautifulSoup(response_text, 'html5lib')
             #raise exc
 
         current_vertex = None # holds the current vertex which represents the current Response
