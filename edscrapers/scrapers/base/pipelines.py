@@ -35,7 +35,11 @@ class JsonWriterPipeline(object):
             Path(f"{os.getenv('ED_OUTPUT_PATH')}/scrapers/{spider.name}/{name}").mkdir(parents=True, exist_ok=True)
             file_path = f"{os.getenv('ED_OUTPUT_PATH')}/scrapers/{spider.name}/{name}/{file_name}"
         else:
-            file_path = f"{os.getenv('ED_OUTPUT_PATH')}/scrapers/{spider.name}/{file_name}"
+            if spider.name in ['oese', 'osers', 'oela', 'octae', 'ope', 'opepd']:
+                Path(f"{os.getenv('ED_OUTPUT_PATH')}/scrapers/edgov/{spider.name}").mkdir(parents=True, exist_ok=True)
+                file_path = f"{os.getenv('ED_OUTPUT_PATH')}/scrapers/edgov/{spider.name}/{file_name}"
+            else:
+                file_path = f"{os.getenv('ED_OUTPUT_PATH')}/scrapers/{spider.name}/{file_name}"
         self._log(dataset)
         logger.debug(f"Dumping to {file_path}")
         with open(file_path, 'w') as output:
