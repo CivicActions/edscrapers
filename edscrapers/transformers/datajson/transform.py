@@ -200,14 +200,16 @@ def _transform_scraped_dataset(data: dict, target_dept='all'):
     dataset.distribution = distributions
 
     # get the 'source' attribute for the dataset object
-    dataset_source = _transform_scraped_source(data)
-    if dataset_source:
-        dataset.source.append(dataset_source)
+    for collection in data.get('collection', []):
+        dataset_source = _transform_scraped_source(dict(collection=collection))
+        if len(dataset_source) > 0:
+            dataset.source.extend(dataset_source)
     
     # get the 'collection' attribute for the dataset object
-    dataset_collection = _transform_scraped_collection(data)
-    if dataset_collection:
-        dataset.collection.append(dataset_collection)
+    for collection in data.get('collection', []):
+        dataset_collection = _transform_scraped_collection(dict(collection=collection))
+        if dataset_collection:
+            dataset.collection.append(dataset_collection)
     
     # get levelOfData
     if data.get('level_of_data', None):
@@ -258,7 +260,6 @@ def _transform_scraped_source(data: dict):
     function is a private helper.
     function returns the Source object from raw data provided
     """
-
     source = None
     try:
         if data.get('collection', None) and data['collection'].get('source', None):
@@ -280,8 +281,8 @@ def _transform_scraped_source(data: dict):
                         source.id = src.get('source_id')
                         source.title = src.get('source_title')
                         source.url = src.get('source_url')
-    
     return source
+                                 
 
 def _transform_scraped_collection(data: dict):
     """
@@ -296,11 +297,11 @@ def _transform_scraped_collection(data: dict):
         collection.title = data['collection'].get('collection_title')
         collection.url = data['collection'].get('collection_url')
         
-        source = None
+        source = []
         # get a Source object from the raw data
         source = _transform_scraped_source(data)
-        if source:
-            collection.sources.append(source)
+        if len(source) > 0:
+            collection.sources.extend(source)
     
     return collection
 
