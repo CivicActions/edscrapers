@@ -260,17 +260,29 @@ def _transform_scraped_source(data: dict):
     function is a private helper.
     function returns the Source object from raw data provided
     """
-
-    source = []
-    if data.get('collection', None) and data['collection'].get('source', None):
-        for collection_source in data['collection']['source']:
-            a_source = Source()
-            a_source.id = collection_source['source_id']
-            a_source.title = collection_source['source_title']
-            a_source.url = collection_source['source_url']
-            source.append(a_source)
-    
+    source = None
+    try:
+        if data.get('collection', None) and data['collection'].get('source', None):
+            source = Source()
+            source.id = data['collection']['source'].get('source_id')
+            source.title = data['collection']['source'].get('source_title')
+            source.url = data['collection']['source'].get('source_url')
+    except:
+        for collection in data.get('collection', []):
+            if collection.get('source', None):
+                try:
+                    source = Source()
+                    source.id = collection['source'].get('source_id')
+                    source.title = collection['source'].get('source_title')
+                    source.url = collection['source'].get('source_url')
+                except:
+                    for src in collection['source']:
+                        source = Source()
+                        source.id = src.get('source_id')
+                        source.title = src.get('source_title')
+                        source.url = src.get('source_url')
     return source
+                                 
 
 def _transform_scraped_collection(data: dict):
     """
