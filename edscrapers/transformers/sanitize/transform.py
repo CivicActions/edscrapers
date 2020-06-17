@@ -44,6 +44,9 @@ def transform(name=None, input_file=None):
         # set the 'level of data' for the dataset
         data = _set_dataset_level_of_data(data)
 
+        # remove the old format for collections / sourcs
+        data = _remove_old_sources_collections(data)
+
         # write modified dataset back to file
         h.write_file(file_path, data)
 
@@ -226,4 +229,32 @@ def _set_dataset_level_of_data(dataset: dict) -> dict:
     else: # else no keys
         del dataset['_clean_data'] # delete '_clean_data' key from dataset
     
+    return dataset
+
+
+def _remove_old_sources_collections(dataset: dict) -> dict:
+    """ private helper function.
+    removes sources and collections that were produced by earlier
+    implementations of their respective transformers"""
+
+    if dataset.get('collection') is None or dataset.get('source'):
+        return dataset
+
+    # get the '_clean_data' key of dataset
+    clean_data = dataset.setdefault('_clean_data', {})
+    # get the title key from clean_data or use those from dataset
+    collection = clean_data.get('collection', dataset.get('collection', []))
+    # get the tags key from clean_data or use those from dataset
+    source = clean_data.get('source', dataset.get('source', []))
+
+    if type(collection) == dict:
+        clean_data['collection'] = None
+    if type(source) == dict:
+        clean_data['source'] = None
+
+    if len(clean_data.keys()) > 0: # if '_clean_data' has keys
+        dataset['_clean_data'] = clean_data # update dataset
+    else: # else no keys
+        del dataset['_clean_data'] # delete '_clean_data' key from dataset
+
     return dataset

@@ -199,22 +199,23 @@ def _transform_scraped_dataset(data: dict, target_dept='all'):
 
     dataset.distribution = distributions
 
-    # get the 'source' attribute for the dataset object
-    for collection in data.get('collection', []):
-        dataset_source = _transform_scraped_source(dict(collection=collection))
-        if len(dataset_source) > 0:
-            dataset.source.extend(dataset_source)
-    
-    # get the 'collection' attribute for the dataset object
-    for collection in data.get('collection', []):
-        dataset_collection = _transform_scraped_collection(dict(collection=collection))
-        if dataset_collection:
-            dataset.collection.append(dataset_collection)
-    
     # get levelOfData
     if data.get('level_of_data', None):
         dataset.levelOfData = data.get('level_of_data')
 
+    if data.get('collection'):
+        # get the 'source' attribute for the dataset object
+        for collection in data.get('collection', []):
+            dataset_source = _transform_scraped_source(dict(collection=collection))
+            if len(dataset_source) > 0:
+                dataset.source.extend(dataset_source)
+    
+        # get the 'collection' attribute for the dataset object
+        for collection in data.get('collection', []):
+            dataset_collection = _transform_scraped_collection(dict(collection=collection))
+            if dataset_collection:
+                dataset.collection.append(dataset_collection)
+    
     return dataset
 
 def _transform_scraped_resource(target_dept, resource):
@@ -284,13 +285,13 @@ def _transform_scraped_collection(data: dict):
         collection.id = data['collection'].get('collection_id')
         collection.title = data['collection'].get('collection_title')
         collection.url = data['collection'].get('collection_url')
-        
+
         source = []
         # get a Source object from the raw data
         source = _transform_scraped_source(data)
         if len(source) > 0:
             collection.sources.extend(source)
-    
+
     return collection
 
 def _transform_preprocessed_sources(sources_list: list):
