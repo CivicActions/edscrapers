@@ -130,6 +130,11 @@ def _remove_dataset(dataset: dict, search_words=[]) -> dict:
             clean_data['_remove_dataset'] = True
             break # exit foor loop since dataset has been marked
 
+    # Temporary fix for removing the 'edgov' datasets from the resulting datajson file
+    # FIXME set this to True once parsing / sanitizing for the publisher is improved
+    if dataset['publisher'] == 'edgov':
+        clean_data['_remove_dataset'] = True
+
     if len(clean_data.keys()) > 0: # if '_clean_data' has keys
         dataset['_clean_data'] = clean_data # update dataset
     else: # else no keys
