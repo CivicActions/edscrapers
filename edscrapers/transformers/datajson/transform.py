@@ -175,7 +175,13 @@ def _transform_scraped_dataset(data: dict, target_dept='all'):
     if data.get('contact_person_email'):
         contactPoint['hasEmail'] = "mailto:" + data.get('contact_person_email')
     else:
-        contactPoint['hasEmail'] = f'mailto:{target_dept}@ed.gov'
+        if target_dept == 'edgov':
+            try:
+                contactPoint['hasEmail'] = f"mailto:{data['publisher']['name']}@ed.gov"
+            except Exception as e:
+                contactPoint['hasEmail'] = f"mailto:{data['publisher']}@ed.gov"
+        else:
+            contactPoint['hasEmail'] = f'mailto:{target_dept}@ed.gov'
 
     dataset.contactPoint = contactPoint
 

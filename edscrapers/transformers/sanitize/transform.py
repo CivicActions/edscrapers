@@ -132,8 +132,12 @@ def _remove_dataset(dataset: dict, search_words=[]) -> dict:
 
     # Temporary fix for removing the 'edgov' datasets from the resulting datajson file
     # FIXME set this to True once parsing / sanitizing for the publisher is improved
-    if dataset['publisher'] == 'edgov':
-        clean_data['_remove_dataset'] = True
+    try:
+        if dataset['publisher'].get('name') == 'edgov':
+            clean_data['_remove_dataset'] = True
+    except:
+        if dataset['publisher'] == 'edgov':
+            clean_data['_remove_dataset'] = True
 
     if len(clean_data.keys()) > 0: # if '_clean_data' has keys
         dataset['_clean_data'] = clean_data # update dataset
