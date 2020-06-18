@@ -160,7 +160,10 @@ def _transform_scraped_dataset(data: dict, target_dept='all'):
     else:
         # if no publisher present, use the target_dept - part after last dot, if applicable
         # (e.g. both "oese" and "edgov.oese" will yield "oese")
-        publisher.name = data.get('publisher', target_dept.split('.')[-1])
+        if data.get('publisher') in h.map_office_name.values():
+            publisher.name = list(h.map_office_name.keys())[list(h.map_office_name.values()).index(data.get('publisher'))]
+        else:
+            publisher.name = data.get('publisher', target_dept.split('.')[-1])
     dataset.publisher = publisher
 
     contactPoint = {
