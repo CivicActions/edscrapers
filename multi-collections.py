@@ -1,6 +1,6 @@
 """ module is used to track if there are datasets
 belonging to multiple collections.
-this is identification is done using the graph model files which were
+this identification is done using the graph model files which were
 generated during the scraping and transforming processes.
 
 NOTE: this module uses the ED_OUTPUT_PATH environment
