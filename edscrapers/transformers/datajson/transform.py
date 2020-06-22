@@ -195,7 +195,7 @@ def _transform_scraped_dataset(data: dict, target_dept='all'):
         dataset.accessLevel = data.get('accessLevel')
 
     if not len(dataset.bureauCode) > 0:
-        dataset.bureauCode = ["018:40"]
+        dataset.bureauCode = ["018:00"]
 
     if not len(dataset.programCode) > 0:
         dataset.programCode = ["018:000"]
