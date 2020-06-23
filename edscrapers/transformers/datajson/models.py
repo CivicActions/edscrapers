@@ -338,6 +338,7 @@ class Dataset():
     spatial = str()
     temporal = str()
     theme = list()
+    amendedByUser = bool
     distribution = list() # resources list
     levelOfData = str()
     source = list() # list of Sources
@@ -353,6 +354,7 @@ class Dataset():
         self.spatial = "United States"
         self.description = "n/a"
         self.modified = datetime.now().strftime("%Y-%m-%d")
+        self.amendedByUser = False
         self.distribution = list()
         self.source = list()
         self.collection = list()
@@ -405,6 +407,11 @@ class Dataset():
 
         if self.temporal:
             dataset_dict["temporal"] = self.temporal
+
+        if self.amendedByUser:
+            dataset_dict["amended_by_user"] = 'true'
+        else:
+            dataset_dict["amended_by_user"] = 'false'
 
         if len(self.theme) > 0:
             dataset_dict["theme"] = self.theme
