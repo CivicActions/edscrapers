@@ -99,29 +99,34 @@ def get_datasets_df(datasets):
         except Exception as e:
             errors.append({dataset: e})
             print(f'ERROR.')
-    return (ckan_packages, errors)
+    result = (ckan_packages, errors)
 
-datasets = get_datasets_df(get_all_datasets())
+    if len(result[1]):
+        print(f'{len(result[1])} error(s) occured, please check the output before using it.')
+        print(result[1])
+
+    df = pd.DataFrame(result[0])
+    return df
+
+df = get_datasets_df(get_all_datasets())
 organizations = get_all_organizations()
-
-if len(datasets[1]):
-    print(f'{len(datasets[1])} error(s) occured, please check the output before using it.')
-    print(datasets[1])
-
-df = pd.DataFrame(datasets[0])
 
 existing_organizations = df['owner_org'].unique()
 print(f'Got {len(existing_organizations)} organizations.')
 
 # import ipdb; ipdb.set_trace()
+if os.path.exists(xlsx_file): # clean up output
+    os.unlink(xlsx_file)
 
 for organization in existing_organizations:
     print(f'Dumping {organization} datasets')
     result = df[df['owner_org']==organization]
     if os.path.exists(xlsx_file): # check if excel sheet exist
-        os.unlink(xlsx_file)
+        writer_mode = 'a' # set write mode to append
+    else:
+        writer_mode = 'w' # set write mode to write
     with pd.ExcelWriter(xlsx_file, engine="openpyxl",
-                        mode='w') as writer:
+                        mode=writer_mode) as writer:
         result.to_excel(writer,
                         sheet_name=organizations[organization],
                         index=False,
