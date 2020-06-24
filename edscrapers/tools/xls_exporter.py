@@ -96,8 +96,11 @@ def get_datasets_df(datasets):
         print(f'Getting details for package {dataset}...', end='')
         try:
             dataset_dict = get_dataset(dataset)
-            ckan_packages.append(dataset_dict)
-            print(f'done')
+            if dataset_dict is not None:
+                ckan_packages.append(dataset_dict)
+                print(f'done')
+            else:
+                print(f'done, not a dataset.')
         except Exception as e:
             errors.append({dataset: e})
             print(f'ERROR.')
