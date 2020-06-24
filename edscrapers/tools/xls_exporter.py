@@ -70,6 +70,8 @@ def get_dataset(name, retry=0):
     try:
         time.sleep(0.1)
         result = ckan.call_action('package_show', {'id': name})
+        if result.get('type', 'dataset') != 'dataset':
+            return None
         return {
             'ID': result.get('id', result.get('ID')),
             'Title': result.get('title', 'no title'),
@@ -90,11 +92,12 @@ def get_dataset(name, retry=0):
 def get_datasets_df(datasets):
     ckan_packages = []
     errors = []
-    # datasets = datasets[:5]
+    # datasets = datasets[:50]
     for dataset in datasets:
         print(f'Getting details for package {dataset}...', end='')
         try:
-            ckan_packages.append(get_dataset(dataset))
+            dataset_dict = get_dataset(dataset)
+            ckan_packages.append(dataset_dict)
             print(f'done')
         except Exception as e:
             errors.append({dataset: e})
@@ -119,7 +122,7 @@ if os.path.exists(xlsx_file): # clean up output
     os.unlink(xlsx_file)
 
 for organization in existing_organizations:
-    print(f'Dumping {organization} datasets')
+    print(f'Dumping {organizations[organization]} datasets')
     result = df[df['owner_org']==organization]
     if os.path.exists(xlsx_file): # check if excel sheet exist
         writer_mode = 'a' # set write mode to append
