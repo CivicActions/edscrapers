@@ -78,7 +78,7 @@ def get_dataset(name, retry=0):
             'URL': f"{ckan_url}/dataset/{result['name']}",
             'Source URL': result.get('scraped_from', 'n/a'),
             'Description': result.get('notes', ''),
-            'Categories': ','.join([str(g['display_name']) for g in result['groups']]),
+            'Categories': ', '.join([str(g['display_name']) for g in result['groups']]),
             'owner_org': result.get('owner_org')
         }
     except CKANAPIError:
@@ -92,7 +92,6 @@ def get_dataset(name, retry=0):
 def get_datasets_df(datasets):
     ckan_packages = []
     errors = []
-    # datasets = datasets[:50]
     for dataset in datasets:
         print(f'Getting details for package {dataset}...', end='')
         try:
@@ -117,7 +116,6 @@ organizations = get_all_organizations()
 existing_organizations = df['owner_org'].unique()
 print(f'Got {len(existing_organizations)} organizations.')
 
-# import ipdb; ipdb.set_trace()
 if os.path.exists(xlsx_file): # clean up output
     os.unlink(xlsx_file)
 
