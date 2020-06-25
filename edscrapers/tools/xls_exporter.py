@@ -52,7 +52,7 @@ def get_all_datasets():
     offset = 0
 
     datasets = get_datasets(offset)
-    while len(datasets) == 500:
+    while not len(datasets) % 500:
         offset = offset + 500
         datasets.extend(get_datasets(offset))
     print('Collected {} datasets.'.format(len(datasets)))
@@ -74,12 +74,9 @@ def get_dataset(name, retry=0):
         if result.get('type', 'dataset') != 'dataset':
             return None
         return {
-            'ID': result.get('id', result.get('ID')),
             'Title': result.get('title', 'no title'),
-            'URL': '{}/dataset/{}'.format(ckan_url, result['name']),
-            'Source URL': result.get('scraped_from', 'n/a'),
-            'Description': result.get('notes', ''),
             'Categories': ', '.join([str(g['display_name']) for g in result['groups']]),
+            'URL': '{}/dataset/{}'.format(ckan_url, result['name']),
             'owner_org': result.get('owner_org')
         }
     except CKANAPIError:
@@ -123,19 +120,17 @@ organizations = get_all_organizations()
 existing_organizations = df['owner_org'].unique()
 print('Got {} organizations.'.format(len(existing_organizations)))
 
-if os.path.exists(xlsx_file): # clean up output
-    os.unlink(xlsx_file)
 
 for organization in existing_organizations:
     print('Dumping {} datasets'.format(organizations[organization]))
     result = df[df['owner_org']==organization]
-    if os.path.exists(xlsx_file): # check if excel sheet exist
-        writer_mode = 'a' # set write mode to append
-    else:
-        writer_mode = 'w' # set write mode to write
-    with pd.ExcelWriter(xlsx_file, engine="openpyxl",
-                        mode=writer_mode) as writer:
+    output_file = 'data-profiles_{}_{}'.format(organizations[organization], xlsx_file)
+    if os.path.exists(output_file):
+        os.unlink(output_file)
+    with pd.ExcelWriter(output_file, engine="openpyxl",
+                        mode='w') as writer:
+        result = result.drop('owner_org', axis=1)
+        result['Reviewed'] = 'NO'
         result.to_excel(writer,
-                        sheet_name=organizations[organization],
                         index=False,
                         engine='openpyxl')
