@@ -53,7 +53,7 @@ def identify_datasets_with_multi_collections(graph_file_path):
 
         with graph.graph_lock:
             # select datasets vertices that are in multiple collections
-            dataset_ver_seq = graph.vs.select(is_dataset_eq=True, name_ne='base_vertext').\
+            dataset_ver_seq = graph.vs.select(is_dataset_eq=True, name_ne='base_vertex').\
                 select(lambda vertex: 'in_collection' in vertex.attribute_names() and vertex['in_collection'] is not None and len(vertex['in_collection']) > 1)
             
             # get the name of the office this graph belongs to
@@ -63,6 +63,8 @@ def identify_datasets_with_multi_collections(graph_file_path):
             print(f'There are {len(dataset_ver_seq)} datasets with links to multiple Collections within the {office_name.upper()} office')
             
             return dataset_ver_seq
+    else:
+        raise TypeError("Invalid 'graph_file_path' specified")
                 
 
 def output_to_csv(graph_vertex_seq, graph_office_name):

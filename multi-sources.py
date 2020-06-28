@@ -53,7 +53,7 @@ def identify_collections_with_multi_sources(graph_file_path):
 
         with graph.graph_lock:
             # select collections vertices that are in multiple sources
-            collection_ver_seq = graph.vs.select(is_collection_eq=True, name_ne='base_vertext').\
+            collection_ver_seq = graph.vs.select(is_collection_eq=True, name_ne='base_vertex').\
                 select(lambda vertex: 'in_source' in vertex.attribute_names() and vertex['in_source'] is not None and len(vertex['in_source']) > 1)
             
             # get the name of the office this graph belongs to
@@ -63,6 +63,8 @@ def identify_collections_with_multi_sources(graph_file_path):
             print(f'There are {len(collection_ver_seq)} collections with links to multiple Sources within the {office_name.upper()} office')
             
             return collection_ver_seq
+    else:
+        raise TypeError("Invalid 'graph_file_path' specified")
                 
 
 def output_to_csv(graph_vertex_seq, graph_office_name):
