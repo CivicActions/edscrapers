@@ -36,10 +36,16 @@ def transform(name=None, input_file=None):
     if not name: # user has not provided a scraper name to get collections with
         logger.error('Scraper/Office name not provided. Cannot generate collections')
         sys.exit(1)
-    
-    # load the Graph representing the scraped datasets
-    GraphWrapper.load_graph(file_dir_path=Path(OUTPUT_DIR, 'graphs', name),
+    try:
+        # load the Graph representing the deduplicated scraped datasets
+        GraphWrapper.load_graph(file_dir_path=Path(OUTPUT_DIR, 'graphs', name),
+                            file_stem_name=f'{name}.deduplicate')
+        
+    except:
+        # load the Graph representing the scraped datasets
+        GraphWrapper.load_graph(file_dir_path=Path(OUTPUT_DIR, 'graphs', name),
                             file_stem_name=name)
+        
     # get the loaded graph
     graph = GraphWrapper.get_graph()
 
