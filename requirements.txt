@@ -8,6 +8,7 @@ botocore==1.15.31
 certifi==2019.11.28
 cffi==1.14.0
 chardet==3.0.4
+ckanapi==4.3
 click==7.1.1
 constantly==15.1.0
 cryptography==2.8
