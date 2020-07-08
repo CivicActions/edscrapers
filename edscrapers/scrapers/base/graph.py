@@ -105,7 +105,8 @@ class GraphWrapper():
         with cls.graph_lock:
             # destroy access to the lock object, so the
             # old graph object can be easily garbage collected
-            del cls.graph.graph_lock
+            if getattr(cls.graph, 'graph_lock', None):
+                del cls.graph.graph_lock
             # load the new graph object from the provided file
             cls.graph = igraph.Graph.Read_Pickle(fname=Path(file_dir_path, 
             f'{file_stem_name}.pickle'))

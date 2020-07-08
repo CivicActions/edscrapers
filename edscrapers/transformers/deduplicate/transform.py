@@ -3,8 +3,11 @@ import json
 from pathlib import Path
 import urllib.parse
 
+import igraph
+
 from edscrapers.cli import logger
 from edscrapers.transformers.base.helpers import traverse_output
+from edscrapers.scrapers.base.graph import GraphWrapper
 
 
 OUTPUT_DIR = os.getenv('ED_OUTPUT_PATH')
@@ -12,6 +15,12 @@ Path(os.path.join(OUTPUT_DIR, 'transformers', 'deduplicate')).mkdir(parents=True
 
 def transform(name=None, input_file=None):
     transformer = Transformer(name)
+
+    # load the Graph representing the scraped datasets
+    GraphWrapper.load_graph(file_dir_path=Path(OUTPUT_DIR, 'graphs', name),
+                            file_stem_name=name)
+    # get the loaded graph
+    graph = GraphWrapper.get_graph()
 
     if not input_file:
         out_file = os.path.join(OUTPUT_DIR, 'transformers', 'deduplicate', f'deduplicated_{name or "all"}.lst')
@@ -21,8 +30,56 @@ def transform(name=None, input_file=None):
     with open(out_file, 'w') as fp:
         for fname in transformer.urls_dict.values():
             fp.write(fname + '\n')
+        
+
+    vertex_seq = find_duplicate_dataset_vertices(graph, list(transformer.urls_dict.values()))
+    remove_vertices(graph, vertex_seq)
+
+    # write the graph to files
+    # this method is explicitly thread/proccess safe, so no need for lock
+    GraphWrapper.write_graph(file_dir_path=Path(os.getenv('ED_OUTPUT_PATH'), 
+                                                        "graphs", f"{name}"),
+                                        file_stem_name=f'{name}.deduplicate')
+    # create the page legend file for this graph
+    GraphWrapper.create_graph_page_legend(file_dir_path=Path(os.getenv('ED_OUTPUT_PATH'), 
+                                                        "graphs", f"{name}"),
+                                          file_stem_name=f'{name}.deduplicate')
 
     logger.success('Deduplicated list is ready.')
+
+
+def find_duplicate_dataset_vertices(graph,
+                                    kept_dataset_file_paths: list) -> igraph.VertexSeq:
+    """ function is used to identify which vertices
+    should be dropped from the graph based on the
+    transformer deduplication process """
+
+    kept_dataset_file_paths = list(map(lambda filepath: filepath[filepath.find("/scrapers/")+1 : ], 
+                                     kept_dataset_file_paths))
+
+    with graph.graph_lock: # activate lock on graph
+        # find the dataset vertices to be dropped
+        dropped_dataset_ver_seq = graph.vs.select(is_dataset_eq=True, name_notin=kept_dataset_file_paths)
+    
+    return dropped_dataset_ver_seq
+
+def remove_vertices(graph, vertex_sequence):
+    """ function removes the vertices contained in the sequence from
+    the specified graph. The function also updates the parent vertex of
+    the dataset vertex being removed """
+
+    with graph.graph_lock: # activate lock on graph
+        vertex_ids = [vertex_.index for vertex_ in vertex_sequence]
+        for vertex in vertex_sequence:
+            # remove the vertex from the datasets collection of the parent vertex
+            for parent_vertex in vertex.predecessors():
+                parent_vertex['datasets'].discard(vertex['name'])
+                if len(parent_vertex['datasets']) == 0:
+                    parent_vertex['is_dataset_page'] = None
+
+        # delete the vertices from the graph
+        graph.delete_vertices(vertex_ids)
+
 
 
 class Transformer():
