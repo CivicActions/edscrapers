@@ -31,6 +31,13 @@ def transform(name=None, input_file=None):
         data = h.read_file(file_path)
         if not data: # if data is None
             continue
+
+        # skip the dataset that has only txt resources
+        if _dataset_only_has_txt_resources(data):
+            clean_data = {}
+            clean_data['_remove_dataset'] = True # mark dataset for removal
+            data['_clean_data'] = clean_data # update dataset
+
         # mark as private datasets that have certain keywords in their data
         data = _mark_private(data, search_words=['conference', 'awards',
                                                 'user guide', 'applications'])
@@ -318,3 +325,17 @@ def _remove_old_sources_collections(dataset: dict) -> dict:
         del dataset['_clean_data'] # delete '_clean_data' key from dataset
 
     return dataset
+
+def _dataset_only_has_txt_resources(dataset: dict) -> bool:
+    """ private helper function.
+    return true if a dataset only has TXT files as resources, 
+    this kind of dataset is very likely a false positive."""
+
+    resources = dataset.get('resources', [])
+    for resource in resources:
+        res_format = resource.get('format')
+        print(res_format)
+        if res_format not in ['txt','TXT']:
+            return False
+
+    return True
