@@ -334,7 +334,6 @@ def _dataset_only_has_txt_resources(dataset: dict) -> bool:
     resources = dataset.get('resources', [])
     for resource in resources:
         res_format = resource.get('format')
-        print(res_format)
         if res_format not in ['txt','TXT']:
             return False
 
