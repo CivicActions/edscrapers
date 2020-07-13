@@ -39,7 +39,7 @@ def transform(name=None, input_file=None):
             data['_clean_data'] = clean_data # update dataset
 
         # Remove datasets with no resources or no relevant resources
-        if not len(_filter_resources(data['resources'])) or not len(data['resources']):
+        if not len(_filter_resources_list(data['resources'])) or not len(data['resources']):
             clean_data = {}
             clean_data['_remove_dataset'] = True # mark dataset for removal
             data['_clean_data'] = clean_data # update dataset
@@ -56,6 +56,9 @@ def transform(name=None, input_file=None):
                     clean_data = {}
                     clean_data['_remove_dataset'] = True # mark dataset for removal
                     data['_clean_data'] = clean_data # update dataset
+
+        # Filter resources
+        data = _filter_dataset_resources(data)
 
         # mark as private datasets that have certain keywords in their data
         data = _mark_private(data, search_words=['conference', 'awards',
@@ -349,7 +352,7 @@ def _dataset_only_has_txt_resources(dataset: dict) -> bool:
 
     return True
 
-def _filter_resources(resources: list) -> list:
+def _filter_resources_list(resources: list) -> list:
     """ private helper function.
     Returns a curated list of resources."""
 
@@ -363,3 +366,19 @@ def _filter_resources(resources: list) -> list:
         filtered.append(r)
 
     return filtered
+
+def _filter_dataset_resources(dataset: dict) -> dict:
+    """Applies resources filtering to a dataset's clean_dict key"""
+
+    filtered = _filter_resources_list(dataset.get('resources', []))
+
+    if len(filtered) != len(dataset.get('resources', [])):
+        clean_data = dataset.setdefault('_clean_data', {})
+        clean_data['resources'] = filtered
+
+        if len(clean_data.keys()) > 0: # if '_clean_data' has keys
+            dataset['_clean_data'] = clean_data # update dataset
+        else: # else no keys
+            del dataset['_clean_data'] # delete '_clean_data' key from dataset
+
+    return dataset
