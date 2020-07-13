@@ -6,6 +6,7 @@ from pathlib import Path
 import urllib
 import re
 
+
 from edscrapers.cli import logger
 from edscrapers.transformers.base import helpers as h
 from edscrapers.transformers.sanitize.helpers import categories as group_map
@@ -29,20 +30,20 @@ def transform(name=None, input_file=None):
     for file_path in file_list:
         # read the json data in each filepath
         data = h.read_file(file_path)
-        if not data: # if data is None
+        if not data:  # if data is None
             continue
         # mark as private datasets that have certain keywords in their data
         data = _mark_private(data, search_words=['conference', 'awards',
-                                                'user guide', 'applications'])
+                                                 'user guide', 'applications'])
 
         # mark of removal datasets that have certain keywords
         data = _remove_dataset(data, search_words=['photo', 'foto', 'photos', 'fotos'])
 
         # REMOVE UNWANTED STRING FROM THE VALUE OF A DATASET'S KEY
         # 1. remove 'table [0-9].' from beginning of dataset title
-        data = _strip_unwanted_string(data, r'^table [0-9a-z]+(-?[a-z])?\.', 
+        data = _strip_unwanted_string(data, r'^table [0-9a-z]+(-?[a-z])?\.',
                                       dict_key='title')
-        
+
         # set the 'level of data' for the dataset
         data = _set_dataset_level_of_data(data)
 

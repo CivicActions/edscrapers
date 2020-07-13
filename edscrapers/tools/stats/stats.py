@@ -120,6 +120,7 @@ class Statistics():
                         j = [{
                             'url': abs_url(r['url'], r['source_url']),
                             'source_url': r['source_url'],
+                            'publisher': str(j['publisher']),
                             'scraper': fp.parent.name
                         } for r in j['resources'] if r['source_url'].find('/print/') == -1]
                         dfs.append(pd.read_json(json.dumps(j)))
@@ -271,25 +272,49 @@ class Statistics():
 
         # get the 'source_url' renamed as 'page'
         df_subset['page'] = deduplicated_df['source_url']
+
+        from edscrapers.scrapers.edgov.offices_map import offices_map
+        def _munge_publisher(value):
+            try:
+                result = eval(value)['name']
+                print(f'Found dict: {result}')
+                return result.upper()
+            except:
+                if isinstance(value, dict):
+                    result = value['name']
+                    print(f'Found pure dict: {result}')
+                    return result.upper()
+                result = value
+                for office_full_name in offices_map.keys():
+                    import re
+                    regex = re.compile(r'\b' + value + r'\b')
+                    if regex.search(office_full_name):
+                        print(f'{result} in mapping')
+                        result = offices_map[office_full_name]['name']
+                print(f'Found {result}')
+                return result.upper()
+
+        df_subset['publisher'] = deduplicated_df['publisher']
         # to get the number of resources retrieved from each page, perform groupby
-        grouped = df_subset.groupby(['domain', 'page'])
+        grouped = df_subset.groupby(['domain', 'page', 'publisher'])
         # create dataframe to store aggreated resource info
-        result = pd.DataFrame(columns=['domain', 'page'])
-        result['domain'] = [domain for domain, page in grouped.indices.keys()]
-        result['page'] = [page for domain, page in grouped.indices.keys()]
+        result = pd.DataFrame(columns=['domain', 'page', 'publisher'])
+        result['domain'] = [domain for domain, page, publisher in grouped.indices.keys()]
+        result['page'] = [page for domain, page, publisher in grouped.indices.keys()]
+        result['publisher'] = [_munge_publisher(publisher) for domain, page, publisher in grouped.indices.keys()]
         # get the size of each group
         # this value represents the number of resources gotten per page
-        result['resource per page'] = list(grouped.size().values)
+        result['resources per page'] = list(grouped.size().values)
 
         # if 'ordered' is True, sorted the df by 'resource count' in descending order
         if ordered:
-            result.sort_values(by='resource per page',
-                                  axis='index',
-                                  ascending=False,
-                                  inplace=True,
-                                  ignore_index=True)
+            result.sort_values(by='resources per page',
+                                axis='index',
+                                ascending=False,
+                                inplace=True,
+                                ignore_index=True)
 
         self._add_to_spreadsheet(sheet_name='RESOURCE COUNT PER PAGE',
-                                 result=result)
+                                result=result)
 
         return result
