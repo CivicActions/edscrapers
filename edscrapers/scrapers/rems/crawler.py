@@ -5,26 +5,20 @@ from scrapy.spiders import Rule
 from scrapy.spiders import CrawlSpider
 from scrapy.linkextractors import LinkExtractor
 
-from edscrapers.scrapers.edgov.parser import parse
+from edscrapers.scrapers.rems.parser import parse
 from edscrapers.scrapers.base import helpers as h
 
 
 class Crawler(CrawlSpider):
 
-    name = 'edgov'
+    name = 'rems'
 
-    allowed_regex = r'^http.*://[w2\.]*ed\.gov/.*$'
-    # allowed_domains = ['ed.gov', 'www2.ed.gov']
-
-    deny_domains = h.retrieve_crawlers_allowed_domains(except_crawlers=['edgov'])\
-                    .extend(['dashboard.ed.gov', 'rems.ed.gov'])
+    allowed_regex = r'^http.*://rems\.ed\.gov/.*$'
 
     def __init__(self):
 
         self.start_urls = [
-            'https://www2.ed.gov/finaid/prof/resources/data/teach-institution.html',
-            'https://www2.ed.gov/',
-            'https://www2.ed.gov/about/offices/list/index.html'
+            'https://rems.ed.gov/',
         ]
 
         extensions_to_avoid = []
@@ -36,7 +30,6 @@ class Crawler(CrawlSpider):
             Rule(LinkExtractor(
                 allow=self.allowed_regex,
                 deny_extensions=[ext[1:] for ext in extensions_to_avoid],
-                deny_domains=self.deny_domains
             ), callback=parse, follow=True),
         ]
 
