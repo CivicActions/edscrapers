@@ -20,9 +20,22 @@ map_office_name = {
     'osers': 'Office of Special Education and Rehabilitative Services',
     'opepd': 'Office of Planning, Evaluation and Policy Development',
     'oese': 'Office of Elementary and Secondary Education',
-    'oese': 'Office of Elementary and Secondary Education',
     'nces': 'National Center for Education Statistics',
     'fsa': 'Federal Student Aid'
+}
+
+map_office_name_email = {
+    'Department of Education' : 'edgov@ed.gov',
+    'Office for Civil Rights' : 'ocr@ed.gov',
+    'Office of Career, Technical and Adult Education' : 'octae@ed.gov',
+    'Office of Postsecondary Education' : 'ope@ed.gov',
+    'Office of English Language Acquisition' : 'oela@ed.gov',
+    'Office of Special Education and Rehabilitative Services' : 'osers@ed.gov',
+    'Office of Planning, Evaluation and Policy Development' : 'opepd@ed.gov',
+    'Office of Elementary and Secondary Education' : 'oese@ed.gov',
+    'National Center for Education Statistics' : 'nces@ed.gov',
+    'Federal Student Aid' : 'fsa@ed.gov',
+    'Office of Planning, Evaluation and Program Development' : 'opepd@ed.gov' 
 }
 
 map_media_type = {
@@ -288,3 +301,26 @@ def get_output_path(name):
     Path(output_path).mkdir(parents=True, exist_ok=True)
 
     return output_path
+
+def guess_office_email(publisher_name):
+    '''
+    tries to find an office email based on the publisher_name.
+    checks if a substring can be found from publisher_name
+    inside the long name of the office, and vice-versa.
+    Otherwise, returns None.
+
+    publisher_name: long name of the Publisher.
+    eg. Office of Career, Technical and Adult Education
+    '''
+
+    office_names = map_office_name_email.keys()
+    for name in office_names:
+        
+        if publisher_name in name:
+            return map_office_name_email.get(name)
+        elif name in publisher_name:
+            return map_office_name_email.get(name)
+
+    return None
+
+    

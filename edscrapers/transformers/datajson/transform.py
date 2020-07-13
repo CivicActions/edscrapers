@@ -5,7 +5,7 @@ from urllib.parse import urljoin
 
 import edscrapers.transformers.base.helpers as h
 from edscrapers.cli import logger
-from edscrapers.transformers.base.helpers import traverse_output, read_file
+from edscrapers.transformers.base.helpers import traverse_output, read_file, guess_office_email
 from edscrapers.transformers.datajson.models import Catalog, Dataset, Resource, Organization, Source, Collection
 
 OUTPUT_DIR = os.getenv('ED_OUTPUT_PATH')
@@ -182,10 +182,16 @@ def _transform_scraped_dataset(data: dict, target_dept='all'):
         contactPoint['hasEmail'] = "mailto:" + data.get('contact_person_email')
     else:
         if target_dept == 'edgov':
-            try:
-                contactPoint['hasEmail'] = f"mailto:{data['publisher']['name']}@ed.gov"
-            except Exception as e:
-                contactPoint['hasEmail'] = f"mailto:{data['publisher']}@ed.gov"
+            if len(data['publisher']) <= 5:
+                try:
+                    contactPoint['hasEmail'] = f"mailto:{data['publisher']['name']}@ed.gov"
+                except Exception as e:
+                    contactPoint['hasEmail'] = f"mailto:{data['publisher']}@ed.gov"
+            else:
+                office_email = guess_office_email(data['publisher'])
+                if office_email is None:
+                    office_email = "edgov@ed.gov"
+                contactPoint['hasEmail'] = f"mailto:{office_email}"
         else:
             contactPoint['hasEmail'] = f'mailto:{target_dept}@ed.gov'
 
