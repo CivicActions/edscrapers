@@ -6,6 +6,7 @@ import logging.config
 # Scrapy
 SCRAPY_SETTINGS = {
     'SPIDER_MODULES': [
+        'edscrapers.scrapers.dashboard.crawler',
         'edscrapers.scrapers.edgov.crawler',
         'edscrapers.scrapers.edgov.octae.crawler',
         'edscrapers.scrapers.edgov.oela.crawler',

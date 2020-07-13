@@ -388,3 +388,13 @@ def url_query_param_cleanup(url: str, include_query_param: list=None,
                                                                 query_str,
                                                                 split_url.fragment))
         return stripped_url # return stripped url
+
+
+def unslugify(value):
+    """
+    Given a slug string (as a filename), return a human readable string
+    """
+    value = re.sub('^[0-9]', '', value)
+    value = re.sub('([_\-\.])', ' ', value)
+    # value = value.strip().capitalize()
+    return value
