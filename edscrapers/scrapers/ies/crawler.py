@@ -13,9 +13,31 @@ class Crawler(CrawlSpider):
 
     name = 'ies'
 
-    allowed_regex = r'(nces|ies)\.ed\.gov'
+    # allowed_regex = r'(nces|ies)\.ed\.gov'
     # Only nces has a dedicated website. All the other centers are subsections of `ies.ed/gov`
     allowed_domains = ['nces.ed.gov','ies.ed.gov', ]
+
+    allowed_regex = [
+        r'ies.ed.gov/funding/grantsearch',
+        r'ies.ed.gov/ncee/(edlabs|pubs)',
+        r'ies.ed.gov/ncer/(projects|whatsnew)',
+        r'ies.ed.gov/pubsearch/pubsinfo.asp',
+        r'ies.ed.gov/seer/cost_analysis.asp',
+        r'nces.ed.gov/ccd',
+        r'nces.ed.gov/das/(library|reports)',
+        r'nces.ed.gov/ecls/dataproducts.asp',
+        r'nces.ed.gov/edfin/(adjustments.asp|finance_data.asp|litigation).asp',
+        r'nces.ed.gov/forum/pk12_data_model.asp',
+        r'nces.ed.gov/ipeds/(cipcode|deltacostproject|use-the-data)',
+        r'nces.ed.gov/naal/(datafiles|newsarchives).asp',
+        r'nces.ed.gov/nationsreportcard/(hsts|pubs)',
+        r'nces.ed.gov/nhes/dataproducts_info.asp',
+        r'nces.ed.gov/nhes/tables',
+        r'nces.ed.gov/programs/digest|edge|projections|slds|statereform|youthindicators',
+        r'nces.ed.gov/pubs',
+        r'nces.ed.gov/surveys',
+        r'nces.ed.gov/timss/',
+    ]
 
     # TODO: Get the name of the suboffice from the publisher meta tag and ask Victor how to save these attributes
     def __init__(self):
