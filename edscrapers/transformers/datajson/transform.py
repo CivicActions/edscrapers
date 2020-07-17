@@ -181,19 +181,10 @@ def _transform_scraped_dataset(data: dict, target_dept='all'):
     if data.get('contact_person_email'):
         contactPoint['hasEmail'] = "mailto:" + data.get('contact_person_email')
     else:
-        if target_dept == 'edgov':
-            if len(data['publisher']) <= 5:
-                try:
-                    contactPoint['hasEmail'] = f"mailto:{data['publisher']['name']}@ed.gov"
-                except Exception as e:
-                    contactPoint['hasEmail'] = f"mailto:{data['publisher']}@ed.gov"
-            else:
-                office_email = guess_office_email(data['publisher'])
-                if office_email is None:
-                    office_email = "edgov@ed.gov"
-                contactPoint['hasEmail'] = f"mailto:{office_email}"
-        else:
-            contactPoint['hasEmail'] = f'mailto:{target_dept}@ed.gov'
+        office_email = guess_office_email(data['publisher'])
+        if office_email is None:
+            office_email = "odp@ed.gov"
+        contactPoint['hasEmail'] = f"mailto:{office_email}"
 
     dataset.contactPoint = contactPoint
 
