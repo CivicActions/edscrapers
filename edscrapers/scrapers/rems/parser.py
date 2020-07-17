@@ -13,9 +13,15 @@ from edscrapers.scrapers.base.models import Publisher
 def parse(res):
     """ function parses content to create a dataset model
     or return None if no resource in content"""
+    #print(res)
 
     if '/print/' in res.url:
         return None
+
+    #if re.match(r'^http.*://rems\.ed\.gov/(?!.*\(X\(1\)S).*$', res.url) is None:
+    #    return None
+
+    #print("Parser url: ", res.url)
 
     soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
 
