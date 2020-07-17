@@ -8,6 +8,7 @@ from urllib.parse import urlparse
 from urllib.parse import urljoin
 
 from edscrapers.cli import logger
+from edscrapers.scrapers.edgov import offices_map
 
 OUTPUT_DIR = os.getenv('ED_OUTPUT_PATH')
 
@@ -25,7 +26,9 @@ map_office_name = {
 }
 
 map_office_name_email = {
-    'Department of Education' : 'edgov@ed.gov',
+    'os': 'os@ed.gov',
+    'Office of the Secretary': 'os@ed.gov',
+    'Department of Education' : 'odp@ed.gov',
     'Office for Civil Rights' : 'ocr@ed.gov',
     'Office of Career, Technical and Adult Education' : 'octae@ed.gov',
     'Office of Postsecondary Education' : 'ope@ed.gov',
@@ -302,7 +305,7 @@ def get_output_path(name):
 
     return output_path
 
-def guess_office_email(publisher_name):
+def guess_office_email(publisher):
     '''
     tries to find an office email based on the publisher_name.
     checks if a substring can be found from publisher_name
@@ -312,6 +315,10 @@ def guess_office_email(publisher_name):
     publisher_name: long name of the Publisher.
     eg. Office of Career, Technical and Adult Education
     '''
+
+    publisher_name = publisher
+    if isinstance(publisher, dict):
+        publisher_name = publisher.get('name', 'edgov')
 
     office_names = map_office_name_email.keys()
     for name in office_names:
