@@ -23,7 +23,6 @@ class Crawler(CrawlSpider):
 
         self.start_urls = [
             'http://rems.ed.gov/',
-            #'https://rems.ed.gov/',
             'https://rems.ed.gov/REMSPublications.aspx',
             'https://rems.ed.gov/#resources',
         ]
@@ -40,8 +39,8 @@ class Crawler(CrawlSpider):
                 #deny_extensions=[ext[1:] for ext in extensions_to_avoid],
                 process_value=self.process_value,
                 unique=True,
-            ), callback=parse, follow=True, 
-                process_links='process_links', process_request='process_request'),
+            ), callback=parse, follow=True,
+               process_links='process_links', process_request='process_request'),
         ]
 
         # Inherit parent
@@ -61,15 +60,12 @@ class Crawler(CrawlSpider):
 
         url_parsed = urlparse(url)
         url = urljoin(url, url_parsed.path) 
-
-        #print("Process value url: ", url)
         
         return url
 
     def process_links(self, links):
         filtered = []
         for link in links:
-            #print("Link filtering link: ", link.url)
             url = self.process_value(link.url)
             if url:
                 link.url = url
@@ -81,7 +77,7 @@ class Crawler(CrawlSpider):
         url = request.url
         url = self.process_value(url)
         if url:
-            request.replace(url=url)
+            request = request.replace(url=url)
 
         return request
 

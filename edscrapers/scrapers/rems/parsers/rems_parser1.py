@@ -32,26 +32,18 @@ def parse(res, publisher) -> dict:
 
     for container in dataset_containers:
 
-        #print(container)
-
         # create dataset model dict
         dataset = Dataset()
         dataset['source_url'] = res.url
-
-        #print("iterating...")
 
         try:
             dataset['title'] = str(soup_parser.find_all(name='h1')[1].text).strip()
         except:
             dataset['title'] = str(soup_parser.find(name='h1').text).strip()
 
-        #print("after title...")
-
         # replace all non-word characters (e.g. ?/) with '-'
         dataset['name'] = slugify(dataset['title'])
         dataset['publisher'] = publisher
-
-        #print("after slugify...")
         
         dataset['notes'] = dataset['title']
 
@@ -62,12 +54,7 @@ def parse(res, publisher) -> dict:
         if collection: # if collection exist
             dataset['collection'] = collection
 
-        #print("after test collection...")
-
         dataset['resources'] = list()
-
-        #print("dataset_source_url:", dataset.get('source_url'))
-        #print("dataset_name:", dataset.get('name'))
 
         # add  resources from the 'container' to the dataset
         page_resource_links = container.find_all(name='a',
@@ -115,9 +102,6 @@ def parse(res, publisher) -> dict:
 
             # add the resource to collection of resources
             dataset['resources'].append(resource)
-        
-        #print("dataset_source_url:", dataset.get('source_url'))
-        #print("dataset_name:", dataset.get('name'))
         
         if len(dataset['resources']) == 0:
             continue

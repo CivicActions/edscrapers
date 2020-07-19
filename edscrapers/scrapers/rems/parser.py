@@ -4,6 +4,7 @@ import json
 import importlib
 
 import bs4
+from urllib.parse import urlparse, urljoin
 
 from edscrapers.scrapers import base
 import edscrapers.scrapers.base.parser as base_parser
@@ -13,15 +14,20 @@ from edscrapers.scrapers.base.models import Publisher
 def parse(res):
     """ function parses content to create a dataset model
     or return None if no resource in content"""
-    #print(res)
 
     if '/print/' in res.url:
         return None
 
-    #if re.match(r'^http.*://rems\.ed\.gov/(?!.*\(X\(1\)S).*$', res.url) is None:
-    #    return None
+    url = res.url
+    regex_search = re.search(r'\(X\(1\)S.*\)\)/', url)
+    if regex_search:
+        matched_str = regex_search.group()
+        url = url.replace(matched_str, '')
+        res = res.replace(url=url)
 
-    #print("Parser url: ", res.url)
+    url_parsed = urlparse(url)
+    url = urljoin(url, url_parsed.path)
+    res = res.replace(url=url) 
 
     soup_parser = bs4.BeautifulSoup(res.text, 'html5lib')
 
