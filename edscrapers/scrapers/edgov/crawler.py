@@ -16,6 +16,9 @@ class Crawler(CrawlSpider):
     allowed_regex = r'^http.*://[w2\.]*ed\.gov/.*$'
     # allowed_domains = ['ed.gov', 'www2.ed.gov']
 
+    deny_domains = h.retrieve_crawlers_allowed_domains(except_crawlers=['edgov'])\
+                    .extend(['dashboard.ed.gov', 'rems.ed.gov'])
+
     def __init__(self):
 
         self.start_urls = [
@@ -33,7 +36,7 @@ class Crawler(CrawlSpider):
             Rule(LinkExtractor(
                 allow=self.allowed_regex,
                 deny_extensions=[ext[1:] for ext in extensions_to_avoid],
-                deny_domains=h.retrieve_crawlers_allowed_domains(except_crawlers=['edgov'])
+                deny_domains=self.deny_domains
             ), callback=parse, follow=True),
         ]
 
