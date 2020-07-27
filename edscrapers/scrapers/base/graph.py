@@ -86,7 +86,11 @@ class GraphWrapper():
 
         with cls.graph.graph_lock:
             # get the VertexSequence for the pages we want to create legends for
-            vertex_seq = cls.graph.vs.select(is_dataset_eq=None) # get vertices NOT flagged as dataset
+            try:
+                vertex_seq = cls.graph.vs.select(is_dataset_eq=None) # get vertices NOT flagged as dataset
+            except:
+                vertex_seq = cls.graph.vs # since no dataset vertex, select all the vertices
+                
             # create a dataframe that will contain the info to be written to csv
             df = pd.DataFrame(columns=['Page Label', 'Page Title', 'Page URL'])
             df['Page Label'] = vertex_seq['label']

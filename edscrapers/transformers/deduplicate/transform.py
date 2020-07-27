@@ -59,7 +59,10 @@ def find_duplicate_dataset_vertices(graph,
 
     with graph.graph_lock: # activate lock on graph
         # find the dataset vertices to be dropped
-        dropped_dataset_ver_seq = graph.vs.select(is_dataset_eq=True, name_notin=kept_dataset_file_paths)
+        try:
+            dropped_dataset_ver_seq = graph.vs.select(is_dataset_eq=True, name_notin=kept_dataset_file_paths)
+        except:
+            dropped_dataset_ver_seq = [] # since there are no dataset vertices, produce an empty list
     
     return dropped_dataset_ver_seq
 
