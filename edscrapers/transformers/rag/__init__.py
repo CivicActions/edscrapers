@@ -29,11 +29,11 @@ DATASET_WEIGHTING_SYS = {'Title':
                             'score': 1},
                          'Data level': 
                             {'dataset_key': '', 
-                            'datajson_key': '',
+                            'datajson_key': 'levelOfData',
                             'score': 7}, 
                          'Organization': 
                             {'dataset_key': '', 
-                            'datajson_key': '',
+                            'datajson_key': 'publisher',
                             'score': 8.5}, 
                          'License': 
                             {'dataset_key': '',
