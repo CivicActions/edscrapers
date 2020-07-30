@@ -347,8 +347,8 @@ class InsightsPage():
         total = 0
 
         datasets_by_publisher = self.ckan_api.datasets_by_publisher()
-        for name, count in datasets_by_publisher:
-            rows.append({'s' : name, 'datopian': count})
+        for name, title, count in datasets_by_publisher:
+            rows.append({'s' : title, 'datopian': count})
             total += count
 
         rows.sort(key = lambda item: item['datopian'], reverse=True)
@@ -360,8 +360,8 @@ class InsightsPage():
 
         data_list = list()
         datasets_by_publisher = self.ckan_api.datasets_by_publisher()
-        for name, count in datasets_by_publisher:
-            legend_str = '<br>'.join(textwrap.wrap(name, width=20))
+        for name, title, count in datasets_by_publisher:
+            legend_str = '<br>'.join(textwrap.wrap(title, width=20))
             data_list.append({
                 'x': ['Datasets'], 'y': [count],
                 'type': 'bar', 'name': legend_str

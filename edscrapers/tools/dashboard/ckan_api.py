@@ -46,8 +46,9 @@ class CkanApi():
         organization_dict = self.data.get("organization", {})
         for key, value in organization_dict.items():
             name = key
+            title = value.get('org_title')
             count = value.get("package_count", 0)
-            lst.append( (name, count) )
+            lst.append( (name, title, count) )
         return lst
 
     def resources_by_publisher(self):

@@ -14,6 +14,8 @@ from dash.dependencies import Input, Output
 import dash_table.FormatTemplate as FormatTemplate
 from dash_table.Format import Format, Scheme, Sign, Symbol
 
+from edscrapers.tools.dashboard.pages import helpers as dashboard_helpers
+
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
@@ -21,10 +23,14 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 class RAGSummary():
 
     def __init__(self):
-        self.df = pd.read_csv(os.path.join(os.getenv('ED_OUTPUT_PATH'),
+        df = pd.read_csv(os.path.join(os.getenv('ED_OUTPUT_PATH'),
                                            'transformers',
                                            'rag',
                                            'datasets_weighted_scores_all.csv'))
+        
+        df = dashboard_helpers.mapped_publisher_name(df)
+        self.df = df
+
 
     def domains_table(self):
         return dash_table.DataTable(
