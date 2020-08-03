@@ -204,11 +204,15 @@ def add_collections_to_raw_datasets(graph=GraphWrapper.graph,
     This function updates the raw dataset json files by
     adding a `collection` field to the json structure """
     
-    with graph.graph_lock:
+    with graph.graph_lock:                         
         # select the dataset vertices from the graph
-        dataset_vertex_seq = graph.vs.select(is_dataset_eq=True, 
+        try:
+            dataset_vertex_seq = graph.vs.select(is_dataset_eq=True, 
                                              name_ne='base_vertex',
                                              in_collection_ne=None)
+        except:
+            dataset_vertex_seq = []
+                                 
         for dataset in dataset_vertex_seq:
             # read the raw dataset
             data = h.read_file(Path(output_dir, dataset['name']))
