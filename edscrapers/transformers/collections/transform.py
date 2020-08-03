@@ -104,13 +104,16 @@ def identify_collections_within_graph(graph=GraphWrapper.graph):
             collection_vertex_seq1 = []
         
         # Step 2: identify Page vertices that have at least 2 other dataset Page vertices pointing to it
-        collection_vertex_seq2 = graph.vs.\
+        try:                         
+            collection_vertex_seq2 = graph.vs.\
              select(_outdegree_ge=2, 
                    is_dataset_page_eq=None,
                    is_dataset_eq=None,
                    name_ne='base_vertex').\
             select(lambda vertex: (True not in [s['is_dataset'] for s in vertex.successors()]) and ([True] * len(vertex.successors())) == [s['is_dataset_page'] for s in vertex.successors()]).\
             select(lambda vertex: len(set(collection_vertex_seq1).intersection(set(vertex.successors()))) == 0)
+        except:
+            collection_vertex_seq2 = []
         
         # Step 3: identify all predecessors of all the collections so far identified. 
         # the successors of these predecessors are also collections
