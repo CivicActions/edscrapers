@@ -178,10 +178,13 @@ def link_datasets_to_collections_in_graph(graph=GraphWrapper.graph):
                             'collection_url': edge.source_vertex['name']})
             
         # select collection vertices that have also been marked as 'is_dataset_page'
-        collection_vertex_seq = graph.vs.select(is_collection_eq=True, 
+        try:
+            collection_vertex_seq = graph.vs.select(is_collection_eq=True, 
                                                 is_dataset_page_eq=True,
                                                 name_ne='base_vertex').\
                                                 select(lambda vertex: len(vertex['datasets']) > 0)
+        except:
+            collection_vertex_seq = []
         # loop through the succesors of each identified collection vertex
         for vertex in collection_vertex_seq:
             for dataset_vertex in vertex.successors():
