@@ -177,9 +177,13 @@ def add_sources_to_collections_json(name, graph=GraphWrapper.graph,
 
         # update the source info for each raw dataset i.e. each dataset json file
         # select the dataset vertices from the graph
-        dataset_vertex_seq = graph.vs.select(is_dataset_eq=True, 
+        try:                         
+            dataset_vertex_seq = graph.vs.select(is_dataset_eq=True, 
                                              name_ne='base_vertex',
                                              in_collection_ne=None)
+        except:
+            dataset_vertex_seq = []                         
+                                 
         for dataset_vertex in dataset_vertex_seq:
             # read the raw dataset
             data = h.read_file(Path(output_dir, dataset_vertex['name']))
