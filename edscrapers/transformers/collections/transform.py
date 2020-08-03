@@ -154,9 +154,12 @@ def link_datasets_to_collections_in_graph(graph=GraphWrapper.graph):
         # select all the collection vertices
         collection_vertex_seq = graph.vs.select(is_collection_eq=True)
         # select all the dataset Page vertices (i.e dataset page that are NOT marked as collections)
-        dataset_page_vertex_seq = graph.vs.select(is_dataset_page_eq=True, 
+        try:
+            dataset_page_vertex_seq = graph.vs.select(is_dataset_page_eq=True, 
                                                   is_collection_eq=None,
                                                   name_ne='base_vertex')
+        except:
+            dataset_page_vertex_seq = []
         # select the edges which connect collection vertices to dataset Page vertices                                                  
         collection_dataset_page_edge_seq = graph.es.select(_between=([vertex.index for vertex in collection_vertex_seq],
                                   [vertex.index for vertex in dataset_page_vertex_seq]))
