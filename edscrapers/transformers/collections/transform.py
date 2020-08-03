@@ -97,8 +97,11 @@ def identify_collections_within_graph(graph=GraphWrapper.graph):
     with graph.graph_lock:
         graph.vs['is_collection'] = None # do this to ensure no vertice are identified as collections yet
         # Step 1: identify Dataset Page vertices that have multiple Dataset vertices pointing to it
-        collection_vertex_seq1 = graph.vs.\
+        try:                         
+            collection_vertex_seq1 = graph.vs.\
              select(lambda vertex: vertex['datasets'] is not None and len(vertex['datasets']) > 1)
+        except:
+            collection_vertex_seq1 = []
         
         # Step 2: identify Page vertices that have at least 2 other dataset Page vertices pointing to it
         collection_vertex_seq2 = graph.vs.\
