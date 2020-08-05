@@ -97,17 +97,23 @@ def identify_collections_within_graph(graph=GraphWrapper.graph):
     with graph.graph_lock:
         graph.vs['is_collection'] = None # do this to ensure no vertice are identified as collections yet
         # Step 1: identify Dataset Page vertices that have multiple Dataset vertices pointing to it
-        collection_vertex_seq1 = graph.vs.\
+        try:                         
+            collection_vertex_seq1 = graph.vs.\
              select(lambda vertex: vertex['datasets'] is not None and len(vertex['datasets']) > 1)
+        except:
+            collection_vertex_seq1 = []
         
         # Step 2: identify Page vertices that have at least 2 other dataset Page vertices pointing to it
-        collection_vertex_seq2 = graph.vs.\
+        try:                         
+            collection_vertex_seq2 = graph.vs.\
              select(_outdegree_ge=2, 
                    is_dataset_page_eq=None,
                    is_dataset_eq=None,
                    name_ne='base_vertex').\
             select(lambda vertex: (True not in [s['is_dataset'] for s in vertex.successors()]) and ([True] * len(vertex.successors())) == [s['is_dataset_page'] for s in vertex.successors()]).\
             select(lambda vertex: len(set(collection_vertex_seq1).intersection(set(vertex.successors()))) == 0)
+        except:
+            collection_vertex_seq2 = []
         
         # Step 3: identify all predecessors of all the collections so far identified. 
         # the successors of these predecessors are also collections
@@ -148,9 +154,12 @@ def link_datasets_to_collections_in_graph(graph=GraphWrapper.graph):
         # select all the collection vertices
         collection_vertex_seq = graph.vs.select(is_collection_eq=True)
         # select all the dataset Page vertices (i.e dataset page that are NOT marked as collections)
-        dataset_page_vertex_seq = graph.vs.select(is_dataset_page_eq=True, 
+        try:
+            dataset_page_vertex_seq = graph.vs.select(is_dataset_page_eq=True, 
                                                   is_collection_eq=None,
                                                   name_ne='base_vertex')
+        except:
+            dataset_page_vertex_seq = []
         # select the edges which connect collection vertices to dataset Page vertices                                                  
         collection_dataset_page_edge_seq = graph.es.select(_between=([vertex.index for vertex in collection_vertex_seq],
                                   [vertex.index for vertex in dataset_page_vertex_seq]))
@@ -169,10 +178,13 @@ def link_datasets_to_collections_in_graph(graph=GraphWrapper.graph):
                             'collection_url': edge.source_vertex['name']})
             
         # select collection vertices that have also been marked as 'is_dataset_page'
-        collection_vertex_seq = graph.vs.select(is_collection_eq=True, 
+        try:
+            collection_vertex_seq = graph.vs.select(is_collection_eq=True, 
                                                 is_dataset_page_eq=True,
                                                 name_ne='base_vertex').\
                                                 select(lambda vertex: len(vertex['datasets']) > 0)
+        except:
+            collection_vertex_seq = []
         # loop through the succesors of each identified collection vertex
         for vertex in collection_vertex_seq:
             for dataset_vertex in vertex.successors():
@@ -192,11 +204,15 @@ def add_collections_to_raw_datasets(graph=GraphWrapper.graph,
     This function updates the raw dataset json files by
     adding a `collection` field to the json structure """
     
-    with graph.graph_lock:
+    with graph.graph_lock:                         
         # select the dataset vertices from the graph
-        dataset_vertex_seq = graph.vs.select(is_dataset_eq=True, 
+        try:
+            dataset_vertex_seq = graph.vs.select(is_dataset_eq=True, 
                                              name_ne='base_vertex',
                                              in_collection_ne=None)
+        except:
+            dataset_vertex_seq = []
+                                 
         for dataset in dataset_vertex_seq:
             # read the raw dataset
             data = h.read_file(Path(output_dir, dataset['name']))
