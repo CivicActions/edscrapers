@@ -121,65 +121,12 @@ def all_domain_quality_series():
     #    dfs_all = pd.concat(dfs_all, ignore_index=True)
     #    concat_lst.append(dfs_all)
 
-    dfs_edgov = get_series('edgov')
-    if dfs_edgov:
-        dfs_edgov = pd.concat(dfs_edgov, ignore_index=True)
-        concat_lst.append(dfs_edgov)
-
-    dfs_fsa = get_series('fsa')
-    if dfs_fsa:
-        dfs_fsa = pd.concat(dfs_fsa, ignore_index=True)
-        concat_lst.append(dfs_fsa)
-
-    dfs_ies = get_series('ies')
-    if dfs_ies:    
-        dfs_ies = pd.concat(dfs_ies, ignore_index=True)
-        concat_lst.append(dfs_ies)
-
-    dfs_nces = get_series('nces')
-    if dfs_nces:    
-        dfs_nces = pd.concat(dfs_nces, ignore_index=True)
-        concat_lst.append(dfs_nces)
-
-    dfs_ocr = get_series('ocr')
-    if dfs_ocr: 
-        dfs_ocr = pd.concat(dfs_ocr, ignore_index=True)
-        concat_lst.append(dfs_ocr)
-
-    dfs_rems = get_series('rems')
-    if dfs_rems:    
-        dfs_rems = pd.concat(dfs_rems, ignore_index=True)
-        concat_lst.append(dfs_rems)
-
-    dfs_octae = get_series('octae')
-    if dfs_octae:    
-        dfs_octae = pd.concat(dfs_octae, ignore_index=True)
-        concat_lst.append(dfs_octae)
-
-    dfs_oela = get_series('oela')
-    if dfs_oela:
-        dfs_oela = pd.concat(dfs_oela, ignore_index=True)
-        concat_lst.append(dfs_oela)
-
-    dfs_oese = get_series('oese')
-    if dfs_oese:
-        dfs_oese = pd.concat(dfs_oese, ignore_index=True)
-        concat_lst.append(dfs_oese)
-
-    dfs_ope = get_series('ope')
-    if dfs_ope:
-        dfs_ope = pd.concat(dfs_ope, ignore_index=True)
-        concat_lst.append(dfs_ope)
-
-    dfs_opepd = get_series('opepd')
-    if dfs_opepd:
-        dfs_opepd = pd.concat(dfs_opepd, ignore_index=True)
-        concat_lst.append(dfs_opepd)
-
-    dfs_osers = get_series('osers')
-    if dfs_osers:
-        dfs_osers = pd.concat(dfs_osers, ignore_index=True)
-        concat_lst.append(dfs_osers)
+    for office in ['edgov', 'fsa', 'ies', 'nces', 'ocr', 'rems',
+                    'octae', 'oela', 'oese', 'ope', 'opepd', 'osers']:
+        dfs = get_series(office)
+        if dfs:
+            dfs = pd.concat(dfs, ignore_index=True)
+            concat_lst.append(dfs)
 
     df = pd.concat(concat_lst, ignore_index=True)
     df = df.sort_values(by='date')
