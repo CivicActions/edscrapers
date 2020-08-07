@@ -1,7 +1,8 @@
 import os
-import json
-from pathlib import Path
 import re
+import json
+import html
+from pathlib import Path
 
 from slugify import slugify
 from urllib.parse import urlparse
@@ -199,6 +200,8 @@ COUNTRY_STATES = {
     "WI": "Wisconsin",
     "WY": "Wyoming"
 }
+
+description_unwanted_strings = ['None']
 
 def get_country_states(state_key=None):
     """ returns the name of a State, using the 2-letter state_keys.
@@ -399,4 +402,24 @@ def guess_office_email(publisher):
 
     return None
 
+def unescape_html_chars(value):
+    return html.unescape(value)
+
+def has_escaped_html_chars(value):
     
+    escaped_chars = ["&amp;",
+        "&gt;",
+        "&lt;"]
+
+    for char in escaped_chars:
+        if char in value:
+            return True
+    
+    return False
+
+def remove_unwanted_strings(description):
+    for string in description_unwanted_strings:
+        if string in description:
+            description = description.replace(string,'')
+
+    return description
