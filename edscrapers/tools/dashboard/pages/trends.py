@@ -122,7 +122,8 @@ def all_domain_quality_series():
     #    concat_lst.append(dfs_all)
 
     for office in ['edgov', 'fsa', 'ies', 'nces', 'ocr', 'rems',
-                    'octae', 'oela', 'oese', 'ope', 'opepd', 'osers']:
+                    'octae', 'oela', 'oese', 'ope', 'opepd', 'osers',
+                    'dashboard']:
         dfs = get_series(office)
         if dfs:
             dfs = pd.concat(dfs, ignore_index=True)
@@ -130,6 +131,7 @@ def all_domain_quality_series():
 
     df = pd.concat(concat_lst, ignore_index=True)
     df = df.sort_values(by='date')
+    df = df.groupby(['publisher','date'], as_index=False)['weighted score ratio'].mean()
 
     df_labels = df
     rows = df_labels['publisher']

@@ -56,8 +56,9 @@ class CkanApi():
         organization_dict = self.data.get("organization", {})
         for key, value in organization_dict.items():
             name = key
+            title = value.get('org_title')
             count = value.get("resource_count", 0)
-            lst.append( (name, count) )
+            lst.append( (name, title, count) )
         return lst
 
     def datasets_by_domain(self):

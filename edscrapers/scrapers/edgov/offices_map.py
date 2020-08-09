@@ -111,4 +111,8 @@ offices_map = {
         'name': 'octae',
         'subOrganizationOf': None
     },
+    'Office of Safe and Supportive Schools (OSSS)' : {
+        'name': 'osss',
+        'subOrganizationOf': 'oese'
+    }
 }
