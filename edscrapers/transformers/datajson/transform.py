@@ -152,6 +152,7 @@ def _transform_scraped_dataset(data: dict, target_dept='all'):
     
     if data.get('notes'):
         dataset.description = data.get('notes')
+        dataset.description = h.remove_unwanted_strings(dataset.description)
 
     if data.get('date'):
         dataset.modified = data.get('date')
@@ -168,6 +169,19 @@ def _transform_scraped_dataset(data: dict, target_dept='all'):
         else:
             publisher.name = data.get('publisher', target_dept.split('.')[-1])
     dataset.publisher = publisher
+
+    # fix the publisher for rems 
+    if target_dept  == 'rems':
+        publisher = Organization()
+        publisher.name = 'osss'
+        publisher.sub_organization_of = 'oese'
+        dataset.publisher = publisher
+
+    # fix the publisher for dashboard
+    if target_dept  == 'dashboard':
+        publisher = Organization()
+        publisher.name = 'os'
+        dataset.publisher = publisher
 
     contactPoint = {
         "@type": "vcard:Contact",
@@ -186,6 +200,16 @@ def _transform_scraped_dataset(data: dict, target_dept='all'):
             office_email = "odp@ed.gov"
         contactPoint['hasEmail'] = f"mailto:{office_email}"
 
+    # fix the contact point email for dashboard
+    if target_dept == 'dashboard':
+        office_email = guess_office_email(dataset.publisher.name)
+        contactPoint['hasEmail'] = office_email
+    
+    # fix the contact point email for rems
+    if target_dept == 'rems':
+        office_email = guess_office_email(dataset.publisher.sub_organization_of)
+        contactPoint['hasEmail'] = office_email
+        
     dataset.contactPoint = contactPoint
 
     if data.get('accessLevel'):
@@ -247,8 +271,13 @@ def _transform_scraped_resource(target_dept, resource):
     else:
         distribution.title = h.extract_resource_name_from_url(distribution.downloadURL)
 
+    if h.has_escaped_html_chars(distribution.title):
+        distribution.title = h.unescape_html_chars(distribution.title)
+
     if resource.get('description'):
         distribution.description = resource.get('description')
+        if h.has_escaped_html_chars(distribution.description):
+            distribution.description = h.unescape_html_chars(distribution.description)
 
     if resource.get('format'):
         distribution.resource_format = resource.get('format')
