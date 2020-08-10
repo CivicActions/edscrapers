@@ -232,8 +232,8 @@ class InsightsPage():
 
         publishers = []
         counts = []
-        for name, count in data:
-            publishers.append(name)
+        for name, title, count in data:
+            publishers.append(title)
             counts.append(count)
 
         df = pd.DataFrame(columns=['publisher','resource count'])
@@ -289,16 +289,17 @@ class InsightsPage():
         return dash_table.DataTable(
             id='resource_by_publisher_table',
             columns=[{"id": "publisher", "name": "Publisher"},
-                     {"id": "resource count", "name": "Resource Count"}],
+                     {"id": "resource count", "name": "Count"}],
             data=df.to_dict('records'),
             sort_action='native',
             style_cell={'textAlign': 'left',
-                'whiteSpace': 'normal'},
+                'whiteSpace': 'normal',
+                'height' : 'auto'},
             style_cell_conditional=[
                 {'if': {'column_id': 'publisher'},
-                'width': '70%', 'textAlign': 'right'},
+                'width': '60%', 'textAlign': 'right'},
                 {'if': {'column_id': 'resource count'},
-                'width': '30%'},
+                'width': '40%'},
                 #{'if': {'row_index': 'odd'},
                 #'backgroundColor': 'rgb(248, 248, 248)'}
                 ],
@@ -313,7 +314,7 @@ class InsightsPage():
             style_header={
                         'backgroundColor': 'rgb(230, 230, 230)',
                         'fontWeight': 'bold',
-                        'textAlign': 'center',
+                        'align': ['center','left'],
             }
         )
 
@@ -347,8 +348,8 @@ class InsightsPage():
         total = 0
 
         datasets_by_publisher = self.ckan_api.datasets_by_publisher()
-        for name, count in datasets_by_publisher:
-            rows.append({'s' : name, 'datopian': count})
+        for name, title, count in datasets_by_publisher:
+            rows.append({'s' : title, 'datopian': count})
             total += count
 
         rows.sort(key = lambda item: item['datopian'], reverse=True)
@@ -360,8 +361,8 @@ class InsightsPage():
 
         data_list = list()
         datasets_by_publisher = self.ckan_api.datasets_by_publisher()
-        for name, count in datasets_by_publisher:
-            legend_str = '<br>'.join(textwrap.wrap(name, width=20))
+        for name, title, count in datasets_by_publisher:
+            legend_str = '<br>'.join(textwrap.wrap(title, width=20))
             data_list.append({
                 'x': ['Datasets'], 'y': [count],
                 'type': 'bar', 'name': legend_str
@@ -435,17 +436,20 @@ def generate_split_layout():
 
     html.Div([
         dash_table.DataTable(
-            columns=[{'name': 'Publisher', 'id': 's'},
-                    {'name': 'Count', 'id': 'datopian'}],
+            columns=[{'id': 's', 'name': 'Publisher'},
+                    {'id': 'datopian', 'name': 'Count'}],
             #data=p.dataset_by_office_data(),
             data=p.dataset_by_office_portal_data(),
             sort_action='native',
-            style_cell={'textAlign': 'left'},
+            style_cell={'textAlign': 'left',
+                        'whiteSpace' : 'normal',
+                        'height' : 'auto',
+                        },
             style_cell_conditional=[
                 {'if': {'column_id': 's'},
-                'width': '70%', 'textAlign': 'right'},
+                'width': '60%', 'textAlign': 'right'},
                 {'if': {'column_id': 'datopian'},
-                'width': '30%'}],
+                'width': '40%'}],
             style_table={
                 'maxHeight': '300px',
                 'overflowY': 'scroll',
@@ -454,7 +458,7 @@ def generate_split_layout():
             style_header={
                     'backgroundColor': 'rgb(230, 230, 230)',
                     'fontWeight': 'bold',
-                    'textAlign': 'center',
+                    'align': ['center','left'],
                     }
 
         ),
