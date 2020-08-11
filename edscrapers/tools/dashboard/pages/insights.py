@@ -233,6 +233,8 @@ class InsightsPage():
         publishers = []
         counts = []
         for name, title, count in data:
+            if title is None:
+                title = name
             publishers.append(title)
             counts.append(count)
 
@@ -349,6 +351,8 @@ class InsightsPage():
 
         datasets_by_publisher = self.ckan_api.datasets_by_publisher()
         for name, title, count in datasets_by_publisher:
+            if title is None:
+                title = name
             rows.append({'s' : title, 'datopian': count})
             total += count
 
@@ -362,6 +366,8 @@ class InsightsPage():
         data_list = list()
         datasets_by_publisher = self.ckan_api.datasets_by_publisher()
         for name, title, count in datasets_by_publisher:
+            if title is None:
+                title = name
             legend_str = '<br>'.join(textwrap.wrap(title, width=20))
             data_list.append({
                 'x': ['Datasets'], 'y': [count],
