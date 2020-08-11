@@ -14,6 +14,14 @@ from json.decoder import JSONDecodeError
 from  edscrapers.transformers.base.helpers import traverse_output
 from edscrapers.cli import logger
 
+
+def sizeof_fmt(num, suffix='B'):
+    for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
+        if abs(num) < 1024.0:
+            return "%3.1f%s%s" % (num, unit, suffix)
+        num /= 1024.0
+    return "%.1f%s%s" % (num, 'Yi', suffix)
+
 class Statistics():
 
     METRICS_OUTPUT_PATH = os.path.join(os.getenv('ED_OUTPUT_PATH'), 'tools', 'stats')
@@ -110,22 +118,27 @@ class Statistics():
         else:
             dfs = []
             for fp in files:
-                # TODO refactor these rules or the files structure
-                if 'data.json' in str(fp):
-                    continue
-
                 with open(fp, 'r') as json_file:
                     try:
                         j = json.load(json_file)
+
+                        # if it's marked for removal by the sanitizer, skip it
+                        if j.get('_clean_data', dict()).get('_remove_dataset'):
+                            logger.debug(f"Ignoring {j.get('source_url')}")
+                            continue
+
                         j = [{
                             'url': abs_url(r['url'], r['source_url']),
                             'source_url': r['source_url'],
                             'publisher': str(j['publisher']),
+                            'size': r.get('headers', dict()).get('content-length', 0),
                             'scraper': fp.parent.name
                         } for r in j['resources'] if r['source_url'].find('/print/') == -1]
+
                         dfs.append(pd.read_json(json.dumps(j)))
-                    except:
-                        logger.warning(f'Could not parse file {json_file} as JSON!')
+
+                    except Exception as e:
+                        logger.warning(f'Could not parse file {json_file} as JSON! {e}')
             df = pd.concat(dfs, ignore_index=True)
             df.to_csv(df_dump, index=False)
 
@@ -277,21 +290,17 @@ class Statistics():
         def _munge_publisher(value):
             try:
                 result = eval(value)['name']
-                print(f'Found dict: {result}')
                 return result.upper()
             except:
                 if isinstance(value, dict):
                     result = value['name']
-                    print(f'Found pure dict: {result}')
                     return result.upper()
                 result = value
                 for office_full_name in offices_map.keys():
                     import re
                     regex = re.compile(r'\b' + value + r'\b')
                     if regex.search(office_full_name):
-                        print(f'{result} in mapping')
                         result = offices_map[office_full_name]['name']
-                print(f'Found {result}')
                 return result.upper()
 
         df_subset['publisher'] = deduplicated_df['publisher']
@@ -316,5 +325,84 @@ class Statistics():
 
         self._add_to_spreadsheet(sheet_name='RESOURCE COUNT PER PAGE',
                                 result=result)
+
+        return result
+
+
+
+    def list_resource_size_per_office(self, scraper_outputs_df):
+        """Determine amount of data produced/generated for each publishing office
+
+        PARAMETERS
+        - scraper_outputs_df: dataframe containing scraper outputs,
+           generated with the method with the same name
+        """
+
+        # create a dataframe with duplicate url and source_urls removed
+        deduplicated_df = scraper_outputs_df.drop_duplicates(subset=['url', 'source_url'],
+                                             inplace=False)
+        # create subset of the dataframe (subset will house domain info)
+        df_subset = pd.DataFrame(columns=['domain'])
+        # create the domain column from the source_url info available
+        df_subset['domain'] = deduplicated_df.apply(lambda row: urllib.parse.\
+                                       urlparse(row['source_url']).hostname.\
+                                       replace('www2.', 'www.').replace('www.', ''), axis=1)
+
+        # get the 'source_url' renamed as 'page'
+        df_subset['page'] = deduplicated_df['source_url']
+
+        from edscrapers.scrapers.edgov.offices_map import offices_map
+        acronyms_map = {v['name']: {} for v in offices_map.values()}
+
+        for full_name, data_dict in offices_map.items():
+            acronyms_map[data_dict['name']] = full_name
+
+        def _munge_publisher(value):
+            result = value
+            try:
+                office_name = eval(value)['name']
+            except:
+                office_name = value
+                if isinstance(value, dict):
+                    office_name = value.get('name', 'XXX')
+            result = acronyms_map.get(office_name, None)
+            if not result:
+                for full_name in acronyms_map.values():
+                    if str(value).lower() in str(full_name).lower():
+                        result = full_name
+            return result
+
+        df_subset['publisher'] = deduplicated_df['publisher']
+        df_subset['size'] = deduplicated_df['size']
+        deduplicated_df['publisher'][deduplicated_df['scraper'] == 'dashboard'] = 'os'
+        deduplicated_df['publisher'][deduplicated_df['scraper'] == 'rems'] = 'osss'
+        df_subset['publisher'] = deduplicated_df['publisher'].apply(lambda x: _munge_publisher(str(x)))
+
+        # to get the number of resources retrieved from each page, perform groupby
+        grouped = df_subset.groupby(['publisher'])
+        # create dataframe to store aggreated resource info
+        result = pd.DataFrame(columns=['publisher'])
+        # result['domain'] = [domain for publisher, domain in grouped.indices.keys()]
+        # result['publisher'] = [_munge_publisher(publisher) for publisher in grouped.indices.keys()]
+        result['publisher'] = [publisher for publisher in grouped.indices.keys()]
+
+        # import ipdb; ipdb.set_trace()
+
+        result['count per office'] = list(grouped['size'].count().values)
+        result['raw size per office'] = list(grouped['size'].sum().values)
+        result['size per office'] = result['raw size per office'].apply(lambda x: sizeof_fmt(x))
+
+        # import ipdb; ipdb.set_trace()
+
+        result.sort_values(by='size per office',
+                            axis='index',
+                            ascending=False,
+                            inplace=True,
+                            ignore_index=True)
+
+        self._add_to_spreadsheet(sheet_name='RESOURCE SIZE PER OFFICE',
+                                result=result)
+        # self._add_to_spreadsheet(sheet_name='RAW RESOURCE SIZE PER OFFICE',
+        #                          result=df_subset)
 
         return result
