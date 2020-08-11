@@ -27,6 +27,10 @@ offices_map = {
         'name': 'os',
         'subOrganizationOf': None
     },
+    'Office of Safe and Supportive Schools (OSSS)': {
+        'name': 'osss',
+        'subOrganizationOf': None
+    },
     'Office of Management (OM)': {
         'name': 'om',
         'subOrganizationOf': 'ofo'
@@ -74,6 +78,10 @@ offices_map = {
     'Institute of Education Sciences (IES)': {
         'name': 'ies',
         'subOrganizationOf': None
+    },
+    'National Center for Education Statistics (NCES)': {
+        'name': 'nces',
+        'subOrganizationOf': 'ies'
     },
     'Office of the Chief Information Officer (OCIO)': {
         'name': 'ocio',

@@ -119,8 +119,10 @@ dmypy.json
 /log/
 
 # Scraping output
-/output
+/output*
 /edscrapers/output
+/graphs
+nohup.out
 
 # Yaml output
 yaml-output

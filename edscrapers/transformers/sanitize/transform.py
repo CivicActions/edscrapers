@@ -45,18 +45,23 @@ def transform(name=None, input_file=None):
             clean_data['_remove_dataset'] = True # mark dataset for removal
             data['_clean_data'] = clean_data # update dataset
 
+        # Special hacks for ed.gov data
         if name == 'edgov':
-            # Temporary fix for removing the 'edgov' datasets from the edgov.data.json file
-            try:
-                if data['publisher'].get('name') == 'edgov':
-                    clean_data = {}
-                    clean_data['_remove_dataset'] = True # mark dataset for removal
-                    data['_clean_data'] = clean_data # update dataset
-            except:
-                if data['publisher'] == 'edgov':
-                    clean_data = {}
-                    clean_data['_remove_dataset'] = True # mark dataset for removal
-                    data['_clean_data'] = clean_data # update dataset
+            clean_data = {}
+            clean_data['_remove_dataset'] = False # unmark dataset for removal
+
+            # # Get the publisher name
+            # try:
+            #     publisher_name = data['publisher'].get('name')
+            # except:
+            #     publisher_name = data['publisher']
+
+            # Check for "bad" URLs and remove them
+            bad_subdomains = ['dashboard', 'rems']
+            if any([f'{bs}.ed.gov' in data['source_url'] for bs in bad_subdomains]):
+                clean_data['_remove_dataset'] = True # mark dataset for removal
+
+            data['_clean_data'] = clean_data # update dataset
 
         # Filter resources
         data = _filter_dataset_resources(data)
