@@ -63,6 +63,23 @@ def transform(name=None, input_file=None):
 
             data['_clean_data'] = clean_data # update dataset
 
+        # OESE hack. Remove datasets outside oese.ed.gov domain
+        publisher = data.get('publisher')
+        publisher_name = ""
+
+        if type(publisher) == dict:
+            publisher_name = publisher.get('name')
+        elif type(publisher) == str:
+            publisher_name = publisher
+
+        if  publisher_name in ['oese',
+                    'Office of Elementary and Secondary Education',
+                    'Office of Elementary and Secondary Education (OESE)']:
+            if _dataset_outside_oese_domain(data):
+                clean_data = {}
+                clean_data['_remove_dataset'] = True # mark dataset for removal
+                data['_clean_data'] = clean_data # update dataset
+
         # Filter resources
         data = _filter_dataset_resources(data)
 
@@ -388,3 +405,15 @@ def _filter_dataset_resources(dataset: dict) -> dict:
             del dataset['_clean_data'] # delete '_clean_data' key from dataset
 
     return dataset
+
+def _dataset_outside_oese_domain(dataset: dict) -> bool:
+
+    source_url = dataset.get('source_url')
+    parsed_url = urllib.parse.urlparse(source_url)
+
+    if str(parsed_url.netloc) != 'oese.ed.gov' :
+        return True
+
+    return False
+    
+
