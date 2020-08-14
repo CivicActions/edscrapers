@@ -83,6 +83,9 @@ map_office_name_email = {
     'Institute of Education Sciences (IES)': 'ies@ed.gov',
     'Institute of Education Sciences': 'ies@ed.gov',
     'ies': 'ies@ed.gov',
+    'nces': 'nces@ed.gov',
+    'National Center for Education Statistics (NCES)': 'nces@ed.gov',
+    'National Center for Education Statistics': 'nces@ed.gov',
     'Office of the Chief Information Officer (OCIO)': 'ocio@ed.gov',
     'Office of the Chief Information Officer': 'ocio@ed.gov',
     'ocio': 'ocio@ed.gov',
@@ -110,7 +113,13 @@ map_office_name_email = {
     'fsa': 'fsa@ed.gov',
     'Office of Career, Technical and Adult Education (OCTAE)': 'octae@ed.gov',
     'Office of Career, Technical and Adult Education': 'octae@ed.gov',
-    'octae': 'octae@ed.gov'
+    'octae': 'octae@ed.gov',
+    'White House Initiative on Historically Black Colleges and Universities (WHHBCU)' : 'whhbcu@ed.gov',
+    'White House Initiative on Historically Black Colleges and Universities' : 'whhbcu@ed.gov',
+    'whhbcu' : 'whhbcu@ed.gov',
+    'White House Initiative on Educational Excellence for African Americans (WHIEEAA)' : 'whieeaa@ed.gov',
+    'White House Initiative on Educational Excellence for African Americans' : 'whieeaa@ed.gov',
+    'whieeh' : 'whieeaa@ed.gov'
 }
 
 map_media_type = {
