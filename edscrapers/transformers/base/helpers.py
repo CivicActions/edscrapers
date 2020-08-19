@@ -113,7 +113,13 @@ map_office_name_email = {
     'fsa': 'fsa@ed.gov',
     'Office of Career, Technical and Adult Education (OCTAE)': 'octae@ed.gov',
     'Office of Career, Technical and Adult Education': 'octae@ed.gov',
-    'octae': 'octae@ed.gov'
+    'octae': 'octae@ed.gov',
+    'White House Initiative on Historically Black Colleges and Universities (WHHBCU)' : 'whhbcu@ed.gov',
+    'White House Initiative on Historically Black Colleges and Universities' : 'whhbcu@ed.gov',
+    'whhbcu' : 'whhbcu@ed.gov',
+    'White House Initiative on Educational Excellence for African Americans (WHIEEAA)' : 'whieeaa@ed.gov',
+    'White House Initiative on Educational Excellence for African Americans' : 'whieeaa@ed.gov',
+    'whieeh' : 'whieeaa@ed.gov'
 }
 
 map_media_type = {
