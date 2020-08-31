@@ -122,5 +122,13 @@ offices_map = {
     'Office of Safe and Supportive Schools (OSSS)' : {
         'name': 'osss',
         'subOrganizationOf': 'oese'
+    },
+    'White House Initiative on Educational Excellence for African Americans (WHIEEAA)' : {
+        'name': 'whieeh',
+        'subOrganizationOf': None
+    },
+    'White House Initiative on Historically Black Colleges and Universities (WHHBCU)' : {
+        'name': 'whhbcu',
+        'subOrganizationOf': None
     }
 }
