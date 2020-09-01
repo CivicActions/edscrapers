@@ -294,14 +294,17 @@ class InsightsPage():
                      {"id": "resource count", "name": "Count"}],
             data=df.to_dict('records'),
             sort_action='native',
-            style_cell={'textAlign': 'left',
-                'whiteSpace': 'normal',
-                'height' : 'auto'},
+            style_cell={
+                    'textAlign': 'left',
+                    'whiteSpace': 'normal',
+                    'height' : 'auto',
+                    'maxWidth': '180px'
+                },
             style_cell_conditional=[
                 {'if': {'column_id': 'publisher'},
-                'width': '60%', 'textAlign': 'right'},
+                'width': '83%', 'textAlign': 'right'},
                 {'if': {'column_id': 'resource count'},
-                'width': '40%'},
+                'width': '17%'},
                 #{'if': {'row_index': 'odd'},
                 #'backgroundColor': 'rgb(248, 248, 248)'}
                 ],
@@ -450,12 +453,13 @@ def generate_split_layout():
             style_cell={'textAlign': 'left',
                         'whiteSpace' : 'normal',
                         'height' : 'auto',
+                        'maxWidth': '180px'
                         },
             style_cell_conditional=[
                 {'if': {'column_id': 's'},
-                'width': '60%', 'textAlign': 'right'},
+                'width': '83%', 'textAlign': 'right'},
                 {'if': {'column_id': 'datopian'},
-                'width': '40%'}],
+                'width': '17%'}],
             style_table={
                 'maxHeight': '300px',
                 'overflowY': 'scroll',
@@ -465,8 +469,7 @@ def generate_split_layout():
                     'backgroundColor': 'rgb(230, 230, 230)',
                     'fontWeight': 'bold',
                     'align': ['center','left'],
-                    }
-
+            }
         ),
     ], style={
             'width': '50%',
