@@ -18,7 +18,7 @@ from dash.dependencies import Input, Output
 
 from .pages import dashboard, rag, trends, insights
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP,'https://codepen.io/tanvirchahal/pen/WNQWvjE.css'])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP,'https://gitcdn.link/repo/higorspinto/8120c42cc983c0d879908570a2781fec/raw/d2dfaa9c8280b7ddff74a50536240459098c5f5c/eds_style.css'])
 
 # the style arguments for the sidebar. We use position:fixed and a fixed width
 SIDEBAR_STYLE = {
