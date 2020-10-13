@@ -212,6 +212,10 @@ def _transform_scraped_dataset(data: dict, target_dept='all'):
         
     dataset.contactPoint = contactPoint
 
+    # make everything IES / NCES hidden by default
+    if target_dept in ['ies', 'nces']:
+        dataset.private = True
+
     if data.get('accessLevel'):
         dataset.accessLevel = data.get('accessLevel')
 
