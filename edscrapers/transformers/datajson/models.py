@@ -343,7 +343,6 @@ class Dataset():
     levelOfData = str()
     source = list() # list of Sources
     collection = list() # list of Collections
-    visibility = bool()
 
     def __init__(self):
         
@@ -359,7 +358,6 @@ class Dataset():
         self.distribution = list()
         self.source = list()
         self.collection = list()
-        self.private = False
 
     def to_dict(self):
 
@@ -429,11 +427,6 @@ class Dataset():
         
         if len(self.collection) > 0:
             dataset_dict['collection'] = self.dump_collections()
-
-        if self.private:
-            dataset_dict["private"] = 'true'
-        else:
-            dataset_dict["private"] = 'false'
 
         return dataset_dict
 
